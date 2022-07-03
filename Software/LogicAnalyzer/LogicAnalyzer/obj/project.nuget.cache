@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "bUPW5BvxnoAVjtdqUIfrbI0/L1MTUdl3NwLqXhzaO4joXtWIRSo1Zxjhx8z/nJmL2cDg323n6Qv8FdLadegGUg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\geniw\\source\\repos\\LogicAnalyzer\\LogicAnalyzer\\LogicAnalyzer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\geniw\\.nuget\\packages\\cyotek.windows.forms.colorpicker\\2.0.0-beta.7\\cyotek.windows.forms.colorpicker.2.0.0-beta.7.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-x64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\runtime.native.system.io.ports\\6.0.0\\runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\runtime.osx-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.osx-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\6.0.0\\runtime.osx-x64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\geniw\\.nuget\\packages\\system.io.ports\\6.0.0\\system.io.ports.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

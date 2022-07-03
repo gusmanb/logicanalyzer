@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="Dialogs\CaptureDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\ChannelViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\DividerLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\BorderGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\ProtocolAnalyzerSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\SampleMarker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\SampleViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Dialogs\SelectedRegionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

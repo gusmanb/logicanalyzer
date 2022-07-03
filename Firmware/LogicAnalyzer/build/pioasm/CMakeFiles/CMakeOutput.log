@@ -1,0 +1,37 @@
+The system is: Windows - 10.0.19043 - AMD64
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/bin/Hostx86/x86/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Compilador de optimización de C/C++ de Microsoft (R) versión 19.30.30706 para x86
+(C) Microsoft Corporation. Todos los derechos reservados.
+
+CMakeCXXCompilerId.cpp
+Microsoft (R) Incremental Linker Version 14.30.30706.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCXXCompilerId.exe 
+CMakeCXXCompilerId.obj 
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+
+The CXX compiler identification is MSVC, found in "F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/CMakeFiles/3.21.21080301-MSVC_2/CompilerIdCXX/CMakeCXXCompilerId.exe"
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_0486d\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_0486d.dir\build.make /nologo -L                  CMakeFiles\cmTC_0486d.dir\build
+Building CXX object CMakeFiles/cmTC_0486d.dir/CMakeCXXCompilerABI.cpp.obj
+	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_0486d.dir\CMakeCXXCompilerABI.cpp.obj.d --working-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\pioasm\CMakeFiles\CMakeTmp --filter-prefix="Nota: inclusi¾n del archivo: " -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1430~1.307\bin\Hostx86\x86\cl.exe @C:\Users\geniw\AppData\Local\Temp\nm719A.tmp
+CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_0486d.exe
+	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_0486d.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1430~1.307\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_0486d.dir\objects1.rsp @C:\Users\geniw\AppData\Local\Temp\nm71E9.tmp
+
+
+

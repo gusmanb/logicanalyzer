@@ -1,0 +1,83 @@
+
+(rules PCB LevelShifter
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout on)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 99)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.4)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 1.7)
+    )
+  )
+  (rule
+    (width 250.0)
+    (clear 200.2)
+    (clear 125.0 (type smd_to_turn_gap))
+    (clear 50.0 (type smd_smd))
+  )
+  (padstack "Via[0-1]_800:400_um"
+    (shape
+      (circle F.Cu 800.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 800.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_800:400_um" "Via[0-1]_800:400_um" default
+  )
+  (via 
+    "Via[0-1]_800:400_um-kicad_default" "Via[0-1]_800:400_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_800:400_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_800:400_um-kicad_default"
+  )
+  (class default
+    /GND "/CHAN_0_IN" "/CHAN_1_IN" "/CHAN_2_IN" "/CHAN_3_IN" "/CHAN_4_IN" "/CHAN_5_IN" "/CHAN_6_IN"
+    "/CHAN_7_IN" "/CHAN_8_IN" "/CHAN_9_IN" "/CHAN_10_IN" "/CHAN_11_IN" /3V3 /5V "/CHAN_0_OUT"
+    "/CHAN_1_OUT" "/CHAN_2_OUT" "/CHAN_3_OUT" "/CHAN_4_OUT" "/CHAN_5_OUT" "/CHAN_6_OUT" "/CHAN_7_OUT" "/CHAN_8_OUT"
+    "/CHAN_9_OUT" "/CHAN_10_OUT" "/CHAN_11_OUT" "unconnected-(U1-Pad6)" "unconnected-(U1-Pad9)" "unconnected-(U2-Pad6)" "unconnected-(U2-Pad9)" "unconnected-(U3-Pad6)"
+    "unconnected-(U3-Pad9)" "/CHAN_23_IN" "/CHAN_22_IN" "/CHAN_21_IN" "/CHAN_20_IN" "/CHAN_19_IN" "/CHAN_18_IN" "/CHAN_17_IN"
+    "/CHAN_16_IN" "/CHAN_15_IN" "/CHAN_14_IN" "/CHAN_13_IN" "/CHAN_12_IN" "/CHAN_23_OUT" "/CHAN_22_OUT" "/CHAN_21_OUT"
+    "/CHAN_20_OUT" "/CHAN_19_OUT" "/CHAN_18_OUT" "/CHAN_17_OUT" "/CHAN_16_OUT" "/CHAN_15_OUT" "/CHAN_14_OUT" "/CHAN_13_OUT"
+    "/CHAN_12_OUT" "unconnected-(U4-Pad6)" "unconnected-(U4-Pad9)" "unconnected-(U5-Pad6)" "unconnected-(U5-Pad9)" "unconnected-(U6-Pad6)" "unconnected-(U6-Pad9)"
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)

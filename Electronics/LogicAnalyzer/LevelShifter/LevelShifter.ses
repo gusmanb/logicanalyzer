@@ -1,0 +1,574 @@
+
+(session LevelShifter.ses
+  (base_design LevelShifter.dsn)
+  (placement
+    (resolution um 10)
+    (component footprints:TXU0104PWR
+      (place U6 1600000 -935000 back 0)
+      (place U5 1600000 -1040000 back 0)
+      (place U4 1600000 -835000 back 0)
+      (place U2 1600000 -835000 front 180)
+      (place U1 1600000 -1040000 front 180)
+    )
+    (component footprints:TXU0104PWR::1
+      (place U3 1600000 -935000 front 180)
+    )
+    (component Connector_PinSocket_2.54mm:PinSocket_2x15_P2.54mm_Horizontal
+      (place J2 1500000 -800000 front 0)
+    )
+    (component Connector_PinHeader_2.54mm:PinHeader_2x15_P2.54mm_Horizontal
+      (place J1 1700000 -800000 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "(6.0.4)")
+    )
+    (library_out 
+      (padstack "Via[0-1]_800:400_um"
+        (shape
+          (circle F.Cu 8000 0 0)
+        )
+        (shape
+          (circle B.Cu 8000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net /CHAN_0_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -828500
+            1671500 -828500
+            1700000 -800000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_1_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -835000
+            1690400 -835000
+            1700000 -825400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_2_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -841500
+            1690700 -841500
+            1700000 -850800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_3_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -848000
+            1671800 -848000
+            1700000 -876200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_4_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -928500
+            1673100 -928500
+            1700000 -901600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_5_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -935000
+            1692000 -935000
+            1700000 -927000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_6_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -941500
+            1689100 -941500
+            1700000 -952400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_7_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -948000
+            1670200 -948000
+            1700000 -977800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_8_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -1033500
+            1669700 -1033500
+            1700000 -1003200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_9_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -1040000
+            1688600 -1040000
+            1700000 -1028600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_10_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -1046500
+            1692500 -1046500
+            1700000 -1054000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_11_IN
+        (wire
+          (path F.Cu 2500
+            1629500 -1053000
+            1673600 -1053000
+            1700000 -1079400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_0_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -828500
+            1528500 -828500
+            1500000 -800000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_1_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -835000
+            1509600 -835000
+            1500000 -825400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_2_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -841500
+            1509300 -841500
+            1500000 -850800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_3_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -848000
+            1528200 -848000
+            1500000 -876200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_4_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -928500
+            1526900 -928500
+            1500000 -901600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_5_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -935000
+            1508000 -935000
+            1500000 -927000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_6_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -941500
+            1510900 -941500
+            1500000 -952400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_7_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -948000
+            1529800 -948000
+            1500000 -977800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_8_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -1033500
+            1530300 -1033500
+            1500000 -1003200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_9_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -1040000
+            1511400 -1040000
+            1500000 -1028600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_10_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -1046500
+            1507500 -1046500
+            1500000 -1054000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_11_OUT
+        (wire
+          (path F.Cu 2500
+            1570500 -1053000
+            1526400 -1053000
+            1500000 -1079400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_23_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -822000
+            1686000 -822000
+            1696250 -811745
+            1713650 -811745
+            1725400 -800000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_22_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -828500
+            1686490 -828500
+            1695140 -837145
+            1713650 -837145
+            1725400 -825400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_21_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -835000
+            1667590 -835000
+            1695140 -862545
+            1713650 -862545
+            1725400 -850800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_20_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -841500
+            1648690 -841500
+            1695190 -888000
+            1713600 -888000
+            1725400 -876200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_19_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -922000
+            1688390 -922000
+            1697040 -913345
+            1713650 -913345
+            1725400 -901600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_18_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -928500
+            1684890 -928500
+            1695140 -938745
+            1713650 -938745
+            1725400 -927000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_17_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -935000
+            1665990 -935000
+            1695990 -965000
+            1712800 -965000
+            1725400 -952400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_16_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -941500
+            1639020 -941500
+            1687070 -989545
+            1713650 -989545
+            1725400 -977800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_15_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -1027000
+            1684990 -1027000
+            1695990 -1016000
+            1712600 -1016000
+            1725400 -1003200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_14_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -1033500
+            1686500 -1033500
+            1694000 -1041000
+            1713000 -1041000
+            1725400 -1028600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_13_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -1040000
+            1669390 -1040000
+            1695390 -1066000
+            1713400 -1066000
+            1725400 -1054000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_12_IN
+        (wire
+          (path B.Cu 2500
+            1629500 -1046500
+            1639020 -1046500
+            1684520 -1092000
+            1712800 -1092000
+            1725400 -1079400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_23_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -822000
+            1559000 -822000
+            1550000 -813000
+            1487600 -813000
+            1474600 -800000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_22_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -828500
+            1559140 -828500
+            1549640 -838000
+            1487200 -838000
+            1474600 -825400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_21_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -835000
+            1559000 -835000
+            1530000 -864000
+            1487800 -864000
+            1474600 -850800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_20_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -841500
+            1559500 -841500
+            1512000 -889000
+            1487400 -889000
+            1474600 -876200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_19_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -922000
+            1560000 -922000
+            1552000 -914000
+            1487000 -914000
+            1474600 -901600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_18_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -928500
+            1560500 -928500
+            1549000 -940000
+            1487600 -940000
+            1474600 -927000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_17_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -935000
+            1560980 -935000
+            1531830 -964145
+            1486350 -964145
+            1474600 -952400
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_16_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -941500
+            1560980 -941500
+            1512930 -989545
+            1486350 -989545
+            1474600 -977800
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_15_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -1027000
+            1559000 -1027000
+            1548000 -1016000
+            1487400 -1016000
+            1474600 -1003200
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_14_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -1033500
+            1559500 -1033500
+            1552000 -1041000
+            1487000 -1041000
+            1474600 -1028600
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_13_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -1040000
+            1560000 -1040000
+            1533000 -1067000
+            1487600 -1067000
+            1474600 -1054000
+          )
+          (type protect)
+        )
+      )
+      (net /CHAN_12_OUT
+        (wire
+          (path B.Cu 2500
+            1570500 -1046500
+            1561720 -1046500
+            1516220 -1092000
+            1485000 -1092000
+            1474600 -1081600
+            1474600 -1079400
+          )
+          (type protect)
+        )
+      )
+    )
+  )
+)

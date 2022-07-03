@@ -1,0 +1,59 @@
+{
+  "cmake.configureOnOpen": false,
+  "cmake.statusbar.advanced": {
+    "debug" : {
+      "visibility": "hidden"
+              },    "launch" : {
+      "visibility": "hidden"
+               },
+    "build" : {
+      "visibility": "default"
+               },
+    "buildTarget" : {
+      "visibility": "hidden"
+               },
+    },
+    "files.associations": {
+      "pio.h": "c",
+      "*.pio": "c",
+      "string.h": "c",
+      "array": "c",
+      "atomic": "c",
+      "bit": "c",
+      "*.tcc": "c",
+      "cmath": "c",
+      "compare": "c",
+      "concepts": "c",
+      "cstddef": "c",
+      "deque": "c",
+      "string": "c",
+      "unordered_map": "c",
+      "vector": "c",
+      "exception": "c",
+      "functional": "c",
+      "iterator": "c",
+      "memory": "c",
+      "memory_resource": "c",
+      "optional": "c",
+      "string_view": "c",
+      "system_error": "c",
+      "type_traits": "c",
+      "algorithm": "c",
+      "random": "c",
+      "fstream": "c",
+      "iomanip": "c",
+      "istream": "c",
+      "limits": "c",
+      "numeric": "c",
+      "ostream": "c",
+      "ranges": "c",
+      "sstream": "c",
+      "streambuf": "c",
+      "tuple": "c",
+      "typeinfo": "c",
+      "utility": "c",
+      "irq.h": "c",
+      "IRQ.H": "cpp",
+      "m0plus.h": "c"
+    },
+}

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicAnalyzer", "LogicAnalyzer\LogicAnalyzer.csproj", "{64C09858-40D1-4752-B800-86B4C725A1A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPIProtocolAnalyzer", "SPIProtocolAnalyzer\SPIProtocolAnalyzer.csproj", "{C2166CC8-3BD1-4563-BB9F-0001632B449A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64C09858-40D1-4752-B800-86B4C725A1A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C09858-40D1-4752-B800-86B4C725A1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C09858-40D1-4752-B800-86B4C725A1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C09858-40D1-4752-B800-86B4C725A1A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2166CC8-3BD1-4563-BB9F-0001632B449A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2166CC8-3BD1-4563-BB9F-0001632B449A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2166CC8-3BD1-4563-BB9F-0001632B449A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2166CC8-3BD1-4563-BB9F-0001632B449A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6AAB9DA-F27D-4FC3-A68F-7A2E46A5AD64}
+	EndGlobalSection
+EndGlobal

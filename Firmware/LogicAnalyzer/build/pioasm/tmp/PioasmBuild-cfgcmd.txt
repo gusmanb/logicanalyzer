@@ -1,0 +1,1 @@
+cmd='C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe;-GNMake Makefiles;-C<TMP_DIR>/PioasmBuild-cache-$<CONFIG>.cmake;<SOURCE_DIR><SOURCE_SUBDIR>'

@@ -1,0 +1,13 @@
+# Target labels
+ PioasmBuild
+# Source files and their labels
+F:/PicoSDK/Projects/LogicAnalyzer/build/CMakeFiles/PioasmBuild
+F:/PicoSDK/Projects/LogicAnalyzer/build/CMakeFiles/PioasmBuild.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/CMakeFiles/PioasmBuild-complete.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-build.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-configure.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-download.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-install.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-mkdir.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-patch.rule
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/src/PioasmBuild-stamp/PioasmBuild-update.rule

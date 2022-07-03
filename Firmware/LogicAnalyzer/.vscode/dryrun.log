@@ -1,0 +1,7 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make.exe: Entering directory `f:/PicoSDK/Projects/LogicAnalyzer'
+ 
+make.exe: *** No targets specified and no makefile found.  Stop.
+
+make.exe: Leaving directory `f:/PicoSDK/Projects/LogicAnalyzer'
+ 

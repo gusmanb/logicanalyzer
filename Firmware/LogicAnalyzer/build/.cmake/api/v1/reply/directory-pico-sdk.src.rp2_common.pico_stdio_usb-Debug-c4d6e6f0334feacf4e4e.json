@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "pico-sdk/src/rp2_common/pico_stdio_usb",
+		"source" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb"
+	}
+}

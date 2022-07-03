@@ -1,0 +1,434 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-pc-mingw32
+ 
+
+# Make data base, printed on Sat Jul 02 12:18:29 2022
+
+# Variables
+
+# environment
+POWERSHELL_DISTRIBUTION_CHANNEL = MSI:Windows 10 Pro
+# automatic
+?F = $(notdir $?)
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+KISYS3DMOD = F:\KiCad\share\kicad\modules\packages3d
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+COMMANDPROMPTTYPE = Native
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+AUTOFIRMA_AVOID_UPDATE_CHECK = true
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# makefile
+CURDIR := f:/PicoSDK/Projects/LogicAnalyzer
+# default
+SHELL := C:/WinAVR-20100110/utils/bin/sh.exe
+# environment
+__VSCMD_SCRIPT_ERR_COUNT = 0
+# environment
+WINDOWSSDKVERSION = 10.0.19041.0\
+# environment
+WINDIR = C:\WINDOWS
+# environment
+VSCODE_NLS_CONFIG = {"locale":"es","availableLanguages":{"*":"es"},"_languagePackId":"eae11d900af9c06c6da7ac60cedf8cf9.es","_translationsConfigFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\tcf.json","_cacheRoot":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es","_resolvedLanguagePackCoreLocation":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\30d9c6cd9483b2cc586687151bcbcd635f373630","_corruptedFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\corrupted.info","_languagePackSupport":true}
+# environment
+VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
+# environment
+ONEDRIVE = C:\Users\geniw\OneDrive
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+FRAMEWORKDIR32 = C:\Windows\Microsoft.NET\Framework\
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+# makefile
+MAKEFILE_LIST := 
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+__DOTNET_PREFERRED_BITNESS = 32
+# environment
+VSINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\
+# environment
+TMP = C:\Users\geniw\AppData\Local\Temp
+# environment
+FRAMEWORK40VERSION = v4.0
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# environment
+VSCMD_ARG_TGT_ARCH = x86
+# environment
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-e7370b71-19fe-405a-88d1-375f401ce9ae-sock
+# environment
+VSCODE_CWD = F:\PicoSDK\Pico
+# environment
+PATH = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn;C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\;C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\PowerShell\7\;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe
+# environment
+LM_LICENSE_FILE = 27020@45.33.107.56
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+VS170COMNTOOLS = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\
+# environment
+PICO_EXAMPLES_PATH = F:\PicoSDK\Pico\pico-examples
+# environment
+CHOCOLATEYLASTPATHUPDATE = 132478510324938343
+# environment
+PROCESSOR_ARCHITECTURE = x86
+# environment
+USERPROFILE = C:\Users\geniw
+# environment
+CHOCOLATEYINSTALL = F:\chocolatey
+# environment
+FRAMEWORKDIR = C:\Windows\Microsoft.NET\Framework\
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+WINDOWSSDK_EXECUTABLEPATH_X64 = C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\
+# environment
+VSCODE_LOG_STACK = false
+# environment
+NUMBER_OF_PROCESSORS = 16
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+LIB = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.19041.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.19041.0\\um\x86
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives
+# environment
+OCULUSBASE = P:\Oculus\
+# environment
+VK_SDK_PATH = C:\VulkanSDK\1.2.148.1
+# automatic
+%F = $(notdir $%)
+# environment
+KICAD_TEMPLATE_DIR = F:\KiCad\share\kicad\template
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_19304_UJWDZWZVPVPUPMAW
+# environment
+FSHARPINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools
+# environment
+__VSCMD_PREINIT_PATH = C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\PowerShell\7\;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+FRAMEWORKVERSION32 = v4.0.30319
+# environment
+COMPUTERNAME = DESKTOP-C983CQ7
+# environment
+PROGRAMFILES = C:\Program Files (x86)
+# environment
+VCTOOLSINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+ASL.LOG = Destination=file
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+AVR32_HOME = C:\WinAVR-20100110
+# environment
+USERNAME = Gus
+# environment
+PUBLIC = C:\Users\Public
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+WINDOWSSDK_EXECUTABLEPATH_X86 = C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\
+# environment
+VSSDK150INSTALL = C:\Program Files\Microsoft Visual Studio\2022\Community\VSSDK
+# environment
+VSCODE_CLI = 1
+# environment
+PICO_EXTRAS_PATH = F:\PicoSDK\Pico\pico-extras
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\geniw\AppData\Roaming\Code\CachedData\30d9c6cd9483b2cc586687151bcbcd635f373630
+# environment
+VSCMD_VER = 17.0.4
+# environment
+WINDOWSSDKVERBINPATH = C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
+# environment
+LOGONSERVER = \\DESKTOP-C983CQ7
+# automatic
++F = $(notdir $+)
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = DESKTOP-C983CQ7
+# environment
+VCIDEINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+KISYSMOD = F:\KiCad\share\kicad\modules
+# environment
+LIBPATH = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\lib\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.19041.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.19041.0;C:\Windows\Microsoft.NET\Framework\v4.0.30319
+# default
+MAKE_VERSION := 3.81
+# environment
+KICAD_SYMBOL_DIR = F:\KiCad\share\kicad\library
+# makefile
+.DEFAULT_GOAL := 
+# environment
+INCLUDE = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\include;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\cppwinrt
+# environment
+ERRORS = 0
+# environment
+UCRTVERSION = 10.0.19041.0
+# environment
+FRAMEWORKVERSION = v4.0.30319
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LOCALAPPDATA = C:\Users\geniw\AppData\Local
+# environment
+PSMODULEPATH = C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\Program Files (x86)\Particular Software\ServiceControl Management\ServiceControlMgmt
+# default
+MAKE_COMMAND := make.exe
+# environment
+VCTOOLSVERSION = 14.30.30705
+# environment
+PROCESSOR_ARCHITEW6432 = AMD64
+# environment
+AMDRMSDKPATH = C:\Program Files\AMD\RyzenMasterSDK\
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\c3458689be066bf74d96fafb71cdfa9f-1.68.1-main-sock
+# environment
+DEVENVDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\
+# environment
+HOMEPATH = \Users\geniw
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+SYSTEMROOT = C:\WINDOWS
+# environment
+PICO_PLAYGROUND_PATH = F:\PicoSDK\Pico\pico-playground
+# environment
+VISUALSTUDIOVERSION = 17.0
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+WINDOWSSDKDIR = C:\Program Files (x86)\Windows Kits\10\
+# environment
+APPDATA = C:\Users\geniw\AppData\Roaming
+# environment
+VSCMD_ARG_HOST_ARCH = x86
+# environment
+TEMP = C:\Users\geniw\AppData\Local\Temp
+# environment
+AMDRMPATH = C:\Program Files\AMD\RyzenMaster\
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# environment
+VCINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\
+# default
+MAKEFILES := 
+# environment
+EXTENSIONSDKDIR = C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs
+# environment
+NETFXSDKDIR = C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\
+# automatic
+<F = $(notdir $<)
+# environment
+VCTOOLSREDISTDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Redist\MSVC\14.30.30704\
+# environment
+WINDOWSSDKBINPATH = C:\Program Files (x86)\Windows Kits\10\bin\
+# environment
+OPENSSL_IA32CAP = :~0x20000000
+# environment
+LC_ALL = C
+# environment
+__DOTNET_ADD_32BIT = 1
+# environment
+WINDOWSLIBPATH = C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.19041.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.19041.0
+# environment
+VSCMD_ARG_APP_PLAT = Desktop
+# environment
+VSSDKINSTALL = C:\Program Files\Microsoft Visual Studio\2022\Community\VSSDK
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 2102
+# environment
+WINDOWSSDKLIBVERSION = 10.0.19041.0\
+# environment
+VBOX_HWVIRTEX_IGNORE_SVM_IN_USE = 1
+# environment
+MAKELEVEL := 0
+# environment
+PICO_SDK_PATH = F:\PicoSDK\Pico\pico-sdk
+# environment
+VULKAN_SDK = C:\VulkanSDK\1.2.148.1
+# environment
+UNIVERSALCRTSDKDIR = C:\Program Files (x86)\Windows Kits\10\
+# environment
+OPENOCD_SCRIPTS = F:\PicoSDK\Pico\tools\openocd-picoprobe\scripts
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 25
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 19304
+# environment
+NO_XILINX_DATA_LICENSE = HIDDEN
+# environment
+USERDOMAIN_ROAMINGPROFILE = DESKTOP-C983CQ7
+# variable set hash-table stats:
+# Load=157/1024=15%, Rehash=0, Collisions=23/173=13%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64 (key C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64, mtime 1637065837): 92 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\ (key C:/Program Files (x86)/Microsoft Visual Studio/Shared/Common/VSPerfCollectionTools/vs2019/, mtime 1622008445): 32 files, no impossibilities.
+# C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin (key C:/Program Files/Microsoft/jdk-11.0.12.7-hotspot/bin, mtime 1637065614): 127 files, no impossibilities.
+# C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin (key C:/Program Files/Eclipse Foundation/jdk-8.0.302.8-hotspot/bin, mtime 1641903191): 53 files, no impossibilities.
+# F:\PicoSDK\Pico\tools\openocd-picoprobe (key F:/PicoSDK/Pico/tools/openocd-picoprobe, mtime 1655586174): 5 files, no impossibilities.
+# . (key f:/PicoSDK/Projects/LogicAnalyzer, mtime 1656158031): 8 files, no impossibilities.
+# C:\Program Files\doxygen\bin (key C:/Program Files/doxygen/bin, mtime 1655586169): 7 files, no impossibilities.
+# C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\\x86 (key C:/Program Files (x86)/Windows Kits/10/bin/10.0.19041.0/x86, mtime 1637065596): 221 files, no impossibilities.
+# C:\Windows\Microsoft.NET\Framework\v4.0.30319 (key C:/Windows/Microsoft.NET/Framework/v4.0.30319, mtime 1656756708): 407 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn (key C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn, mtime 1641902071): 46 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/Extensions/Microsoft/IntelliCode/CLI, mtime 1637065080): 39 files, no impossibilities.
+# C:\WinAVR-20100110\bin (key C:/WinAVR-20100110/bin, mtime 1617902700): 75 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86 (key C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/bin/HostX86/x86, mtime 1641902120): 69 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft Visual Studio\Installer (key C:/Program Files (x86)/Microsoft Visual Studio/Installer, mtime 1655562203): 42 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow, mtime 1641902078): 53 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/, mtime 1641902153): 346 files, no impossibilities.
+# C:\WinAVR-20100110\utils\bin (key C:/WinAVR-20100110/utils/bin, mtime 1617902708): 99 files, no impossibilities so far.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\ (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/, mtime 1641902065): 47 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\Performance Tools (key C:/Program Files/Microsoft Visual Studio/2022/Community/Team Tools/Performance Tools, mtime 1641902115): 34 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools, mtime 1637064910): 65 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages, mtime 1641902049): 29 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\ (key C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/, mtime 1571829639): 61 files, no impossibilities.
+# P:\Oculus\Support\oculus-runtime (key P:/Oculus/Support/oculus-runtime, mtime 1655746509): 43 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin (key C:/Program Files (x86)/Microsoft SDKs/Azure/CLI2/wbin, mtime 1603800905): 4 files, no impossibilities.
+# C:\Program Files\Python39\ (key C:/Program Files/Python39/, mtime 1655562297): 18 files, no impossibilities.
+# C:\Program Files (x86)\Windows Kits\10\bin\\x86 (key C:/Program Files (x86)/Windows Kits/10/bin/x86, mtime 1637065546): 4 files, no impossibilities.
+# C:\Program Files\Graphviz\bin (key C:/Program Files/Graphviz/bin, mtime 1655562336): 60 files, no impossibilities.
+# C:\Program Files\Python39\Scripts\ (key C:/Program Files/Python39/Scripts/, mtime 1655562297): 5 files, no impossibilities.
+# C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer, mtime 1641902062): 167 files, no impossibilities.
+
+# 2258 files, no impossibilities in 29 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+all:
+#  Command-line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+makefile:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+GNUmakefile:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# files hash-table stats:
+# Load=5/1024=0%, Rehash=0, Collisions=0/16=0%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 0
+# # of strcache buffers: 0
+# strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
+# strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
+
+# Finished Make data base on Sat Jul 02 12:18:29 2022
+
+ 
+make.exe: *** No rule to make target `all'.  Stop.
+

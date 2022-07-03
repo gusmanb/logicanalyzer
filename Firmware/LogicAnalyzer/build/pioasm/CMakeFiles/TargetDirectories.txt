@@ -1,0 +1,3 @@
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/CMakeFiles/pioasm.dir
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/CMakeFiles/edit_cache.dir
+F:/PicoSDK/Projects/LogicAnalyzer/build/pioasm/CMakeFiles/rebuild_cache.dir
