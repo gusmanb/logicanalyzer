@@ -96,7 +96,7 @@ This will open the region creation dialog where you can choose a name for your r
 
 If you want to delete a region press on the numeric bar over a highlighted region and it will be deleted. Regions are also exported
 
-## Adding custom protocolo analyzers
+## Adding custom protocol analyzers
 
 To add a new protocol analyzer you need to create a .net 6.0 assembly that references the LogicAnalyzer assembly and implements at least one class based in "ProtocolAnalyzerBase". Basically you will provide a list of settings to present to the user and then you will implement an analysis function that returns analyzed channels.
 
