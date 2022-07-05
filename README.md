@@ -104,5 +104,13 @@ Each analyzed channel will specify a list of segments where data is overlayed (t
 
 ---
 
+## About Sigrok and the custom app
+
+I have been reading some comments about why create my own application and why not use Sigrok as it would have been developed faster. First of all, the full project including firmware, PCB's and Windows client took me less than a week of development, I have been creating Windows apps for more than 20 years and it takes me less time to implement a rendering system, plugins and so on than implementing a third-party driver :)
+In any case, my main reason to not consider to use sigrok is because I tried to use it with some cheapo analyzers and on my machines it simply would not run, I'm not sure if some component that I use for development is incompatible with it but on my three machines it crashed, in one machine it does not open at all and on the other two I had random crashes when I tried to capture data.
+
+In any case, I will try to get it running in one of my development machines and if it works I will check how complex would be to create a driver for it.
+
+---
 
 Have fun!
