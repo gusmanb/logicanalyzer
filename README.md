@@ -20,9 +20,9 @@ For that, you need to compare the read values from the GPIOs check if the pin or
 
 So, how the heck the pico is able to achieve this? Well, the key are the PIO units, these units are a wonder, they are coprocessors explicitly dessigned to handle IO, it uses a very restricted and deterministic assembler (only nine instructions that each take a single cycle to execuet) but extremely efficient, so efficient that with only two instructions is possible to create a loop that captures GPIO data up to 30 bits and redirects the program flow based in the status of one of these GPIOs.
 
-Of course there are some limitations, that two-instruction loop can only change the execution flow based on a GPIO pin, it can't branch based in a pattern (using only two instructions) but as we have more than one unit (each pico has two units and each unit has four state machines, so you can run in parallel up to 8 programs) we can abuse a bit the system and create a sepparate trigger program that notifies the capture program using a pin, that's why GPIO0 and GPIO1 are shorted.
+Of course there are some limitations, that two-instruction loop can only change the execution flow based on a GPIO pin, it can't branch based on a pattern (using only two instructions) but as we have more than one unit (each pico has two units and each unit has four state machines, so you can run in parallel up to 8 programs) we can abuse a bit the system and create a sepparate trigger program that notifies the capture program using a pin, that's why GPIO0 and GPIO1 are shorted.
 
-The analyzer describd here has three trigger modes: edge trigger, fast pattern trigger and complex pattern trigger.
+The analyzer described here has three trigger modes: edge trigger, fast pattern trigger and complex pattern trigger.
 
 The edge trigger uses a single program, that's the basic version that uses only two instructions, runs up to 100Msps and the triggering is synchronized with the captures.
 
@@ -56,11 +56,11 @@ There are two PCBs, one for the analyzer and other for the level shifter.
 
 ## Building the firmware
 
-To build the firmware you need to have an environment configure for Pico development, but if you don't have it don't worry, the releases include the UF2 file, so you only need to start the Pico in program mode, drop the UF2 file to the Pico drive and that's it, you have a Logic Analyzer ready to be used.
+To build the firmware you need to have an environment configured for Pico development, but if you don't have it don't worry, the releases include the UF2 file, so you only need to start the Pico in program mode, drop the UF2 file to the Pico drive and that's it, you have a Logic Analyzer ready to be used.
 
 ## The software
 
-Before designing my own analyzer I have used some cheap chinesse analyzers and all usee the same software, OLS, OpenBench Logic Analyzer, and to be honest, I don't like it. So, I have implemented my own binary protocol (more info in the firmware code) and visualization software. 
+Before designing my own analyzer I have used some cheap chinese analyzers and all usee the same software, OLS, OpenBench Logic Analyzer, and to be honest, I don't like it. So, I have implemented my own binary protocol (more info in the firmware code) and visualization software. 
 
 ![Software picture](Software1.jpg?raw=true "Software main screen")
 
@@ -94,7 +94,7 @@ This will open the region creation dialog where you can choose a name for your r
 
 ![Region picture](Highlight3.jpg?raw=true "Highlight")
 
-If you want to delete a region press on the numeric bar over a highlighted region and it will be deleted. Regions are also exported
+If you want to delete a region press on the numeric bar over a highlighted region and it will be deleted. Regions are also exported with captures.
 
 ## Adding custom protocol analyzers
 
