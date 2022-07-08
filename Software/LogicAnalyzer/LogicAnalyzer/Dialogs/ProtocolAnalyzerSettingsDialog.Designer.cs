@@ -40,9 +40,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flSettings.AutoScroll = true;
             this.flSettings.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flSettings.Location = new System.Drawing.Point(12, 12);
+            this.flSettings.Location = new System.Drawing.Point(17, 20);
+            this.flSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flSettings.Name = "flSettings";
-            this.flSettings.Size = new System.Drawing.Size(321, 397);
+            this.flSettings.Size = new System.Drawing.Size(459, 662);
             this.flSettings.TabIndex = 0;
             this.flSettings.WrapContents = false;
             // 
@@ -51,9 +52,10 @@
             this.btnCancel.BackColor = System.Drawing.Color.DimGray;
             this.btnCancel.FlatAppearance.BorderSize = 0;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(258, 415);
+            this.btnCancel.Location = new System.Drawing.Point(369, 692);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(107, 38);
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
@@ -65,9 +67,10 @@
             this.btnAccept.Enabled = false;
             this.btnAccept.FlatAppearance.BorderSize = 0;
             this.btnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAccept.Location = new System.Drawing.Point(177, 415);
+            this.btnAccept.Location = new System.Drawing.Point(253, 692);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(75, 23);
+            this.btnAccept.Size = new System.Drawing.Size(107, 38);
             this.btnAccept.TabIndex = 1;
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = false;
@@ -76,19 +79,22 @@
             // ProtocolAnalyzerSettingsDialog
             // 
             this.AcceptButton = this.btnAccept;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(345, 450);
+            this.ClientSize = new System.Drawing.Size(493, 750);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.flSettings);
             this.Controls.Add(this.btnAccept);
             this.ForeColor = System.Drawing.Color.LightGray;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(515, 806);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(515, 806);
             this.Name = "ProtocolAnalyzerSettingsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ProtocolAnalyzerSettingsDialog";
