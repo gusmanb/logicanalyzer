@@ -338,7 +338,7 @@ namespace LogicAnalyzer
             lblPostSamples.Text = String.Format("{0:n}", settings.PostTriggerSamples);
             lblSamples.Text = String.Format("{0:n}", settings.PostTriggerSamples + settings.PreTriggerSamples);
             lblChannels.Text = settings.CaptureChannels.Length.ToString();
-            lblTrigger.Text = $"Channel {settings.TriggerChannel}";
+            lblTrigger.Text = $"Channel {settings.TriggerChannel + 1}";
             lblEdge.Text = settings.TriggerInverted ? "Negative" : "Positive";
         }
 
