@@ -240,21 +240,24 @@ static inline pio_sm_config FAST_TRIGGER_program_get_default_config(uint offset)
     sm_config_set_sideset(&c, 1, false, false);
     return c;
 }
-bool create_fast_trigger_program(uint8_t pattern, uint8_t length)
+uint8_t create_fast_trigger_program(uint8_t pattern, uint8_t length)
 {
     //This creates a 32 instruction jump table. Each instruction is a MOV PC, PINS except for the addresses that
     //match the specified pattern.
-    if(length > 5)
-        return false;
     uint8_t i;
     uint8_t mask = (1 << length) - 1; //Mask for testing address vs pattern
+    uint8_t first = 255;
     for(i = 0; i < 32; i++)
     {
         if((i & mask) == pattern)
             FAST_TRIGGER_program_instructions[i] = 0x1000 | i; //JMP i SIDE 1
         else
+        {
             FAST_TRIGGER_program_instructions[i] = 0xA0A0;     //MOV PC, PINS SIDE 0
+            first = i;
+        }
     }
+    return first;
 }
 //-----------------------------------------------------------------------------
 //--------------Fast trigger PIO program END-----------------------------------
@@ -477,7 +480,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
     pio_gpio_init(triggerPIO, 0);
     pio_gpio_init(capturePIO, 1);
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < capturePinCount; i++)
         pio_gpio_init(capturePIO, lastCapturePins[i]);
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);
@@ -509,13 +512,14 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     pio_sm_clear_fifos(triggerPIO, sm_Trigger);
     pio_sm_restart(triggerPIO, sm_Trigger);
     //Create trigger program
-    create_fast_trigger_program(triggerValue, triggerPinCount);
+    uint8_t triggerFirstInstruction = create_fast_trigger_program(triggerValue, triggerPinCount);
     //Configure trigger state machine
     triggerOffset = pio_add_program(triggerPIO, &FAST_TRIGGER_program);
     pio_sm_set_consecutive_pindirs(triggerPIO, sm_Trigger, 0, 1, true); //Pin 0 as output (connects to Pin 1, to trigger capture)
     pio_sm_set_consecutive_pindirs(triggerPIO, sm_Trigger, triggerPinBase, triggerPinCount, false); //Trigger pins start at triggerPinBase
     smConfig = FAST_TRIGGER_program_get_default_config(triggerOffset);
     sm_config_set_in_pins(&smConfig, triggerPinBase); //Trigger input starts at pin base
+    sm_config_set_set_pins(&smConfig, 0, 1); //Trigger output is a set pin
     sm_config_set_sideset_pins(&smConfig, 0); //Trigger output is a side pin
     sm_config_set_clkdiv(&smConfig, 1); //Trigger always runs at half speed (100Msps)
     //Configure DMA's
@@ -527,7 +531,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Write capture end mark to post program
     pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
     //Initialize trigger state machine
-    pio_sm_init(triggerPIO, sm_Trigger, triggerOffset, &smConfig);
+    pio_sm_init(triggerPIO, sm_Trigger, triggerFirstInstruction, &smConfig);
     //Enable trigger state machine
     pio_sm_set_enabled(triggerPIO, sm_Trigger, true);
     //Finally clear capture status and process flags
@@ -592,7 +596,7 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
     pio_gpio_init(capturePIO, 0);
     pio_gpio_init(capturePIO, 1);
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < capturePinCount; i++)
         pio_gpio_init(capturePIO, lastCapturePins[i]);
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);

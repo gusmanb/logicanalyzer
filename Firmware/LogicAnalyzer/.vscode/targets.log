@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Sat Jul 02 12:18:29 2022
+# Make data base, printed on Mon Jul 11 18:23:44 2022
 
 # Variables
 
@@ -26,8 +26,6 @@ ELECTRON_NO_ATTACH_CONSOLE = 1
 MAKEFLAGS = Rrqp
 # environment
 COMMANDPROMPTTYPE = Native
-# environment
-VSCODE_LOG_NATIVE = false
 # environment
 AUTOFIRMA_AVOID_UPDATE_CHECK = true
 # automatic
@@ -49,7 +47,7 @@ WINDOWSSDKVERSION = 10.0.19041.0\
 # environment
 WINDIR = C:\WINDOWS
 # environment
-VSCODE_NLS_CONFIG = {"locale":"es","availableLanguages":{"*":"es"},"_languagePackId":"eae11d900af9c06c6da7ac60cedf8cf9.es","_translationsConfigFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\tcf.json","_cacheRoot":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es","_resolvedLanguagePackCoreLocation":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\30d9c6cd9483b2cc586687151bcbcd635f373630","_corruptedFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"es","availableLanguages":{"*":"es"},"_languagePackId":"eae11d900af9c06c6da7ac60cedf8cf9.es","_translationsConfigFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\tcf.json","_cacheRoot":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es","_resolvedLanguagePackCoreLocation":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9","_corruptedFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\corrupted.info","_languagePackSupport":true}
 # environment
 VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
 # environment
@@ -63,25 +61,22 @@ PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
 # makefile
 MAKEFILE_LIST := 
 # environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
-# environment
 __DOTNET_PREFERRED_BITNESS = 32
 # environment
 VSINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\
 # environment
 TMP = C:\Users\geniw\AppData\Local\Temp
 # environment
-FRAMEWORK40VERSION = v4.0
-# environment
-VSCODE_VERBOSE_LOGGING = true
+FRAMEWORK 
+make.exe: *** No rule to make target `all'.  Stop.
+
+40VERSION = v4.0
 # environment
 PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
 VSCMD_ARG_TGT_ARCH = x86
-# environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-e7370b71-19fe-405a-88d1-375f401ce9ae-sock
 # environment
 VSCODE_CWD = F:\PicoSDK\Pico
 # environment
@@ -109,8 +104,6 @@ ALLUSERSPROFILE = C:\ProgramData
 # environment
 WINDOWSSDK_EXECUTABLEPATH_X64 = C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\
 # environment
-VSCODE_LOG_STACK = false
-# environment
 NUMBER_OF_PROCESSORS = 16
 # environment
 ELECTRON_RUN_AS_NODE = 1
@@ -127,13 +120,11 @@ VK_SDK_PATH = C:\VulkanSDK\1.2.148.1
 # environment
 KICAD_TEMPLATE_DIR = F:\KiCad\share\kicad\template
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_19304_UJWDZWZVPVPUPMAW
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_25524_CVTWVQAZHEALSLAZ
 # environment
 FSHARPINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools
 # environment
 __VSCMD_PREINIT_PATH = C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\PowerShell\7\;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin
-# environment
-VSCODE_PIPE_LOGGING = true
 # environment
 FRAMEWORKVERSION32 = v4.0.30319
 # environment
@@ -165,7 +156,7 @@ VSCODE_CLI = 1
 # environment
 PICO_EXTRAS_PATH = F:\PicoSDK\Pico\pico-extras
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\geniw\AppData\Roaming\Code\CachedData\30d9c6cd9483b2cc586687151bcbcd635f373630
+VSCODE_CODE_CACHE_PATH = C:\Users\geniw\AppData\Roaming\Code\CachedData\92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9
 # environment
 VSCMD_VER = 17.0.4
 # environment
@@ -231,7 +222,7 @@ PROCESSOR_IDENTIFIER = AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\c3458689be066bf74d96fafb71cdfa9f-1.68.1-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\c3458689be066bf74d96fafb71cdfa9f-1.69.0-main-sock
 # environment
 DEVENVDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\
 # environment
@@ -297,8 +288,6 @@ SUFFIXES :=
 # environment
 SYSTEMDRIVE = C:
 # environment
-SESSIONNAME = Console
-# environment
 PROCESSOR_REVISION = 2102
 # environment
 WINDOWSSDKLIBVERSION = 10.0.19041.0\
@@ -319,15 +308,13 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 25
 # environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
-# environment
-VSCODE_PID = 19304
+VSCODE_PID = 25524
 # environment
 NO_XILINX_DATA_LICENSE = HIDDEN
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-C983CQ7
 # variable set hash-table stats:
-# Load=157/1024=15%, Rehash=0, Collisions=23/173=13%
+# Load=149/1024=15%, Rehash=0, Collisions=22/165=13%
 
 # Pattern-specific Variable Values
 
@@ -343,7 +330,7 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-C983CQ7
 # . (key f:/PicoSDK/Projects/LogicAnalyzer, mtime 1656158031): 8 files, no impossibilities.
 # C:\Program Files\doxygen\bin (key C:/Program Files/doxygen/bin, mtime 1655586169): 7 files, no impossibilities.
 # C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\\x86 (key C:/Program Files (x86)/Windows Kits/10/bin/10.0.19041.0/x86, mtime 1637065596): 221 files, no impossibilities.
-# C:\Windows\Microsoft.NET\Framework\v4.0.30319 (key C:/Windows/Microsoft.NET/Framework/v4.0.30319, mtime 1656756708): 407 files, no impossibilities.
+# C:\Windows\Microsoft.NET\Framework\v4.0.30319 (key C:/Windows/Microsoft.NET/Framework/v4.0.30319, mtime 1657521243): 406 files, no impossibilities.
 # C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn (key C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn, mtime 1641902071): 46 files, no impossibilities.
 # C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/Extensions/Microsoft/IntelliCode/CLI, mtime 1637065080): 39 files, no impossibilities.
 # C:\WinAVR-20100110\bin (key C:/WinAVR-20100110/bin, mtime 1617902700): 75 files, no impossibilities.
@@ -365,7 +352,7 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-C983CQ7
 # C:\Program Files\Python39\Scripts\ (key C:/Program Files/Python39/Scripts/, mtime 1655562297): 5 files, no impossibilities.
 # C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer, mtime 1641902062): 167 files, no impossibilities.
 
-# 2258 files, no impossibilities in 29 directories.
+# 2257 files, no impossibilities in 29 directories.
 
 # Implicit Rules
 
@@ -427,8 +414,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Sat Jul 02 12:18:29 2022
+# Finished Make data base on Mon Jul 11 18:23:44 2022
 
  
-make.exe: *** No rule to make target `all'.  Stop.
-

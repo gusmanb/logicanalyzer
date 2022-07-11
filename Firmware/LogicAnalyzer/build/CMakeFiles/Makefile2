@@ -1341,8 +1341,8 @@ CMakeFiles\LogicAnalyzer_LogicAnalyzer_pio_h.dir\clean:
 # Target rules for target CMakeFiles/LogicAnalyzer.dir
 
 # All Build rule for target.
-CMakeFiles\LogicAnalyzer.dir\all: CMakeFiles\LogicAnalyzer_LogicAnalyzer_pio_h.dir\all
 CMakeFiles\LogicAnalyzer.dir\all: CMakeFiles\ELF2UF2Build.dir\all
+CMakeFiles\LogicAnalyzer.dir\all: CMakeFiles\LogicAnalyzer_LogicAnalyzer_pio_h.dir\all
 CMakeFiles\LogicAnalyzer.dir\all: pico-sdk\src\rp2_common\boot_stage2\CMakeFiles\bs2_default_padded_checksummed_asm.dir\all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\LogicAnalyzer.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\LogicAnalyzer.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\LogicAnalyzer.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\LogicAnalyzer.dir\build
