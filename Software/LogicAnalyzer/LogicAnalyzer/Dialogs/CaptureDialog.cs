@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -194,7 +195,7 @@ namespace LogicAnalyzer
 
             if (trigger == -1)
             {
-                MessageBox.Show("Yo must select a trigger channel. How the heck did you managed to deselect all? ¬¬");
+                MessageBox.Show("You must select a trigger channel. How the heck did you managed to deselect all? ¬¬");
                 return;
             }
 

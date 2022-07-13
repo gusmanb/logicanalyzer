@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
+﻿using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace LogicAnalyzer
+namespace SharedDriver
 {
     public class LogicAnalyzerDriver : IDisposable
     {
@@ -16,12 +12,13 @@ namespace LogicAnalyzer
         SerialPort sp;
 
         public string? DeviceVersion { get; set; }
-        public event EventHandler<CaptureEventArgs> CaptureCompleted;
+        public event EventHandler<CaptureEventArgs>? CaptureCompleted;
 
         bool capturing = false;
         private int channelCount;
         private int triggerChannel;
         private int preSamples;
+        private Action<CaptureEventArgs>? currentCaptureHandler;
 
         public LogicAnalyzerDriver(string SerialPort, int Bauds)
         {
@@ -46,36 +43,19 @@ namespace LogicAnalyzer
             baseStream.ReadTimeout = Timeout.Infinite;
         }
 
-        public bool StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted)
+        public bool StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
                 return false;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2  || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
+            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
                 return false;
-
-            /*
-            bool oneFound = false;
-
-            for (int bitCount = 0; bitCount < 32; bitCount++)
-            {
-                if (((PreSamples * 4) & (1 << bitCount)) != 0)
-                {
-                    if (oneFound)
-                        return false;
-
-                    oneFound = true;
-                }
-            }
-
-            if (!oneFound)
-                return false;
-            */
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
             preSamples = PreSamples;
+            currentCaptureHandler = CaptureCompletedHandler;
 
             CaptureRequest request = new CaptureRequest
             {
@@ -89,7 +69,7 @@ namespace LogicAnalyzer
                 postSamples = (uint)PostSamples
             };
 
-            for(int buc = 0; buc < Channels.Length; buc++)
+            for (int buc = 0; buc < Channels.Length; buc++)
                 request.channels[buc] = (byte)Channels[buc];
 
             OutputPacket pack = new OutputPacket();
@@ -111,7 +91,7 @@ namespace LogicAnalyzer
             }
             return false;
         }
-        public bool StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast)
+        public bool StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
@@ -120,27 +100,10 @@ namespace LogicAnalyzer
             if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
                 return false;
 
-            /*
-            bool oneFound = false;
-
-            for (int bitCount = 0; bitCount < 32; bitCount++)
-            {
-                if (((PreSamples * 4) & (1 << bitCount)) != 0)
-                {
-                    if (oneFound)
-                        return false;
-
-                    oneFound = true;
-                }
-            }
-
-            if (!oneFound)
-                return false;
-            */
-
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
             preSamples = PreSamples;
+            currentCaptureHandler = CaptureCompletedHandler;
 
             CaptureRequest request = new CaptureRequest
             {
@@ -177,7 +140,6 @@ namespace LogicAnalyzer
             }
             return false;
         }
-
         public void Dispose()
         {
             try
@@ -187,20 +149,20 @@ namespace LogicAnalyzer
             }
             catch { }
 
-            try 
+            try
             {
                 baseStream.Close();
                 baseStream.Dispose();
             }
             catch { }
 
-            try 
+            try
             {
                 readData.Close();
                 readData.Dispose();
             }
             catch { }
-            
+
             try
             {
                 readResponse.Close();
@@ -216,22 +178,22 @@ namespace LogicAnalyzer
             DeviceVersion = null;
             CaptureCompleted = null;
         }
-
         void ReadCapture()
         {
             uint length = readData.ReadUInt32();
 
-            uint[] samples = new uint[length]; 
+            uint[] samples = new uint[length];
 
-            for(int buc = 0; buc < length; buc++)
+            for (int buc = 0; buc < length; buc++)
                 samples[buc] = readData.ReadUInt32();
 
-            if (CaptureCompleted != null)
+            if (currentCaptureHandler != null)
+                currentCaptureHandler(new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+            else if (CaptureCompleted != null)
                 CaptureCompleted(this, new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
 
             capturing = false;
         }
-
         class OutputPacket
         {
             List<byte> dataBuffer = new List<byte>();
@@ -273,7 +235,7 @@ namespace LogicAnalyzer
                 finalData.Add(0x55);
                 finalData.Add(0xAA);
 
-                for(int buc = 0; buc < dataBuffer.Count; buc++)
+                for (int buc = 0; buc < dataBuffer.Count; buc++)
                 {
                     if (dataBuffer[buc] == 0xAA || dataBuffer[buc] == 0x55 || dataBuffer[buc] == 0xF0)
                     {
@@ -283,13 +245,13 @@ namespace LogicAnalyzer
                     else
                         finalData.Add(dataBuffer[buc]);
                 }
-                
+
 
                 finalData.Add(0xAA);
                 finalData.Add(0x55);
 
                 return finalData.ToArray();
-                
+
             }
         }
 

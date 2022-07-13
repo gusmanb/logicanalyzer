@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CLCapture": {
+      "commandName": "Project",
+      "commandLineArgs": "COM12 10000 1,2,3,4 512 1024 TriggerType:Edge,Channel:1,Value:1 Capture.csv"
+    }
+  }
+}

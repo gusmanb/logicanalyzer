@@ -1,5 +1,6 @@
 using LogicAnalyzer.Protocols;
 using Newtonsoft.Json;
+using SharedDriver;
 using System.IO.Ports;
 
 namespace LogicAnalyzer

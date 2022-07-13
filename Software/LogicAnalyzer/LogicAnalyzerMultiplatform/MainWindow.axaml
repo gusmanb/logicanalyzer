@@ -1,0 +1,135 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:LogicAnalyzerMultiplatform.Controls"
+        mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="800"
+        x:Class="LogicAnalyzerMultiplatform.MainWindow"
+        Title="LogicAnalyzer - Multiplatform version"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent" MinWidth="1024" MinHeight="800" Width="1024" Height="800">
+  <DockPanel VerticalAlignment="Stretch">
+    
+    <ExperimentalAcrylicBorder IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial
+            BackgroundSource="Digger"
+            TintColor="Black"
+            TintOpacity="1"
+            MaterialOpacity="0.65" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+
+      <Menu DockPanel.Dock="Top" Background="#f0202020">
+        <MenuItem Header="_File">
+          <MenuItem Header="_Open..." Name="mnuOpen"/>
+          <MenuItem Header="_Save..." Name="mnuSave"/>
+          <MenuItem Header="E_xport..." Name="mnuExport"/>
+          <Separator/>
+          <MenuItem Header="_Exit" Name="mnuExit"/>
+        </MenuItem>
+        <MenuItem Header="_Protocol analyzers" Name="mnuProtocols">
+          <MenuItem Header="None"/>
+        </MenuItem>
+      </Menu>
+    <Grid DockPanel.Dock="Top" Height="48" ColumnDefinitions="*,*" Background="#80303030">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Column="0" Margin="10,0,0,0">
+        <Button Name="btnRefresh">Refresh</Button>
+        <ComboBox VerticalAlignment="Center" Margin="10,0,10,0" Name="cbSerialPorts">
+        </ComboBox>
+        <Button Name="btnOpen">Open device</Button>
+        <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Open device:</TextBlock>
+        <TextBlock VerticalAlignment="Center" Name="lblDevice">&lt; None &gt;</TextBlock>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0">
+        <Button Name="btnRepeate">Repeat last capture</Button>
+        <Button Name="btnCapture">Capture</Button>
+      </StackPanel>
+    </Grid>
+    <ScrollBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Bottom" Name="scbPosition"></ScrollBar>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="140,10*,240" DockPanel.Dock="Bottom">
+      <controls:ChannelViewer Name="chViewer" Grid.Row="0" Grid.Column="0" />
+      <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+        CONTENT
+      </TextBlock>
+      <DockPanel Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#80303030">
+        <Grid DockPanel.Dock="Top" RowDefinitions="*,*,2*,*,2*" ColumnDefinitions="*,6*,*" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,0,5,5" Background="#80404040">
+          <TextBlock Grid.ColumnSpan="2" Margin="10">
+            Adjustments
+          </TextBlock>
+          <TextBlock Grid.Row="1" Margin="10">
+            10
+          </TextBlock>
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="10" HorizontalAlignment="Center">
+            Samples in screen
+          </TextBlock>
+          <TextBlock Grid.Row="1" Grid.Column="2" Margin="10">
+            200
+          </TextBlock>
+          <Slider Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,0" TickFrequency="10" TickPlacement="BottomRight" Minimum="10" Maximum="200" Value="100" Name="sldSamples"></Slider>
+        </Grid>
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5,0,5,5" Background="#80404040" >
+          <TextBlock Margin="5">
+            Information
+          </TextBlock>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Frequency:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblFreq">
+              100000000
+            </TextBlock>
+          </Panel>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Total samples:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblSamples">
+              1536
+            </TextBlock>
+          </Panel>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Pre samples:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblPreSamples">
+              512
+            </TextBlock>
+          </Panel>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Post samples:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblPostSamples">
+              1024
+            </TextBlock>
+          </Panel>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Channels:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblChannels">
+              4
+            </TextBlock>
+          </Panel>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Trigger:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblTrigger">
+              Simple, Channel 1
+            </TextBlock>
+          </Panel>
+          <Panel>
+            <TextBlock Margin="2" HorizontalAlignment="Left">
+              - Value:
+            </TextBlock>
+            <TextBlock Margin="2" HorizontalAlignment="Right" Name="lblValue">
+              "10010"
+            </TextBlock>
+          </Panel>
+        </StackPanel>
+      </DockPanel>
+    </Grid>
+  </DockPanel>
+</Window>
