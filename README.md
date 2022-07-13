@@ -1,5 +1,22 @@
 # LogicAnalyzer
 ----
+## UPDATE 12/07/2022
+
+I have received the shifter PCB's and there is an error. The footprints of J1 and J2 are exchanged, so what should be inputs are outputs and vice-versa. Thankfully this is not a problem, as the PCB is completelly symmetric and it has components in both sides flipping the board fixes the problem.
+
+Board before flip.
+![IMG_1562_2](https://user-images.githubusercontent.com/4086913/178580443-b1ed4abf-1c8a-494a-9fba-48415d7801bb.jpg)
+
+Board after flip.
+![Board after flip](https://user-images.githubusercontent.com/4086913/178579577-289d0d75-e9ea-4293-9b07-098600bab5cc.JPG)
+
+The KiCad project is already updated.
+
+The good news is that the board works like a charm, I have tested it with my clock generator with a 50Mhz clock and it captures every single half cycle perfectly, like if the board was not there :D
+
+So if you want to build your own shifter board, it's ready and tested.
+
+----
 ## Description
 Cheap 24 channel logic analyzer with 100Msps, 32k samples deep, edge triggers and pattern triggers.
 
