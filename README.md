@@ -1,5 +1,58 @@
 # LogicAnalyzer
 ----
+## UPDATE 13/07/2022
+
+I have managed to finally test the command line application in Linux and it worked as expected so I'm releasing it.
+
+The command line capture program is a multiplatform command line application, it has versions for Linux, MacOSX and Windows and allows to capture data directly to a CSV file. The file format is compatible with Sigrok/PulseView so you can analyze the captures with it.
+
+NOTE FOR LINUX/MACOSX USERS: Due to how I compile the apps you will need to make the app executable with CHMOD.
+
+The app has been tested in Linux and Windows, if any user tests it on MacOSX please leave an issue with the results, I will be very thankful :D
+
+### How to use the command line app:
+
+If at any moment you need help you can execute `./CLCapture --help` and it will show you the usage help.
+
+The app requires seven parameters to start a capture: serial port, sampling speed, channels to capture, pre-trigger samples, post-trigger samples, trigger definition and output file name.
+
+- The first parameter is the name of the serial port of the logic analyzer.
+- The second parameter is the desired capture speed in samples per second.
+- The third parameter is a list of channels separated by coma, per example `1,2,3,4` or `1,16,24`.
+- The fourth parameter is the number of samples to capture before the trigger.
+- The fifth parameter is the number of samples to capture after the trigger.
+- The sixth parameter is the trigger definition expressed in the form of: "TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string - containing 1's and 0's indicating each trigger chanel state)". Per example, if we want an edge trigger on the positive edge using channel 4 the value would be `TriggerType:Edge,Channel:4,Value:1`. If we would want a fast trigger using channels 3,4,5 and a pattern of "101" the trigger definition would be `TriggerType:Fast,Channel:3,Value:101`. Note that there are no spaces, each parameter is separated by coma and no quote is used.
+- Finally the seventh parameter is the output file name we want to generate.
+
+A complete example to capture channels 1, 2, 3 and 4 at 100Mhz using channel 5 as positive edge trigger and storing the results in a file called "output.csv" would be similar to this:
+
+```./CLCapture /dev/ttyACM0 100000000 1,2,3,4 512 1024 TriggerType:Edge,Channel:5,Value:1 output.csv```
+
+If everything goes Ok you will see something like this:
+
+```
+Opening logic analyzer in port /dev/ttyACM0...
+Conneced to device LOGIC_ANALYZER_V1_0 in port /dev/ttyACM0
+Starting edge triggered capture...
+Capture running...
+```
+
+The analyzer will blink while the capture is running and once it has finished it will print the result:
+```
+Capture complete, writting output file...
+Done.
+```
+
+This capture will contain the data in CSV and is compatible with PulseView. To import it in PulseView go to "Open->Import comma-separated values...". The file is generated in a way that you don't need to change any of the CSV paramters, you will need to specify only the number of channels and the capture speed.
+
+Once imported you will see your data, something like this:
+![imagen](https://user-images.githubusercontent.com/4086913/178774617-024c1aa4-852d-4d2d-8352-e973249b769c.png)
+
+I hope that with this, at least until the multiplatform app is ready, all the users can use the analyzer the way they want, it will work in all the common OS'es and it introduces compatibility with Sigrok/Pulseview in a way that is not intrusive for Sigrok nor for the LogicAnalyzer app.
+
+Have fun!
+
+----
 ## UPDATE 12/07/2022
 
 I have received the shifter PCB's and there is an error. The footprints of J1 and J2 are exchanged, so what should be inputs are outputs and vice-versa. Thankfully this is not a problem, as the PCB is completelly symmetric and it has components in both sides flipping the board fixes the problem.
