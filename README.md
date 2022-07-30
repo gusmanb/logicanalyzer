@@ -1,5 +1,24 @@
 # LogicAnalyzer
 ----
+## UPDATE 31/08/2022 - RELEASE 2.0
+
+Good news! The multiplatform application is ready!
+
+The application has been completelly rewritten using AvaloniaUI, it works in Windows, Linux, Linux-ARM (Raspberry) and MacOSX.
+It has been tested under Debian, Raspbian and Windows 10, MacOSX has not been tested as I don't have a working mac but it should work without problems.
+
+Also, the new app includes improvements over the original one, like the ability to export the captures to Sigrok and better performance in general.
+
+Application running in Windows:
+![Windows software](SoftwareWindows.jpg?raw=true "SPI analysis")
+
+Application running in Linux:
+![Linux software](SoftwareLinux.jpg?raw=true "SPI analysis")
+
+Application running in Raspberry:
+![Raspberry software](SoftwareRaspberry.jpg?raw=true "SPI analysis")
+
+----
 ## UPDATE 13/07/2022
 
 I have managed to finally test the command line application in Linux and it worked as expected so I'm releasing it.
