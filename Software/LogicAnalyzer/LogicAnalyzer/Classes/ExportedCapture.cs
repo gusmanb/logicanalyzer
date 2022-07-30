@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LogicAnalyzer.Classes;
+using Newtonsoft.Json;
 using SharedDriver;
 using System;
 using System.Collections.Generic;

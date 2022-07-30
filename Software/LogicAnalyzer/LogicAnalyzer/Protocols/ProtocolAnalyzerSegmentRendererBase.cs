@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,6 @@ namespace LogicAnalyzer.Protocols
 {
     public abstract class ProtocolAnalyzerSegmentRendererBase
     {
-        public abstract void RenderSegment(ProtocolAnalyzedChannel Channel, ProtocolAnalyzerDataSegment Segment, Graphics G, RectangleF RenderArea);
+        public abstract void RenderSegment(ProtocolAnalyzedChannel Channel, ProtocolAnalyzerDataSegment Segment, DrawingContext Context, Rect RenderArea);
     }
 }

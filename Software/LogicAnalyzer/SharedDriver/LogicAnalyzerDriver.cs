@@ -26,7 +26,9 @@ namespace SharedDriver
             sp.RtsEnable = true;
             sp.DtrEnable = true;
             sp.NewLine = "\n";
-
+            sp.ReadBufferSize = 1024 * 1024;
+            sp.WriteBufferSize = 1024 * 1024;
+             
             sp.Open();
             baseStream = sp.BaseStream;
 
@@ -86,7 +88,7 @@ namespace SharedDriver
             if (result == "CAPTURE_STARTED")
             {
                 capturing = true;
-                Task.Run(ReadCapture);
+                Task.Run(() => ReadCapture(PreSamples + PostSamples));
                 return true;
             }
             return false;
@@ -135,7 +137,7 @@ namespace SharedDriver
             if (result == "CAPTURE_STARTED")
             {
                 capturing = true;
-                Task.Run(ReadCapture);
+                Task.Run(() => ReadCapture(PreSamples + PostSamples));
                 return true;
             }
             return false;
@@ -178,21 +180,47 @@ namespace SharedDriver
             DeviceVersion = null;
             CaptureCompleted = null;
         }
-        void ReadCapture()
+        void ReadCapture(int Samples)
         {
-            uint length = readData.ReadUInt32();
 
-            uint[] samples = new uint[length];
+            try
+            {
 
-            for (int buc = 0; buc < length; buc++)
-                samples[buc] = readData.ReadUInt32();
+                byte[] readBuffer = new byte[Samples * 4 + 4];
 
-            if (currentCaptureHandler != null)
-                currentCaptureHandler(new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
-            else if (CaptureCompleted != null)
-                CaptureCompleted(this, new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                int left = readBuffer.Length;
+                int pos = 0;
 
-            capturing = false;
+                while (left > 0)
+                { 
+                    pos += sp.Read(readBuffer, pos, left);
+                    left = readBuffer.Length - pos;
+                }
+                
+                uint[] samples;
+                
+                using (MemoryStream ms = new MemoryStream(readBuffer))
+                {
+                    using (BinaryReader br = new BinaryReader(ms))
+                    {
+                        uint length = br.ReadUInt32();
+                        samples = new uint[length];
+                        for (int buc = 0; buc < length; buc++)
+                            samples[buc] = br.ReadUInt32();
+                    }
+                }
+
+                if (currentCaptureHandler != null)
+                    currentCaptureHandler(new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                else if (CaptureCompleted != null)
+                    CaptureCompleted(this, new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+
+                capturing = false;
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine(ex.Message + " - " + ex.StackTrace);
+            }
         }
         class OutputPacket
         {

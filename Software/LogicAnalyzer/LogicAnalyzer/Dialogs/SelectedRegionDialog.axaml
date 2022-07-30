@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150"
+        x:Class="LogicAnalyzer.Dialogs.SelectedRegionDialog"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent" Title="Region properties..."
+        Classes="tool_window" Icon="/Assets/window.ico"
+        Width="300" Height="150" CanResize="False" WindowStartupLocation="CenterOwner">
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial
+            BackgroundSource="Digger"
+            TintColor="Black"
+            TintOpacity="1"
+            MaterialOpacity="0.65" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+    <Grid ColumnDefinitions="100,*" RowDefinitions="*,*,*" Margin="10,15,10,15">
+      <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0">Region name:</TextBlock>
+      <TextBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="txtName"></TextBox>
+      <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5,0,0,0">Region color:</TextBlock>
+      <colorpicker:ColorButton Name="clrRegion" Color="#2010ff10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"></colorpicker:ColorButton >
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right">
+        <Button Name="btnAccept">Accept</Button>
+        <Button Name="btnCancel">Cancel</Button>
+      </StackPanel>
+    </Grid>
+  </Panel>
+</Window>

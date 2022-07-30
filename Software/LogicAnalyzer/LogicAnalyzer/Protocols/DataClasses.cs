@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -82,77 +84,13 @@ namespace LogicAnalyzer.Protocols
         public Color ForeColor { get; set; }
         public Color BackColor { get; set; }
 
-        private SolidBrush? backBrush;
-        public SolidBrush BackBrush
+        public void Render(ProtocolAnalyzerDataSegment Segment, DrawingContext Context, Rect RenderArea)
         {
-            get
-            {
-                if (backBrush == null)
-                    backBrush = new SolidBrush(BackColor);
-                else
-                {
-                    if (backBrush.Color != BackColor)
-                    {
-                        backBrush.Dispose();
-                        backBrush = new SolidBrush(BackColor);
-                    }
-                }
-                return backBrush;
-            }
-        }
-        private SolidBrush? foreBrush;
-        public SolidBrush ForeBrush
-        {
-            get
-            {
-                if (foreBrush == null)
-                    foreBrush = new SolidBrush(ForeColor);
-                else
-                {
-                    if (foreBrush.Color != ForeColor)
-                    {
-                        foreBrush.Dispose();
-                        foreBrush = new SolidBrush(ForeColor);
-                    }
-                }
-                return foreBrush;
-            }
-        }
-        private Pen? forePen;
-        public Pen ForePen
-        {
-            get
-            {
-                if (forePen == null)
-                    forePen = new Pen(ForeColor);
-                else
-                {
-                    if (forePen.Color != ForeColor)
-                    {
-                        forePen.Dispose();
-                        forePen = new Pen(ForeColor);
-                    }
-                }
-                return forePen;
-            }
-        }
-        public void Render(ProtocolAnalyzerDataSegment Segment, Graphics G, RectangleF RenderArea)
-        {
-            SegmentRenderer.RenderSegment(this, Segment, G, RenderArea);
+            SegmentRenderer.RenderSegment(this, Segment, Context, RenderArea);
         }
         public void Dispose()
         {
-            if (backBrush != null)
-            {
-                backBrush.Dispose();
-                backBrush = null;
-            }
 
-            if (forePen != null)
-            {
-                forePen.Dispose();
-                forePen = null;
-            }
         }
     }
     public class ProtocolAnalyzerDataSegment
