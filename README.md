@@ -1,6 +1,6 @@
 # LogicAnalyzer
 ----
-## UPDATE 31/08/2022 - RELEASE 2.0
+## UPDATE 31/07/2022 - RELEASE 2.0
 
 Good news! The multiplatform application is ready!
 
