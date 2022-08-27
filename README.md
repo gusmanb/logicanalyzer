@@ -1,5 +1,26 @@
 # LogicAnalyzer
 ----
+## UPDATE 27/08/2022 - LevelShifter update and more...
+
+I have updated the level shifter board. It's a minor change but it makes the shifter a lot more flexible as now you can use the internal +5V as reference for the input voltages or you can use an external voltage source as reference. Basically this allows you to use the target device's voltage sources as VRef so the board now can work with levels between 1.65v and 5.5v
+
+New board:
+![Shifter board](ShifterVRef.jpg?raw=true "Shifter board with VRef selector")
+
+To use an external VRef source you need to remove the jumper JP1 and connect the external voltage reference to the +5v/ExtVRef pins of the input header.
+
+![VRef pins](ShifterVRefPins.jpg?raw=true "Shifter board VRef input pins")
+
+BEWARE!!! There is no overvoltage protection for the VRef input so you must be careful to respect the 5.5v maximum voltage limit.
+
+#### More things to come very soon:
+
+- Capability to abort a running capture (under testing)
+- Enclosure for the analyzer (a preview is already in the repository, do not use as I'm on the process of adjusting it)
+
+Enjoy it!
+
+----
 ## UPDATE 31/07/2022 - RELEASE 2.0
 
 Good news! The multiplatform application is ready!
