@@ -160,6 +160,7 @@ static inline pio_sm_config FAST_CAPTURE_program_get_default_config(uint offset)
 #include "hardware/dma.h"
 #include "hardware/irq.h"
 #include "string.h"
+#include "hardware/sync.h"
 //Static variables for the PIO programs
 static PIO capturePIO;
 static PIO triggerPIO;
@@ -182,6 +183,7 @@ static bool lastTriggerInverted;            //Inverted?
 static uint8_t lastTriggerPin;
 static uint32_t lastStartPosition;
 static bool lastCaptureComplexFast;
+static uint8_t lastCaptureType;
 static uint8_t lastTriggerPinBase;
 static uint32_t lastTriggerPinCount;
 //Static information of the current capture
@@ -197,6 +199,9 @@ static uint32_t captureBuffer[32 * 1024] __attribute__((aligned(32768)));
 //-----------------------------------------------------------------------------
 #define COMPLEX_TRIGGER_wrap_target 0
 #define COMPLEX_TRIGGER_wrap 8
+#define CAPTURE_TYPE_SIMPLE 0
+#define CAPTURE_TYPE_COMPLEX 1
+#define CAPTURE_TYPE_FAST 2
 uint16_t COMPLEX_TRIGGER_program_instructions[] = {
             //     .wrap_target
     0x80a0, //  0: pull   block                      
@@ -264,7 +269,8 @@ uint8_t create_fast_trigger_program(uint8_t pattern, uint8_t length)
 //-----------------------------------------------------------------------------
 void fast_capture_completed() 
 {
-    //TODO: REWRITE
+    //Mark the capture as finished
+    captureFinished = true;
     //Abort DMA channels
     dma_channel_abort(dmaPingPong0);
     dma_channel_abort(dmaPingPong1);
@@ -301,11 +307,11 @@ void fast_capture_completed()
     pio_sm_set_pins(triggerPIO, sm_Trigger, 0);
     pio_sm_unclaim(triggerPIO, sm_Trigger);
     pio_remove_program(triggerPIO, &FAST_TRIGGER_program, triggerOffset);
-    //Mark the capture as finished
-    captureFinished = true;
 }
 void complex_capture_completed() 
 {
+    //Mark the capture as finished
+    captureFinished = true;
     //Abort DMA channels
     dma_channel_abort(dmaPingPong0);
     dma_channel_abort(dmaPingPong1);
@@ -342,11 +348,11 @@ void complex_capture_completed()
     pio_sm_set_pins(capturePIO, sm_Trigger, 0);
     pio_sm_unclaim(capturePIO, sm_Trigger);
     pio_remove_program(capturePIO, &COMPLEX_TRIGGER_program, triggerOffset);
-    //Mark the capture as finished
-    captureFinished = true;
 }
 void simple_capture_completed() 
 {
+    //Mark the capture as finished
+    captureFinished = true;
     //Abort DMA channels
     dma_channel_abort(dmaPingPong0);
     dma_channel_abort(dmaPingPong1);
@@ -381,8 +387,6 @@ void simple_capture_completed()
         pio_remove_program(capturePIO, &POSITIVE_CAPTURE_program, captureOffset);
     else
         pio_remove_program(capturePIO, &NEGATIVE_CAPTURE_program, captureOffset);
-    //Mark the capture as finished
-    captureFinished = true;
 }
 void configureCaptureDMAs()
 {
@@ -428,6 +432,20 @@ void configureCaptureDMAs()
     dma_channel_configure(dmaPingPong2, &dmaPingPong2Config, &captureBuffer[16 * 1024], &capturePIO->rxf[sm_Capture], 8192, false); //Configure the channel
     dma_channel_configure(dmaPingPong1, &dmaPingPong1Config, &captureBuffer[8 * 1024], &capturePIO->rxf[sm_Capture], 8192, false); //Configure the channel
     dma_channel_configure(dmaPingPong0, &dmaPingPong0Config, &captureBuffer[0], &capturePIO->rxf[sm_Capture], 8192, true);
+}
+void stopCapture()
+{
+    if(!captureFinished)
+    {
+        uint32_t int_status = save_and_disable_interrupts();
+        if(lastCaptureType == CAPTURE_TYPE_SIMPLE)
+            simple_capture_completed();
+        else if(lastCaptureType == CAPTURE_TYPE_COMPLEX)
+            complex_capture_completed();
+        else if(lastCaptureType == CAPTURE_TYPE_FAST)
+            fast_capture_completed();
+        restore_interrupts(int_status);
+    }
 }
 bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPinBase, uint8_t triggerPinCount, uint16_t triggerValue)
 {
@@ -531,12 +549,13 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Write capture end mark to post program
     pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
     //Initialize trigger state machine
-    pio_sm_init(triggerPIO, sm_Trigger, triggerFirstInstruction, &smConfig);
+    pio_sm_init(triggerPIO, sm_Trigger, triggerOffset, &smConfig);
     //Enable trigger state machine
     pio_sm_set_enabled(triggerPIO, sm_Trigger, true);
     //Finally clear capture status and process flags
     captureFinished = false;
     captureProcessed = false;
+    lastCaptureType = CAPTURE_TYPE_FAST;
     //We're done
     return true;
 }
@@ -655,6 +674,7 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Finally clear capture status and process flags
     captureFinished = false;
     captureProcessed = false;
+    lastCaptureType = CAPTURE_TYPE_COMPLEX;
     //We're done
     return true;
 }
@@ -729,9 +749,10 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
     //Write capture end mark to start capture
     pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
-    //Finally clear capture status and process flags
+    //Finally clear capture status, process flags and capture type
     captureFinished = false;
     captureProcessed = false;
+    lastCaptureType = CAPTURE_TYPE_SIMPLE;
     //We're done
     return true;
 }

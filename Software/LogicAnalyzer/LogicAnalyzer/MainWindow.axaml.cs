@@ -37,6 +37,7 @@ namespace LogicAnalyzer
             btnOpenClose.Click += btnOpenClose_Click;
             btnRepeat.Click += btnRepeat_Click;
             btnCapture.Click += btnCapture_Click;
+            btnAbort.Click += btnAbort_Click;
             sampleMarker.RegionCreated += sampleMarker_RegionCreated;
             sampleMarker.RegionDeleted += sampleMarker_RegionDeleted;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
@@ -126,6 +127,7 @@ namespace LogicAnalyzer
                 btnCapture.IsEnabled = true;
                 btnRepeat.IsEnabled = true;
                 btnOpenClose.IsEnabled = true;
+                btnAbort.IsEnabled = false;
                 mnuProtocols.IsEnabled = true;
                 mnuSave.IsEnabled = true;
                 mnuExport.IsEnabled = true;
@@ -295,6 +297,15 @@ namespace LogicAnalyzer
             }
         }
 
+        private void btnAbort_Click(object? sender, RoutedEventArgs e)
+        {
+            driver.StopCapture();
+            btnCapture.IsEnabled = true;
+            btnRepeat.IsEnabled = true;
+            btnOpenClose.IsEnabled = true;
+            btnAbort.IsEnabled = false;
+        }
+
         private async void BeginCapture()
         {
 
@@ -317,6 +328,7 @@ namespace LogicAnalyzer
             btnCapture.IsEnabled = false;
             btnRepeat.IsEnabled = false;
             btnOpenClose.IsEnabled = false;
+            btnAbort.IsEnabled = true;
         }
 
         private void scrSamplePos_ValueChanged(object? sender, ScrollEventArgs e)

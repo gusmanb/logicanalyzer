@@ -3115,6 +3115,7 @@ CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj: LogicAnalyzer.pio.h
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\include\hardware\irq.h
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\intctrl.h
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\m0plus.h
+CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\include\hardware\sync.h
 
 
 

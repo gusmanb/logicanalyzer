@@ -221,8 +221,22 @@ int main()
             {
                 gpio_put(LED_IO, 0);
                 sleep_ms(100);
-                gpio_put(LED_IO, 1);
-                sleep_ms(100);
+
+                //Check for cancel
+                uint data = getchar_timeout_us(0);
+
+                //Any char except timeout is considered a cancel request
+                if(data != PICO_ERROR_TIMEOUT)
+                {
+                    //Stop capture
+                    stopCapture();
+                    capturing = false;
+                }
+                else
+                {
+                    gpio_put(LED_IO, 1);
+                    sleep_ms(100);
+                }
             }
         }
         else

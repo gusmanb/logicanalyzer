@@ -28,7 +28,7 @@ namespace SharedDriver
             sp.NewLine = "\n";
             sp.ReadBufferSize = 1024 * 1024;
             sp.WriteBufferSize = 1024 * 1024;
-             
+
             sp.Open();
             baseStream = sp.BaseStream;
 
@@ -142,6 +142,27 @@ namespace SharedDriver
             }
             return false;
         }
+
+        public bool StopCapture()
+        {
+            if (!capturing)
+                return false;
+
+            capturing = false;
+
+            sp.Write(new byte[] { 0xFF }, 0, 1);
+            sp.BaseStream.Flush();
+            Thread.Sleep(1);
+            sp.Close();
+            Thread.Sleep(1);
+            sp.Open();
+            baseStream = sp.BaseStream;
+            readResponse = new StreamReader(baseStream);
+            readData = new BinaryReader(baseStream);
+
+            return true;
+        }
+
         public void Dispose()
         {
             try
@@ -191,7 +212,7 @@ namespace SharedDriver
                 int left = readBuffer.Length;
                 int pos = 0;
 
-                while (left > 0)
+                while (left > 0 && sp.IsOpen)
                 { 
                     pos += sp.Read(readBuffer, pos, left);
                     left = readBuffer.Length - pos;

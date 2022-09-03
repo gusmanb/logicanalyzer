@@ -42,8 +42,9 @@
         <TextBlock VerticalAlignment="Center" Name="lblConnectedDevice">&lt; None &gt;</TextBlock>
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0">
-        <Button Name="btnRepeat" IsEnabled="False" Margin="0,0,10,0">Repeat last capture</Button>
+        <Button Name="btnRepeat" IsEnabled="False" Margin="10,0,10,0">Repeat last capture</Button>
         <Button Name="btnCapture" IsEnabled="False">Capture</Button>
+        <Button Name="btnAbort" IsEnabled="False" Margin="10,0,0,0">Abort</Button>
       </StackPanel>
     </Grid>
     <Grid DockPanel.Dock="Top" Height="32" ColumnDefinitions="140,10*,240" Background="#50808080">

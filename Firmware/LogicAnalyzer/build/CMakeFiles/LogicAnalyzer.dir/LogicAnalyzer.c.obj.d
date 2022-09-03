@@ -84,4 +84,5 @@ CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj: \
  F:\PicoSDK\Projects\LogicAnalyzer\build/LogicAnalyzer.pio.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\include/hardware/irq.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/intctrl.h \
- F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/m0plus.h
+ F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/m0plus.h \
+ F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\include/hardware/sync.h

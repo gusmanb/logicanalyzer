@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Mon Jul 11 18:23:44 2022
+# Make data base, printed on Sat Sep 03 10:37:08 2022
 
 # Variables
 
@@ -47,7 +47,7 @@ WINDOWSSDKVERSION = 10.0.19041.0\
 # environment
 WINDIR = C:\WINDOWS
 # environment
-VSCODE_NLS_CONFIG = {"locale":"es","availableLanguages":{"*":"es"},"_languagePackId":"eae11d900af9c06c6da7ac60cedf8cf9.es","_translationsConfigFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\tcf.json","_cacheRoot":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es","_resolvedLanguagePackCoreLocation":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9","_corruptedFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\eae11d900af9c06c6da7ac60cedf8cf9.es\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"es","availableLanguages":{"*":"es"},"_languagePackId":"9336b18a2694f1b71e2417b4e335df52.es","_translationsConfigFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\9336b18a2694f1b71e2417b4e335df52.es\\tcf.json","_cacheRoot":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\9336b18a2694f1b71e2417b4e335df52.es","_resolvedLanguagePackCoreLocation":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\9336b18a2694f1b71e2417b4e335df52.es\\784b0177c56c607789f9638da7b6bf3230d47a8c","_corruptedFile":"C:\\Users\\geniw\\AppData\\Roaming\\Code\\clp\\9336b18a2694f1b71e2417b4e335df52.es\\corrupted.info","_languagePackSupport":true}
 # environment
 VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
 # environment
@@ -67,10 +67,7 @@ VSINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\
 # environment
 TMP = C:\Users\geniw\AppData\Local\Temp
 # environment
-FRAMEWORK 
-make.exe: *** No rule to make target `all'.  Stop.
-
-40VERSION = v4.0
+FRAMEWORK40VERSION = v4.0
 # environment
 PROGRAMW6432 = C:\Program Files
 # environment
@@ -80,7 +77,7 @@ VSCMD_ARG_TGT_ARCH = x86
 # environment
 VSCODE_CWD = F:\PicoSDK\Pico
 # environment
-PATH = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn;C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\;C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\PowerShell\7\;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe
+PATH = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn;C:\Program Files\Microsoft Visual Studio\2022\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\2022\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\;C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\dotnet\;C:\Program Files\PowerShell\7\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe
 # environment
 LM_LICENSE_FILE = 27020@45.33.107.56
 # environment
@@ -120,11 +117,11 @@ VK_SDK_PATH = C:\VulkanSDK\1.2.148.1
 # environment
 KICAD_TEMPLATE_DIR = F:\KiCad\share\kicad\template
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_25524_CVTWVQAZHEALSLAZ
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11912_AVBDEJVBNTGSCYKE
 # environment
 FSHARPINSTALLDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools
 # environment
-__VSCMD_PREINIT_PATH = C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\PowerShell\7\;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin
+__VSCMD_PREINIT_PATH = C:\Program Files (x86)\Microsoft Visual Studio\Installer;C:\Program Files\Graphviz\bin;C:\Program Files\Graphviz\bin;C:\Program Files\doxygen\bin;C:\Program Files\doxygen\bin;F:\PicoSDK\Pico\tools\openocd-picoprobe;C:\Program Files\Python39\Scripts\;C:\Program Files\Python39\;C:\Program Files\Eclipse Foundation\jdk-8.0.302.8-hotspot\bin;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;P:\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin;C:\WinAVR-20100110\bin;C:\WinAVR-20100110\utils\bin;C:\Program Files (x86)\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\dotnet;C:\Users\geniw\.azure-kubelogin;C:\Users\geniw\.azure-kubectl;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Windows\System32\wbem;C:\Windows\System32\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft\Azure function tools\win-x64;F:\RPico\CMake\bin;C;C:\Program Files\Git\cmd;C;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\dotnet\;C:\Program Files\PowerShell\7\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;F:\RPico\Python37\Scripts\;F:\RPico\Python37\;C:\lscc\iCEcube2.2017.08\Aldec\Active-HDL\BIN;C:\Program Files (x86)\Microchip\bin;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Users\geniw\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\NuGetClient;C:\Users\geniw\.dotnet\tools;C:\Users\geniw\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\bin;C:\Program Files (x86)\Skyworks\ClockBuilder Pro\Bin;C:\Users\geniw\AppData\Local\Programs\Microsoft VS Code\bin
 # environment
 FRAMEWORKVERSION32 = v4.0.30319
 # environment
@@ -156,13 +153,13 @@ VSCODE_CLI = 1
 # environment
 PICO_EXTRAS_PATH = F:\PicoSDK\Pico\pico-extras
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\geniw\AppData\Roaming\Code\CachedData\92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9
+VSCODE_CODE_CACHE_PATH = C:\Users\geniw\AppData\Roaming\Code\CachedData\784b0177c56c607789f9638da7b6bf3230d47a8c
 # environment
 VSCMD_VER = 17.0.4
 # environment
 WINDOWSSDKVERBINPATH = C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
 # environment
@@ -211,8 +208,6 @@ MAKE_COMMAND := make.exe
 VCTOOLSVERSION = 14.30.30705
 # environment
 PROCESSOR_ARCHITEW6432 = AMD64
-# environment
-AMDRMSDKPATH = C:\Program Files\AMD\RyzenMasterSDK\
 # default
 .VARIABLES := 
 # automatic
@@ -222,7 +217,7 @@ PROCESSOR_IDENTIFIER = AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\c3458689be066bf74d96fafb71cdfa9f-1.69.0-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\c3458689be066bf74d96fafb71cdfa9f-1.71.0-main-sock
 # environment
 DEVENVDIR = C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\
 # environment
@@ -288,6 +283,8 @@ SUFFIXES :=
 # environment
 SYSTEMDRIVE = C:
 # environment
+SESSIONNAME = Console
+# environment
 PROCESSOR_REVISION = 2102
 # environment
 WINDOWSSDKLIBVERSION = 10.0.19041.0\
@@ -308,7 +305,7 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 25
 # environment
-VSCODE_PID = 25524
+VSCODE_PID = 11912
 # environment
 NO_XILINX_DATA_LICENSE = HIDDEN
 # environment
@@ -330,7 +327,7 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-C983CQ7
 # . (key f:/PicoSDK/Projects/LogicAnalyzer, mtime 1656158031): 8 files, no impossibilities.
 # C:\Program Files\doxygen\bin (key C:/Program Files/doxygen/bin, mtime 1655586169): 7 files, no impossibilities.
 # C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\\x86 (key C:/Program Files (x86)/Windows Kits/10/bin/10.0.19041.0/x86, mtime 1637065596): 221 files, no impossibilities.
-# C:\Windows\Microsoft.NET\Framework\v4.0.30319 (key C:/Windows/Microsoft.NET/Framework/v4.0.30319, mtime 1657521243): 406 files, no impossibilities.
+# C:\Windows\Microsoft.NET\Framework\v4.0.30319 (key C:/Windows/Microsoft.NET/Framework/v4.0.30319, mtime 1662100923): 406 files, no impossibilities.
 # C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\bin\Roslyn (key C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/bin/Roslyn, mtime 1641902071): 46 files, no impossibilities.
 # C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/Extensions/Microsoft/IntelliCode/CLI, mtime 1637065080): 39 files, no impossibilities.
 # C:\WinAVR-20100110\bin (key C:/WinAVR-20100110/bin, mtime 1617902700): 75 files, no impossibilities.
@@ -344,8 +341,11 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-C983CQ7
 # C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools, mtime 1637064910): 65 files, no impossibilities.
 # C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\VC\VCPackages (key C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/VC/VCPackages, mtime 1641902049): 29 files, no impossibilities.
 # C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\ (key C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/, mtime 1571829639): 61 files, no impossibilities.
-# P:\Oculus\Support\oculus-runtime (key P:/Oculus/Support/oculus-runtime, mtime 1655746509): 43 files, no impossibilities.
-# C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin (key C:/Program Files (x86)/Microsoft SDKs/Azure/CLI2/wbin, mtime 1603800905): 4 files, no impossibilities.
+# P:\Oculus\Support\oculus-runtime (key P:/Oculus/Support/oculus-runtime, mtime 1661536316): 43 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft 
+make.exe: *** No rule to make target `all'.  Stop.
+
+ SDKs\Azure\CLI2\wbin (key C:/Program Files (x86)/Microsoft SDKs/Azure/CLI2/wbin, mtime 1603800905): 4 files, no impossibilities.
 # C:\Program Files\Python39\ (key C:/Program Files/Python39/, mtime 1655562297): 18 files, no impossibilities.
 # C:\Program Files (x86)\Windows Kits\10\bin\\x86 (key C:/Program Files (x86)/Windows Kits/10/bin/x86, mtime 1637065546): 4 files, no impossibilities.
 # C:\Program Files\Graphviz\bin (key C:/Program Files/Graphviz/bin, mtime 1655562336): 60 files, no impossibilities.
@@ -414,6 +414,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Mon Jul 11 18:23:44 2022
+# Finished Make data base on Sat Sep 03 10:37:08 2022
 
  

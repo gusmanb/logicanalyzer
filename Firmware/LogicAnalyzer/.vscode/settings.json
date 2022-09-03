@@ -54,6 +54,7 @@
       "utility": "c",
       "irq.h": "c",
       "IRQ.H": "cpp",
-      "m0plus.h": "c"
+      "m0plus.h": "c",
+      "platform.h": "c"
     },
 }
