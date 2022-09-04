@@ -1,5 +1,9 @@
 # LogicAnalyzer
 ----
+## UPDATE 03/09/2022 - Abort captures
+Minor release adding the capability to abort a running capture. To use this feature you will need to update the firmware and the application.
+
+----
 ## UPDATE 27/08/2022 - LevelShifter update and more...
 
 I have updated the level shifter board. It's a minor change but it makes the shifter a lot more flexible as now you can use the internal +5V as reference for the input voltages or you can use an external voltage source as reference. Basically this allows you to use the target device's voltage sources as VRef so the board now can work with levels between 1.65v and 5.5v
