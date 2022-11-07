@@ -188,6 +188,12 @@ The capture interface is straight and self-explanatory, and the software preserv
 
 ![Software picture](Software3.jpg?raw=true "Capture interface")
 
+## Build requirements
+
+To build the firmware you will need a build environment for the Pico-SDK version 1.3.1 or newer. For Windows users I recommend to use the [Pico-Setup project](https://github.com/ndabas/pico-setup-windows/releases).
+
+To build the application you will need [Visual Studio 2022](https://visualstudio.microsoft.com/) with the C# language installed.
+
 ## Using the device
 
 The device once connected to your PC will be detected as a serial port, no drivers are needed. Once you open the software you will have a list of serial ports and you must choose the correct one, once selected if you "Open" the device it will show the firmware version in the top section and will enable the capture buttons.
