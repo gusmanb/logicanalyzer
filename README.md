@@ -1,5 +1,9 @@
 # LogicAnalyzer
 ----
+## Downloads
+You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
+
+----
 ## UPDATE 03/09/2022 - Abort captures
 Minor release adding the capability to abort a running capture. To use this feature you will need to update the firmware and the application.
 
