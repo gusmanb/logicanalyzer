@@ -6,10 +6,11 @@
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="800"
         x:Class="LogicAnalyzer.MainWindow"
         Title="LogicAnalyzer - Multiplatform version"
-        TransparencyLevelHint="AcrylicBlur" Icon="/Assets/window.ico"
-        Background="Transparent" MinWidth="1024" MinHeight="800" Width="1024" Height="800" WindowStartupLocation="CenterScreen">
+        Icon="/Assets/window.ico"
+        Background="Black" MinWidth="1024" MinHeight="800" Width="1024" Height="800" WindowStartupLocation="CenterScreen">
   <DockPanel VerticalAlignment="Stretch">
-    
+
+    <!--
     <ExperimentalAcrylicBorder IsHitTestVisible="False">
       <ExperimentalAcrylicBorder.Material>
         <ExperimentalAcrylicMaterial
@@ -18,7 +19,7 @@
             TintOpacity="1"
             MaterialOpacity="0.65" />
       </ExperimentalAcrylicBorder.Material>
-    </ExperimentalAcrylicBorder>
+    </ExperimentalAcrylicBorder>-->
 
     <Menu DockPanel.Dock="Top" Background="#f0202020">
         <MenuItem Header="_File">

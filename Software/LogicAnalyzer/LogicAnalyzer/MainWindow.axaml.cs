@@ -62,6 +62,7 @@ namespace LogicAnalyzer
             var sf = new SaveFileDialog();
             {
                 sf.Filters.Add(new FileDialogFilter { Name = "Comma-separated values file", Extensions = new System.Collections.Generic.List<string> { "csv" } });
+
                 var file = await sf.ShowAsync(this);
 
                 if (string.IsNullOrWhiteSpace(file))
@@ -69,9 +70,17 @@ namespace LogicAnalyzer
 
                 StreamWriter sw = new StreamWriter(File.Create(file));
 
-                sw.WriteLine(String.Join(',', channelViewer.Channels.Select(c => string.IsNullOrWhiteSpace(channelViewer.ChannelsText[c]) ? $"Channel {c + 1}" : channelViewer.ChannelsText[c]).ToArray()));
-
                 StringBuilder sb = new StringBuilder();
+
+                for (int buc = 0; buc < channelViewer.Channels.Length; buc++)
+                {
+                    sb.Append(string.IsNullOrWhiteSpace(channelViewer.ChannelsText[buc]) ? $"Channel {buc + 1}" : channelViewer.ChannelsText[buc]);
+
+                    if (buc < channelViewer.Channels.Length - 1)
+                        sb.Append(",");
+                }
+
+                sw.WriteLine(sb.ToString());
 
                 for (int sample = 0; sample < sampleViewer.Samples.Length; sample++)
                 {
