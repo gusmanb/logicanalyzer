@@ -2609,7 +2609,7 @@
   (gr_rect (start 155.5 116.823606) (end 156.7 113.823606) (layer "F.SilkS") (width 0.15) (fill none) (tstamp 7d48e93d-3470-490c-ac5c-0658fb08da61))
   (gr_circle (center 156.1 116) (end 156.323607 116) (layer "F.SilkS") (width 0.15) (fill solid) (tstamp 89d830c1-f0d9-4d89-9863-428a1b54ae3d))
   (gr_rect (start 145.795 117.6) (end 174.095 77.8) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 21d97039-49ac-4a0b-aa92-1b0b8c6f1c74))
-  (gr_text "LevelShifter 1.0\nby El Dr.Gusman\n(c)2022" (at 160.6 112.3) (layer "B.SilkS") (tstamp c48a8f6a-aabd-46bb-b189-6c52e59ce28e)
+  (gr_text "LevelShifter 1.5\nby El Dr.Gusman\n(c)2022" (at 160.6 112.3) (layer "B.SilkS") (tstamp c48a8f6a-aabd-46bb-b189-6c52e59ce28e)
     (effects (font (size 0.5 0.5) (thickness 0.1)) (justify mirror))
   )
   (gr_text "Ext. VRef" (at 156.2 110.223606 90) (layer "F.SilkS") (tstamp 2c7759ea-7b3c-42b0-9212-f829bf343c20)
