@@ -540,6 +540,9 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     sm_config_set_set_pins(&smConfig, 0, 1); //Trigger output is a set pin
     sm_config_set_sideset_pins(&smConfig, 0); //Trigger output is a side pin
     sm_config_set_clkdiv(&smConfig, 1); //Trigger always runs at half speed (100Msps)
+    //Bypass input synchronizers
+    hw_set_bits(&triggerPIO->input_sync_bypass, 0xFFFFFFFF);
+    hw_set_bits(&capturePIO->input_sync_bypass, 0xFFFFFFFF);
     //Configure DMA's
     configureCaptureDMAs();
     //Enable capture state machine
@@ -659,6 +662,8 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     sm_config_set_in_shift(&smConfig, false, false, 0); //Trigger shifts left to right
     //Initialize trigger state machine
     pio_sm_init(capturePIO, sm_Trigger, triggerOffset, &smConfig); //Init trigger
+    //Bypass input synchronizers
+    hw_set_bits(&capturePIO->input_sync_bypass, 0xFFFFFFFF);
     //Configure DMA's
     configureCaptureDMAs();
     //Enable capture state machine
@@ -742,6 +747,9 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), true);
     //Initialize state machine
     pio_sm_init(capturePIO, sm_Capture, captureOffset, &smConfig);
+    //Bypass input synchronizers
+    hw_set_bits(&capturePIO->input_sync_bypass, 0xFFFFFFFF);
+    //Configure DMA's
     configureCaptureDMAs();
     //Enabl state machine
     pio_sm_set_enabled(capturePIO, sm_Capture, true);

@@ -1,16 +1,16 @@
-The system is: Windows - 10.0.19043 - AMD64
+The system is: Windows - 10.0.19045 - AMD64
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
-Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/bin/Hostx86/x86/cl.exe 
+Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx86/x86/cl.exe 
 Build flags: 
 Id flags:  
 
 The output was:
 0
-Compilador de optimización de C/C++ de Microsoft (R) versión 19.30.30706 para x86
+Compilador de optimización de C/C++ de Microsoft (R) versión 19.33.31629 para x86
 (C) Microsoft Corporation. Todos los derechos reservados.
 
 CMakeCCompilerId.c
-Microsoft (R) Incremental Linker Version 14.30.30706.0
+Microsoft (R) Incremental Linker Version 14.33.31629.0
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 /out:CMakeCCompilerId.exe 
@@ -21,20 +21,20 @@ Compilation of the C compiler identification source "CMakeCCompilerId.c" produce
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
 
-The C compiler identification is MSVC, found in "F:/PicoSDK/Projects/LogicAnalyzer/build/elf2uf2/CMakeFiles/3.21.21080301-MSVC_2/CompilerIdC/CMakeCCompilerId.exe"
+The C compiler identification is MSVC, found in "F:/PicoSDK/Projects/LogicAnalyzer/build/elf2uf2/CMakeFiles/3.24.2/CompilerIdC/CMakeCCompilerId.exe"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
-Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/bin/Hostx86/x86/cl.exe 
+Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx86/x86/cl.exe 
 Build flags: 
 Id flags:  
 
 The output was:
 0
-Compilador de optimización de C/C++ de Microsoft (R) versión 19.30.30706 para x86
+Compilador de optimización de C/C++ de Microsoft (R) versión 19.33.31629 para x86
 (C) Microsoft Corporation. Todos los derechos reservados.
 
 CMakeCXXCompilerId.cpp
-Microsoft (R) Incremental Linker Version 14.30.30706.0
+Microsoft (R) Incremental Linker Version 14.33.31629.0
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 /out:CMakeCXXCompilerId.exe 
@@ -45,29 +45,29 @@ Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" p
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
 
-The CXX compiler identification is MSVC, found in "F:/PicoSDK/Projects/LogicAnalyzer/build/elf2uf2/CMakeFiles/3.21.21080301-MSVC_2/CompilerIdCXX/CMakeCXXCompilerId.exe"
+The CXX compiler identification is MSVC, found in "F:/PicoSDK/Projects/LogicAnalyzer/build/elf2uf2/CMakeFiles/3.24.2/CompilerIdCXX/CMakeCXXCompilerId.exe"
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: F:/PicoSDK/Projects/LogicAnalyzer/build/elf2uf2/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake -f Makefile /nologo cmTC_3a0cc\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_3a0cc.dir\build.make /nologo -L                  CMakeFiles\cmTC_3a0cc.dir\build
-Building C object CMakeFiles/cmTC_3a0cc.dir/CMakeCCompilerABI.c.obj
-	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_3a0cc.dir\CMakeCCompilerABI.c.obj.d --working-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\elf2uf2\CMakeFiles\CMakeTmp --filter-prefix="Nota: inclusi¾n del archivo: " -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1430~1.307\bin\Hostx86\x86\cl.exe @C:\Users\geniw\AppData\Local\Temp\nm6219.tmp
+Run Build Command(s):nmake -f Makefile /nologo cmTC_d88b3\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_d88b3.dir\build.make /nologo -L                  CMakeFiles\cmTC_d88b3.dir\build
+Building C object CMakeFiles/cmTC_d88b3.dir/CMakeCCompilerABI.c.obj
+	F:\RPico\CMake\bin\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_d88b3.dir\CMakeCCompilerABI.c.obj.d --working-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\elf2uf2\CMakeFiles\CMakeTmp --filter-prefix="Nota: inclusi¾n del archivo: " -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\Hostx86\x86\cl.exe @C:\Users\geniw\AppData\Local\Temp\nmD407.tmp
 CMakeCCompilerABI.c
-Linking C executable cmTC_3a0cc.exe
-	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_3a0cc.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1430~1.307\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_3a0cc.dir\objects1.rsp @C:\Users\geniw\AppData\Local\Temp\nm6363.tmp
+Linking C executable cmTC_d88b3.exe
+	F:\RPico\CMake\bin\cmake.exe -E vs_link_exe --intdir=CMakeFiles\cmTC_d88b3.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_d88b3.dir\objects1.rsp @C:\Users\geniw\AppData\Local\Temp\nmD447.tmp
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: F:/PicoSDK/Projects/LogicAnalyzer/build/elf2uf2/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake -f Makefile /nologo cmTC_fe0de\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_fe0de.dir\build.make /nologo -L                  CMakeFiles\cmTC_fe0de.dir\build
-Building CXX object CMakeFiles/cmTC_fe0de.dir/CMakeCXXCompilerABI.cpp.obj
-	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_fe0de.dir\CMakeCXXCompilerABI.cpp.obj.d --working-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\elf2uf2\CMakeFiles\CMakeTmp --filter-prefix="Nota: inclusi¾n del archivo: " -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1430~1.307\bin\Hostx86\x86\cl.exe @C:\Users\geniw\AppData\Local\Temp\nm666F.tmp
+Run Build Command(s):nmake -f Makefile /nologo cmTC_4492e\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_4492e.dir\build.make /nologo -L                  CMakeFiles\cmTC_4492e.dir\build
+Building CXX object CMakeFiles/cmTC_4492e.dir/CMakeCXXCompilerABI.cpp.obj
+	F:\RPico\CMake\bin\cmake.exe -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_4492e.dir\CMakeCXXCompilerABI.cpp.obj.d --working-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\elf2uf2\CMakeFiles\CMakeTmp --filter-prefix="Nota: inclusi¾n del archivo: " -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\Hostx86\x86\cl.exe @C:\Users\geniw\AppData\Local\Temp\nmD6A7.tmp
 CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_fe0de.exe
-	"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_fe0de.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1430~1.307\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_fe0de.dir\objects1.rsp @C:\Users\geniw\AppData\Local\Temp\nm66AE.tmp
+Linking CXX executable cmTC_4492e.exe
+	F:\RPico\CMake\bin\cmake.exe -E vs_link_exe --intdir=CMakeFiles\cmTC_4492e.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MIB055~1\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_4492e.dir\objects1.rsp @C:\Users\geniw\AppData\Local\Temp\nmD6E7.tmp
 
 
 

@@ -1,0 +1,1568 @@
+{
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"path" : "pico_sdk_import.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/pico_sdk_init.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/pico_sdk_version.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/pico_utils.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/pico_pre_load_platform.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/preload/platforms/rp2040.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/preload/platforms/pico/pico.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/pico_pre_load_toolchain.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineSystem.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/preload/toolchains/pico_arm_gcc.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/preload/toolchains/find_compiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeSystem.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/3.24.2/CMakeSystem.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/preload/toolchains/pico_arm_gcc.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/preload/toolchains/find_compiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeNMakeFindMake.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCompilerId.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCompilerIdDetection.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ADSP-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/AppleClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Borland-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Bruce-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Compaq-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Cray-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Embarcadero-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Fujitsu-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GHS-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/HP-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IAR-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Intel-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/LCC-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/MSVC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVHPC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVIDIA-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PGI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PathScale-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SCO-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SDCC-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SunPro-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/TI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Watcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XL-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XLClang-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/zOS-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ADSP-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/AppleClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Borland-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Bruce-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Compaq-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Cray-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Embarcadero-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Fujitsu-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GHS-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/HP-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IAR-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Intel-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/LCC-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/MSVC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVHPC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVIDIA-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PGI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PathScale-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SCO-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SDCC-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SunPro-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/TI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Watcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XL-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XLClang-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/zOS-C-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeFindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-FindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCCompiler.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/3.24.2/CMakeCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCompilerId.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCompilerIdDetection.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ADSP-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/AppleClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Borland-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Cray-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Embarcadero-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Fujitsu-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GHS-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/HP-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IAR-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Intel-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/MSVC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVHPC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVIDIA-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PGI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PathScale-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SCO-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/TI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Watcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XL-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ADSP-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/ARMClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/AppleClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Borland-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Clang-DetermineCompilerInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Cray-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Embarcadero-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Fujitsu-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GHS-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/HP-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IAR-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Intel-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/MSVC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVHPC-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/NVIDIA-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PGI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/PathScale-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SCO-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/TI-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/Watcom-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XL-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeFindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-FindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCXXCompiler.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/3.24.2/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineASMCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeDetermineCompilerId.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCompilerIdDetection.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeFindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-FindBinUtils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeASMCompiler.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/3.24.2/CMakeASMCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/Platform/PICO.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/Platform/PICO.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeTestCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/cmake/Platform/PICO.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeTestCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeASMInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-ASM.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeTestASMCompiler.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/tools/FindPioasm.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject/mkdirs.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/pioasm/tmp/PioasmBuild-mkdirs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject/RepositoryInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject/cfgcmd.txt.in"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/tools/FindELF2UF2.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject/mkdirs.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/elf2uf2/tmp/ELF2UF2Build-mkdirs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject/RepositoryInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/ExternalProject/cfgcmd.txt.in"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/pico_sdk_init.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeASMInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-ASM.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/generate_config_header.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/include/pico/version.h.in"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/tools/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/board_setup.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/boards/generic_board.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/CMakeASMInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU-ASM.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/boot_picoboot/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/boot_uf2/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_usb_reset_interface/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_bit_ops/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_binary_info/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_divider/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_stdlib/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_base/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_adc/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_i2c/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_interp/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pwm/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_resets/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_rtc/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_spi/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/boot_stage2/CMakeLists.txt"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindPython3.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindPython/Support.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootsel_via_double_reset/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bit_ops/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_divider/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_mem_ops/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_semihosting/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_uart/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/tinyusb/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw/bsp/family_support.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw/bsp/rp2040/family.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw/bsp/rp2040/pico_sdk_import.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/pico_sdk_init.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw/bsp/rp2040/boards/pico_sdk/board.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cxx_options/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_structs/CMakeLists.txt"
+		},
+		{
+			"isExternal" : true,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/docs/CMakeLists.txt"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindDoxygen.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "F:/RPico/CMake/share/cmake-3.24/Modules/FindPackageMessage.cmake"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "F:/PicoSDK/Projects/LogicAnalyzer/build",
+		"source" : "F:/PicoSDK/Projects/LogicAnalyzer"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}
