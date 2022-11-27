@@ -4,7 +4,7 @@
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
 ----
-## Small changes, great value
+## UPDATE 27/11/2022 - Small changes, great value
 
 I have uploaded a new version of the PCB's and the firmware. It contains a small modification which can give great value to the device.
 Do you have an oscilloscope? Have you ever wanted to trigger it based on the value of a data bus? Or when some digital signals take a concrete value?
