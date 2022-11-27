@@ -2,6 +2,7 @@
 ----
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
+Latest version: Release 2.1.0.0, 27/11/2022
 
 ----
 ## UPDATE 27/11/2022 - Small changes, great value
