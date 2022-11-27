@@ -4,6 +4,31 @@
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
 ----
+## UPDATE 27/11/2022 - Small changes, great value
+
+I have uploaded a new version of the PCB's and the firmware. It contains a small modification which can give great value to the device.
+Do you have an oscilloscope? Have you ever wanted to trigger it based on the value of a data bus? Or when some digital signals take a concrete value?
+Now the logic analyzer offers this functionality!
+
+The modification is very simple, the GPIO pins used for the complex/fast triggers have been exposed through a diode and that signal can be used to trigger other devices like an oscilloscope. Or even you can chain multiple logic analyzers to have as many channels as you want! Configure your analyzer for a complex or fast trigger, connect your device to one of the EXT pins (and GND as needed) and start the capture. To chain multiple analyzers you must configure a simple trigger and connect one of the pins on the secondary analyzers to the EXT trigger pin. In the future and if it is requested I will add another capture mode for the EXT so it can chain more than 3 analyzers.
+
+There is a small delay from the trigger to the signal, I have measured it and it is a delay of 20ns, the two cycles that takes to detect and propagate the trigger condition. Also, the diode introduces a small delay of 4ns, if you want to remove that delay you can skip the diode and the pull-down resistor and place a bridge where the diode should be placed, but be ware that you will leave the trigger unprotected against polarity inversions.
+
+The external trigger has been routed to two pins, in this way you can chain as many analyzers as you want, or connect two other devices.
+
+The new pinout is this:
+![imagen](https://user-images.githubusercontent.com/4086913/204116558-528422eb-4674-4909-9f24-1c0df2d47aab.png)
+
+Beware to not to use a new analyzer with an old shifter board, it has been also modified to include the ext signals, if you use an old sshifter with a new board you will create a short between +v5, +3.3v, GPIO0 and GPIO1 what will be fatal.
+
+For the new shifter the pinout is the same as the analyzer but the +5v pin is the +5v/ext_ref depending on the jumper setting.
+
+Finally I also have updated the firmware to disable the GPIO synchronizers what reduces other 4ns of delay.
+
+Have fun!
+
+----
+
 ## UPDATE 03/09/2022 - Abort captures
 Minor release adding the capability to abort a running capture. To use this feature you will need to update the firmware and the application.
 
