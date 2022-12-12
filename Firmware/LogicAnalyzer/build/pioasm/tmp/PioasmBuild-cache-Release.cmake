@@ -1,0 +1,2 @@
+
+set(PIOASM_EXTRA_SOURCE_FILES "" CACHE STRING "Initial cache" FORCE)

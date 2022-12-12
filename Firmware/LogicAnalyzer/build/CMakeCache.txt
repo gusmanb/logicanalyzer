@@ -52,8 +52,8 @@ CMAKE_BUILD_TYPE:STRING=Debug
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
-//CXX compiler
-CMAKE_CXX_COMPILER:STRING=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-g++.exe
+//No help, variable specified on the command line.
+CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -78,8 +78,8 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
-//C compiler
-CMAKE_C_COMPILER:STRING=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe
+//No help, variable specified on the command line.
+CMAKE_C_COMPILER:FILEPATH=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -485,7 +485,7 @@ PICO_BOOT_STAGE2_DIR:INTERNAL=F:/PicoSDK/Pico/pico-sdk/src/rp2_common/boot_stage
 PICO_CMAKE_PRELOAD_PLATFORM_DIR:INTERNAL=F:/PicoSDK/Pico/pico-sdk/cmake/preload/platforms
 PICO_CMAKE_PRELOAD_PLATFORM_FILE:INTERNAL=F:/PicoSDK/Pico/pico-sdk/cmake/preload/platforms/rp2040.cmake
 PICO_COMPILER_ASM:INTERNAL=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe
-PICO_DOXYGEN_EXCLUDE_PATHS:INTERNAL= F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs
+PICO_DOXYGEN_EXCLUDE_PATHS:INTERNAL= F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs
 PICO_DOXYGEN_PATHS:INTERNAL= F:/PicoSDK/Pico/pico-sdk/src/common F:/PicoSDK/Pico/pico-sdk/src/rp2_common F:/PicoSDK/Pico/pico-sdk/src/rp2040
 PICO_NO_HARDWARE:INTERNAL=0
 PICO_ON_DEVICE:INTERNAL=1

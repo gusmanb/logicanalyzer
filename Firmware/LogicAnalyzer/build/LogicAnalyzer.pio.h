@@ -12,29 +12,26 @@
 // POSITIVE_CAPTURE //
 // ---------------- //
 
-#define POSITIVE_CAPTURE_wrap_target 4
-#define POSITIVE_CAPTURE_wrap 5
+#define POSITIVE_CAPTURE_wrap_target 2
+#define POSITIVE_CAPTURE_wrap 3
 
 static const uint16_t POSITIVE_CAPTURE_program_instructions[] = {
     0x80a0, //  0: pull   block                      
     0x6020, //  1: out    x, 32                      
-    0x80a0, //  2: pull   block                      
-    0x6040, //  3: out    y, 32                      
             //     .wrap_target
-    0x4000, //  4: in     pins, 32                   
-    0x00c6, //  5: jmp    pin, 6                     
+    0x4000, //  2: in     pins, 32                   
+    0x00c4, //  3: jmp    pin, 4                     
             //     .wrap
-    0x4000, //  6: in     pins, 32                   
-    0x0046, //  7: jmp    x--, 6                     
-    0x4040, //  8: in     y, 32                      
-    0xc000, //  9: irq    nowait 0                   
-    0x000a, // 10: jmp    10                         
+    0x4000, //  4: in     pins, 32                   
+    0x0044, //  5: jmp    x--, 4                     
+    0xc000, //  6: irq    nowait 0                   
+    0x0007, //  7: jmp    7                          
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program POSITIVE_CAPTURE_program = {
     .instructions = POSITIVE_CAPTURE_program_instructions,
-    .length = 11,
+    .length = 8,
     .origin = -1,
 };
 
@@ -50,28 +47,25 @@ static inline pio_sm_config POSITIVE_CAPTURE_program_get_default_config(uint off
 // ---------------- //
 
 #define NEGATIVE_CAPTURE_wrap_target 0
-#define NEGATIVE_CAPTURE_wrap 10
+#define NEGATIVE_CAPTURE_wrap 7
 
 static const uint16_t NEGATIVE_CAPTURE_program_instructions[] = {
             //     .wrap_target
     0x80a0, //  0: pull   block                      
     0x6020, //  1: out    x, 32                      
-    0x80a0, //  2: pull   block                      
-    0x6040, //  3: out    y, 32                      
+    0x4000, //  2: in     pins, 32                   
+    0x00c2, //  3: jmp    pin, 2                     
     0x4000, //  4: in     pins, 32                   
-    0x00c4, //  5: jmp    pin, 4                     
-    0x4000, //  6: in     pins, 32                   
-    0x0046, //  7: jmp    x--, 6                     
-    0x4040, //  8: in     y, 32                      
-    0xc000, //  9: irq    nowait 0                   
-    0x000a, // 10: jmp    10                         
+    0x0044, //  5: jmp    x--, 4                     
+    0xc000, //  6: irq    nowait 0                   
+    0x0007, //  7: jmp    7                          
             //     .wrap
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program NEGATIVE_CAPTURE_program = {
     .instructions = NEGATIVE_CAPTURE_program_instructions,
-    .length = 11,
+    .length = 8,
     .origin = -1,
 };
 
@@ -86,30 +80,27 @@ static inline pio_sm_config NEGATIVE_CAPTURE_program_get_default_config(uint off
 // COMPLEX_CAPTURE //
 // --------------- //
 
-#define COMPLEX_CAPTURE_wrap_target 5
-#define COMPLEX_CAPTURE_wrap 6
+#define COMPLEX_CAPTURE_wrap_target 3
+#define COMPLEX_CAPTURE_wrap 4
 
 static const uint16_t COMPLEX_CAPTURE_program_instructions[] = {
     0x80a0, //  0: pull   block                      
     0x6020, //  1: out    x, 32                      
-    0x80a0, //  2: pull   block                      
-    0x6040, //  3: out    y, 32                      
-    0x20c7, //  4: wait   1 irq, 7                   
+    0x20c7, //  2: wait   1 irq, 7                   
             //     .wrap_target
-    0x401d, //  5: in     pins, 29                   
-    0x00c7, //  6: jmp    pin, 7                     
+    0x401d, //  3: in     pins, 29                   
+    0x00c5, //  4: jmp    pin, 5                     
             //     .wrap
-    0x401d, //  7: in     pins, 29                   
-    0x0047, //  8: jmp    x--, 7                     
-    0x4040, //  9: in     y, 32                      
-    0xc000, // 10: irq    nowait 0                   
-    0x000b, // 11: jmp    11                         
+    0x401d, //  5: in     pins, 29                   
+    0x0045, //  6: jmp    x--, 5                     
+    0xc000, //  7: irq    nowait 0                   
+    0x0008, //  8: jmp    8                          
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program COMPLEX_CAPTURE_program = {
     .instructions = COMPLEX_CAPTURE_program_instructions,
-    .length = 12,
+    .length = 9,
     .origin = -1,
 };
 
@@ -124,29 +115,26 @@ static inline pio_sm_config COMPLEX_CAPTURE_program_get_default_config(uint offs
 // FAST_CAPTURE //
 // ------------ //
 
-#define FAST_CAPTURE_wrap_target 4
-#define FAST_CAPTURE_wrap 5
+#define FAST_CAPTURE_wrap_target 2
+#define FAST_CAPTURE_wrap 3
 
 static const uint16_t FAST_CAPTURE_program_instructions[] = {
     0x80a0, //  0: pull   block                      
     0x6020, //  1: out    x, 32                      
-    0x80a0, //  2: pull   block                      
-    0x6040, //  3: out    y, 32                      
             //     .wrap_target
-    0x401d, //  4: in     pins, 29                   
-    0x00c6, //  5: jmp    pin, 6                     
+    0x401d, //  2: in     pins, 29                   
+    0x00c4, //  3: jmp    pin, 4                     
             //     .wrap
-    0x401d, //  6: in     pins, 29                   
-    0x0046, //  7: jmp    x--, 6                     
-    0x4040, //  8: in     y, 32                      
-    0xc000, //  9: irq    nowait 0                   
-    0x000a, // 10: jmp    10                         
+    0x401d, //  4: in     pins, 29                   
+    0x0044, //  5: jmp    x--, 4                     
+    0xc000, //  6: irq    nowait 0                   
+    0x0007, //  7: jmp    7                          
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program FAST_CAPTURE_program = {
     .instructions = FAST_CAPTURE_program_instructions,
-    .length = 11,
+    .length = 8,
     .origin = -1,
 };
 
@@ -186,6 +174,7 @@ static bool lastCaptureComplexFast;
 static uint8_t lastCaptureType;
 static uint8_t lastTriggerPinBase;
 static uint32_t lastTriggerPinCount;
+static uint32_t lastTail;
 //Static information of the current capture
 static bool captureFinished;
 static bool captureProcessed;
@@ -245,6 +234,7 @@ static inline pio_sm_config FAST_TRIGGER_program_get_default_config(uint offset)
     sm_config_set_sideset(&c, 1, false, false);
     return c;
 }
+//Creates the fast trigger PIO program
 uint8_t create_fast_trigger_program(uint8_t pattern, uint8_t length)
 {
     //This creates a 32 instruction jump table. Each instruction is a MOV PC, PINS except for the addresses that
@@ -267,10 +257,54 @@ uint8_t create_fast_trigger_program(uint8_t pattern, uint8_t length)
 //-----------------------------------------------------------------------------
 //--------------Fast trigger PIO program END-----------------------------------
 //-----------------------------------------------------------------------------
+//Find the last captured sample index
+uint32_t find_capture_tail()
+{
+    //Add a delay in case the transfer is still in progress (just a safety measure, should not happen)
+    //This is a massive delay in comparison to the needs of the DMA channel, but hey, 5ms is not going to be noticed anywhere :D
+    busy_wait_ms(5);
+    uint32_t busy_channel = 0xFFFFFFFF;
+    uint32_t busy_offset = 0xFFFFFFFF;
+    //First we need to determine which DMA channel is busy (in the middle of a transfer)
+    if(dma_channel_is_busy(dmaPingPong0))
+    {
+        busy_channel = dmaPingPong0;
+        busy_offset = 0;
+    }
+    if(dma_channel_is_busy(dmaPingPong1))
+    {
+        busy_channel = dmaPingPong1;
+        busy_offset = 8192;
+    }
+    if(dma_channel_is_busy(dmaPingPong2))
+    {
+        busy_channel = dmaPingPong2;
+        busy_offset = 16384;
+    }
+    if(dma_channel_is_busy(dmaPingPong3))
+    {
+        busy_channel = dmaPingPong3;
+        busy_offset = 24576;
+    }
+    //No channel busy?? WTF???
+    if(busy_channel == 0xFFFFFFFF) 
+        return 0xFFFFFFFF;
+    //Ok, now we need to know at which transfer the DMA is. The value equals to MAX_TRANSFERS - TRANSFERS_LEFT.
+    int32_t transfer = 8192 - dma_channel_hw_addr(busy_channel)->transfer_count;
+    //Now compute the last capture position
+    transfer = (transfer + busy_offset) - 1;
+    //Wrap around?
+    if(transfer < 0)
+        transfer = 32767;
+    //Our capture absolute last position
+    return (uint32_t)transfer;
+}
+//Triggered when a fast capture ends
 void fast_capture_completed() 
 {
     //Mark the capture as finished
     captureFinished = true;
+    lastTail = find_capture_tail();
     //Abort DMA channels
     dma_channel_abort(dmaPingPong0);
     dma_channel_abort(dmaPingPong1);
@@ -308,10 +342,12 @@ void fast_capture_completed()
     pio_sm_unclaim(triggerPIO, sm_Trigger);
     pio_remove_program(triggerPIO, &FAST_TRIGGER_program, triggerOffset);
 }
+//Triggered when a complex capture ends
 void complex_capture_completed() 
 {
     //Mark the capture as finished
     captureFinished = true;
+    lastTail = find_capture_tail();
     //Abort DMA channels
     dma_channel_abort(dmaPingPong0);
     dma_channel_abort(dmaPingPong1);
@@ -349,10 +385,12 @@ void complex_capture_completed()
     pio_sm_unclaim(capturePIO, sm_Trigger);
     pio_remove_program(capturePIO, &COMPLEX_TRIGGER_program, triggerOffset);
 }
+//Triggered when a simple capture ends
 void simple_capture_completed() 
 {
     //Mark the capture as finished
     captureFinished = true;
+    lastTail = find_capture_tail();
     //Abort DMA channels
     dma_channel_abort(dmaPingPong0);
     dma_channel_abort(dmaPingPong1);
@@ -388,6 +426,7 @@ void simple_capture_completed()
     else
         pio_remove_program(capturePIO, &NEGATIVE_CAPTURE_program, captureOffset);
 }
+//Configure the four DMA channels
 void configureCaptureDMAs()
 {
     //Claim four DMA channels, each channel writes to 32Kb of the buffer (8192 samples) as that's the maximum ring size supported
@@ -400,7 +439,7 @@ void configureCaptureDMAs()
     channel_config_set_read_increment(&dmaPingPong0Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong0Config, true); //Increment write address
     channel_config_set_transfer_data_size(&dmaPingPong0Config, DMA_SIZE_32); //Transfer 32 bits each time
-    channel_config_set_chain_to(&dmaPingPong0Config, dmaPingPong1); //Chain to the second pre-trigger dma channel
+    channel_config_set_chain_to(&dmaPingPong0Config, dmaPingPong1); //Chain to the second dma channel
     channel_config_set_dreq(&dmaPingPong0Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong0Config, true, 15); //Ring at 32768 bytes
     //Configure second capture DMA
@@ -408,7 +447,7 @@ void configureCaptureDMAs()
     channel_config_set_read_increment(&dmaPingPong1Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong1Config, true); //Increment write address
     channel_config_set_transfer_data_size(&dmaPingPong1Config, DMA_SIZE_32); //Transfer 32 bits each time
-    channel_config_set_chain_to(&dmaPingPong1Config, dmaPingPong2); //Chain to the third pre-trigger dma channel
+    channel_config_set_chain_to(&dmaPingPong1Config, dmaPingPong2); //Chain to the third dma channel
     channel_config_set_dreq(&dmaPingPong1Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong1Config, true, 15); //Ring at 32768 bytes
     //Configure third capture DMA
@@ -416,7 +455,7 @@ void configureCaptureDMAs()
     channel_config_set_read_increment(&dmaPingPong2Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong2Config, true); //Increment write address
     channel_config_set_transfer_data_size(&dmaPingPong2Config, DMA_SIZE_32); //Transfer 32 bits each time
-    channel_config_set_chain_to(&dmaPingPong2Config, dmaPingPong3); //Chain to the fourth pre-trigger dma channel
+    channel_config_set_chain_to(&dmaPingPong2Config, dmaPingPong3); //Chain to the fourth dma channel
     channel_config_set_dreq(&dmaPingPong2Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong2Config, true, 15); //Ring at 32768 bytes
     //Configure fourth capture DMA
@@ -424,7 +463,7 @@ void configureCaptureDMAs()
     channel_config_set_read_increment(&dmaPingPong3Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong3Config, true); //Increment write address
     channel_config_set_transfer_data_size(&dmaPingPong3Config, DMA_SIZE_32); //Transfer 32 bits each time
-    channel_config_set_chain_to(&dmaPingPong3Config, dmaPingPong0); //Chain to the first pre-trigger dma channel
+    channel_config_set_chain_to(&dmaPingPong3Config, dmaPingPong0); //Chain to the first dma channel
     channel_config_set_dreq(&dmaPingPong3Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong3Config, true, 15); //Ring at 32768 bytes
     //Configure the DMA channels
@@ -550,7 +589,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Write capture length to post program
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
     //Write capture end mark to post program
-    pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
+    //pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
     //Initialize trigger state machine
     pio_sm_init(triggerPIO, sm_Trigger, triggerOffset, &smConfig);
     //Enable trigger state machine
@@ -671,7 +710,7 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Write capture length to post program
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
     //Write capture end mark to post program
-    pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
+    //pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
     //Enable trigger state machine
     pio_sm_set_enabled(capturePIO, sm_Trigger, true);
     //Write trigger value to trigger program
@@ -756,7 +795,7 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Write capture length to post program to start the capture process
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
     //Write capture end mark to start capture
-    pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
+    //pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
     //Finally clear capture status, process flags and capture type
     captureFinished = false;
     captureProcessed = false;
@@ -774,23 +813,11 @@ uint32_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample)
     //If we don't have processed the buffer...
     if(!captureProcessed)
     {
-        //Find capture end mark
-        int32_t lastCapture = 0;
-        for(int buc = 0; buc < 32768; buc++)
-        {
-            if(captureBuffer[buc] == 0xFFFFFFFF)
-            {
-                lastCapture = buc - 1;
-                if(lastCapture < 0)
-                    lastCapture = 32767;
-                break;
-            }
-        }
-        //Calculate the first sample index
-        if(lastCapture < lastPreSize + lastPostSize - 1)
-            lastStartPosition = 32768 - ((lastPreSize + lastPostSize) - (lastCapture - 1));
+        //Calculate start position
+        if(lastTail < lastPreSize + lastPostSize - 1)
+            lastStartPosition = 32768 - ((lastPreSize + lastPostSize) - (lastTail - 1));
         else
-            lastStartPosition = lastCapture - (lastPreSize + lastPostSize) + 1;
+            lastStartPosition = lastTail - (lastPreSize + lastPostSize) + 1;
         uint32_t oldValue;
         uint32_t newValue;
         uint32_t currentPos = lastStartPosition;
