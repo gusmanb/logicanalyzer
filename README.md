@@ -11,7 +11,7 @@ Latest version: Release 2.1.0.1, 17/12/2022
 
 One of the features that I loved for .net when it was introduced is the ability to create applications that does not require the user to install the .net Framework independently. I always prefer to create portable packages, something that you uncompress wherever you want and it just works. This creates a bit bigger applications but nowadays with the massive storage devices we have and the fast Internet we have this is not a problem, while having to install the framework can be painful in some cases (restricted user privileges environments, problems with old .net installations, etc).
 
-Well, thanks to the people at (Laboratoire Ouvert Grenoblois)[https://www.logre.eu/] I found that the packages for unix/macos where incorrectly packaged and didn't included the framework and needed its installation... Doh!
+Well, thanks to the people at [Laboratoire Ouvert Grenoblois](https://www.logre.eu/) I found that the packages for unix/macos where incorrectly packaged and didn't included the framework and needed its installation... Doh!
 
 I have re-packaged all the applications (CLI and GUI) and now all the versions include the required files, it should not need any more the installation of the .net framework.
 
