@@ -3,7 +3,23 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 2.1.0.0, 27/11/2022
+Latest version: Release 2.1.0.1, 17/12/2022
+
+----
+
+## UPDATE 17/12/2022 - Application repackaging
+
+One of the features that I loved for .net when it was introduced is the ability to create applications that does not require the user to install the .net Framework independently. I always prefer to create portable packages, something that you uncompress wherever you want and it just works. This creates a bit bigger applications but nowadays with the massive storage devices we have and the fast Internet we have this is not a problem, while having to install the framework can be painful in some cases (restricted user privileges environments, problems with old .net installations, etc).
+
+Well, thanks to the people at (Laboratoire Ouvert Grenoblois)[https://www.logre.eu/] I found that the packages for unix/macos where incorrectly packaged and didn't included the framework and needed its installation... Doh!
+
+I have re-packaged all the applications (CLI and GUI) and now all the versions include the required files, it should not need any more the installation of the .net framework.
+
+Also, I have bumped up the firmware to the version that includes the new tail detection (beware, it will still inform that is the V1.0, I will correct the version numbering with the release of the Pico-W support).
+
+Note: If you already have the applications and they are working ok for you that means that you already have the framework installed and there is no need to download the new packages, you only need these if you're doing a new installation or you had problems with the previous versions because the missing framework.
+
+Have fun!
 
 ----
 
