@@ -320,17 +320,19 @@ namespace LogicAnalyzer
 
             if (settings.TriggerType != 0)
             {
-                if (!driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false))
+                LogicAnalyzerDriver.ErrorCode result = driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false);
+                if (result != ERR_NONE)
                 {
-                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
+                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again. Error: "+Enum.GetName(typeof(LogicAnalyzerDriver.ErrorCode), result));
                     return;
                 }
             }
             else
             {
-                if (!driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerInverted))
+                LogicAnalyzerDriver.ErrorCode result = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerInverted);
+                if (result != ERR_NONE)
                 {
-                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
+                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again. Code: "+Enum.GetName(typeof(LogicAnalyzerDriver.ErrorCode), result));
                     return;
                 }
             }

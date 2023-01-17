@@ -45,14 +45,28 @@ namespace SharedDriver
             baseStream.ReadTimeout = Timeout.Infinite;
         }
 
-        public bool StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public enum : uint
+        {
+            ERR_NONE = 0x00000000;
+            ERR_UNKNOWN = 0xFFFFFFFF;
+            ERR_ALREADY_CAPTURING = 0x00000001;
+            ERR_INVALID_CHANNEL_CONFIG = 0x00000002;
+            ERR_INVALID_SAMPLE_CONFIG = 0x00000003;
+            ERR_INVALID_FREQUENCY = 0x00000004;
+        }
+
+        public ErrorCode StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
-                return false;
+                return ERR_ALREADY_CAPTURING;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
-                return false;
+            if (Channels == null || Channels.Length == 0)
+                return ERR_INVALID_CHANNEL_CONFIG;
+            if (PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024))
+                return ERR_INVALID_SAMPLE_CONFIG;
+            if (Frequency > 100000000)
+                return ERR_INVALID_FREQUENCY;
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
@@ -89,18 +103,22 @@ namespace SharedDriver
             {
                 capturing = true;
                 Task.Run(() => ReadCapture(PreSamples + PostSamples));
-                return true;
+                return ERR_NONE;
             }
-            return false;
+            return ERR_UNKNOWN;
         }
-        public bool StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public ErrorCode StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
-                return false;
+                return ERR_ALREADY_CAPTURING;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
-                return false;
+            if (Channels == null || Channels.Length == 0)
+                return ERR_INVALID_CHANNEL_CONFIG;
+            if (PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024))
+                return ERR_INVALID_SAMPLE_CONFIG;
+            if (Frequency > 100000000)
+                return ERR_INVALID_FREQUENCY;
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
@@ -138,9 +156,9 @@ namespace SharedDriver
             {
                 capturing = true;
                 Task.Run(() => ReadCapture(PreSamples + PostSamples));
-                return true;
+                return ERR_NONE;
             }
-            return false;
+            return ERR_UNKNOWN;
         }
 
         public bool StopCapture()
