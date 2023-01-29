@@ -19,6 +19,8 @@ namespace LogicAnalyzer.Controls
         public int SamplesInScreen { get; set; }
         public int FirstSample { get; set; }
 
+        public int? UserMarker { get; set; }
+
         bool updating = false;
 
         List<SelectedSampleRegion> regions = new List<SelectedSampleRegion>();
@@ -26,8 +28,11 @@ namespace LogicAnalyzer.Controls
         public SelectedSampleRegion[] SelectedRegions { get { return regions.ToArray(); } }
 
         List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
-        Color sampleLineColor = Color.FromArgb(80,120,120,120);
+        Color sampleLineColor = Color.FromArgb(80, 120, 120, 120);
         Color triggerLineColor = Colors.White;
+        Color userLineColor = Colors.Cyan;
+        DashStyle halfDash = new DashStyle(new double[] { 1, 8 }, 0);
+        DashStyle fullDash = new DashStyle(new double[] { 4, 5 }, 0);
         public SampleViewer()
         {
             InitializeComponent();
@@ -107,7 +112,8 @@ namespace LogicAnalyzer.Controls
                 {
                     foreach (var region in regions)
                     {
-                        double start = (region.FirstSample - FirstSample) * sampleWidth;
+                        int first = Math.Min(region.FirstSample, region.LastSample);
+                        double start = (first - FirstSample) * sampleWidth;
                         double end = sampleWidth * region.SampleCount;
                         context.FillRectangle(GraphicObjectsCache.GetBrush(region.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
                     }
@@ -120,10 +126,15 @@ namespace LogicAnalyzer.Controls
                     uint prevSample = buc == 0 ? 0 : Samples[buc - 1];
                     double lineX = (buc - FirstSample) * sampleWidth;
 
-                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1, DashStyle.Dash), new Point(lineX + sampleWidth / 2, 0), new Point(lineX + sampleWidth / 2, thisBounds.Height));
+                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1, fullDash), new Point(lineX + sampleWidth / 2, 0), new Point(lineX + sampleWidth / 2, thisBounds.Height));
+
+                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1, halfDash), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
 
                     if (buc == PreSamples)
                         context.DrawLine(GraphicObjectsCache.GetPen(triggerLineColor, 2), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+
+                    if(UserMarker != null && UserMarker == buc)
+                        context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
 
                     for (int chan = 0; chan < ChannelCount; chan++)
                     {

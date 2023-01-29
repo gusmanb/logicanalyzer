@@ -50,14 +50,59 @@ namespace LogicAnalyzer.Controls
         public event EventHandler<RegionEventArgs> RegionCreated;
         public event EventHandler<RegionEventArgs> RegionDeleted;
 
+        public event EventHandler<SamplesEventArgs> SamplesDeleted;
+        public event EventHandler<UserMarkerEventArgs> UserMarkerSelected;
+
         List<SelectedSampleRegion> regions = new List<SelectedSampleRegion>();
 
         SelectedSampleRegion? regionUnderConstruction;
+        SelectedSampleRegion[] regionsToDelete = null; 
+
+        int? userMarker = null;
         public SelectedSampleRegion[] SelectedRegions { get { return regions.ToArray(); } }
 
         public SampleMarker()
         {
             InitializeComponent();
+            mnuDeleteRegions.Click += MnuDeleteRegions_Click;
+            mnuDeleteRegionsSamples.Click += MnuDeleteRegionsSamples_Click;
+        }
+
+        private void MnuDeleteRegionsSamples_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            var minDelete = regionsToDelete.Select(r => Math.Min(r.FirstSample, r.LastSample)).Min();
+            var maxDelete = regionsToDelete.Select(r => Math.Max(r.LastSample, r.FirstSample)).Max();
+
+            int len = maxDelete - minDelete;
+
+            if (RegionDeleted != null)
+            {
+                foreach (var region in regionsToDelete)
+                {
+                    RegionDeleted(this, new RegionEventArgs { Region = region });
+                    RemoveRegion(region);
+                }
+            }
+
+            if (SamplesDeleted != null)
+                SamplesDeleted(this, new SamplesEventArgs { FirstSample = minDelete, SampleCount = len });
+        }
+
+        private void MnuDeleteRegions_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            var minDelete = regionsToDelete.Select(r => Math.Min(r.FirstSample, r.LastSample)).Min();
+            var maxDelete = regionsToDelete.Select(r => Math.Max(r.LastSample, r.FirstSample)).Max();
+
+            int len = maxDelete - minDelete;
+
+            if (RegionDeleted != null)
+            {
+                foreach (var region in regionsToDelete)
+                {
+                    RegionDeleted(this, new RegionEventArgs { Region = region });
+                    RemoveRegion(region);
+                }
+            }
         }
 
         public void AddRegion(SelectedSampleRegion Region)
@@ -111,8 +156,8 @@ namespace LogicAnalyzer.Controls
 
             if (regionUnderConstruction != null)
             {
-
-                double start = (regionUnderConstruction.FirstSample - FirstSample) * sampleWidth;
+                int first = Math.Min(regionUnderConstruction.FirstSample, regionUnderConstruction.LastSample);
+                double start = (first - FirstSample) * sampleWidth;
                 double end = sampleWidth * regionUnderConstruction.SampleCount;
                 context.FillRectangle(GraphicObjectsCache.GetBrush(regionUnderConstruction.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
 
@@ -122,7 +167,8 @@ namespace LogicAnalyzer.Controls
             {
                 foreach (var region in regions)
                 {
-                    double start = (region.FirstSample - FirstSample) * sampleWidth;
+                    int first = Math.Min(region.FirstSample, region.LastSample);
+                    double start = (first - FirstSample) * sampleWidth;
                     double end = sampleWidth * region.SampleCount;
                     context.FillRectangle(GraphicObjectsCache.GetBrush(region.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
                     FormattedText text = new FormattedText(region.RegionName, Typeface.Default, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
@@ -136,6 +182,11 @@ namespace LogicAnalyzer.Controls
                 double x = buc * sampleWidth + halfWidth;
                 double y1 = halfHeight * 1.5f;
                 double y2 = this.Bounds.Height;
+
+                context.DrawLine(GraphicObjectsCache.GetPen(Foreground, 1), new Point(x, y1), new Point(x, y2));
+
+                x = buc * sampleWidth;
+                y1 = halfHeight * 1.75f;
 
                 context.DrawLine(GraphicObjectsCache.GetPen(Foreground, 1), new Point(x, y1), new Point(x, y2));
             }
@@ -191,7 +242,7 @@ namespace LogicAnalyzer.Controls
 
                     int ovrSample = (int)(pos.Position.X / sampleWidth) + FirstSample;
 
-                    regionUnderConstruction = new SelectedSampleRegion { FirstSample = ovrSample, LastSample = ovrSample + 1 };
+                    regionUnderConstruction = new SelectedSampleRegion { FirstSample = ovrSample, LastSample = ovrSample };
                     this.InvalidateVisual();
                 }
             }
@@ -229,12 +280,48 @@ namespace LogicAnalyzer.Controls
                     double sampleWidth = this.Bounds.Width / (float)VisibleSamples;
                     int ovrSample = (int)(pos.Position.X / sampleWidth) + FirstSample;
                     regionUnderConstruction.LastSample = ovrSample + 1;
+
+                    if (regionUnderConstruction.LastSample < regionUnderConstruction.FirstSample)
+                    {
+                        int val = regionUnderConstruction.FirstSample;
+                        regionUnderConstruction.FirstSample = regionUnderConstruction.LastSample;
+                        regionUnderConstruction.LastSample = val;
+                    }
+
                     var rgn = regionUnderConstruction;
                     regionUnderConstruction = null;
 
                     if (rgn.SampleCount > 0)
                     {
-                        ShowDialog(rgn);
+                        if (rgn.SampleCount == 1)
+                        {
+
+                            if(userMarker != null && userMarker == rgn.FirstSample)
+                                userMarker = null;
+
+                            if (e.InputModifiers.HasFlag(InputModifiers.Shift) && userMarker != null)
+                            {
+
+                                if (this.UserMarkerSelected != null)
+                                    this.UserMarkerSelected(this, new UserMarkerEventArgs { Position = userMarker.Value });
+
+                                rgn.FirstSample = userMarker.Value;
+
+                                userMarker = null;
+
+                                ShowDialog(rgn);
+                                return;
+                            }
+
+                            userMarker = rgn.FirstSample;
+
+                            if (this.UserMarkerSelected != null)
+                                this.UserMarkerSelected(this, new UserMarkerEventArgs { Position = rgn.FirstSample });
+
+                            this.InvalidateVisual();
+                        }
+                        else
+                            ShowDialog(rgn);
                         
                     }
                     else
@@ -245,18 +332,26 @@ namespace LogicAnalyzer.Controls
                     double sampleWidth = this.Bounds.Width / (float)VisibleSamples;
                     int ovrSample = (int)(pos.Position.X / sampleWidth) + FirstSample;
 
-                    var toDelete = regions.Where(r => ovrSample >= r.FirstSample && ovrSample < r.LastSample).ToArray();
+                    var toDelete = regions.Where(r => ovrSample >= Math.Min(r.FirstSample , r.LastSample) && ovrSample < Math.Max(r.FirstSample, r.LastSample)).ToArray();
 
-                    foreach (var region in toDelete)
+                    if (toDelete != null && toDelete.Length > 0)
                     {
-                        if (ovrSample >= region.FirstSample && ovrSample < region.LastSample)
-                        {
-                            if (RegionDeleted != null)
-                                RegionDeleted(this, new RegionEventArgs { Region = region });
-
-                            RemoveRegion(region);
-                        }
+                        regionsToDelete= toDelete;
+                        rgnDeleteMenu.PlacementRect = new Rect(pos.Position.X, pos.Position.Y, 1, 1);
+                        rgnDeleteMenu.Open();
                     }
+
+                    //foreach (var region in toDelete)
+                    //{
+                    //    if (ovrSample >= region.FirstSample && ovrSample < region.LastSample)
+                    //    {
+
+                    //        if (RegionDeleted != null)
+                    //            RegionDeleted(this, new RegionEventArgs { Region = region });
+
+                    //        RemoveRegion(region);
+                    //    }
+                    //}
                 }
             }
         }

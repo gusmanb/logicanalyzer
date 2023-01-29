@@ -45,14 +45,14 @@ namespace SharedDriver
             baseStream.ReadTimeout = Timeout.Infinite;
         }
 
-        public bool StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
-                return false;
+                return CaptureError.Busy;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
-                return false;
+            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (30 * 1024 - 1) || PostSamples < 512 || (PreSamples + PostSamples) >= (32 * 1024) || Frequency < 3100 || Frequency > 100000000)
+                return CaptureError.BadParams;
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
@@ -89,18 +89,18 @@ namespace SharedDriver
             {
                 capturing = true;
                 Task.Run(() => ReadCapture(PreSamples + PostSamples));
-                return true;
+                return CaptureError.None;
             }
-            return false;
+            return CaptureError.HardwareError;
         }
-        public bool StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
-                return false;
+                return CaptureError.Busy;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (16 * 1024) || (PreSamples + PostSamples) >= (32 * 1024) || Frequency > 100000000)
-                return false;
+            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (30 * 1024 - 1) || PostSamples < 512 || (PreSamples + PostSamples) >= (32 * 1024) || Frequency < 3100 || Frequency > 100000000)
+                return CaptureError.BadParams;
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
@@ -138,9 +138,9 @@ namespace SharedDriver
             {
                 capturing = true;
                 Task.Run(() => ReadCapture(PreSamples + PostSamples));
-                return true;
+                return CaptureError.None;
             }
-            return false;
+            return CaptureError.HardwareError;
         }
 
         public bool StopCapture()
@@ -319,6 +319,14 @@ namespace SharedDriver
             public UInt32 postSamples;
         }
 
+    }
+
+    public enum CaptureError
+    { 
+        None,
+        Busy,
+        BadParams,
+        HardwareError
     }
 
     public class CaptureEventArgs : EventArgs

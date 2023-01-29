@@ -40,6 +40,8 @@ namespace LogicAnalyzer
             btnAbort.Click += btnAbort_Click;
             sampleMarker.RegionCreated += sampleMarker_RegionCreated;
             sampleMarker.RegionDeleted += sampleMarker_RegionDeleted;
+            sampleMarker.UserMarkerSelected += sampleMarker_UserMarkerSelected;
+            sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
             scrSamplePos.Scroll += scrSamplePos_ValueChanged;
             mnuOpen.Click += mnuOpen_Click;
@@ -48,6 +50,124 @@ namespace LogicAnalyzer
             mnuExport.Click += MnuExport_Click;
             LoadAnalyzers();
             RefreshPorts();
+        }
+
+        private async void SampleMarker_SamplesDeleted(object? sender, SamplesEventArgs e)
+        {
+            var lastSample = e.FirstSample + e.SampleCount - 1;
+            var triggerSample = sampleViewer.PreSamples - 1;
+
+            var containsTrigger = e.FirstSample <= triggerSample && lastSample >= triggerSample;
+
+            if(containsTrigger) 
+            {
+                await ShowError("Error", "Cannot delete the trigger sample.");
+                return;
+            }
+
+            var preDelete = sampleViewer.Samples.Take(e.FirstSample);
+            var postDelete = sampleViewer.Samples.Skip(e.FirstSample + e.SampleCount);
+
+            var finalSamples = preDelete.Concat(postDelete).ToArray();
+
+            var finalPreSamples = e.FirstSample > triggerSample ? sampleViewer.PreSamples : sampleViewer.PreSamples - e.SampleCount;
+
+            var regions = sampleViewer.SelectedRegions;
+            List<SelectedSampleRegion> finalRegions = new List<SelectedSampleRegion>();
+
+            foreach(var region in regions) 
+            {
+                int minRegion = Math.Min(region.FirstSample, region.LastSample);
+                int maxRegion = Math.Max(region.FirstSample, region.LastSample);
+
+                if (minRegion >= e.FirstSample && maxRegion <= lastSample) //removed
+                    continue;
+
+                if (maxRegion <= e.FirstSample && maxRegion <= lastSample) //Region before delete, do not modify
+                {
+                    finalRegions.Add(region);
+                    continue;
+                }
+                else if (minRegion >= e.FirstSample && minRegion >= lastSample) //Region after delete, offset n samples
+                {
+                    region.FirstSample -= e.SampleCount;
+                    region.LastSample -= e.SampleCount;
+                    finalRegions.Add(region);
+                    continue;
+                }
+                else if (minRegion >= e.FirstSample && maxRegion > lastSample) //Begin of region cropped
+                {
+                    region.FirstSample = lastSample + 1;
+                    region.LastSample = maxRegion;
+
+                    if (region.LastSample - region.FirstSample < 1) //Regions smaller than 2 samples are removed
+                        continue;
+
+                    region.FirstSample -= e.SampleCount;
+                    region.LastSample -= e.SampleCount;
+                    finalRegions.Add(region);
+                    continue;
+                }
+                else if (minRegion < e.FirstSample && maxRegion <= lastSample) //End of region cropped
+                {
+                    region.FirstSample = minRegion;
+                    region.LastSample = e.FirstSample;
+
+                    if (region.LastSample - region.FirstSample < 1) //Regions smaller than 2 samples are removed
+                        continue;
+
+                    finalRegions.Add(region);
+                    continue;
+                }
+                else //Deleted samples are inside region (not possible, just left for sanity)
+                {
+                    region.LastSample -= e.SampleCount;
+
+                    if (region.LastSample - region.FirstSample < 1) //Regions smaller than 2 samples are removed
+                        continue;
+
+                    finalRegions.Add(region);
+                    continue;
+                }
+            }
+
+            sampleViewer.BeginUpdate();
+            sampleViewer.Samples = finalSamples;
+            sampleViewer.PreSamples = finalPreSamples;
+            sampleViewer.SamplesInScreen = Math.Min(100, finalSamples.Length / 10);
+
+            if(sampleViewer.FirstSample > finalSamples.Length - 1)
+                sampleViewer.FirstSample = finalSamples.Length - 1;
+
+            sampleViewer.ClearRegions();
+            sampleViewer.ClearAnalyzedChannels();
+
+            if (finalRegions.Count > 0)
+                sampleViewer.AddRegions(finalRegions);
+
+            sampleViewer.EndUpdate();
+
+            sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
+            sampleMarker.FirstSample = sampleViewer.FirstSample;
+            sampleMarker.ClearRegions();
+
+            if (finalRegions.Count > 0)
+                sampleMarker.AddRegions(finalRegions);
+
+            scrSamplePos.Maximum = finalSamples.Length - 1;
+            scrSamplePos.Value = e.FirstSample - 1;
+        }
+
+        private void sampleMarker_UserMarkerSelected(object? sender, UserMarkerEventArgs e)
+        {
+            sampleViewer.BeginUpdate();
+
+            if (sampleViewer.UserMarker != null && sampleViewer.UserMarker == e.Position)
+                sampleViewer.UserMarker = null;
+            else
+                sampleViewer.UserMarker = e.Position;
+
+            sampleViewer.EndUpdate();
         }
 
         protected override void OnOpened(EventArgs e)
@@ -320,24 +440,39 @@ namespace LogicAnalyzer
 
             if (settings.TriggerType != 0)
             {
-                if (!driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false))
-                {
-                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
-                    return;
-                }
+                var error = driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false);
+
+                if(error != CaptureError.None)
+                    await ShowError(error);
             }
             else
             {
-                if (!driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerInverted))
-                {
-                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
-                    return;
-                }
+                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerInverted);
+
+                if (error != CaptureError.None)
+                    await ShowError(error);
             }
+
             btnCapture.IsEnabled = false;
             btnRepeat.IsEnabled = false;
             btnOpenClose.IsEnabled = false;
             btnAbort.IsEnabled = true;
+        }
+
+        private async Task ShowError(CaptureError error)
+        {
+            switch (error)
+            {
+                case CaptureError.Busy:
+                    await ShowError("Error", "Device is busy, stop the capture before starting a new one.");
+                    return;
+                case CaptureError.BadParams:
+                    await ShowError("Error", "Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                    return;
+                case CaptureError.HardwareError:
+                    await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
+                    return;
+            }
         }
 
         private void scrSamplePos_ValueChanged(object? sender, ScrollEventArgs e)

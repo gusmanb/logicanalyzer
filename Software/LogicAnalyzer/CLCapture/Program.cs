@@ -130,8 +130,25 @@ return await Parser.Default.ParseArguments<CLCaptureCommandLineOptions>(args)
             if (opts.Trigger.TriggerType == CLTriggerType.Edge)
             {
                 Console.WriteLine("Starting edge triggered capture...");
-                driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
+                var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
                     channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+
+                if (resStart != CaptureError.None)
+                {
+                    switch (resStart)
+                    {
+                        case CaptureError.Busy:
+                            Console.WriteLine("Device is busy, stop the capture before starting a new one.");
+                            return -1;
+                        case CaptureError.BadParams:
+                            Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                            return -1;
+                        case CaptureError.HardwareError:
+                            Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
+                            return -1;
+                    }
+                }
+
                 Console.WriteLine("Capture running...");
             }
             else
@@ -150,8 +167,25 @@ return await Parser.Default.ParseArguments<CLCaptureCommandLineOptions>(args)
                         triggerPattern |= (UInt16)(1 << buc);
                 }
 
-                driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
+                var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
                     channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
+
+                if (resStart != CaptureError.None)
+                {
+                    switch (resStart)
+                    {
+                        case CaptureError.Busy:
+                            Console.WriteLine("Device is busy, stop the capture before starting a new one.");
+                            return -1;
+                        case CaptureError.BadParams:
+                            Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                            return -1;
+                        case CaptureError.HardwareError:
+                            Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
+                            return -1;
+                    }
+                }
+
                 Console.WriteLine("Capture running...");
             }
 

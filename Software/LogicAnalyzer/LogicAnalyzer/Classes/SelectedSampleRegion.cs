@@ -19,7 +19,7 @@ namespace LogicAnalyzer.Classes
     {
         public int FirstSample { get; set; }
         public int LastSample { get; set; }
-        public int SampleCount { get { return LastSample - FirstSample; } }
+        public int SampleCount { get { return Math.Abs(LastSample - FirstSample); } }
         public string RegionName { get; set; } = "";
         public Color RegionColor { get; set; } = Color.FromArgb(128, 255,255,255);
 

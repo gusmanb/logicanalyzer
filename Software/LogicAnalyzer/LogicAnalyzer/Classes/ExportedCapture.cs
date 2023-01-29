@@ -1,5 +1,4 @@
-﻿using LogicAnalyzer.Classes;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SharedDriver;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicAnalyzer
+namespace LogicAnalyzer.Classes
 {
     public class ExportedCapture
     {

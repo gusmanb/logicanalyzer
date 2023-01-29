@@ -27,11 +27,11 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
           <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Pre samples:</TextBlock>
-          <NumericUpDown Width="130" Height="35" Value="512" Minimum="0" Maximum="32767" Name="nudPreSamples"></NumericUpDown>
+          <NumericUpDown Width="130" Height="35" Value="512" Minimum="2" Maximum="31743" Name="nudPreSamples"></NumericUpDown>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
           <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Post samples:</TextBlock>
-          <NumericUpDown Width="130" Height="35" Value="1024" Minimum="0" Maximum="32767" Name="nudPostSamples"></NumericUpDown>
+          <NumericUpDown Width="130" Height="35" Value="1024" Minimum="512" Maximum="32767" Name="nudPostSamples"></NumericUpDown>
         </StackPanel>
       </Grid>
       <Grid Grid.Row="1" RowDefinitions="2*,5*">

@@ -123,4 +123,15 @@ namespace LogicAnalyzer.Controls
     {
         public SelectedSampleRegion? Region { get; set; }
     }
+
+    public class SamplesEventArgs : EventArgs
+    {
+        public int FirstSample { get; set; }
+        public int SampleCount { get; set; }
+    }
+
+    public class UserMarkerEventArgs : EventArgs
+    {
+        public int Position { get; set; }
+    }
 }

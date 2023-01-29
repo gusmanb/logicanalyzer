@@ -25,7 +25,7 @@ namespace LogicAnalyzer.Classes
 
         public static Pen GetPen(Color PenColor, double PenThickness, IDashStyle Style = null)
         {
-            string key = "COLOR" + PenColor.ToString() + PenThickness.ToString() + (Style?.ToString() ?? "");
+            string key = "COLOR" + PenColor.ToString() + PenThickness.ToString() + GetDashName(Style);
 
             if (!_pens.ContainsKey(key))
             {
@@ -39,7 +39,7 @@ namespace LogicAnalyzer.Classes
 
         public static Pen GetPen(IBrush PenBrush, double PenThickness, IDashStyle Style = null)
         {
-            string key = "BRUSH" + PenBrush.GetHashCode().ToString() + PenThickness.ToString() + (Style?.ToString() ?? "");
+            string key = "BRUSH" + PenBrush.GetHashCode().ToString() + PenThickness.ToString() + GetDashName(Style);
 
             if (!_pens.ContainsKey(key))
             {
@@ -49,6 +49,11 @@ namespace LogicAnalyzer.Classes
             }
 
             return _pens[key];
+        }
+
+        static string GetDashName(IDashStyle Style)
+        {
+            return Style == null ? "" : string.Join("", Style.Dashes) + "-" + Style.Offset.ToString();
         }
     }
 }
