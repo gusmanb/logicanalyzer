@@ -3,9 +3,63 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 2.1.0.0, 27/11/2022
+Latest version: Release 2.1.0.1, 17/12/2022
 
 ----
+
+## UPDATE 17/12/2022 - Application repackaging
+
+One of the features that I loved for .net when it was introduced is the ability to create applications that does not require the user to install the .net Framework independently. I always prefer to create portable packages, something that you uncompress wherever you want and it just works. This creates a bit bigger applications but nowadays with the massive storage devices we have and the fast Internet we have this is not a problem, while having to install the framework can be painful in some cases (restricted user privileges environments, problems with old .net installations, etc).
+
+Well, thanks to the people at [Laboratoire Ouvert Grenoblois](https://www.logre.eu/) I found that the packages for unix/macos where incorrectly packaged and didn't included the framework and needed its installation... Doh!
+
+I have re-packaged all the applications (CLI and GUI) and now all the versions include the required files, it should not need any more the installation of the .net framework.
+
+Also, I have bumped up the firmware to the version that includes the new tail detection (beware, it will still inform that is the V1.0, I will correct the version numbering with the release of the Pico-W support).
+
+Note: If you already have the applications and they are working ok for you that means that you already have the framework installed and there is no need to download the new packages, you only need these if you're doing a new installation or you had problems with the previous versions because the missing framework.
+
+Have fun!
+
+----
+
+## UPDATE 12/12/2022 - Working towards Pico-W support
+
+One of the goals that I want to achieve with the analyzer is to support the Pico-W. Would not be great to have a battery powered analyzer that connects to your computer via WiFi? For me at least this is a really desirable option as I have my main computer on a different desktop than the electronics bench, so when I want to analyze signals I must have a long USB cable hanging from the computer to the analyzer or I must do the analysis in the computer desktop. Also even if you are in the same desktop the less cables that you have around the easier is to work. For this, the Pico-W is ideal, as the analyzer does not transfer data in real time it does not need an extremely fast connection, for transferring the data once it has been captured the integrated WiFi of the Pico-W is more than enough.
+
+### Pico-W missconceptions
+
+It has been a while since I got the Pico-W and I didn't had enough time to start really digging on how the thing works, so my previous knowledge about the W was based on the first notes that were released to the Internet (I bought it at release day). Something that was stated in many places was that the W used some GPIO's to control the WiFi module so you would have less available IO's for your usage.
+
+I have been really pleased when I have read by myself the datasheet and how the Pico has implemented in reality the WiFi module. It indeed uses some GPIO's to control the WiFi, but, those GPIO's have never been available to the user as regular GPIO's. The Pico uses GPIOs 23, 24, 25 and 29 for internal usage (LED, VBUS sense, etc). So, what have they done in the Pico-W to not to use additional GPIO's? They have lifted those functions to the GPIO's of the WiFi module. The WiFi module itself contains a GPIO port and now that port is the one that contains those functionalities, so now GPIO's 23, 24, 25 and 29 control the WiFi module and the first three GPIO's of the module are used for those functions.
+
+So, what does all this means for the analyzer? Well, it means that very little changes needs to be done in the capture code and only the front-end code needs to be changed. Also, this means that the W version will also retain all the 24 channels, it will not lose any capability. Wohooo!!!
+
+### Changes to the capture code
+
+As all the GPIO's that are used to capture are the same there is no need to change any code except for one very small part, the "end capture" mark. The PIO always capture pins in a sequential way, it means that you cannot have "holes" in the pin sequence, and to get the full 24 channels every single available GPIO must be used, up to GPIO28. This means that the GPIOs that controlled the LED's, VBUS and so on also are captured but ignored. Said that, to mark where the capture was finished in the buffer a special value that was impossible to happen was added after the last capture, it was based on that the device those GPIOs would never be 1's. In theory, as we are capturing 32 bit words there will always be some zeroes at the tail, but I'm paranoid and also it is not elegant, so I decided to modify the tail detection code.
+
+Instead of basing the tail detection in a mark in the buffer (which requires to iterate the buffer until it is found) now the tail detection is based in the DMA channels transfer state. This was my original idea, but unfortunatelly the Pico API does not expose a direct way of reading how many transfers have been done or how many are left, you can set them but cannot read them, so I abandoned that idea.
+
+This time I have digged a bit more and went directly to the RP2040 datasheet and it states very clear that the TRANSFER register is R/W, so you can read how many transfers are left. I have no idea why the API does not expose it, but knowing that is very easy to access directly to the register using the dma hardware channel structure.
+
+Now what the code does is: once the capture has finished before aborting the DMA channels it checks which one is busy (remember, there are four DMA channels in a ringed chain, so only one DMA will be busy, the one that's waiting for the next transfer from the PIO), checks how many transfers are left and based on the DMA channel number and the transfers left it computes the index of the last capture.
+
+This is more elegant, faster and prevents that my paranoid side rings a bell each time I see that code thinking on the Pico-W, so all are advantages :D
+
+### Wanna try it?
+
+In the repo source under the [build](https://github.com/gusmanb/logicanalyzer/tree/master/Firmware/LogicAnalyzer/build) folder you will find the UF2 file with the new detection code, so you can try it with the Pico-W, it will still use the USB to transfer the data but you can check its compatibility. I still haven't got time to try it in the W but I plan to do it soon. In any case, if you test the new firmware in a W or a regular Pico I would be thankful if you can leave a comment telling your experience, if you have found any problem or if it worked as expected.
+
+### Next steps
+
+Well, the next step will be to add the front-end code for the W, the idea is to have a single project that based on settings compile it for the W or for the regular pico. About how to implement it, I still need to check the W API for the WiFi, but one thing that I want to do for sure is to have the WiFi module off when the capture is running to avoid any kind of glitch because interferences, I fear that the traces may act as antenna and read false data, so I'm thinking that I will use UDP instead of TCP, use a broadcast address to send/receive data and as UDP does not require an stablished connection it will allow to shut down the module without breaking the network. In any case these are my first thoughts and may change once I start implementing it.
+
+Have fun as always!
+
+----
+
+
 ## UPDATE 27/11/2022 - Small changes, great value
 
 I have uploaded a new version of the PCB's and the firmware. It contains a small modification which can give great value to the device.
