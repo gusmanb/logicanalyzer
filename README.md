@@ -3,7 +3,38 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 2.1.0.1, 17/12/2022
+Latest version: Release 2.1.1.0, 29/01/2023
+
+----
+
+## UPDATE 29/01/2023 - Software update
+
+This release contains many updates to the GUI, CLI and driver and also includes many new target architectures.
+
+### Updates to the GUI
+
+First, the sample viewer and sample marker contains also the half of the cycle (where the sample was done in the cycle) to make it easier to see the data.
+
+Now you can create a "user mark", it is a temporary mark and is not saved with the save/export data, just an useful tool to see things. Click on the sample marker without dragging and you will set the user mark place. To remove the user mark click again in the same spot.
+
+Deleting samples is now possible, when you right-click on the sample marker over an existing region now instead of deleting the region it will pop a menu which will allow you to delete the regions that were under the mouse or to delete the regions *and* the samples.
+
+Added more meaningful error messages, in any case the limits in the numeric up/down controls have been updated to match what the driver expects.
+
+### Updates to the CLI
+
+It also includes the new messages with more meaningful errors.
+
+### Updates to the driver
+
+The driver has been adjusted to give more flexibility in the pre/post samples, the valid parameters now are:
+
+    -Frequency must be between 3.1Khz and 100Mhz
+    -PreSamples must be between 2 and 31743
+    -PostSamples must be between 512 and 32767
+    -Total samples cannot exceed 32767
+    
+Have fun!
 
 ----
 
