@@ -7,18 +7,8 @@
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
         Title="Start capture..."
-        TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent" Icon="/Assets/window.ico">
+        Background="#383838" Icon="/Assets/window.ico">
   <Panel>
-    <ExperimentalAcrylicBorder IsHitTestVisible="False">
-      <ExperimentalAcrylicBorder.Material>
-        <ExperimentalAcrylicMaterial
-            BackgroundSource="Digger"
-            TintColor="Black"
-            TintOpacity="1"
-            MaterialOpacity="0.65" />
-      </ExperimentalAcrylicBorder.Material>
-    </ExperimentalAcrylicBorder>
     <Grid RowDefinitions="2*,14*,1*" Margin="10,15,10,15">
       <Grid Grid.Row="0" ColumnDefinitions="*,*,*" Margin="10,0,10,0">
         <StackPanel Grid.Column="0" Orientation="Horizontal">

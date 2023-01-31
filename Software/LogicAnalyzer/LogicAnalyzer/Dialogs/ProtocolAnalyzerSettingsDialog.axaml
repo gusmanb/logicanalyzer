@@ -8,17 +8,8 @@
         x:Class="LogicAnalyzer.Dialogs.ProtocolAnalyzerSettingsDialog"
         Title="ProtocolAnalyzerSettingsDialog" Icon="/Assets/window.ico"
         TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent" CanResize="False" WindowStartupLocation="CenterOwner">
+        Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
   <Grid RowDefinitions="8*,2*">
-    <ExperimentalAcrylicBorder IsHitTestVisible="False" Grid.RowSpan="2">
-      <ExperimentalAcrylicBorder.Material>
-        <ExperimentalAcrylicMaterial
-            BackgroundSource="Digger"
-            TintColor="Black"
-            TintOpacity="1"
-            MaterialOpacity="0.65" />
-      </ExperimentalAcrylicBorder.Material>
-    </ExperimentalAcrylicBorder>
     <ScrollViewer Name="scrViewer" Margin="10" VerticalAlignment="Top" Height="380">
       <StackPanel Name="pnlControls">
         

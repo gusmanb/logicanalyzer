@@ -48,8 +48,24 @@ namespace LogicAnalyzer
             mnuSave.Click += mnuSave_Click;
             mnuExit.Click += MnuExit_Click;
             mnuExport.Click += MnuExport_Click;
+            mnuNetSettings.Click += MnuNetSettings_Click;
             LoadAnalyzers();
             RefreshPorts();
+        }
+
+        private async void MnuNetSettings_Click(object? sender, RoutedEventArgs e)
+        {
+            var dlg = new NetworkSettingsDialog();
+
+            if (await dlg.ShowDialog<bool>(this))
+            {
+                bool res = driver.SendNetworkConfig(dlg.AccessPoint, dlg.Password, dlg.Address, dlg.Port);
+
+                if (!res)
+                    await ShowError("Error", "Error updating network settings, restart the device and try again.");
+                else
+                    await ShowInfo("Updated", "Network settings updated successfully.");
+            }
         }
 
         private async void SampleMarker_SamplesDeleted(object? sender, SamplesEventArgs e)
@@ -260,6 +276,7 @@ namespace LogicAnalyzer
                 mnuProtocols.IsEnabled = true;
                 mnuSave.IsEnabled = true;
                 mnuExport.IsEnabled = true;
+                mnuSettings.IsEnabled = !driver.IsNetwork && (driver.DeviceVersion?.Contains("WIFI") ?? false);
                 LoadInfo();
 
             });
@@ -362,7 +379,17 @@ namespace LogicAnalyzer
 
                 try
                 {
-                    driver = new LogicAnalyzerDriver(ddSerialPorts.SelectedItem?.ToString() ?? "", 115200);
+                    if(ddSerialPorts.SelectedItem?.ToString() == "Network") 
+                    {
+                        NetworkDialog dlg = new NetworkDialog();
+                        if (!await dlg.ShowDialog<bool>(this))
+                            return;
+
+                        driver = new LogicAnalyzerDriver(dlg.Address + ":" + dlg.Port);
+                    }
+                    else
+                        driver = new LogicAnalyzerDriver(ddSerialPorts.SelectedItem?.ToString() ?? "", 115200);
+
                     driver.CaptureCompleted += Driver_CaptureCompleted;
                 }
                 catch(Exception ex)
@@ -377,6 +404,7 @@ namespace LogicAnalyzer
                 btnOpenClose.Content = "Close device";
                 btnCapture.IsEnabled = true;
                 btnRepeat.IsEnabled = true;
+                mnuSettings.IsEnabled = !driver.IsNetwork && (driver.DeviceVersion?.Contains("WIFI") ?? false);
             }
             else
             {
@@ -389,6 +417,7 @@ namespace LogicAnalyzer
                 RefreshPorts();
                 btnCapture.IsEnabled = false;
                 btnRepeat.IsEnabled = false;
+                mnuSettings.IsEnabled = false;
             }
         }
 
@@ -400,7 +429,8 @@ namespace LogicAnalyzer
         void RefreshPorts()
         {
             ddSerialPorts.Items = null;
-            ddSerialPorts.Items = SerialPort.GetPortNames();
+            ddSerialPorts.Items = SerialPort.GetPortNames().Concat(new string[] { "Network" }).ToArray();
+            
         }
 
         private async void btnRepeat_Click(object? sender, RoutedEventArgs e)
@@ -457,6 +487,7 @@ namespace LogicAnalyzer
             btnRepeat.IsEnabled = false;
             btnOpenClose.IsEnabled = false;
             btnAbort.IsEnabled = true;
+            mnuSettings.IsEnabled = false;
         }
 
         private async Task ShowError(CaptureError error)
@@ -617,6 +648,17 @@ namespace LogicAnalyzer
         private async Task ShowError(string Title, string Text)
         {
             var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Error);
+
+            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
+            var win = prop.GetValue(box) as Window;
+
+            win.Icon = this.Icon;
+            await box.Show();
+        }
+
+        private async Task ShowInfo(string Title, string Text)
+        {
+            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Info);
 
             var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
             var win = prop.GetValue(box) as Window;

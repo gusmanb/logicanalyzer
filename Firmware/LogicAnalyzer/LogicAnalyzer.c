@@ -1,42 +1,76 @@
+#include "LogicAnalyzer_Build_Settings.h"
+
 #include <stdio.h>
 #include <string.h>
 #include "pico/stdlib.h"
 #include "hardware/dma.h"
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
+#include "hardware/flash.h"
+#include "pico/multicore.h"
 #include "LogicAnalyzer.pio.h"
+#include "LogicAnalyzer_Structs.h"
 
-#define LED_IO 25
+#ifdef BUILD_PICO_W
 
-//Capture request issued by the host computer
-typedef struct _CAPTURE_REQUEST
-{
-    //Indicates tthe trigger type: 0 = edge, 1 = pattern (complex), 2 = pattern (fast)
-    uint8_t triggerType;
-    //Trigger channel (or base channel for pattern trigger)
-    uint8_t trigger;
+    #include "pico/cyw43_arch.h"
+
+    #ifdef ENABLE_WIFI
+
+        #include "Event_Machine.h"
+        #include "Shared_Buffers.h"
+        #include "LogicAnalyzer_WiFi.h"
+        #include "hardware/regs/usb.h"
+        #include "hardware/structs/usb.h"
+
+        bool usbDisabled = false;
+        bool cywReady = false;
+        bool skipWiFiData = false;
+        bool dataFromWiFi = false;
+        EVENT_FROM_WIFI wifiEventBuffer;
+        WIFI_SETTINGS_REQUEST* wReq;
+
+        #define MULTICORE_LOCKOUT_TIMEOUT (uint64_t)10 * 365 * 24 * 60 * 60 * 1000 * 1000
+
+    #endif
+
+#endif
+
+#ifdef BUILD_PICO_W
+
+    #define INIT_LED() { }
+
+    #ifdef ENABLE_WIFI
+
+        #define LED_ON() {\
+        EVENT_FROM_FRONTEND lonEvt;\
+        lonEvt.event = LED_ON;\
+        event_push(&frontendToWifi, &lonEvt);\
+        }
+
+        #define LED_OFF() {\
+        EVENT_FROM_FRONTEND loffEvt;\
+        loffEvt.event = LED_OFF;\
+        event_push(&frontendToWifi, &loffEvt);\
+        }
+
+    #else
+
+        #define LED_ON() cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1)
+        #define LED_OFF() cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0)
+
+    #endif
+#else
     
-    //Union of the trigger characteristics (inverted or pin count)
-    union
-    {
-        uint8_t inverted;
-        uint8_t count;
-    };
+    #define LED_IO 25
+    #define INIT_LED() {\
+                            gpio_init(LED_IO); \
+                            gpio_set_dir(LED_IO, GPIO_OUT); \
+                        }
+    #define LED_ON() gpio_put(LED_IO, 1)
+    #define LED_OFF() gpio_put(LED_IO, 0)
 
-    //Trigger value of the pattern trigger
-    uint16_t triggerValue;
-    //Channels to capture
-    uint8_t channels[24];
-    //Channel count
-    uint8_t channelCount;
-    //Sampling frequency
-    uint32_t frequency;
-    //Number of samples stored before the trigger
-    uint32_t preSamples;
-    //Number of samples stored after the trigger
-    uint32_t postSamples;
-
-}CAPTURE_REQUEST;
+#endif
 
 //Buffer used to store received data
 uint8_t messageBuffer[128];
@@ -47,94 +81,200 @@ bool capturing = false;
 //Capture request pointer
 CAPTURE_REQUEST* req;
 
-//Process USB rceived data
-void processInput()
+#ifdef ENABLE_WIFI
+
+void storeSettings(WIFI_SETTINGS* settings)
 {
-    //Try to get char
-    uint data = getchar_timeout_us(0);
+    uint8_t buffer[FLASH_PAGE_SIZE];
+    memcpy(buffer, settings, sizeof(WIFI_SETTINGS));
+    //multicore_lockout_start_blocking ();
+    multicore_lockout_start_timeout_us(MULTICORE_LOCKOUT_TIMEOUT);
 
-    //Timeout? Then leave
-    if(data == PICO_ERROR_TIMEOUT)
-        return;
+    uint32_t intStatus = save_and_disable_interrupts();
 
-    //Store char in buffer and increment position
-    messageBuffer[bufferPos++] = data;
-    
-    //If we have stored the first byte and it is not 0x55 restart reception
-    if(bufferPos == 1 && messageBuffer[0] != 0x55)
-        bufferPos = 0;
-    else if(bufferPos == 2 && messageBuffer[1] != 0xAA) //If we have stored the second byte and it is not 0xAA restart reception
-        bufferPos = 0;
-    else if(bufferPos >= 256) //Have we overflowed the buffer? then inform to the host and restart reception
+    flash_range_erase(FLASH_SETTINGS_OFFSET, FLASH_SECTOR_SIZE);
+
+    for(int buc = 0; buc < 1000; buc++)
     {
-        printf("ERR_MSG_OVERFLOW\n");
-        bufferPos = 0;
+        asm("nop");
+        asm("nop");
+        asm("nop");
+        asm("nop");
+        asm("nop");
     }
-    else if(bufferPos > 2) //Try to parse the data
+
+    flash_range_program(FLASH_SETTINGS_OFFSET, buffer, FLASH_PAGE_SIZE);
+
+    for(int buc = 0; buc < 1000; buc++)
     {
-        if(messageBuffer[bufferPos - 2] == 0xAA && messageBuffer[bufferPos - 1] == 0x55) //Do we have the stop condition?
+        asm("nop");
+        asm("nop");
+        asm("nop");
+        asm("nop");
+        asm("nop");
+    }
+
+    restore_interrupts(intStatus);
+
+    bool unlocked = false;
+
+    do {
+        unlocked = multicore_lockout_end_timeout_us(MULTICORE_LOCKOUT_TIMEOUT);
+    } while(!unlocked);
+
+    sleep_ms(500);
+
+}
+
+#endif
+void sendResponse(const char* response, bool toWiFi)
+{
+    #ifdef ENABLE_WIFI
+    if(toWiFi)
+    {
+        EVENT_FROM_FRONTEND evt;
+        evt.event = SEND_DATA;
+        evt.dataLength = strlen(response);
+        memset(evt.data, 0, 32);
+        memcpy(evt.data, response, evt.dataLength);
+        event_push(&frontendToWifi, &evt);
+    }
+    else
+    #endif
+        printf(response);
+}
+
+void processData(uint8_t* data, uint length, bool fromWiFi)
+{
+    for(uint pos = 0; pos < length; pos++)
+    {
+        //Store char in buffer and increment position
+        messageBuffer[bufferPos++] = data[pos];
+        
+        //If we have stored the first byte and it is not 0x55 restart reception
+        if(bufferPos == 1 && messageBuffer[0] != 0x55)
+            bufferPos = 0;
+        else if(bufferPos == 2 && messageBuffer[1] != 0xAA) //If we have stored the second byte and it is not 0xAA restart reception
+            bufferPos = 0;
+        else if(bufferPos >= 256) //Have we overflowed the buffer? then inform to the host and restart reception
         {
-
-            //Yes, unescape the buffer,
-            int dest = 0;
-
-            for(int src = 0; src < bufferPos; src++)
+            sendResponse("ERR_MSG_OVERFLOW\n", fromWiFi);
+            bufferPos = 0;
+        }
+        else if(bufferPos > 2) //Try to parse the data
+        {
+            if(messageBuffer[bufferPos - 2] == 0xAA && messageBuffer[bufferPos - 1] == 0x55) //Do we have the stop condition?
             {
-                if(messageBuffer[src] == 0xF0)
+
+                //Yes, unescape the buffer,
+                int dest = 0;
+
+                for(int src = 0; src < bufferPos; src++)
                 {
-                    messageBuffer[dest] = messageBuffer[src + 1] ^ 0xF0;
-                    src++;
-                }
-                else
-                    messageBuffer[dest] = messageBuffer[src];
-
-                dest++;
-            }
-
-            switch(messageBuffer[2]) //Check the command we received
-            {
-
-                case 0: //ID request
-
-                    if(bufferPos != 5) //Malformed message?
-                        printf("ERR_UNKNOWN_MSG\n");
-                    else
-                        printf("LOGIC_ANALYZER_V1_0\n"); //Our ID
-
-                    break;
-
-                case 1: //Capture request
-                    
-                    req = (CAPTURE_REQUEST*)&messageBuffer[3]; //Get the request pointer
-                    
-                    bool started = false;
-
-                    if(req->triggerType == 1) //Start complex trigger capture
-                        started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue);
-                    else if(req->triggerType == 2) //start fast trigger capture
-                        started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue);
-                    else //Start simple trigger capture
-                        started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted);
-                    
-                    if(started) //If started successfully inform to the host
+                    if(messageBuffer[src] == 0xF0)
                     {
-                        printf("CAPTURE_STARTED\n");
-                        capturing = true;
+                        messageBuffer[dest] = messageBuffer[src + 1] ^ 0xF0;
+                        src++;
                     }
                     else
-                        printf("CAPTURE_ERROR\n"); //Else notify the error
+                        messageBuffer[dest] = messageBuffer[src];
 
-                    break;
-                
-                default:
+                    dest++;
+                }
 
-                    printf("ERR_UNKNOWN_MSG\n"); //Unknown message
-                    break;
+                switch(messageBuffer[2]) //Check the command we received
+                {
 
+                    case 0: //ID request
+
+                        if(bufferPos != 5) //Malformed message?
+                            sendResponse("ERR_UNKNOWN_MSG\n", fromWiFi);
+                        else
+                        {
+                            #ifdef BUILD_PICO_W
+                                #ifdef ENABLE_WIFI
+                                    sendResponse("LOGIC_ANALYZER_WIFI_V3_0\n", fromWiFi); //Our ID
+                                #else
+                                    sendResponse("LOGIC_ANALYZER_W_V3_0\n", fromWiFi); //Our ID
+                                #endif
+                            #else
+                                sendResponse("LOGIC_ANALYZER_V3_0\n", fromWiFi); //Our ID
+                            #endif
+                        }
+                        break;
+
+                    case 1: //Capture request
+                        
+                        req = (CAPTURE_REQUEST*)&messageBuffer[3]; //Get the request pointer
+                        
+                        bool started = false;
+
+                        if(req->triggerType == 1) //Start complex trigger capture
+                            started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue);
+                        else if(req->triggerType == 2) //start fast trigger capture
+                            started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue);
+                        else //Start simple trigger capture
+                            started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted);
+                        
+                        if(started) //If started successfully inform to the host
+                        {
+                            sendResponse("CAPTURE_STARTED\n", fromWiFi);
+                            capturing = true;
+                        }
+                        else
+                            sendResponse("CAPTURE_ERROR\n", fromWiFi); //Else notify the error
+
+                        break;
+                    
+                    #ifdef ENABLE_WIFI
+
+                    case 2:
+
+                        wReq = (WIFI_SETTINGS_REQUEST*)&messageBuffer[3];
+                        WIFI_SETTINGS settings;
+                        memcpy(settings.apName, wReq->apName, 33);
+                        memcpy(settings.passwd, wReq->passwd, 64);
+                        memcpy(settings.ipAddress, wReq->ipAddress, 16);
+                        settings.port = wReq->port;
+
+                        for(int buc = 0; buc < 33; buc++)
+                            settings.checksum += settings.apName[buc];
+
+                        for(int buc = 0; buc < 64; buc++)
+                            settings.checksum += settings.passwd[buc];
+
+                        for(int buc = 0; buc < 16; buc++)
+                            settings.checksum += settings.ipAddress[buc];
+
+                        settings.checksum += settings.port;
+
+                        settings.checksum += 0x0f0f;
+
+                        storeSettings(&settings);
+
+                        wifiSettings = settings;
+
+                        EVENT_FROM_FRONTEND evt;
+                        evt.event = CONFIG_RECEIVED;
+                        event_push(&frontendToWifi, &evt);
+
+                        sendResponse("SETTINGS_SAVED\n", fromWiFi);
+
+                        break;
+
+                    #endif
+
+                    default:
+
+                        sendResponse("ERR_UNKNOWN_MSG\n", fromWiFi); //Unknown message
+                        break;
+
+                }
+
+                bufferPos = 0; //Reset buffer position
             }
-
-            bufferPos = 0; //Reset buffer position
         }
+
     }
 
     //PROTOCOL EXPLAINED:
@@ -155,6 +295,115 @@ void processInput()
     //have any data, but the capture request has a CAPTURE_REQUEST struct as data.
 }
 
+bool processUSBInput(bool skipProcessing)
+{
+    //Try to get char
+    uint data = getchar_timeout_us(0);
+
+    //Timeout? Then leave
+    if(data == PICO_ERROR_TIMEOUT)
+        return false;
+
+    uint8_t filteredData = (uint8_t)data;
+
+    if(!skipProcessing)
+        processData(&filteredData, 1, false);
+
+    return true;
+
+}
+
+#ifdef ENABLE_WIFI
+
+/*
+void disableUSB()
+{
+    usb_hw->main_ctrl &= ~USB_MAIN_CTRL_CONTROLLER_EN_BITS;
+}
+
+void enableUSB()
+{
+    usb_hw->main_ctrl |= USB_MAIN_CTRL_CONTROLLER_EN_BITS;
+    stdio_usb_init();
+}
+*/
+
+void purgeUSBData()
+{
+    while(getchar_timeout_us(0) != PICO_ERROR_TIMEOUT);
+}
+
+void wifiEvent(void* event)
+{
+    EVENT_FROM_WIFI* wEvent = (EVENT_FROM_WIFI*)event;
+
+    switch(wEvent->event)
+    {
+        case CYW_READY:
+            cywReady = true;
+            break;
+        case CONNECTED:
+            usbDisabled = true;
+            //disableUSB();
+            break;
+        case DISCONNECTED:
+            usbDisabled = false;
+            purgeUSBData();
+            //enableUSB();
+            break;
+        case DATA_RECEIVED:
+            if(skipWiFiData)
+                dataFromWiFi = true;
+            else
+                processData(wEvent->data, wEvent->dataLength, true);
+            break;
+    }
+}
+
+bool processWiFiInput(bool skipProcessing)
+{
+    bool res = event_has_events(&wifiToFrontend);
+
+    if(skipProcessing)
+    {
+        skipWiFiData = true;
+        dataFromWiFi = false;
+    }
+
+    event_process_queue(&wifiToFrontend, &wifiEventBuffer, 8);
+
+    skipWiFiData = false;    
+    
+    return dataFromWiFi;
+}
+
+#endif
+
+void processInput()
+{
+    #ifdef ENABLE_WIFI
+        if(!usbDisabled)
+            processUSBInput(false);
+
+        processWiFiInput(false);
+    #else
+        processUSBInput(false);
+    #endif
+}
+
+bool processCancel()
+{
+    #ifdef ENABLE_WIFI
+        if(!usbDisabled)
+            if(processUSBInput(true))
+                return true;
+
+        return processWiFiInput(true);
+    #else
+        return processUSBInput(true);
+    #endif
+}
+
 int main()
 {
     //Overclock Powerrrr!
@@ -163,6 +412,17 @@ int main()
     //Initialize USB stdio
     stdio_init_all();
 
+    #ifdef BUILD_PICO_W
+        #ifdef ENABLE_WIFI
+            event_machine_init(&wifiToFrontend, wifiEvent, sizeof(EVENT_FROM_WIFI), 8);
+            multicore_launch_core1(runWiFiCore);
+            while(!cywReady)
+                event_process_queue(&wifiToFrontend, &wifiEventBuffer, 1);
+        #else
+            cyw43_arch_init();
+        #endif
+    #endif 
+
     //A bit of delay, if the program tries to send data before Windows has identified the device it may crash
     sleep_ms(1000);
 
@@ -170,14 +430,11 @@ int main()
     memset(messageBuffer, 0, 128);
 
     //Configure led
-    gpio_init(LED_IO);
-    gpio_set_dir(LED_IO, GPIO_OUT);
+    INIT_LED();
+    LED_ON();
 
     while(1)
     {
-        //Led ON
-        gpio_put(LED_IO, 1); // Set pin 25 to high
-
         //Are we capturing?
         if(capturing)
         {
@@ -194,10 +451,30 @@ int main()
                 //Send capture length
                 sleep_ms(100);
 
-                putchar_raw(lengthPointer[0]);
-                putchar_raw(lengthPointer[1]);
-                putchar_raw(lengthPointer[2]);
-                putchar_raw(lengthPointer[3]);
+                #ifdef ENABLE_WIFI
+
+                    if(usbDisabled)
+                    {
+                        EVENT_FROM_FRONTEND evt;
+                        evt.event = SEND_DATA;
+                        evt.dataLength = 4;
+                        memcpy(evt.data, lengthPointer, 4);
+                        event_push(&frontendToWifi, &evt);
+                    }
+                    else
+                    {   
+                        putchar_raw(lengthPointer[0]);
+                        putchar_raw(lengthPointer[1]);
+                        putchar_raw(lengthPointer[2]);
+                        putchar_raw(lengthPointer[3]);
+                    }
+
+                #else
+                    putchar_raw(lengthPointer[0]);
+                    putchar_raw(lengthPointer[1]);
+                    putchar_raw(lengthPointer[2]);
+                    putchar_raw(lengthPointer[3]);
+                #endif
 
                 sleep_ms(100);
 
@@ -205,44 +482,79 @@ int main()
                 length *= 4;
                 first *= 4;
 
-                //Send the samples
-                for(int buc = 0; buc < length; buc++)
-                {
-                    putchar_raw(buffer[first++]);
+                #ifdef ENABLE_WIFI
 
-                    if(first >= 32768 * 4)
-                        first = 0;
-                }
+                    //Send the samples
+                    if(usbDisabled)
+                    {
+                        EVENT_FROM_FRONTEND evt;
+                        evt.event = SEND_DATA;
 
+                        int pos = 0;
+                        int filledData;
+                        while(pos < length)
+                        {
+                            filledData = 0;
+                            while(pos < length && filledData < 32)
+                            {
+                                evt.data[filledData] = buffer[first++];
+
+                                if(first >= 32768 * 4)
+                                    first = 0;
+
+                                pos++;
+                                filledData++;
+                            }
+
+                            evt.dataLength = filledData;
+                            event_push(&frontendToWifi, &evt);
+                        }
+                    }
+                    else
+                    {
+                        for(int buc = 0; buc < length; buc++)
+                        {
+                            putchar_raw(buffer[first++]);
+
+                            if(first >= 32768 * 4)
+                                first = 0;
+                        }
+                    }
+                #else
+                    //Send the samples
+                    for(int buc = 0; buc < length; buc++)
+                    {
+                        putchar_raw(buffer[first++]);
+
+                        if(first >= 32768 * 4)
+                            first = 0;
+                    }
+                #endif
                 //Done!
                 capturing = false;
             }
             else
             {
-                gpio_put(LED_IO, 0);
-                sleep_ms(100);
+                LED_OFF();
+                sleep_ms(500);
 
-                //Check for cancel
-                uint data = getchar_timeout_us(0);
-
-                //Any char except timeout is considered a cancel request
-                if(data != PICO_ERROR_TIMEOUT)
+                //Check for cancel request
+                if(processCancel())
                 {
                     //Stop capture
                     stopCapture();
                     capturing = false;
+                    LED_ON();
                 }
                 else
                 {
-                    gpio_put(LED_IO, 1);
-                    sleep_ms(100);
+                    LED_ON();
+                    sleep_ms(500);
                 }
             }
         }
         else
-            processInput(); //Read USB data
-
-        gpio_put(LED_IO, 0); // Set pin 25 to low
+            processInput(); //Read incomming data
     }
 
     return 0;

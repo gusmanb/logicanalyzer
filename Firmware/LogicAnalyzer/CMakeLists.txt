@@ -19,7 +19,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(LogicAnalyzer LogicAnalyzer.c )
+# add_executable(LogicAnalyzer LogicAnalyzer.c )
+
+FILE(GLOB CSources *.c)
+ADD_EXECUTABLE(LogicAnalyzer ${CSources})
 
 # Create C header file with the name <pio program>.pio.h
 pico_generate_pio_header(${PROJECT_NAME}  
@@ -27,13 +30,18 @@ pico_generate_pio_header(${PROJECT_NAME}
 )
 
 pico_set_program_name(LogicAnalyzer "LogicAnalyzer")
-pico_set_program_version(LogicAnalyzer "0.1")
+pico_set_program_version(LogicAnalyzer "3.0")
+
 
 pico_enable_stdio_uart(LogicAnalyzer 0)
 pico_enable_stdio_usb(LogicAnalyzer 1)
 
-# Add the standard library to the build
-target_link_libraries(LogicAnalyzer pico_stdlib)
+# Configure the correct cyw library based on what this is built for
+# Regular pico: empty
+# Pico W without WiFi support: pico_cyw43_arch_none
+# Pico W with WiFi support: pico_cyw43_arch_lwip_poll
+# set (CYW_LIB pico_cyw43_arch_lwip_poll)
+# set (CYW_LIB pico_cyw43_arch_none)
 
 # Add any user requested libraries
 target_link_libraries(LogicAnalyzer
@@ -41,11 +49,13 @@ target_link_libraries(LogicAnalyzer
         hardware_dma
         hardware_pio
         hardware_clocks
+        hardware_flash
         pico_multicore
         pico_base_headers
-        hardware_interp
-        hardware_divider
+        pico_multicore
+        ${CYW_LIB}
         )
 
 pico_add_extra_outputs(LogicAnalyzer)
 
+target_include_directories(LogicAnalyzer PRIVATE ${CMAKE_CURRENT_LIST_DIR} )

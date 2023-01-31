@@ -11,8 +11,8 @@ namespace LogicAnalyzer.Classes
     {
         public static Color[] BgChannelColors => new Color[]    
         {
-            Color.FromArgb(160, 32,32,32),
-            Color.FromArgb(160, 64,64, 64),
+            Color.FromRgb(36,36,36),
+            Color.FromRgb(28,28,28),
         };
 
         public static Color[] FgChannelColors => new Color[]

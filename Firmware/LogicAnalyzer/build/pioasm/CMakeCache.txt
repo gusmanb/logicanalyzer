@@ -15,7 +15,7 @@
 ########################
 
 //Path to a program.
-CMAKE_AR:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx86/x86/lib.exe
+CMAKE_AR:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx86/x86/lib.exe
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
@@ -25,7 +25,7 @@ CMAKE_BUILD_TYPE:STRING=Debug
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
 //CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx86/x86/cl.exe
+CMAKE_CXX_COMPILER:STRING=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx86/x86/cl.exe
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /W3 /GR /EHsc
@@ -67,7 +67,7 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=F:/PicoSDK/Projects/LogicAnalyzer/build/
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/pioasm
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx86/x86/link.exe
+CMAKE_LINKER:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx86/x86/link.exe
 
 //Program used to build from makefiles.
 CMAKE_MAKE_PROGRAM:STRING=nmake
@@ -199,9 +199,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=f:/PicoSDK/Projects/LogicAnalyzer/build/pioasm
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=24
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=25
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=0
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.
@@ -287,7 +287,7 @@ CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
 CMAKE_RC_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=F:/RPico/CMake/share/cmake-3.24
+CMAKE_ROOT:INTERNAL=F:/RPico/CMake/share/cmake-3.25
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG

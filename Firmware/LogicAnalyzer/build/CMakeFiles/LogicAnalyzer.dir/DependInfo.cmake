@@ -58,7 +58,7 @@ set(CMAKE_TARGET_DEFINITIONS_ASM
   "LIB_PICO_TIME=1"
   "LIB_PICO_UNIQUE_ID=1"
   "LIB_PICO_UTIL=1"
-  "PICO_BOARD=\"pico\""
+  "PICO_BOARD=\"pico_w\""
   "PICO_BUILD=1"
   "PICO_CMAKE_BUILD_TYPE=\"Debug\""
   "PICO_COPY_TO_RAM=0"
@@ -67,7 +67,7 @@ set(CMAKE_TARGET_DEFINITIONS_ASM
   "PICO_NO_HARDWARE=0"
   "PICO_ON_DEVICE=1"
   "PICO_PROGRAM_NAME=\"LogicAnalyzer\""
-  "PICO_PROGRAM_VERSION_STRING=\"0.1\""
+  "PICO_PROGRAM_VERSION_STRING=\"3.0\""
   "PICO_TARGET_NAME=\"LogicAnalyzer\""
   "PICO_USE_BLOCKED_RAM=0"
   )
@@ -75,6 +75,7 @@ set(CMAKE_TARGET_DEFINITIONS_ASM
 # The include file search paths:
 set(CMAKE_ASM_TARGET_INCLUDE_PATH
   "."
+  "F:/PicoSDK/Projects/LogicAnalyzer"
   "F:/PicoSDK/Pico/pico-sdk/src/common/pico_stdlib/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/include"
   "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/include"
@@ -86,15 +87,15 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
   "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_structs/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/include"
-  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/include"
-  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/include"
+  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/include"
+  "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/include"
   "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/include"
-  "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/include"
   "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/include"
+  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/include"
+  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/include"
-  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_resets/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/include"
@@ -122,11 +123,11 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/include"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/include"
-  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_interp/include"
   )
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "F:/PicoSDK/Projects/LogicAnalyzer/Event_Machine.c" "CMakeFiles/LogicAnalyzer.dir/Event_Machine.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/Event_Machine.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj.d"
@@ -159,7 +160,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/dma.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/dma.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/dma.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj.d"
-  "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_interp/interp.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_interp/interp.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_interp/interp.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj.d"
@@ -188,6 +188,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
   "F:/PicoSDK/Projects/LogicAnalyzer/LogicAnalyzer.c" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.obj.d"
+  "F:/PicoSDK/Projects/LogicAnalyzer/LogicAnalyzer_WiFi.c" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj.d"
+  "F:/PicoSDK/Projects/LogicAnalyzer/Shared_Buffers.c" "CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj.d"
   )
 

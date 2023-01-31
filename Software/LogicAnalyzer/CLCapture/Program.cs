@@ -3,229 +3,302 @@ using CommandLine;
 using SharedDriver;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
+
+Regex regAddressPort = new Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\\:[0-9]+");
+Regex regAddress = new Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+");
 
 TaskCompletionSource<CaptureEventArgs> captureCompletedTask;
 
-return await Parser.Default.ParseArguments<CLCaptureCommandLineOptions>(args)
-        .MapResult(async (CLCaptureCommandLineOptions opts) =>
+return await Parser.Default.ParseArguments<CLCaptureOptions, CLNetworkOptions>(args)
+        .MapResult(
+            async (CLCaptureOptions opts) => await Capture(opts),
+            async (CLNetworkOptions opts) => Configure(opts),
+            errs => Task.FromResult(-1)
+            );
+
+async Task<int> Capture(CLCaptureOptions opts)
+{
+    bool isNetworkAddress = regAddressPort.IsMatch(opts.AddressPort);
+    var ports = SerialPort.GetPortNames();
+
+    if (!isNetworkAddress && !ports.Any(p => p.ToLower() == opts.AddressPort.ToLower()))
+    {
+        Console.WriteLine("Cannot find specified serial port or address has an incorrect format.");
+        return -1;
+    }
+
+    if (opts.SamplingFrequency > 100000000 || opts.SamplingFrequency < 3100)
+    {
+        Console.WriteLine("Requested sampling frequency out of range (3100-100000000).");
+        return -1;
+    }
+
+    int[]? channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c)).ToArray();
+
+    if (channels == null || channels.Any(c => c < 1 || c > 24))
+    {
+        Console.WriteLine("Specified capture channels out of range.");
+        return -1;
+    }
+
+    if (opts.PreSamples + opts.PostSamples > 32767)
+    {
+        Console.WriteLine("Total samples exceed the supported maximum (32767).");
+        return -1;
+    }
+
+    if (opts.Trigger == null)
+    {
+        Console.WriteLine("Invalid trigger definition.");
+        return -1;
+    }
+
+    if (opts.Trigger.Value == null)
+    {
+        Console.WriteLine("Invalid trigger value.");
+        return -1;
+    }
+
+    switch (opts.Trigger.TriggerType)
+    {
+        case CLTriggerType.Edge:
+
+            if (opts.Trigger.Channel < 1 || opts.Trigger.Channel > 24)
+            {
+                Console.WriteLine("Trigger channel out of range.");
+                return -1;
+            }
+
+            break;
+
+        case CLTriggerType.Fast:
+
+            if (opts.Trigger.Value.Length > 5)
+            {
+                Console.WriteLine("Fast trigger only supports up to 5 channels.");
+                return -1;
+            }
+
+            if (opts.Trigger.Value.Length + opts.Trigger.Channel > 17)
+            {
+                Console.WriteLine("Fast trigger can only be used with the first 16 channels.");
+                return -1;
+            }
+
+            break;
+
+        case CLTriggerType.Complex:
+
+            if (opts.Trigger.Value.Length > 16)
+            {
+                Console.WriteLine("Complex trigger only supports up to 16 channels.");
+                return -1;
+            }
+
+            if (opts.Trigger.Value.Length + opts.Trigger.Channel > 17)
+            {
+                Console.WriteLine("Complex trigger can only be used with the first 16 channels.");
+                return -1;
+            }
+
+            break;
+    }
+
+    LogicAnalyzerDriver driver;
+
+    Console.WriteLine($"Opening logic analyzer in port {opts.AddressPort}...");
+
+    try
+    {
+        if (isNetworkAddress)
+            driver = new LogicAnalyzerDriver(opts.AddressPort);
+        else
+            driver = new LogicAnalyzerDriver(opts.AddressPort, 115200);
+    }
+    catch
+    {
+        Console.WriteLine($"Error detecting Logic Analyzer in port/address {opts.AddressPort}");
+        return -1;
+    }
+
+    Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port/address {opts.AddressPort}");
+
+    captureCompletedTask = new TaskCompletionSource<CaptureEventArgs>();
+
+    channels = opts.Channels.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c) - 1).ToArray();
+
+    if (opts.Trigger.TriggerType == CLTriggerType.Edge)
+    {
+        Console.WriteLine("Starting edge triggered capture...");
+        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
+            channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+
+        if (resStart != CaptureError.None)
         {
-            if (string.IsNullOrWhiteSpace(opts.OutputFile))
+            switch (resStart)
             {
-                Console.WriteLine("Missing serial port.");
-                return -1;
+                case CaptureError.Busy:
+                    Console.WriteLine("Device is busy, stop the capture before starting a new one.");
+                    return -1;
+                case CaptureError.BadParams:
+                    Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                    return -1;
+                case CaptureError.HardwareError:
+                    Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
+                    return -1;
             }
+        }
 
-            if (opts.SerialPort == null)
+        Console.WriteLine("Capture running...");
+    }
+    else
+    {
+        if (opts.Trigger.TriggerType == CLTriggerType.Fast)
+            Console.WriteLine("Starting fast pattern triggered capture");
+        else
+            Console.WriteLine("Starting complex pattern triggered capture");
+
+        int bitCount = opts.Trigger.Value.Length;
+        ushort triggerPattern = 0;
+
+        for (int buc = 0; buc < opts.Trigger.Value.Length; buc++)
+        {
+            if (opts.Trigger.Value[buc] == '1')
+                triggerPattern |= (UInt16)(1 << buc);
+        }
+
+        var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
+            channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
+
+        if (resStart != CaptureError.None)
+        {
+            switch (resStart)
             {
-                Console.WriteLine("Missing serial port.");
-                return -1;
+                case CaptureError.Busy:
+                    Console.WriteLine("Device is busy, stop the capture before starting a new one.");
+                    return -1;
+                case CaptureError.BadParams:
+                    Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                    return -1;
+                case CaptureError.HardwareError:
+                    Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
+                    return -1;
             }
+        }
 
-            var ports = SerialPort.GetPortNames();
+        Console.WriteLine("Capture running...");
+    }
 
-            if (!ports.Any(p => p.ToLower() == opts.SerialPort.ToLower()))
-            {
-                Console.WriteLine("Cannot find specified serial port.");
-                return -1;
-            }
+    var result = await captureCompletedTask.Task;
 
-            if (opts.SamplingFrequency > 100000000 || opts.SamplingFrequency < 3100)
-            {
-                Console.WriteLine("Requested sampling frequency out of range (3100-100000000).");
-                return -1;
-            }
+    Console.WriteLine("Capture complete, writting output file...");
 
-            int[]? channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c)).ToArray();
+    var file = File.Create(opts.OutputFile);
+    StreamWriter sw = new StreamWriter(file);
 
-            if (channels == null || channels.Any(c => c < 1 || c > 24))
-            {
-                Console.WriteLine("Specified capture channels out of range.");
-                return -1;
-            }
+    sw.WriteLine(String.Join(',', channels.Select(c => $"Channel {c + 1}").ToArray()));
 
-            if (opts.PreSamples + opts.PostSamples > 32767)
-            {
-                Console.WriteLine("Total samples exceed the supported maximum (32767).");
-                return -1;
-            }
+    StringBuilder sb = new StringBuilder();
 
-            if (opts.Trigger == null)
-            {
-                Console.WriteLine("Invalid trigger definition.");
-                return -1;
-            }
+    for (int sample = 0; sample < result.Samples.Length; sample++)
+    {
+        sb.Clear();
 
-            if (opts.Trigger.Value == null)
-            {
-                Console.WriteLine("Invalid trigger value.");
-                return -1;
-            }
-
-            switch (opts.Trigger.TriggerType)
-            {
-                case CLTriggerType.Edge:
-
-                    if (opts.Trigger.Channel < 1 || opts.Trigger.Channel > 24)
-                    {
-                        Console.WriteLine("Trigger channel out of range.");
-                        return -1;
-                    }
-
-                    break;
-
-                case CLTriggerType.Fast:
-
-                    if (opts.Trigger.Value.Length > 5)
-                    {
-                        Console.WriteLine("Fast trigger only supports up to 5 channels.");
-                        return -1;
-                    }
-
-                    if (opts.Trigger.Value.Length + opts.Trigger.Channel > 17)
-                    {
-                        Console.WriteLine("Fast trigger can only be used with the first 16 channels.");
-                        return -1;
-                    }
-
-                    break;
-
-                case CLTriggerType.Complex:
-
-                    if (opts.Trigger.Value.Length > 16)
-                    {
-                        Console.WriteLine("Complex trigger only supports up to 16 channels.");
-                        return -1;
-                    }
-
-                    if (opts.Trigger.Value.Length + opts.Trigger.Channel > 17)
-                    {
-                        Console.WriteLine("Complex trigger can only be used with the first 16 channels.");
-                        return -1;
-                    }
-
-                    break;
-            }
-
-            LogicAnalyzerDriver driver;
-
-            Console.WriteLine($"Opening logic analyzer in port {opts.SerialPort}...");
-
-            try
-            {
-                driver = new LogicAnalyzerDriver(opts.SerialPort, 115200);
-            }
-            catch 
-            {
-                Console.WriteLine($"Error detecting Logic Analyzer in port {opts.SerialPort}");
-                return -1;
-            }
-
-            Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port {opts.SerialPort}");
-
-            captureCompletedTask = new TaskCompletionSource<CaptureEventArgs>();
-
-            channels = opts.Channels.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c) - 1).ToArray();
-
-            if (opts.Trigger.TriggerType == CLTriggerType.Edge)
-            {
-                Console.WriteLine("Starting edge triggered capture...");
-                var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-                    channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
-
-                if (resStart != CaptureError.None)
-                {
-                    switch (resStart)
-                    {
-                        case CaptureError.Busy:
-                            Console.WriteLine("Device is busy, stop the capture before starting a new one.");
-                            return -1;
-                        case CaptureError.BadParams:
-                            Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
-                            return -1;
-                        case CaptureError.HardwareError:
-                            Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
-                            return -1;
-                    }
-                }
-
-                Console.WriteLine("Capture running...");
-            }
+        for (int buc = 0; buc < opts.Channels.Length; buc++)
+        {
+            if ((result.Samples[sample] & (1 << buc)) == 0)
+                sb.Append("0,");
             else
-            {
-                if (opts.Trigger.TriggerType == CLTriggerType.Fast)
-                    Console.WriteLine("Starting fast pattern triggered capture");
-                else
-                    Console.WriteLine("Starting complex pattern triggered capture");
+                sb.Append("1,");
+        }
 
-                int bitCount = opts.Trigger.Value.Length;
-                ushort triggerPattern = 0;
+        sw.WriteLine(sb.ToString());
+    }
 
-                for (int buc = 0; buc < opts.Trigger.Value.Length; buc++)
-                {
-                    if (opts.Trigger.Value[buc] == '1')
-                        triggerPattern |= (UInt16)(1 << buc);
-                }
+    sw.Close();
+    sw.Dispose();
+    file.Close();
+    file.Dispose();
 
-                var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-                    channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
+    Console.WriteLine("Done.");
 
-                if (resStart != CaptureError.None)
-                {
-                    switch (resStart)
-                    {
-                        case CaptureError.Busy:
-                            Console.WriteLine("Device is busy, stop the capture before starting a new one.");
-                            return -1;
-                        case CaptureError.BadParams:
-                            Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
-                            return -1;
-                        case CaptureError.HardwareError:
-                            Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
-                            return -1;
-                    }
-                }
+    return 1;
+}
 
-                Console.WriteLine("Capture running...");
-            }
+int Configure(CLNetworkOptions opts)
+{
+    var ports = SerialPort.GetPortNames();
 
-            var result = await captureCompletedTask.Task;
+    if (!ports.Any(p => p.ToLower() == opts.SerialPort))
+    {
+        Console.WriteLine("Cannot find specified serial port.");
+        return -1;
+    }
 
-            Console.WriteLine("Capture complete, writting output file...");
+    if (opts.AccessPoint.Length > 32)
+    {
+        Console.WriteLine("Invalid access point name.");
+        return -1;
+    }
 
-            var file = File.Create(opts.OutputFile);
-            StreamWriter sw = new StreamWriter(file);
+    if (opts.Password.Length > 63)
+    {
+        Console.WriteLine("Invalid password.");
+        return -1;
+    }
 
-            sw.WriteLine(String.Join(',', channels.Select(c => $"Channel {c+1}").ToArray()));
+    if (!regAddress.IsMatch(opts.Address))
+    {
+        Console.WriteLine("Invalid IP address.");
+        return -1;
+    }
 
-            StringBuilder sb = new StringBuilder();
+    if (opts.Port < 1)
+    {
+        Console.WriteLine("Invalid TCP port.");
+        return -1;
+    }
 
-            for (int sample = 0; sample < result.Samples.Length; sample++)
-            {
-                sb.Clear();
+    LogicAnalyzerDriver driver;
 
-                for (int buc = 0; buc < opts.Channels.Length; buc++)
-                {
-                    if((result.Samples[sample] & (1 << buc)) == 0)
-                        sb.Append("0,");
-                    else
-                        sb.Append("1,");
-                }
+    Console.WriteLine($"Opening logic analyzer in port {opts.SerialPort}...");
 
-                sw.WriteLine(sb.ToString());
-            }
+    try
+    {
+        driver = new LogicAnalyzerDriver(opts.SerialPort, 115200);
+    }
+    catch
+    {
+        Console.WriteLine($"Error detecting Logic Analyzer in port {opts.SerialPort}");
+        return -1;
+    }
 
-            sw.Close();
-            sw.Dispose();
-            file.Close();
-            file.Dispose();
+    Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port {opts.SerialPort}");
 
-            Console.WriteLine("Done.");
-            
-            return 1;
+    if (driver.DeviceVersion == null || !driver.DeviceVersion.Contains("WIFI"))
+    {
+        Console.WriteLine($"Device does not support WiFi. Aborting operation.");
+        driver.Dispose();
+        return -1;
+    }
 
-        },
-        errs => Task.FromResult(-1));
+    bool result = driver.SendNetworkConfig(opts.AccessPoint, opts.Password, opts.Address, opts.Port);
+
+    if (!result)
+    {
+        Console.WriteLine("Error updating the network settings, restart the device and try again.");
+        driver.Dispose();
+        return -1;
+    }
+
+    driver.Dispose();
+    Console.WriteLine("Done.");
+
+    return 1;
+}
 
 void CaptureFinished(CaptureEventArgs e)
 {

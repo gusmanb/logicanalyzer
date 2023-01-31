@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-F:/PicoSDK/Pico/pico-sdk/src/boards/include/boards/pico.h
+F:/PicoSDK/Pico/pico-sdk/src/boards/include/boards/pico_w.h
 
 F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/include/pico.h
 pico/types.h
@@ -157,6 +157,10 @@ F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include/pico/pico.h
 F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h
 hardware/platform_defs.h
 F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include/pico/hardware/platform_defs.h
+hardware/regs/addressmap.h
+F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include/pico/hardware/regs/addressmap.h
+hardware/regs/sio.h
+F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include/pico/hardware/regs/sio.h
 sys/cdefs.h
 -
 pico/types.h
@@ -175,7 +179,7 @@ pico/binary_info/defs.h
 F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/pico/binary_info/defs.h
 
 generated/pico_base/pico/config_autogen.h
-F:/PicoSDK/Pico/pico-sdk/src/boards/include/boards/pico.h
+F:/PicoSDK/Pico/pico-sdk/src/boards/include/boards/pico_w.h
 -
 F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h
 -

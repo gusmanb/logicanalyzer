@@ -6,7 +6,6 @@ using LogicAnalyzer.Classes;
 using LogicAnalyzer.Protocols;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace LogicAnalyzer.Controls
@@ -28,7 +27,7 @@ namespace LogicAnalyzer.Controls
         public SelectedSampleRegion[] SelectedRegions { get { return regions.ToArray(); } }
 
         List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
-        Color sampleLineColor = Color.FromArgb(80, 120, 120, 120);
+        Color sampleLineColor = Color.FromRgb(60, 60, 60);
         Color triggerLineColor = Colors.White;
         Color userLineColor = Colors.Cyan;
         DashStyle halfDash = new DashStyle(new double[] { 1, 8 }, 0);
@@ -36,6 +35,7 @@ namespace LogicAnalyzer.Controls
         public SampleViewer()
         {
             InitializeComponent();
+            byte t = 0;
         }
 
         public void BeginUpdate()

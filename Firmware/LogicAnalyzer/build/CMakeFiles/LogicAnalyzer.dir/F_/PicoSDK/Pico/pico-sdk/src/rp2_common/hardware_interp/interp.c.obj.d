@@ -21,17 +21,17 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_in
  F:\PicoSDK\Projects\LogicAnalyzer\build\generated\pico_base/pico/version.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_base\include/pico/config.h \
  F:\PicoSDK\Projects\LogicAnalyzer\build\generated\pico_base/pico/config_autogen.h \
- F:/PicoSDK/Pico/pico-sdk/src/boards/include/boards/pico.h \
+ F:/PicoSDK/Pico/pico-sdk/src/boards/include/boards/pico_w.h \
  F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\include/pico/platform.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/platform_defs.h \
+ F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/addressmap.h \
+ F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/sio.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\cdefs.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_base\include/pico/types.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_base\include/pico/error.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/interp.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_base\include/hardware/address_mapped.h \
- F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/addressmap.h \
- F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/sio.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/sio.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\include/hardware/claim.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\include/hardware/sync.h

@@ -1,0 +1,114 @@
+{
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"pico_generate_pio_header",
+			"add_dependencies",
+			"find_package",
+			"_pico_init_pioasm"
+		],
+		"files" : 
+		[
+			"F:/PicoSDK/Pico/pico-sdk/tools/CMakeLists.txt",
+			"CMakeLists.txt",
+			"F:/PicoSDK/Pico/pico-sdk/tools/FindPioasm.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 1
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 9,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 4,
+				"parent" : 3
+			},
+			{
+				"file" : 2,
+				"parent" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 49,
+				"parent" : 5
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 6,
+			"id" : "PioasmBuild::@29db30da11e86cddb3e0"
+		}
+	],
+	"id" : "LogicAnalyzer_LogicAnalyzer_pio_h::@6890427a1f51a3e7e1df",
+	"name" : "LogicAnalyzer_LogicAnalyzer_pio_h",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/LogicAnalyzer_LogicAnalyzer_pio_h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/LogicAnalyzer_LogicAnalyzer_pio_h.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/LogicAnalyzer.pio.h.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

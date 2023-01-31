@@ -55,6 +55,12 @@
       "irq.h": "c",
       "IRQ.H": "cpp",
       "m0plus.h": "c",
-      "platform.h": "c"
+      "platform.h": "c",
+      "dma.h": "c",
+      "logicanalyzer_structs.h": "c",
+      "cyw43_arch.h": "c",
+      "logicanalyzer_build_settings.h": "c",
+      "sync.h": "c",
+      "flash.h": "c"
     },
 }

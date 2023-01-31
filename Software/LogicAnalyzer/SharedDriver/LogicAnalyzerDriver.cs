@@ -1,15 +1,20 @@
 ﻿using System.IO.Ports;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SharedDriver
 {
     public class LogicAnalyzerDriver : IDisposable
     {
+        Regex regAddressPort = new Regex("([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)\\:([0-9]+)");
         StreamReader readResponse;
         BinaryReader readData;
         Stream baseStream;
         SerialPort sp;
+        TcpClient tcpClient;
 
         public string? DeviceVersion { get; set; }
         public event EventHandler<CaptureEventArgs>? CaptureCompleted;
@@ -19,6 +24,8 @@ namespace SharedDriver
         private int triggerChannel;
         private int preSamples;
         private Action<CaptureEventArgs>? currentCaptureHandler;
+
+        public bool IsNetwork { get; private set; }
 
         public LogicAnalyzerDriver(string SerialPort, int Bauds)
         {
@@ -43,6 +50,72 @@ namespace SharedDriver
             baseStream.ReadTimeout = 10000;
             DeviceVersion = readResponse.ReadLine();
             baseStream.ReadTimeout = Timeout.Infinite;
+        }
+
+        public LogicAnalyzerDriver(string AddressPort)
+        {
+            var match = regAddressPort.Match(AddressPort);
+
+            if (match == null || !match.Success)
+                throw new ArgumentException("Specified address/port is invalid");
+
+            string addr = match.Groups[1].Value;
+            string port = match.Groups[2].Value;
+
+            ushort uport;
+
+            if(!ushort.TryParse(port, out uport))
+                throw new ArgumentException("Specified address/port is invalid");
+
+            tcpClient = new TcpClient();
+
+            tcpClient.Connect(addr, uport);
+            baseStream = tcpClient.GetStream();
+
+            readResponse = new StreamReader(baseStream);
+            readData = new BinaryReader(baseStream);
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(0);
+
+            baseStream.Write(pack.Serialize());
+
+            baseStream.ReadTimeout = 10000;
+            DeviceVersion = readResponse.ReadLine();
+            baseStream.ReadTimeout = Timeout.Infinite;
+
+            IsNetwork = true;
+        }
+
+        public unsafe bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port)
+        {
+            if(IsNetwork) 
+                return false;
+
+            NetConfig request = new NetConfig { Port = Port };
+            byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
+            byte[] pass = Encoding.ASCII.GetBytes(Password);
+            byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
+            
+            Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
+            Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
+            Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(2);
+            pack.AddStruct(request);
+
+            baseStream.Write(pack.Serialize());
+            baseStream.Flush();
+
+            baseStream.ReadTimeout = 5000;
+            var result = readResponse.ReadLine();
+            baseStream.ReadTimeout = Timeout.Infinite;
+
+            if (result == "SETTINGS_SAVED")
+                return true;
+
+            return false;
         }
 
         public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
@@ -174,6 +247,13 @@ namespace SharedDriver
 
             try
             {
+                tcpClient.Close();
+                tcpClient.Dispose();
+
+            } catch { }
+
+            try
+            {
                 baseStream.Close();
                 baseStream.Dispose();
             }
@@ -206,7 +286,7 @@ namespace SharedDriver
 
             try
             {
-
+                /*
                 byte[] readBuffer = new byte[Samples * 4 + 4];
 
                 int left = readBuffer.Length;
@@ -230,6 +310,12 @@ namespace SharedDriver
                             samples[buc] = br.ReadUInt32();
                     }
                 }
+                */
+
+                uint length = readData.ReadUInt32();
+                uint[] samples = new uint[length];
+                for (int buc = 0; buc < length; buc++)
+                    samples[buc] = readData.ReadUInt32();
 
                 if (currentCaptureHandler != null)
                     currentCaptureHandler(new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
@@ -319,6 +405,14 @@ namespace SharedDriver
             public UInt32 postSamples;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        unsafe struct NetConfig
+        {
+            public fixed byte AccessPointName[33];
+            public fixed byte Password[64];
+            public fixed byte IPAddress[16];
+            public UInt16 Port;
+        }     
     }
 
     public enum CaptureError

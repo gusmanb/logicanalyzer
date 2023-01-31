@@ -95,7 +95,7 @@ namespace LogicAnalyzer.Controls
                 newChannelTextbox.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
                 newChannelTextbox.Margin = new Thickness(5, 0, 5, 0);
 
-                newChannelTextbox.Background = GraphicObjectsCache.GetBrush(AnalyzerColors.BgChannelColors[1 - (buc % 2)]);
+                newChannelTextbox.Background = GraphicObjectsCache.GetBrush(AnalyzerColors.BgChannelColors[buc % 2]);
                 newChannelTextbox.Foreground = GraphicObjectsCache.GetBrush(AnalyzerColors.TxtColor);
 
                 newChannelTextbox.MinHeight = newChannelTextbox.MaxHeight = newChannelTextbox.Height = 18;

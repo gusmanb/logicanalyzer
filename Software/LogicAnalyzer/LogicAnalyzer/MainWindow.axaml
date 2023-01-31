@@ -7,20 +7,8 @@
         x:Class="LogicAnalyzer.MainWindow"
         Title="LogicAnalyzer - Multiplatform version"
         Icon="/Assets/window.ico"
-        Background="Black" MinWidth="1024" MinHeight="800" Width="1024" Height="800" WindowStartupLocation="CenterScreen">
+        Background="#383838" MinWidth="1024" MinHeight="800" Width="1024" Height="800" WindowStartupLocation="CenterScreen">
   <DockPanel VerticalAlignment="Stretch">
-
-    <!--
-    <ExperimentalAcrylicBorder IsHitTestVisible="False">
-      <ExperimentalAcrylicBorder.Material>
-        <ExperimentalAcrylicMaterial
-            BackgroundSource="Digger"
-            TintColor="Black"
-            TintOpacity="1"
-            MaterialOpacity="0.65" />
-      </ExperimentalAcrylicBorder.Material>
-    </ExperimentalAcrylicBorder>-->
-
     <Menu DockPanel.Dock="Top" Background="#f0202020">
         <MenuItem Header="_File">
           <MenuItem Header="_Open..." Name="mnuOpen"/>
@@ -32,6 +20,9 @@
         <MenuItem Header="_Protocol analyzers" Name="mnuProtocols" IsEnabled="False">
           <MenuItem Header="None"/>
         </MenuItem>
+      <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
+        <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
+      </MenuItem>
       </Menu>
     <Grid DockPanel.Dock="Top" Height="48" ColumnDefinitions="*,*" Background="#80303030">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Column="0" Margin="10,0,0,0">
