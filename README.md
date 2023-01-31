@@ -7,7 +7,7 @@ Latest version: Release 2.1.0.1, 17/12/2022
 
 ----
 
-## UPDATE 17/12/2022 - Software update
+## UPDATE 29/01/2023 - Software update
 
 This release contains many updates to the GUI, CLI and driver and also includes many new target architectures.
 
