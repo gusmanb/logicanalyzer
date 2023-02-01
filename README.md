@@ -7,6 +7,16 @@ Latest version: Release 3.0.0.0, 31/01/2023
 
 ----
 
+## UPDATE 01/02/2023 - Serial protocol analyzer.
+
+This is a small update, I have created a serial protocol analyzer (RS-232). This update does not include a release but I have left the analyzer library compiled in the repository. To install it get it from [here](https://github.com/gusmanb/logicanalyzer/blob/master/SerialProtocolAnalyzer.dll) and copy it to the "analyzers" folder of the application.
+
+It supports positive and negative polarity (for TTL and RS-232 level signals), two channels (RX + TX), 7 or 8 bits, no parity/odd parity/even parity and 1, 1.5 or 2 stop bits.
+
+Have fun!
+
+----
+
 ## UPDATE 31/01/2023 - Pico-W support and WiFi!
 
 It's finally here! WiFi support!
