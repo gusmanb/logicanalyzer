@@ -3,7 +3,73 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 2.1.1.0, 29/01/2023
+Latest version: Release 3.0.0.0, 31/01/2023
+
+----
+
+## UPDATE 31/01/2023 - Pico-W support and WiFi!
+
+It's finally here! WiFi support!
+
+First of all, there are now three different firmware versions in the release section, one with no suffix for the regular pico, another with the "W" suffix for the Pico-W with no WiFi support and a final one with the "WIFI" suffix for the Pico-W with WiFi support. Choose the one that best suits your needs.
+
+Now, how to use the WiFi support?
+
+First of all, you need a Pico-W, I think that's obvious :D, flash it with the "WIFI" firmware and the device is ready to be used. If you plan to solder the Pico-W to the analyzer board beware to not to add the debug pins as they are now located in the middle of the board and it will not allow you to solder it, if you want them then you will need to use some pin headers to rise the Pico from the board (for my own device is what I always have done, in this way I can replace the Pico whenever I want).
+
+Ok, now let's see how to use it.
+
+First of all, you need to connect at least once the Pico-W to the computer to configure the network settings, this process can be done as many times as you want, connect the Pico-W to the computer and use the CLCapture or the LogicAnalyzer software to configure it.
+
+When you connect the Pico-W with the WiFi firmware you will notice that a new menu gets enabled:
+
+![WiFi menu](WiFi-1.jpg?raw=true "WiFi menu")
+
+From there you can then select the "Update Network Settings" menu.
+
+![WiFi menu 2](WiFi-2.jpg?raw=true "WiFi menu 2")
+
+That will open the dialog to configure the network settings, you must enter the SSID of your router, the password (only WPA2 is supported), the desired static IP address and the listening TCP port.
+
+![Network options](WiFi-3.jpg?raw=true "Network options")
+
+Once these are configured accept them and they will be saved to the Pico-W flash, immediately the Pico-W will try to connect to your router, if it's available it will connect and it will be available for network connection.
+
+To connect to the Pico-W through WiFi you must select from the dropdown menu the "Network" option.
+
+![Network connect](WiFi-4.jpg?raw=true "Network connect")
+
+Once you select it and press the "Open" button the network connection dialog will open.
+
+![Network connect dialog](WiFi-5.jpg?raw=true "Network connect dialog")
+
+Fill the IP address and port and press "Accept", if the device is available it will connect to it.
+
+![Network connected](WiFi-6.jpg?raw=true "Network connected")
+
+And that's it! From that point the device works exactly as before, for the application is indifferent if it is connected through network or USB, it has the exact same functionalities.
+
+### The CLCapture updates
+
+The CLCapture also supports the network connection and configuration, for that purpose now the command line starts with a verb, execute the program without any parameter to check the verbs and only with a verb to get the required parameters.
+
+### Some notes
+
+Both interfaces (USB and WiFi) work at the same time, but when a client gets connected through WiFi the USB will be ignored until the client gets disconnected, keep it in mind.
+
+I have found some quirks on the Pico-W WiFi support, the first one is that it does not support at all to connect without a DHCP server, and it always gets the network information from there, fortunatelly I have found a way to change the IP address once it is connected to the AP. This also causes a problem (at least in my router), if you are already connected to the AP and you change the network settings the device disconnects from it and reconnects with the new info, if is the same AP (per example you have just changed the IP address) the static IP is ignored and it will retain the one assigned by the DHCP server, the solution is easy, restart the Pico-W and it will connect with the new IP address.
+
+The firmware now has three "flavours" when compiled, this is controlled from the "LogicAnalyzer_Build_Settings.h" header and the "CMakeLists.txt" files, both contain instructions on how to change the settings based on your preferences.
+
+A user adviced me that the Pico-W may have problems if the USB is connected to a host and the WiFi is used. I haven't experienced none of these and I have tested it extensively, maybe as I have used a sepparated core for the WiFi it avoids this kind of trouble, but if you experience them then use a USB power supply (like a phone charger or similar) if you want to connect through WiFi.
+
+### The future
+
+I'm thinking about creating a new PCB board that contains a battery and an USB charging module, in this way the device will become totally free of wires (except for the ones for the signals, obviously). I think this could be extremely useful, you will be able to place the analyzer even inside a computer or any kind of device and connect to it remotely, I think this could be extremely useful for devices that are in fixed places or are big and difficult to move (like old mini computers or car ECU's).
+
+Stay tunned for more news, and be sure the project still is not completed!
+
+Have fun!
 
 ----
 
