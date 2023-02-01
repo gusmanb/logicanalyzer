@@ -340,6 +340,9 @@ namespace LogicAnalyzer
                 if (await dlg.ShowDialog<bool>(this) != true)
                     return;
 
+                if (dlg.SelectedSettings == null)
+                    return;
+
                 var channels = dlg.SelectedChannels;
                 var samples = sampleViewer.Samples;
 
