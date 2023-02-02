@@ -171,8 +171,10 @@ namespace SerialProtocolAnalyzer
 
                 int endPos = (int)Math.Round(samplePos, 0);
 
+                string asciival = value >= 0x20 && value <= 0x7e ? Encoding.ASCII.GetString(new byte[] { (byte)value }) : "·";
+
                 ProtocolAnalyzerDataSegment newSegment = new ProtocolAnalyzerDataSegment();
-                newSegment.Value = "0x" + value.ToString("X2") + "-'" + Encoding.ASCII.GetString(new byte[] { value }) + "'";
+                newSegment.Value = $"0x{value.ToString("X2")} '{asciival}'";
                 newSegment.FirstSample = startPos;
                 newSegment.LastSample = endPos;
                 string errors = "";

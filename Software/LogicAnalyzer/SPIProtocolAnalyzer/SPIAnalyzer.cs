@@ -166,7 +166,7 @@ namespace SPIProtocolAnalyzer
 
                         string asciival = value >= 0x20 && value <= 0x7e ? Encoding.ASCII.GetString(new byte[] { (byte)value }) : "·";
 
-                        ProtocolAnalyzerDataSegment segment = new ProtocolAnalyzerDataSegment { FirstSample = range.FirstSample + firstClockSample, LastSample = range.FirstSample + lastSample, Value = $"0x{value.ToString("X2")} (\"{asciival}\")" };
+                        ProtocolAnalyzerDataSegment segment = new ProtocolAnalyzerDataSegment { FirstSample = range.FirstSample + firstClockSample, LastSample = range.FirstSample + lastSample, Value = $"0x{value.ToString("X2")} '{asciival}'" };
                         segments.Add(segment);
 
                         firstClockSample = FindSample(lastSample, clockRange, cpha == 0 ? 1 : 0);
