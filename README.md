@@ -4,6 +4,16 @@
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
 Latest version: Release 3.0.0.0, 31/01/2023
+----
+
+## UPDATE 02/02/2023 - I2C protocol analyzer.
+
+New day, new analyzer :D. This time is the turn for I2C. The analyzer will show you the raw data, the ACK/NACK's and will also show the device address (7 and 10 bit modes), operation of a request and any kind of frame error. To install it get it from [here](https://github.com/gusmanb/logicanalyzer/blob/master/I2CProtocolAnalyzer.dll) and copy it to the "analyzers" folder of the application.
+
+![imagen](https://user-images.githubusercontent.com/4086913/216373359-d09fb234-0858-4005-aec1-e9a09177f37f.png)
+
+
+Have fun!
 
 ----
 
