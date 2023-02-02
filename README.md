@@ -12,7 +12,6 @@ New day, new analyzer :D. This time is the turn for I2C. The analyzer will show 
 
 ![imagen](https://user-images.githubusercontent.com/4086913/216373359-d09fb234-0858-4005-aec1-e9a09177f37f.png)
 
-
 Have fun!
 
 ----
@@ -22,6 +21,8 @@ Have fun!
 This is a small update, I have created a serial protocol analyzer (RS-232). This update does not include a release but I have left the analyzer library compiled in the repository. To install it get it from [here](https://github.com/gusmanb/logicanalyzer/blob/master/SerialProtocolAnalyzer.dll) and copy it to the "analyzers" folder of the application.
 
 It supports positive and negative polarity (for TTL and RS-232 level signals), two channels (RX + TX), 7 or 8 bits, no parity/odd parity/even parity and 1, 1.5 or 2 stop bits.
+
+![imagen](https://user-images.githubusercontent.com/4086913/216373893-f28a6de1-a1d6-4efd-a9b1-95b5418de66d.png)
 
 Have fun!
 
