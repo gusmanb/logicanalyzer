@@ -42,6 +42,7 @@ namespace LogicAnalyzer
             sampleMarker.RegionDeleted += sampleMarker_RegionDeleted;
             sampleMarker.UserMarkerSelected += sampleMarker_UserMarkerSelected;
             sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
+            sampleMarker.MeasureSamples += SampleMarker_MeasureSamples;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
             scrSamplePos.Scroll += scrSamplePos_ValueChanged;
             mnuOpen.Click += mnuOpen_Click;
@@ -51,6 +52,25 @@ namespace LogicAnalyzer
             mnuNetSettings.Click += MnuNetSettings_Click;
             LoadAnalyzers();
             RefreshPorts();
+        }
+
+        private async void SampleMarker_MeasureSamples(object? sender, SamplesEventArgs e)
+        {
+            List<byte[]> samples = new List<byte[]>();
+
+            for (int buc = 0; buc < sampleViewer.ChannelCount; buc++)
+                samples.Add(ExtractSamples(buc, sampleViewer.Samples, e.FirstSample, e.SampleCount));
+
+            var names = channelViewer.ChannelsText.ToArray();
+
+            for (int buc = 0; buc < names.Length; buc++)
+                if (string.IsNullOrWhiteSpace(names[buc]))
+                    names[buc] = (buc + 1).ToString();
+
+            MeasureDialog dlg = new MeasureDialog();
+            dlg.SetData(names, samples, settings.Frequency);
+            await dlg.ShowDialog(this);
+
         }
 
         private async void MnuNetSettings_Click(object? sender, RoutedEventArgs e)
@@ -368,6 +388,12 @@ namespace LogicAnalyzer
             int idx = channel.ChannelIndex;
             int mask = 1 << idx;
             channel.Samples = samples.Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
+        }
+
+        private byte[] ExtractSamples(int channel, uint[] samples, int firstSample, int count)
+        {
+            int mask = 1 << channel;
+            return samples.Skip(firstSample).Take(count).Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
         }
 
         private async void btnOpenClose_Click(object? sender, EventArgs e)

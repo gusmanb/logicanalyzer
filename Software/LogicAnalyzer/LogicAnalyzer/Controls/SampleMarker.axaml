@@ -11,9 +11,10 @@
 
     <Panel.ContextMenu>
         <ContextMenu Name="rgnDeleteMenu">
-        <MenuItem Header="Delete regions" Name="mnuDeleteRegions" />
-        <MenuItem Header="Delete regions and samples" Name="mnuDeleteRegionsSamples" />
-      </ContextMenu>
+          <MenuItem Header="Delete regions" Name="mnuDeleteRegions" />
+          <MenuItem Header="Delete regions and samples" Name="mnuDeleteRegionsSamples" />
+          <MenuItem Header="Measure region" Name="mnuMeasure" />
+        </ContextMenu>
     </Panel.ContextMenu>
   </Panel>
 </UserControl>

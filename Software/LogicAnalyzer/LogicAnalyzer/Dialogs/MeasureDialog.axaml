@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="LogicAnalyzer.Dialogs.MeasureDialog"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        MaxWidth="400" MinWidth="400"
+        MaxHeight="450" MinHeight="450"
+        Title="Measurements" Icon="/Assets/window.ico"
+        Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
+  <StackPanel>
+    <Grid ColumnDefinitions="2.5*,*" RowDefinitions="20,20,20">
+      <TextBlock Grid.Row="0" Margin="10,5,10,5">Total samples:</TextBlock>
+      <TextBlock Grid.Row="0" Grid.Column="1" Margin="10,5,10,5" Name="lblSamples">0</TextBlock>
+      <TextBlock Grid.Row="1" Margin="10,5,10,5">Total period:</TextBlock>
+      <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,5,10,5" Name="lblPeriod">0ns</TextBlock>
+      <TextBlock Grid.Row="2" Margin="10,5,10,5">Sample period:</TextBlock>
+      <TextBlock Grid.Row="2" Grid.Column="1" Margin="10,5,10,5" Name="lblSamplePeriod">0ns</TextBlock>
+    </Grid>
+    <Grid RowDefinitions="8*,2*">
+      <ScrollViewer Name="scrViewer" Margin="10" VerticalAlignment="Top" Height="300" Background="#282828">
+        <StackPanel Name="pnlControls">
+
+        </StackPanel>
+      </ScrollViewer>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="1" Margin="0,10,0,10">
+        <Button Name="btnAccept" Margin="10,0,10,0">Accept</Button>
+      </StackPanel>
+    </Grid>
+  </StackPanel>
+</Window>

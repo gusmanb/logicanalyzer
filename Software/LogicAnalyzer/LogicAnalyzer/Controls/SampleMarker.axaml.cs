@@ -52,6 +52,7 @@ namespace LogicAnalyzer.Controls
 
         public event EventHandler<SamplesEventArgs> SamplesDeleted;
         public event EventHandler<UserMarkerEventArgs> UserMarkerSelected;
+        public event EventHandler<SamplesEventArgs> MeasureSamples;
 
         List<SelectedSampleRegion> regions = new List<SelectedSampleRegion>();
 
@@ -66,6 +67,13 @@ namespace LogicAnalyzer.Controls
             InitializeComponent();
             mnuDeleteRegions.Click += MnuDeleteRegions_Click;
             mnuDeleteRegionsSamples.Click += MnuDeleteRegionsSamples_Click;
+            mnuMeasure.Click += MnuMeasure_Click;
+        }
+
+        private void MnuMeasure_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (MeasureSamples != null)
+                MeasureSamples(this, new SamplesEventArgs { FirstSample = regionsToDelete[0].FirstSample, SampleCount = regionsToDelete[0].SampleCount });
         }
 
         private void MnuDeleteRegionsSamples_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
