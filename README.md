@@ -1,9 +1,25 @@
 # LogicAnalyzer
 ----
+
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
 Latest version: Release 3.0.0.0, 31/01/2023
+
+----
+
+## UPDATE 03/02/2023 - Measurement tool.
+
+This is a very handy update to the analyzer, you can measure a region and get information of each channel: total samples selected, period of the selection, number of positive pulses, number of negative pulses, average and predominant period for positive and negative pulses and average and predominant frequency.
+
+The predominant values are calculated applying a variant of the 95th percentile rule to discard aberrant/broken samples and I must say it works really well, it matched exactly all the frecuencies I have tested.
+
+![imagen](https://user-images.githubusercontent.com/4086913/216588696-f654142b-0359-4737-b268-9a03e389aca1.png)
+
+There is still no new release, you will need to compile the application if you want it, but I will create the release very soon.
+
+Have fun!
+
 ----
 
 ## UPDATE 02/02/2023 - I2C protocol analyzer.
