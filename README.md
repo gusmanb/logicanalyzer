@@ -4,7 +4,64 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 3.0.0.0, 31/01/2023
+Latest version: Release 3.5.0.0, 04/01/2023
+
+----
+
+## UPDATE 04/02/2023 - New release! Bugs corrected and more samples!
+
+Hi! This update comes loaded of news.
+
+### First of all, bug corrections. 
+
+The biggest bug that has been corrected is the fast trigger in the Pico-W. When I implemented the Pico-W I tried it extensively, but I used only the simple trigger to do the tests. What was my surprise when I tried to use the Pico-W with a fast trigger and I found that it got completelly hung!
+
+The thing is that the Pico-W hides a little secret that I haven't found documented anywhere, this little secret is that the driver uses a PIO program to do the transfers! The fast trigger uses a full PIO unit, all its 32 instructions to create a jump table, and the CYW driver uses a SM in the PIO1 to do the SPI transfers. So I tried to swap the PIO units and it at least started to capture, but the capture was never finished, I have revised up-to-down the driver and still haven't found why the PIO1 interrupts don't work at all after the CYW driver has been enabled, so I have done a work-around that does not need the IRQ to trigger a handler. So, if you are using a Pico-W update the firmware asap.
+
+The next bug is a small bug that caused that some samples weren't clear correctly when a trigger was rised immediately after starting capture (for example the trigger condition is already met when the first sample is done).
+
+### And now, the really big news, MORE SAMPLES!
+
+I have tweaked the buffer transference between the PIO and the memory and it allows to hold up to 131071 samples! Of course this is at the expense of how many channels you use, the device now has three modes: 8 channels, 16 channels and 24 channels.
+
+The sample limits are specified here:
+
+ * Mode 8:
+ 
+     * Minimum pre-samples: 2
+     * Maximum pre-samples: 98303
+     * Minimum post-samples: 512
+     * Maximum post-samples: 131069
+     * Maximum total samples: 131071
+     
+ * Mode 16:
+ 
+     * Minimum pre-samples: 2
+     * Maximum pre-samples: 49151
+     * Minimum post-samples: 512
+     * Maximum post-samples: 65533
+     * Maximum total samples: 65535
+     
+ * Mode 24:
+ 
+     * Minimum pre-samples: 2
+     * Maximum pre-samples: 24576
+     * Minimum post-samples: 512
+     * Maximum post-samples: 32765
+     * Maximum total samples: 32767
+
+As you can see, using the 8 channel mode you can capture up to four times the samples that were available until now, a substantial increase.
+The channels used for 8 and 16 modes must be the first ones, you cannot choose eight random channels, and this introduces a limitation, they collide with the complex and fast triggers (not the simple trigger, for that you still can use any channel left). Bear in mind this to plan how you configure your capture, for example for the 8 channel mode you still can have a 8 channel complex trigger or a fast 5 channel trigger without including these channels in the capture, but if you need more channels for one of these triggers, or you need to use the 16 channel mode you will suffer of this.
+
+### Another new update, now you can show up to 1024 samples in screen!
+
+You can activate this feature from the main screen, it has a checkbox (which will warn you as this may be a very CPU intensive task for old computers) that allows you to change the on-screen samples from 200 to 1024, this is really useful for use with big screens and modern computers.
+
+Also I have tweaked a bit the appearance of the sample viewer, I didn't liked the dashed lines so now all are continuous ones.
+
+Well, that's it for now.
+
+Have fun!
 
 ----
 
