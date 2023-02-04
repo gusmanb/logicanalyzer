@@ -8,6 +8,7 @@ using LogicAnalyzer.Dialogs;
 using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Protocols;
 using MessageBox.Avalonia;
+using MessageBox.Avalonia.Enums;
 using Newtonsoft.Json;
 using SharedDriver;
 using System;
@@ -18,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LogicAnalyzer
 {
@@ -50,8 +52,32 @@ namespace LogicAnalyzer
             mnuExit.Click += MnuExit_Click;
             mnuExport.Click += MnuExport_Click;
             mnuNetSettings.Click += MnuNetSettings_Click;
+            ckMoreSamples.Checked += CkMoreSamples_Checked;
             LoadAnalyzers();
             RefreshPorts();
+        }
+
+        private async void CkMoreSamples_Checked(object? sender, RoutedEventArgs e)
+        {
+            if (ckMoreSamples.IsChecked ?? false)
+            {
+                var result = await ShowConfirm("Warning!", "Enabling this option can be very CPU intensive, are you sure you want to enable it?");
+
+                if (!result)
+                {
+                    ckMoreSamples.IsChecked = false;
+                    return;
+                }
+                tkInScreen.Maximum = 1024;
+                lblMaxSamples.Text = "1024";
+            }
+            else
+            {
+                tkInScreen.Maximum = 200;
+                lblMaxSamples.Text = "1024";
+                if (tkInScreen.Value > 200)
+                    tkInScreen.Value = 200;
+            }
         }
 
         private async void SampleMarker_MeasureSamples(object? sender, SamplesEventArgs e)
@@ -499,17 +525,20 @@ namespace LogicAnalyzer
 
             if (settings.TriggerType != 0)
             {
-                var error = driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false);
+                var error = driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false, settings.CaptureMode);
 
                 if(error != CaptureError.None)
                     await ShowError(error);
             }
             else
             {
-                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerInverted);
+                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels, settings.TriggerChannel, settings.TriggerInverted, settings.CaptureMode);
 
                 if (error != CaptureError.None)
+                {
                     await ShowError(error);
+                    return;
+                }
             }
 
             btnCapture.IsEnabled = false;
@@ -527,7 +556,7 @@ namespace LogicAnalyzer
                     await ShowError("Error", "Device is busy, stop the capture before starting a new one.");
                     return;
                 case CaptureError.BadParams:
-                    await ShowError("Error", "Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                    await ShowError("Error", "Specified parameters are incorrect. Check the documentation in the repository to validate them.");
                     return;
                 case CaptureError.HardwareError:
                     await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
@@ -682,7 +711,7 @@ namespace LogicAnalyzer
             var win = prop.GetValue(box) as Window;
 
             win.Icon = this.Icon;
-            await box.Show();
+            await box.ShowDialog(this);
         }
 
         private async Task ShowInfo(string Title, string Text)
@@ -693,7 +722,23 @@ namespace LogicAnalyzer
             var win = prop.GetValue(box) as Window;
 
             win.Icon = this.Icon;
-            await box.Show();
+            await box.ShowDialog(this);
+        }
+
+        private async Task<bool> ShowConfirm(string Title, string Text)
+        {
+            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, @enum: MessageBox.Avalonia.Enums.ButtonEnum.YesNo, icon: MessageBox.Avalonia.Enums.Icon.Warning);
+
+            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
+            var win = prop.GetValue(box) as Window;
+
+            win.Icon = this.Icon;
+            var result = await box.ShowDialog(this);
+
+            if (result == ButtonResult.No)
+                return false;
+
+            return true;
         }
     }
 }

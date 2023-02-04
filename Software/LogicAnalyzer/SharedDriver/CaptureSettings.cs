@@ -17,5 +17,6 @@ namespace SharedDriver
         public bool TriggerInverted { get; set; }
         public int TriggerBitCount { get; set; }
         public ushort TriggerPattern { get; set; }
+        public byte CaptureMode { get; set; }
     }
 }

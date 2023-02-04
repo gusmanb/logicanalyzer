@@ -3,25 +3,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="660"
-        MaxWidth="800" MinWidth="800" Width="800" MaxHeight="660" MinHeight="660" Height="660"
+        MaxWidth="900" MinWidth="900" Width="800" MaxHeight="660" MinHeight="660" Height="660"
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
         Title="Start capture..."
         Background="#383838" Icon="/Assets/window.ico">
   <Panel>
-    <Grid RowDefinitions="2*,14*,1*" Margin="10,15,10,15">
-      <Grid Grid.Row="0" ColumnDefinitions="*,*,*" Margin="10,0,10,0">
+    <Grid RowDefinitions="2*,14*,1*" Margin="8,15,8,15">
+      <Grid Grid.Row="0" ColumnDefinitions="168,243,223,220" Margin="10,0,10,0">
         <StackPanel Grid.Column="0" Orientation="Horizontal">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Frequency:</TextBlock>
-          <NumericUpDown Width="170" Height="35" Minimum="3100" Maximum="100000000" Value="100000000" Name="nudFrequency"></NumericUpDown>
+          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Mode:</TextBlock>
+          <DropDown SelectedIndex="0" Width="120" Height="35" Name="ddMode" Margin="0,20,15,0">
+            <DropDownItem>
+              8 channel
+            </DropDownItem>
+            <DropDownItem>
+              16 channel
+            </DropDownItem>
+            <DropDownItem>
+              24 channel
+            </DropDownItem>
+          </DropDown>
         </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Pre samples:</TextBlock>
-          <NumericUpDown Width="130" Height="35" Value="512" Minimum="2" Maximum="31743" Name="nudPreSamples"></NumericUpDown>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Frequency:</TextBlock>
+          <NumericUpDown Width="165" Height="35" Minimum="3100" Maximum="100000000" Value="100000000" Name="nudFrequency"></NumericUpDown>
         </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Post samples:</TextBlock>
-          <NumericUpDown Width="130" Height="35" Value="1024" Minimum="512" Maximum="32767" Name="nudPostSamples"></NumericUpDown>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Presamples:</TextBlock>
+          <NumericUpDown Width="135" Height="35" Value="512" Minimum="2" Maximum="98303" Name="nudPreSamples"></NumericUpDown>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Postsamples:</TextBlock>
+          <NumericUpDown Width="135" Height="35" Value="1024" Minimum="512" Maximum="131069" Name="nudPostSamples"></NumericUpDown>
         </StackPanel>
       </Grid>
       <Grid Grid.Row="1" RowDefinitions="2*,5*">
@@ -87,22 +101,22 @@
             <CheckBox Name="ckCapture6"></CheckBox>
             <CheckBox Name="ckCapture7"></CheckBox>
             <CheckBox Name="ckCapture8"></CheckBox>
-            <CheckBox Name="ckCapture9"></CheckBox>
-            <CheckBox Name="ckCapture10"></CheckBox>
-            <CheckBox Name="ckCapture11"></CheckBox>
-            <CheckBox Name="ckCapture12"></CheckBox>
-            <CheckBox Name="ckCapture13"></CheckBox>
-            <CheckBox Name="ckCapture14"></CheckBox>
-            <CheckBox Name="ckCapture15"></CheckBox>
-            <CheckBox Name="ckCapture16"></CheckBox>
-            <CheckBox Name="ckCapture17"></CheckBox>
-            <CheckBox Name="ckCapture18"></CheckBox>
-            <CheckBox Name="ckCapture19"></CheckBox>
-            <CheckBox Name="ckCapture20"></CheckBox>
-            <CheckBox Name="ckCapture21"></CheckBox>
-            <CheckBox Name="ckCapture22"></CheckBox>
-            <CheckBox Name="ckCapture23"></CheckBox>
-            <CheckBox Name="ckCapture24"></CheckBox>
+            <CheckBox Name="ckCapture9" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture10" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture11" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture12" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture13" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture14" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture15" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture16" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture17" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture18" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture19" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture20" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture21" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture22" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture23" IsEnabled="False"></CheckBox>
+            <CheckBox Name="ckCapture24" IsEnabled="False"></CheckBox>
           </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="10,10,10,10" Background="#80505050">

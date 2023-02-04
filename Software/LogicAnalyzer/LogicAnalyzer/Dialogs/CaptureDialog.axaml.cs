@@ -19,17 +19,89 @@ namespace LogicAnalyzer.Dialogs
     {
         CheckBox[] captureChannels;
         RadioButton[] triggerChannels;
-
+        byte mode = 0;
         public CaptureSettings SelectedSettings { get; private set; }
+
+        public bool DisableFast 
+        {
+            get { return ckFastTrigger.IsEnabled; }
+            set
+            {
+                ckFastTrigger.IsEnabled =! value;
+                if(value)
+                    ckFastTrigger.IsChecked = false;
+            }
+        }
 
         public CaptureDialog()
         {
             InitializeComponent();
             btnAccept.Click += btnAccept_Click;
             btnCancel.Click += btnCancel_Click;
+            ddMode.SelectionChanged += DdMode_SelectionChanged;
             InitializeControlArrays();
             LoadSettings();
         }
+
+        private void DdMode_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            mode = (byte)ddMode.SelectedIndex;
+
+            switch (mode)
+            {
+                case 0:
+
+                    for(int buc = 0; buc < 8; buc++)
+                        captureChannels[buc].IsEnabled= true;
+
+                    for (int buc = 8; buc < 24; buc++)
+                    {
+                        captureChannels[buc].IsEnabled = false;
+                        captureChannels[buc].IsChecked = false;
+                    }
+
+                    nudPreSamples.Minimum = 2;
+                    nudPreSamples.Maximum = 98303;
+                    nudPostSamples.Minimum = 512;
+                    nudPostSamples.Maximum = 131069;
+                    break;
+
+                case 1:
+
+                    for (int buc = 0; buc < 16; buc++)
+                        captureChannels[buc].IsEnabled = true;
+
+                    for (int buc = 16; buc < 24; buc++)
+                    {
+                        captureChannels[buc].IsEnabled = false;
+                        captureChannels[buc].IsChecked = false;
+                    }
+
+                    nudPreSamples.Minimum = 2;
+                    nudPreSamples.Maximum = 49151;
+                    nudPostSamples.Minimum = 512;
+                    nudPostSamples.Maximum = 65533;
+                    break;
+
+                case 2:
+
+                    for (int buc = 0; buc < 24; buc++)
+                        captureChannels[buc].IsEnabled = true;
+
+                    nudPreSamples.Minimum = 2;
+                    nudPreSamples.Maximum = 24576;
+                    nudPostSamples.Minimum = 512;
+                    nudPostSamples.Maximum = 32765;
+                    break;
+            }
+
+            if(nudPreSamples.Value > nudPreSamples.Maximum)
+                nudPreSamples.Value = nudPreSamples.Maximum;
+
+            if (nudPostSamples.Value > nudPostSamples.Maximum)
+                nudPostSamples.Value = nudPostSamples.Maximum;
+        }
+
         protected override void OnOpened(EventArgs e)
         {
             base.OnOpened(e);
@@ -118,14 +190,18 @@ namespace LogicAnalyzer.Dialogs
                         }
                         break;
                 }
+
+                ddMode.SelectedIndex = settings.CaptureMode;
             }
         }
 
         private async void btnAccept_Click(object? sender, RoutedEventArgs e)
         {
-            if (nudPreSamples.Value + nudPostSamples.Value > 32767)
+            int max = mode == 0 ? 131071 : (mode == 1 ? 65535 : 32767);
+
+            if (nudPreSamples.Value + nudPostSamples.Value > max)
             {
-                await ShowError("Error", "Total samples cannot exceed 32767.");
+                await ShowError("Error", $"Total samples cannot exceed {max}.");
                 return;
             }
 
@@ -222,6 +298,7 @@ namespace LogicAnalyzer.Dialogs
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;
 
             settings.CaptureChannels = channelsToCapture.ToArray();
+            settings.CaptureMode = mode;
 
             File.WriteAllText("captureSettings.json", JsonConvert.SerializeObject(settings));
             SelectedSettings = settings;
@@ -263,7 +340,7 @@ namespace LogicAnalyzer.Dialogs
             var win = prop.GetValue(box) as Window;
 
             win.Icon = this.Icon;
-            await box.Show();
+            await box.ShowDialog(this);
         }
     }
 }

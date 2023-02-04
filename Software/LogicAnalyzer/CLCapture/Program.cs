@@ -44,9 +44,46 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    if (opts.PreSamples + opts.PostSamples > 32767)
+    int maxChannel = channels.Max();
+    int channelMode = maxChannel <= 8 ? 0 : (maxChannel <= 16 ? 1 : 2);
+
+    int channelCount = maxChannel <= 8 ? 8 : (maxChannel <= 16 ? 16 : 24);
+
+    int minPreSamples = 2;
+    int maxPreSamples = channelMode == 0 ? 98303 : (channelMode == 1 ? 49151 : 24576);
+
+    int minPostSamples = 512;
+    int maxPostSamples = channelMode == 0 ? 131069 : (channelMode == 1 ? 65533 : 32765);
+
+    int maxTotalSamples = channelMode == 0 ? 131071 : (channelMode == 1 ? 65535 : 32767);
+
+    if (opts.PreSamples + opts.PostSamples > maxTotalSamples)
     {
-        Console.WriteLine("Total samples exceed the supported maximum (32767).");
+        Console.WriteLine($"Total samples exceed the supported maximum ({maxTotalSamples} for the {channelCount} channel mode).");
+        return -1;
+    }
+
+    if (opts.PreSamples < minPreSamples)
+    {
+        Console.WriteLine($"Pre-samples cannot be less than {minPreSamples}.");
+        return -1;
+    }
+
+    if (opts.PreSamples > maxPreSamples)
+    {
+        Console.WriteLine($"Pre-samples cannot be more than {maxPreSamples} for the {channelCount} channel mode.");
+        return -1;
+    }
+
+    if (opts.PostSamples < minPostSamples)
+    {
+        Console.WriteLine($"Post-samples cannot be less than {minPostSamples}.");
+        return -1;
+    }
+
+    if (opts.PostSamples > maxPostSamples)
+    {
+        Console.WriteLine($"Post-samples cannot be more than {maxPostSamples} for the {channelCount} channel mode.");
         return -1;
     }
 
@@ -109,7 +146,7 @@ async Task<int> Capture(CLCaptureOptions opts)
 
     LogicAnalyzerDriver driver;
 
-    Console.WriteLine($"Opening logic analyzer in port {opts.AddressPort}...");
+    Console.WriteLine($"Opening logic analyzer in {opts.AddressPort}...");
 
     try
     {
@@ -134,7 +171,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     {
         Console.WriteLine("Starting edge triggered capture...");
         var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+            channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", (byte)channelMode, CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -171,7 +208,7 @@ async Task<int> Capture(CLCaptureOptions opts)
         }
 
         var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
+            channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, (byte)channelMode, CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -181,7 +218,7 @@ async Task<int> Capture(CLCaptureOptions opts)
                     Console.WriteLine("Device is busy, stop the capture before starting a new one.");
                     return -1;
                 case CaptureError.BadParams:
-                    Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                    Console.WriteLine("Specified parameters are incorrect. Check the documentation in the repository to validate them.");
                     return -1;
                 case CaptureError.HardwareError:
                     Console.WriteLine("Device reported error starting capture. Restart the device and try again.");

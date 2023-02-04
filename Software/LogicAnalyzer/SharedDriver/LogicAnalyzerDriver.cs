@@ -118,14 +118,35 @@ namespace SharedDriver
             return false;
         }
 
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, byte CaptureMode, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
                 return CaptureError.Busy;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (30 * 1024 - 1) || PostSamples < 512 || (PreSamples + PostSamples) >= (32 * 1024) || Frequency < 3100 || Frequency > 100000000)
+            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PostSamples < 512 || Frequency < 3100 || Frequency > 100000000)
                 return CaptureError.BadParams;
+
+            switch (CaptureMode)
+            {
+                case 0:
+
+                    if (PreSamples > 98303 || PostSamples > 131069 || PreSamples + PostSamples > 131071)
+                        return CaptureError.BadParams;
+                    break;
+
+                case 1:
+
+                    if (PreSamples > 49151 || PostSamples > 65533 || PreSamples + PostSamples > 65535)
+                        return CaptureError.BadParams;
+                    break;
+
+                case 2:
+
+                    if (PreSamples > 24576 || PostSamples > 32765 || PreSamples + PostSamples > 32767)
+                        return CaptureError.BadParams;
+                    break;
+            }
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
@@ -141,7 +162,8 @@ namespace SharedDriver
                 channelCount = (byte)Channels.Length,
                 frequency = (uint)Frequency,
                 preSamples = (uint)PreSamples,
-                postSamples = (uint)PostSamples
+                postSamples = (uint)PostSamples,
+                captureMode = CaptureMode
             };
 
             for (int buc = 0; buc < Channels.Length; buc++)
@@ -161,19 +183,40 @@ namespace SharedDriver
             if (result == "CAPTURE_STARTED")
             {
                 capturing = true;
-                Task.Run(() => ReadCapture(PreSamples + PostSamples));
+                Task.Run(() => ReadCapture(PreSamples + PostSamples, CaptureMode));
                 return CaptureError.None;
             }
             return CaptureError.HardwareError;
         }
-        public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, byte CaptureMode, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
                 return CaptureError.Busy;
 
-            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PreSamples > (30 * 1024 - 1) || PostSamples < 512 || (PreSamples + PostSamples) >= (32 * 1024) || Frequency < 3100 || Frequency > 100000000)
+            if (Channels == null || Channels.Length == 0 || PreSamples < 2 || PostSamples < 512 || Frequency < 3100 || Frequency > 100000000)
                 return CaptureError.BadParams;
+
+            switch (CaptureMode)
+            {
+                case 0:
+
+                    if (PreSamples > 98303 || PostSamples > 131069 || PreSamples + PostSamples > 131071)
+                        return CaptureError.BadParams;
+                    break;
+
+                case 1:
+
+                    if (PreSamples > 49151 || PostSamples > 65533 || PreSamples + PostSamples > 65535)
+                        return CaptureError.BadParams;
+                    break;
+
+                case 2:
+
+                    if (PreSamples > 24576 || PostSamples > 32765 || PreSamples + PostSamples > 32767)
+                        return CaptureError.BadParams;
+                    break;
+            }
 
             channelCount = Channels.Length;
             triggerChannel = Array.IndexOf(Channels, TriggerChannel);
@@ -190,7 +233,8 @@ namespace SharedDriver
                 channelCount = (byte)Channels.Length,
                 frequency = (uint)Frequency,
                 preSamples = (uint)PreSamples,
-                postSamples = (uint)PostSamples
+                postSamples = (uint)PostSamples,
+                captureMode = CaptureMode
             };
 
             for (int buc = 0; buc < Channels.Length; buc++)
@@ -210,7 +254,7 @@ namespace SharedDriver
             if (result == "CAPTURE_STARTED")
             {
                 capturing = true;
-                Task.Run(() => ReadCapture(PreSamples + PostSamples));
+                Task.Run(() => ReadCapture(PreSamples + PostSamples, CaptureMode));
                 return CaptureError.None;
             }
             return CaptureError.HardwareError;
@@ -281,42 +325,30 @@ namespace SharedDriver
             DeviceVersion = null;
             CaptureCompleted = null;
         }
-        void ReadCapture(int Samples)
+        void ReadCapture(int Samples, byte Mode)
         {
 
             try
             {
-                /*
-                byte[] readBuffer = new byte[Samples * 4 + 4];
-
-                int left = readBuffer.Length;
-                int pos = 0;
-
-                while (left > 0 && sp.IsOpen)
-                { 
-                    pos += sp.Read(readBuffer, pos, left);
-                    left = readBuffer.Length - pos;
-                }
-                
-                uint[] samples;
-                
-                using (MemoryStream ms = new MemoryStream(readBuffer))
-                {
-                    using (BinaryReader br = new BinaryReader(ms))
-                    {
-                        uint length = br.ReadUInt32();
-                        samples = new uint[length];
-                        for (int buc = 0; buc < length; buc++)
-                            samples[buc] = br.ReadUInt32();
-                    }
-                }
-                */
-
                 uint length = readData.ReadUInt32();
                 uint[] samples = new uint[length];
-                for (int buc = 0; buc < length; buc++)
-                    samples[buc] = readData.ReadUInt32();
 
+                switch(Mode)
+                {
+                    case 0:
+                        for (int buc = 0; buc < length; buc++)
+                            samples[buc] = readData.ReadByte();
+                        break;
+                    case 1:
+                        for (int buc = 0; buc < length; buc++)
+                            samples[buc] = readData.ReadUInt16();
+                        break;
+                    case 2:
+                        for (int buc = 0; buc < length; buc++)
+                            samples[buc] = readData.ReadUInt32();
+                        break;
+                }
+                    
                 if (currentCaptureHandler != null)
                     currentCaptureHandler(new CaptureEventArgs { Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
                 else if (CaptureCompleted != null)
@@ -403,6 +435,7 @@ namespace SharedDriver
             public UInt32 frequency;
             public UInt32 preSamples;
             public UInt32 postSamples;
+            public byte captureMode;
         }
 
         [StructLayout(LayoutKind.Sequential)]

@@ -193,12 +193,12 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         {
                             #ifdef BUILD_PICO_W
                                 #ifdef ENABLE_WIFI
-                                    sendResponse("LOGIC_ANALYZER_WIFI_V3_0\n", fromWiFi); //Our ID
+                                    sendResponse("LOGIC_ANALYZER_WIFI_V3_5\n", fromWiFi); //Our ID
                                 #else
-                                    sendResponse("LOGIC_ANALYZER_W_V3_0\n", fromWiFi); //Our ID
+                                    sendResponse("LOGIC_ANALYZER_W_V3_5\n", fromWiFi); //Our ID
                                 #endif
                             #else
-                                sendResponse("LOGIC_ANALYZER_V3_0\n", fromWiFi); //Our ID
+                                sendResponse("LOGIC_ANALYZER_V3_5\n", fromWiFi); //Our ID
                             #endif
                         }
                         break;
@@ -210,11 +210,11 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         bool started = false;
 
                         if(req->triggerType == 1) //Start complex trigger capture
-                            started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue);
+                            started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
                         else if(req->triggerType == 2) //start fast trigger capture
-                            started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue);
+                            started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
                         else //Start simple trigger capture
-                            started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted);
+                            started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         if(started) //If started successfully inform to the host
                         {
@@ -314,19 +314,6 @@ bool processUSBInput(bool skipProcessing)
 }
 
 #ifdef ENABLE_WIFI
-
-/*
-void disableUSB()
-{
-    usb_hw->main_ctrl &= ~USB_MAIN_CTRL_CONTROLLER_EN_BITS;
-}
-
-void enableUSB()
-{
-    usb_hw->main_ctrl |= USB_MAIN_CTRL_CONTROLLER_EN_BITS;
-    stdio_usb_init();
-}
-*/
 
 void purgeUSBData()
 {
@@ -443,7 +430,8 @@ int main()
             {
                 //Retrieve the capture buffer and get info about it.
                 uint32_t length, first;
-                uint8_t* buffer = (uint8_t*)GetBuffer(&length, &first);
+                CHANNEL_MODE mode;
+                uint8_t* buffer = GetBuffer(&length, &first, &mode);
 
                 //Send the data to the host
                 uint8_t* lengthPointer = (uint8_t*)&length;
@@ -479,8 +467,17 @@ int main()
                 sleep_ms(100);
 
                 //Tanslate sample numbers to byte indexes, makes easier to send data
-                length *= 4;
-                first *= 4;
+                switch(mode)
+                {
+                    case MODE_16_CHANNEL:
+                        length *= 2;
+                        first *= 2;
+                        break;
+                    case MODE_24_CHANNEL:
+                        length *= 4;
+                        first *= 4;
+                        break;
+                }
 
                 #ifdef ENABLE_WIFI
 
@@ -499,7 +496,7 @@ int main()
                             {
                                 evt.data[filledData] = buffer[first++];
 
-                                if(first >= 32768 * 4)
+                                if(first >= 131072)
                                     first = 0;
 
                                 pos++;
@@ -516,7 +513,7 @@ int main()
                         {
                             putchar_raw(buffer[first++]);
 
-                            if(first >= 32768 * 4)
+                            if(first >= 131072)
                                 first = 0;
                         }
                     }
@@ -526,7 +523,7 @@ int main()
                     {
                         putchar_raw(buffer[first++]);
 
-                        if(first >= 32768 * 4)
+                        if(first >= 131072)
                             first = 0;
                     }
                 #endif
@@ -536,7 +533,7 @@ int main()
             else
             {
                 LED_OFF();
-                sleep_ms(500);
+                sleep_ms(1000);
 
                 //Check for cancel request
                 if(processCancel())
@@ -549,7 +546,8 @@ int main()
                 else
                 {
                     LED_ON();
-                    sleep_ms(500);
+                    check_fast_interrupt();
+                    sleep_ms(1000);
                 }
             }
         }

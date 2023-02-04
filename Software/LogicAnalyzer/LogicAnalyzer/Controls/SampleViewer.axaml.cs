@@ -28,10 +28,11 @@ namespace LogicAnalyzer.Controls
 
         List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
         Color sampleLineColor = Color.FromRgb(60, 60, 60);
+        Color sampleDashColor = Color.FromArgb(60, 60, 60, 60);
         Color triggerLineColor = Colors.White;
         Color userLineColor = Colors.Cyan;
         DashStyle halfDash = new DashStyle(new double[] { 1, 8 }, 0);
-        DashStyle fullDash = new DashStyle(new double[] { 4, 5 }, 0);
+        DashStyle fullDash = new DashStyle(new double[] { 8, 12 }, 0);
         public SampleViewer()
         {
             InitializeComponent();
@@ -126,9 +127,9 @@ namespace LogicAnalyzer.Controls
                     uint prevSample = buc == 0 ? 0 : Samples[buc - 1];
                     double lineX = (buc - FirstSample) * sampleWidth;
 
-                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1, fullDash), new Point(lineX + sampleWidth / 2, 0), new Point(lineX + sampleWidth / 2, thisBounds.Height));
+                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1), new Point(lineX + sampleWidth / 2, 0), new Point(lineX + sampleWidth / 2, thisBounds.Height));
 
-                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1, halfDash), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+                    context.DrawLine(GraphicObjectsCache.GetPen(sampleDashColor, 1), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
 
                     if (buc == PreSamples)
                         context.DrawLine(GraphicObjectsCache.GetPen(triggerLineColor, 2), new Point(lineX, 0), new Point(lineX, thisBounds.Height));

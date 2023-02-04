@@ -73,7 +73,7 @@ namespace I2CProtocolAnalyzer
 
                 string asciival = value >= 0x20 && value <= 0x7e ? Encoding.ASCII.GetString(new byte[] { (byte)value }) : "·";
 
-                var segment = new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = $"0x{value.ToString()} '{asciival}' <{(ack ? "A" : "N")}{(frameError ? "F" : "")}>" };
+                var segment = new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = $"0x{value.ToString("X2")} '{asciival}' <{(ack ? "A" : "N")}{(frameError ? "F" : "")}>" };
 
                 if (addressByte)
                 {

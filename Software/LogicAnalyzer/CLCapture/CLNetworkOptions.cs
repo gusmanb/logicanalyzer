@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CLCapture
 {
-    [Verb(name: "netconfig")]
+    [Verb(name: "netconfig", HelpText = "Configure the network options of the WiFi version.")]
     public class CLNetworkOptions
     {
         [Value(0, Required = true, HelpText = "Device's serial port.")]

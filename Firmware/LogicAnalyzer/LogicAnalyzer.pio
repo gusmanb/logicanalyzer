@@ -124,12 +124,20 @@ LOCK:
 ;    jmp LOCK                    ;block program
 
 % c-sdk {
-
+#include "../LogicAnalyzer_Build_Settings.h"
 #include "hardware/gpio.h"
 #include "hardware/dma.h"
 #include "hardware/irq.h"
 #include "string.h"
 #include "hardware/sync.h"
+
+typedef enum
+{
+    MODE_8_CHANNEL,
+    MODE_16_CHANNEL,
+    MODE_24_CHANNEL
+
+} CHANNEL_MODE;
 
 //Static variables for the PIO programs
 static PIO capturePIO;
@@ -161,6 +169,7 @@ static uint8_t lastCaptureType;
 static uint8_t lastTriggerPinBase;
 static uint32_t lastTriggerPinCount;
 static uint32_t lastTail;
+static CHANNEL_MODE lastCaptureMode = MODE_8_CHANNEL;
 
 //Static information of the current capture
 static bool captureFinished;
@@ -171,7 +180,7 @@ static bool captureProcessed;
 const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28};
 
 //Main capture buffer, aligned at a 32k boundary, to use the maxixmum ring size supported by DMA channels
-static uint32_t captureBuffer[32 * 1024] __attribute__((aligned(32768)));
+static uint8_t captureBuffer[128 * 1024] __attribute__((aligned(32768)));
 
 //-----------------------------------------------------------------------------
 //--------------Complex trigger PIO program------------------------------------
@@ -211,7 +220,6 @@ static inline pio_sm_config COMPLEX_TRIGGER_program_get_default_config(uint offs
 //-----------------------------------------------------------------------------
 //--------------Complex trigger PIO program END--------------------------------
 //-----------------------------------------------------------------------------
-
 
 //-----------------------------------------------------------------------------
 //--------------Fast trigger PIO program---------------------------------------
@@ -264,6 +272,21 @@ uint8_t create_fast_trigger_program(uint8_t pattern, uint8_t length)
 //Find the last captured sample index
 uint32_t find_capture_tail()
 {
+    int transferCount;
+
+    switch(lastCaptureMode)
+    {
+        case MODE_8_CHANNEL:
+            transferCount = 32768;
+            break;
+        case MODE_16_CHANNEL:
+            transferCount = 16384;
+            break;
+        case MODE_24_CHANNEL:
+            transferCount = 8192;
+            break;
+    }
+
     //Add a delay in case the transfer is still in progress (just a safety measure, should not happen)
     //This is a massive delay in comparison to the needs of the DMA channel, but hey, 5ms is not going to be noticed anywhere :D
     busy_wait_ms(5);
@@ -281,19 +304,19 @@ uint32_t find_capture_tail()
     if(dma_channel_is_busy(dmaPingPong1))
     {
         busy_channel = dmaPingPong1;
-        busy_offset = 8192;
+        busy_offset = transferCount;
     }
 
     if(dma_channel_is_busy(dmaPingPong2))
     {
         busy_channel = dmaPingPong2;
-        busy_offset = 16384;
+        busy_offset = transferCount * 2;
     }
 
     if(dma_channel_is_busy(dmaPingPong3))
     {
         busy_channel = dmaPingPong3;
-        busy_offset = 24576;
+        busy_offset = transferCount * 3;
     }
 
     //No channel busy?? WTF???
@@ -301,14 +324,14 @@ uint32_t find_capture_tail()
         return 0xFFFFFFFF;
     
     //Ok, now we need to know at which transfer the DMA is. The value equals to MAX_TRANSFERS - TRANSFERS_LEFT.
-    int32_t transfer = 8192 - dma_channel_hw_addr(busy_channel)->transfer_count;
+    int32_t transfer = transferCount - dma_channel_hw_addr(busy_channel)->transfer_count;
 
     //Now compute the last capture position
     transfer = (transfer + busy_offset) - 1;
 
     //Wrap around?
     if(transfer < 0)
-        transfer = 32767;
+        transfer = (transferCount * 4) - 1;
 
     //Our capture absolute last position
     return (uint32_t)transfer;
@@ -330,29 +353,12 @@ void fast_capture_completed()
 
     //Clear PIO interrupt 0 and unhook handler
     pio_interrupt_clear(capturePIO, 0);
-    irq_set_enabled(PIO0_IRQ_0, false);
     irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), false);
-    irq_remove_handler(PIO0_IRQ_0, fast_capture_completed);
 
     //Disable all DMA channels
-    dma_channel_config c = dma_channel_get_default_config(dmaPingPong0);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong0, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong0);
-
-    c = dma_channel_get_default_config(dmaPingPong1);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong1, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong1);
-
-    c = dma_channel_get_default_config(dmaPingPong2);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong2, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong2);
-
-    c = dma_channel_get_default_config(dmaPingPong3);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong3, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong3);
 
     //Stop PIO capture program and clear
@@ -367,6 +373,12 @@ void fast_capture_completed()
     pio_sm_unclaim(triggerPIO, sm_Trigger);
     
     pio_remove_program(triggerPIO, &FAST_TRIGGER_program, triggerOffset);
+}
+
+void check_fast_interrupt()
+{
+    if(lastCaptureType == CAPTURE_TYPE_FAST && capturePIO->irq & 1)
+        fast_capture_completed();
 }
 
 //Triggered when a complex capture ends
@@ -390,24 +402,9 @@ void complex_capture_completed()
     irq_remove_handler(PIO0_IRQ_0, complex_capture_completed);
 
     //Disable all DMA channels
-    dma_channel_config c = dma_channel_get_default_config(dmaPingPong0);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong0, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong0);
-
-    c = dma_channel_get_default_config(dmaPingPong1);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong1, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong1);
-
-    c = dma_channel_get_default_config(dmaPingPong2);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong2, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong2);
-
-    c = dma_channel_get_default_config(dmaPingPong3);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong3, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong3);
 
     //Stop PIO capture program and clear
@@ -445,25 +442,9 @@ void simple_capture_completed()
     irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), false);
     irq_remove_handler(PIO0_IRQ_0, simple_capture_completed);
 
-    //Disable and unclaim all DMA channels
-    dma_channel_config c = dma_channel_get_default_config(dmaPingPong0);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong0, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong0);
-
-    c = dma_channel_get_default_config(dmaPingPong1);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong1, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong1);
-
-    c = dma_channel_get_default_config(dmaPingPong2);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong2, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong2);
-
-    c = dma_channel_get_default_config(dmaPingPong3);
-    channel_config_set_enable(&c, false);
-    dma_channel_configure(dmaPingPong3, &c, 0, 0, 0, false);
     dma_channel_unclaim(dmaPingPong3);
 
     //Stop PIO program and clear
@@ -478,8 +459,28 @@ void simple_capture_completed()
 }
 
 //Configure the four DMA channels
-void configureCaptureDMAs()
+void configureCaptureDMAs(CHANNEL_MODE channelMode)
 {
+
+    enum dma_channel_transfer_size transferSize;
+    uint32_t transferCount;
+
+    switch(channelMode)
+    {
+        case MODE_8_CHANNEL:
+            transferSize = DMA_SIZE_8;
+            transferCount = 32768;
+            break;
+        case MODE_16_CHANNEL:
+            transferSize = DMA_SIZE_16;
+            transferCount = 16384;
+            break;
+        case MODE_24_CHANNEL:
+            transferSize = DMA_SIZE_32;
+            transferCount = 8192;
+            break;
+    }
+
     //Claim four DMA channels, each channel writes to 32Kb of the buffer (8192 samples) as that's the maximum ring size supported
     dmaPingPong0 = dma_claim_unused_channel(true);
     dmaPingPong1 = dma_claim_unused_channel(true);
@@ -490,7 +491,7 @@ void configureCaptureDMAs()
     dma_channel_config dmaPingPong0Config = dma_channel_get_default_config(dmaPingPong0);
     channel_config_set_read_increment(&dmaPingPong0Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong0Config, true); //Increment write address
-    channel_config_set_transfer_data_size(&dmaPingPong0Config, DMA_SIZE_32); //Transfer 32 bits each time
+    channel_config_set_transfer_data_size(&dmaPingPong0Config, transferSize); //Transfer 32 bits each time
     channel_config_set_chain_to(&dmaPingPong0Config, dmaPingPong1); //Chain to the second dma channel
     channel_config_set_dreq(&dmaPingPong0Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong0Config, true, 15); //Ring at 32768 bytes
@@ -499,7 +500,7 @@ void configureCaptureDMAs()
     dma_channel_config dmaPingPong1Config = dma_channel_get_default_config(dmaPingPong1);
     channel_config_set_read_increment(&dmaPingPong1Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong1Config, true); //Increment write address
-    channel_config_set_transfer_data_size(&dmaPingPong1Config, DMA_SIZE_32); //Transfer 32 bits each time
+    channel_config_set_transfer_data_size(&dmaPingPong1Config, transferSize); //Transfer 32 bits each time
     channel_config_set_chain_to(&dmaPingPong1Config, dmaPingPong2); //Chain to the third dma channel
     channel_config_set_dreq(&dmaPingPong1Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong1Config, true, 15); //Ring at 32768 bytes
@@ -508,7 +509,7 @@ void configureCaptureDMAs()
     dma_channel_config dmaPingPong2Config = dma_channel_get_default_config(dmaPingPong2);
     channel_config_set_read_increment(&dmaPingPong2Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong2Config, true); //Increment write address
-    channel_config_set_transfer_data_size(&dmaPingPong2Config, DMA_SIZE_32); //Transfer 32 bits each time
+    channel_config_set_transfer_data_size(&dmaPingPong2Config, transferSize); //Transfer 32 bits each time
     channel_config_set_chain_to(&dmaPingPong2Config, dmaPingPong3); //Chain to the fourth dma channel
     channel_config_set_dreq(&dmaPingPong2Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong2Config, true, 15); //Ring at 32768 bytes
@@ -517,16 +518,16 @@ void configureCaptureDMAs()
     dma_channel_config dmaPingPong3Config = dma_channel_get_default_config(dmaPingPong3);
     channel_config_set_read_increment(&dmaPingPong3Config, false); //Do not increment read address
     channel_config_set_write_increment(&dmaPingPong3Config, true); //Increment write address
-    channel_config_set_transfer_data_size(&dmaPingPong3Config, DMA_SIZE_32); //Transfer 32 bits each time
+    channel_config_set_transfer_data_size(&dmaPingPong3Config, transferSize); //Transfer 32 bits each time
     channel_config_set_chain_to(&dmaPingPong3Config, dmaPingPong0); //Chain to the first dma channel
     channel_config_set_dreq(&dmaPingPong3Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
     channel_config_set_ring(&dmaPingPong3Config, true, 15); //Ring at 32768 bytes
 
     //Configure the DMA channels
-    dma_channel_configure(dmaPingPong3, &dmaPingPong3Config, &captureBuffer[24 * 1024], &capturePIO->rxf[sm_Capture], 8192, false); //Configure the channel
-    dma_channel_configure(dmaPingPong2, &dmaPingPong2Config, &captureBuffer[16 * 1024], &capturePIO->rxf[sm_Capture], 8192, false); //Configure the channel
-    dma_channel_configure(dmaPingPong1, &dmaPingPong1Config, &captureBuffer[8 * 1024], &capturePIO->rxf[sm_Capture], 8192, false); //Configure the channel
-    dma_channel_configure(dmaPingPong0, &dmaPingPong0Config, &captureBuffer[0], &capturePIO->rxf[sm_Capture], 8192, true);
+    dma_channel_configure(dmaPingPong3, &dmaPingPong3Config, &captureBuffer[32768 * 3], &capturePIO->rxf[sm_Capture], transferCount, false); //Configure the channel
+    dma_channel_configure(dmaPingPong2, &dmaPingPong2Config, &captureBuffer[32768 * 2], &capturePIO->rxf[sm_Capture], transferCount, false); //Configure the channel
+    dma_channel_configure(dmaPingPong1, &dmaPingPong1Config, &captureBuffer[32768], &capturePIO->rxf[sm_Capture], transferCount, false); //Configure the channel
+    dma_channel_configure(dmaPingPong0, &dmaPingPong0Config, captureBuffer, &capturePIO->rxf[sm_Capture], transferCount, true);
 }
 
 void stopCapture()
@@ -546,7 +547,7 @@ void stopCapture()
     }
 }
 
-bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPinBase, uint8_t triggerPinCount, uint16_t triggerValue)
+bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPinBase, uint8_t triggerPinCount, uint16_t triggerValue, CHANNEL_MODE captureMode)
 {
     
     //ABOUT THE FAST TRIGGER
@@ -565,8 +566,23 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //still can glitch on low speeds and also occupies a complete PIO module (but we have one unused, so its not a problem)
 
 
+    int maxSamples;
+
+    switch(captureMode)
+    {
+        case MODE_8_CHANNEL:
+            maxSamples = 131072;
+            break;
+        case MODE_16_CHANNEL:
+            maxSamples = 65536;
+            break;
+        case MODE_24_CHANNEL:
+            maxSamples = 32768;
+            break;
+    }
+
     //Too many samples requested?
-    if(preLength + postLength >= (32 * 1024))
+    if(preLength + postLength >= maxSamples)
         return false;
 
     //Frequency too high?
@@ -582,14 +598,15 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
         return false;
 
     //Clear capture buffer (to avoid sending bad data if the trigger happens before the presamples are filled)
-    memset(captureBuffer, 0x00, sizeof(captureBuffer));
+    memset(captureBuffer, 0, sizeof(captureBuffer));
 
     //Store info about the capture
     lastPreSize = preLength;
     lastPostSize = postLength;
     lastCapturePinCount = capturePinCount;
     lastCaptureComplexFast = true;
-    
+    lastCaptureMode = captureMode;
+
     //Map channels to pins
     for(uint8_t i = 0; i < capturePinCount; i++)
         lastCapturePins[i] = pinMap[capturePins[i]];
@@ -602,10 +619,9 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     float clockDiv = (float)clock_get_hz(clk_sys) / (float)(freq * 2);
 
     //Store the PIO units and clear program memory
-    capturePIO = pio0;
-    pio_clear_instruction_memory(capturePIO);
+    capturePIO = pio1; //Cannot clear it in PIO1 because the W uses PIO1 to transfer data
 
-    triggerPIO = pio1;
+    triggerPIO = pio0;
     pio_clear_instruction_memory(triggerPIO);
 
     //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
@@ -621,8 +637,9 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     pio_sm_restart(capturePIO, sm_Capture);
     captureOffset = pio_add_program(capturePIO, &FAST_CAPTURE_program);
 
-    //Input pins start at pin 2, 29 pins are captured
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, 2, 29, false);
+    //Modified for the W
+    for(int i = 0; i < 24; i++)
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     //Configure state machines
     pio_sm_config smConfig = FAST_CAPTURE_program_get_default_config(captureOffset);
@@ -641,9 +658,6 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     //Configure interrupt 0
     pio_interrupt_clear (capturePIO, 0);
-    pio_set_irq0_source_enabled(capturePIO, pis_interrupt0, true);
-    irq_set_exclusive_handler(PIO0_IRQ_0, fast_capture_completed);
-    irq_set_enabled(PIO0_IRQ_0, true);
     irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), true);
 
     //Initialize state machine
@@ -668,21 +682,14 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     sm_config_set_sideset_pins(&smConfig, 0); //Trigger output is a side pin
     sm_config_set_clkdiv(&smConfig, 1); //Trigger always runs at half speed (100Msps)
     
-    //Bypass input synchronizers
-    //hw_set_bits(&triggerPIO->input_sync_bypass, 0xFFFFFFFF);
-    //hw_set_bits(&capturePIO->input_sync_bypass, 0xFFFFFFFF);
-
     //Configure DMA's
-    configureCaptureDMAs();
+    configureCaptureDMAs(captureMode);
 
     //Enable capture state machine
     pio_sm_set_enabled(capturePIO, sm_Capture, true);
 
     //Write capture length to post program
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
-
-    //Write capture end mark to post program
-    //pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
 
     //Initialize trigger state machine
     pio_sm_init(triggerPIO, sm_Trigger, triggerOffset, &smConfig);
@@ -699,7 +706,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     return true;
 }
 
-bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPinBase, uint8_t triggerPinCount, uint16_t triggerValue)
+bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPinBase, uint8_t triggerPinCount, uint16_t triggerValue, CHANNEL_MODE captureMode)
 {
     
     //ABOUT THE COMPLEX TRIGGER
@@ -724,9 +731,23 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Finally the trigger also has some cycles of delay, 3 instructions plus 2 cycles of propagation to the ISR, so a maximum of
     //25ns of delay can happen.
 
+    int maxSamples;
+
+    switch(captureMode)
+    {
+        case MODE_8_CHANNEL:
+            maxSamples = 131072;
+            break;
+        case MODE_16_CHANNEL:
+            maxSamples = 65536;
+            break;
+        case MODE_24_CHANNEL:
+            maxSamples = 32768;
+            break;
+    }
 
     //Too many samples requested?
-    if(preLength + postLength >= (32 * 1024))
+    if(preLength + postLength >= maxSamples)
         return false;
 
     //Frequency too high?
@@ -742,14 +763,15 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
         return false;
 
     //Clear capture buffer (to avoid sending bad data if the trigger happens before the presamples are filled)
-    memset(captureBuffer, 0x00, sizeof(captureBuffer));
+    memset(captureBuffer, 0, sizeof(captureBuffer));
 
     //Store info about the capture
     lastPreSize = preLength;
     lastPostSize = postLength;
     lastCapturePinCount = capturePinCount;
     lastCaptureComplexFast = true;
-    
+    lastCaptureMode = captureMode;
+
     //Map channels to pins
     for(uint8_t i = 0; i < capturePinCount; i++)
         lastCapturePins[i] = pinMap[capturePins[i]];
@@ -778,8 +800,8 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     pio_sm_restart(capturePIO, sm_Capture);
     captureOffset = pio_add_program(capturePIO, &COMPLEX_CAPTURE_program);
 
-    //Input pins start at pin 2, 29 pins are captured
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, 2, 29, false);
+    for(int i = 0; i < 24; i++)
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     //Configure state machines
     pio_sm_config smConfig = COMPLEX_CAPTURE_program_get_default_config(captureOffset);
@@ -828,20 +850,14 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Initialize trigger state machine
     pio_sm_init(capturePIO, sm_Trigger, triggerOffset, &smConfig); //Init trigger
     
-    //Bypass input synchronizers
-    //hw_set_bits(&capturePIO->input_sync_bypass, 0xFFFFFFFF);
-
     //Configure DMA's
-    configureCaptureDMAs();
+    configureCaptureDMAs(captureMode);
 
     //Enable capture state machine
     pio_sm_set_enabled(capturePIO, sm_Capture, true);
 
     //Write capture length to post program
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
-
-    //Write capture end mark to post program
-    //pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
 
     //Enable trigger state machine
     pio_sm_set_enabled(capturePIO, sm_Trigger, true);
@@ -858,10 +874,26 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     return true;
 }
 
-bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger)
+bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
 {
+
+    int maxSamples;
+
+    switch(captureMode)
+    {
+        case MODE_8_CHANNEL:
+            maxSamples = 131072;
+            break;
+        case MODE_16_CHANNEL:
+            maxSamples = 65536;
+            break;
+        case MODE_24_CHANNEL:
+            maxSamples = 32768;
+            break;
+    }
+
     //Too many samples requested?
-    if(preLength + postLength >= (32 * 1024))
+    if(preLength + postLength >= maxSamples)
         return false;
 
     //Frequency too high?
@@ -873,7 +905,7 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
         return false;
 
     //Clear capture buffer (to avoid sending bad data if the trigger happens before the presamples are filled)
-    memset(captureBuffer, 0x00, sizeof(captureBuffer));
+    memset(captureBuffer, 0, sizeof(captureBuffer));
 
     //Store info about the capture
     lastPreSize = preLength;
@@ -881,6 +913,7 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     lastCapturePinCount = capturePinCount;
     lastTriggerInverted = invertTrigger;
     lastCaptureComplexFast = false;
+    lastCaptureMode = captureMode;
 
     //Map channels to pins
     for(uint8_t i = 0; i < capturePinCount; i++)
@@ -910,7 +943,8 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
         captureOffset = pio_add_program(capturePIO, &POSITIVE_CAPTURE_program);
 
     //Configure pins
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, 0, 32, false);
+    for(int i = 0; i < 24; i++)
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     pio_gpio_init(capturePIO, triggerPin);
 
@@ -923,7 +957,7 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
                                 POSITIVE_CAPTURE_program_get_default_config(captureOffset);
 
     //All pins are inputs
-    sm_config_set_in_pins(&smConfig, 0);
+    sm_config_set_in_pins(&smConfig, 2);
 
     //Set clock to 2x required frequency
     sm_config_set_clkdiv(&smConfig, clockDiv);
@@ -944,20 +978,16 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Initialize state machine
     pio_sm_init(capturePIO, sm_Capture, captureOffset, &smConfig);
 
-    //Bypass input synchronizers
-    //hw_set_bits(&capturePIO->input_sync_bypass, 0xFFFFFFFF);
-    
+    irq_clear(pio_get_dreq(capturePIO, sm_Capture, false));
+
     //Configure DMA's
-    configureCaptureDMAs();
+    configureCaptureDMAs(captureMode);
 
     //Enabl state machine
     pio_sm_set_enabled(capturePIO, sm_Capture, true);
 
     //Write capture length to post program to start the capture process
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
-
-    //Write capture end mark to start capture
-    //pio_sm_put_blocking(capturePIO, sm_Capture, 0xFFFFFFFF);
 
     //Finally clear capture status, process flags and capture type
     captureFinished = false;
@@ -974,66 +1004,103 @@ bool IsCapturing()
     return !captureFinished;
 }
 
-uint32_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample)
+uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* captureMode)
 {
     //If we don't have processed the buffer...
     if(!captureProcessed)
     {
-    
+        int maxSize;
+
+        switch(lastCaptureMode)
+        {
+            case MODE_8_CHANNEL:
+                maxSize = 131072;
+                break;
+            case MODE_16_CHANNEL:
+                maxSize = 65536;
+                break;
+            case MODE_24_CHANNEL:
+                maxSize = 32768;
+                break;
+        }
         //Calculate start position
         if(lastTail < lastPreSize + lastPostSize - 1)
-            lastStartPosition = 32768 - ((lastPreSize + lastPostSize) - (lastTail - 1));
+            lastStartPosition = maxSize - ((lastPreSize + lastPostSize) - (lastTail - 1));
         else
             lastStartPosition = lastTail - (lastPreSize + lastPostSize) + 1;
-
-        uint32_t oldValue;
-        uint32_t newValue;
         uint32_t currentPos = lastStartPosition;
-
-        //Sort channels
-        //(reorder captured bits based on the channels requested)
-        if(lastCaptureComplexFast) //Was this a fast/complex capture?
+        switch(lastCaptureMode)
         {
-            for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
-            {
-                oldValue = captureBuffer[currentPos]; //Store current value
-                newValue = 0; //New value
-
-                for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...
-                    newValue |= (oldValue & (1 << (lastCapturePins[pin] - 2))) >> ((lastCapturePins[pin] - 2) - pin); //Store its value in the correct bit
-
-                //Update value in the buffer
-                captureBuffer[currentPos++] = newValue;
-
-                //If we reached the end of the buffer, wrap around
-                if(currentPos >= 32768)
-                    currentPos = 0;
-            }
-        }
-        else
-        {
-            //Same as for complex/fasst capture but without skipping the two first bits
-            for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
-            {
-                oldValue = captureBuffer[currentPos];
-                newValue = 0;
-
-                for(int pin = 0; pin < lastCapturePinCount; pin++)
-                    newValue |= (oldValue & (1 << lastCapturePins[pin])) >> (lastCapturePins[pin] - pin);
-
-                captureBuffer[currentPos++] = newValue;
-
-                if(currentPos >= 32768)
-                    currentPos = 0;
-            }
+            case MODE_24_CHANNEL:
+                {
+                    uint32_t oldValue;
+                    uint32_t newValue;
+                    uint32_t* buffer = (uint32_t*)captureBuffer;
+                    //Sort channels
+                    //(reorder captured bits based on the channels requested)
+                    for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
+                    {
+                        oldValue = buffer[currentPos]; //Store current value
+                        newValue = 0; //New value
+                        for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...
+                            newValue |= (oldValue & (1 << (lastCapturePins[pin] - 2))) >> ((lastCapturePins[pin] - 2) - pin); //Store its value in the correct bit
+                        //Update value in the buffer
+                        buffer[currentPos++] = newValue;
+                        //If we reached the end of the buffer, wrap around
+                        if(currentPos >= maxSize)
+                            currentPos = 0;
+                    }
+                }
+                break;
+            case MODE_16_CHANNEL:
+                {
+                    uint16_t oldValue;
+                    uint16_t newValue;
+                    uint16_t* buffer = (uint16_t*)captureBuffer;
+                    //Sort channels
+                    //(reorder captured bits based on the channels requested)
+                    for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
+                    {
+                        oldValue = buffer[currentPos]; //Store current value
+                        newValue = 0; //New value
+                        for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...
+                            newValue |= (oldValue & (1 << (lastCapturePins[pin] - 2))) >> ((lastCapturePins[pin] - 2) - pin); //Store its value in the correct bit
+                        //Update value in the buffer
+                        buffer[currentPos++] = newValue;
+                        //If we reached the end of the buffer, wrap around
+                        if(currentPos >= maxSize)
+                            currentPos = 0;
+                    }
+                }
+                break;
+            case MODE_8_CHANNEL:
+                {
+                    uint8_t oldValue;
+                    uint8_t newValue;
+                    uint8_t* buffer = (uint8_t*)captureBuffer;
+                    //Sort channels
+                    //(reorder captured bits based on the channels requested)
+                    for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
+                    {
+                        oldValue = buffer[currentPos]; //Store current value
+                        newValue = 0; //New value
+                        for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...
+                            newValue |= (oldValue & (1 << (lastCapturePins[pin] - 2))) >> ((lastCapturePins[pin] - 2) - pin); //Store its value in the correct bit
+                        //Update value in the buffer
+                        buffer[currentPos++] = newValue;
+                        //If we reached the end of the buffer, wrap around
+                        if(currentPos >= maxSize)
+                            currentPos = 0;
+                    }
+                }
+                break;
         }
         captureProcessed = true;
     }
-
     //Return data
+    *captureMode = lastCaptureMode;
     *bufferSize = lastPreSize + lastPostSize;
     *firstSample = lastStartPosition;
-
     return captureBuffer;
 }
 

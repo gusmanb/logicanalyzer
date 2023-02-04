@@ -9,7 +9,7 @@ using CommandLine;
 
 namespace CLCapture
 {
-    [Verb(name: "capture")]
+    [Verb(name: "capture", HelpText = "Start a signal capture.")]
     public class CLCaptureOptions
     {
         [Value(0, Required = true, HelpText = "Device's serial port or IP address and port.")]

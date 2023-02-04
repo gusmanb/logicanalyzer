@@ -67,7 +67,7 @@ namespace LogicAnalyzer.Dialogs
             var win = prop.GetValue(box) as Window;
 
             win.Icon = this.Icon;
-            await box.Show();
+            await box.ShowDialog(this);
         }
     }
 }
