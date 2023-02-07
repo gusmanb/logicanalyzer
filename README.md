@@ -4,7 +4,17 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 3.5.0.0, 04/01/2023
+Latest version: Release 3.5.0.1, 07/01/2023
+
+----
+
+## UPDATE 07/02/2023 - New release with updated shared driver.
+
+This is a bug-fix release, with the introduction of the Pico-W WiFi support I unified the transfer mode in the driver using streams for network and for the serial port, but I forgot that .net 6.0 Ports package causes problems with Linux, so the previous release will hung the app when receiving more than 4k samples... Doh!
+
+I have updated the code to use the same work around that I used previously and the problem has been fixed.
+
+Have fun!
 
 ----
 
