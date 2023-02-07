@@ -186,6 +186,9 @@ async Task<int> Capture(CLCaptureOptions opts)
                 case CaptureError.HardwareError:
                     Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
                     return -1;
+                case CaptureError.UnexpectedError:
+                    Console.WriteLine("Unexpected error. Restart the device and try again.");
+                    return -1;
             }
         }
 
@@ -222,6 +225,9 @@ async Task<int> Capture(CLCaptureOptions opts)
                     return -1;
                 case CaptureError.HardwareError:
                     Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
+                    return -1;
+                case CaptureError.UnexpectedError:
+                    Console.WriteLine("Unexpected error. Restart the device and try again.");
                     return -1;
             }
         }

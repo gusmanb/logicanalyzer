@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>window.ico</ApplicationIcon>
+    <Version>3.5.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

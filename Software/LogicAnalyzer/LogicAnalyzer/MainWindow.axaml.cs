@@ -561,6 +561,9 @@ namespace LogicAnalyzer
                 case CaptureError.HardwareError:
                     await ShowError("Error", "Device reported error starting capture. Restart the device and try again.");
                     return;
+                case CaptureError.UnexpectedError:
+                    await ShowError("Error", "Unexpected error, restart the application and the device and try again.");
+                    return;
             }
         }
 
