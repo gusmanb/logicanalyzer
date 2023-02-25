@@ -36,19 +36,19 @@ namespace LogicAnalyzer.Dialogs
         {
             if (string.IsNullOrWhiteSpace(txtAccessPoint.Text))
             {
-                await ShowError("Invalid settings", "No access point name provided.");
+                await this.ShowError("Invalid settings", "No access point name provided.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                await ShowError("Invalid settings", "No password provided.");
+                await this.ShowError("Invalid settings", "No password provided.");
                 return;
             }
 
             if (!regAddress.IsMatch(txtAddress.Text))
             {
-                await ShowError("Invalid settings", "Invalid IP address.");
+                await this.ShowError("Invalid settings", "Invalid IP address.");
                 return;
             }
 
@@ -57,17 +57,6 @@ namespace LogicAnalyzer.Dialogs
             Address = txtAddress.Text;
             Port = (ushort)nudPort.Value;
             this.Close(true);
-        }
-
-        private async Task ShowError(string Title, string Text)
-        {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Error);
-
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = this.Icon;
-            await box.ShowDialog(this);
         }
     }
 }

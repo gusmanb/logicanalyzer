@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          x:Class="LogicAnalyzer.Dialogs.CreateSamplesDialog"
+          mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+          MinWidth="800" MaxWidth="800"
+          MinHeight="350" MaxHeight="1024" Width="800" Height="600"
+          Title="Create samples" Icon="/Assets/Ico40.ico"
+          Background="#383838" CanResize="True" WindowStartupLocation="CenterOwner">
+  <Grid RowDefinitions="*,6*,60" Name="grdMain">
+    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="10" Name="pnlSamples">
+      <TextBlock VerticalAlignment="Center">Samples to generate:</TextBlock>
+      <NumericUpDown VerticalAlignment="Center" Margin="10,0,0,0" Value="100" Width="140" Minimum="2" Name="nudSamples"></NumericUpDown>
+    </StackPanel>
+    <ScrollViewer Name="scrViewer" Margin="10,0,10,0" Grid.Row="1" Background="#282828">
+      <StackPanel Name="pnlControls">
+
+      </StackPanel>
+    </ScrollViewer>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="2">
+      <Button Name="btnAccept">Accept</Button>
+      <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
+    </StackPanel>
+  </Grid>
+</Window>

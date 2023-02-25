@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="350"
+        x:Class="LogicAnalyzer.Dialogs.ShiftChannelsDialog"
+        MaxWidth="450" MinWidth="450" Width="450" MaxHeight="380" MinHeight="380" Height="380"
+        CanResize="False" WindowStartupLocation="CenterOwner"
+        Title="Shift samples"
+        Background="#383838" Icon="/Assets/Ico40.ico">
+  <Grid ColumnDefinitions="2*,*" RowDefinitions="6*,*">
+    <ListBox Margin="10" Grid.RowSpan="2" Name="lstChannels" SelectionMode="Multiple,Toggle">  
+      <ListBox.Styles>
+        <!-- Give the ListBoxItems a fixed with of 100 and right-align them -->
+        <Style Selector="ListBoxItem">
+          <Setter Property="Margin" Value="0"/>
+          <Setter Property="Padding" Value="2,2,2,2"/>
+          <Setter Property="Background" Value="Transparent"/>
+          <Setter Property="ContentTemplate">
+            <DataTemplate>
+              <Border Background="DimGray" CornerRadius="4" Padding="4">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding TextualChannelNumber}" Margin="5,0,10,0"/>
+                  <TextBlock Text="{Binding ChannelName}"/>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </Setter>
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+          <Setter Property="Background" Value="Transparent" />
+          <Setter Property="ContentTemplate">
+            <DataTemplate>
+              <Border Background="#1e4f81" CornerRadius="4" Padding="4">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding TextualChannelNumber}" Margin="5,0,10,0"/>
+                  <TextBlock Text="{Binding ChannelName}"/>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </Setter>
+        </Style>
+      </ListBox.Styles>
+    </ListBox>
+    <StackPanel Orientation="Vertical" Grid.Column="1">
+      <TextBlock Margin="0,10,0,0" HorizontalAlignment="Center">Direction</TextBlock>
+      <StackPanel Orientation="Vertical">
+        <RadioButton Name="rbLeft">Left</RadioButton>
+        <RadioButton Name="rbRight" IsChecked="True">Right</RadioButton>
+      </StackPanel>
+      <TextBlock Margin="0,25,0,0" HorizontalAlignment="Center">Shift mode</TextBlock>
+      <StackPanel Orientation="Vertical">
+        <RadioButton Name="rbLow">Low</RadioButton>
+        <RadioButton Name="rbHigh">High</RadioButton>
+        <RadioButton Name="rbRotate" IsChecked="True">Rotate</RadioButton>
+      </StackPanel>
+      <TextBlock Margin="0,25,0,5" HorizontalAlignment="Center">Samples</TextBlock>
+      <NumericUpDown Value="10" Minimum="1" Maximum="133000" Width="140" Margin="5" Name="nudShift"></NumericUpDown>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="10">
+      <Button Name="btnAccept" Margin="0,0,10,0">Accept</Button>
+      <Button Name="btnCancel">Cancel</Button>
+    </StackPanel>
+  </Grid>
+</Window>

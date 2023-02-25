@@ -188,7 +188,9 @@ static bool captureFinished;
 static bool captureProcessed;
 //Pin mapping, used to map the channels to the PIO program
 //Could be stored into flash memory but it causes problems
-const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28};
+//Channel25 (array pos 24) is only used for the external trigger and the simple capture program
+//Any other usage will cause an error
+const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,1};
 //Main capture buffer, aligned at a 32k boundary, to use the maxixmum ring size supported by DMA channels
 static uint8_t captureBuffer[128 * 1024] __attribute__((aligned(32768)));
 //-----------------------------------------------------------------------------
@@ -320,9 +322,19 @@ uint32_t find_capture_tail()
     //Our capture absolute last position
     return (uint32_t)transfer;
 }
+//Disable the trigger GPIOs to avoid triggering again a chained device
+void disable_gpios()
+{
+    gpio_deinit(0);
+    gpio_deinit(1); 
+    for(uint8_t i = 0; i < lastCapturePinCount; i++)
+        gpio_deinit(lastCapturePins[i]);
+}
 //Triggered when a fast capture ends
 void fast_capture_completed() 
 {
+    //Disable the GPIO's
+    disable_gpios();
     //Mark the capture as finished
     captureFinished = true;
     lastTail = find_capture_tail();
@@ -349,6 +361,7 @@ void fast_capture_completed()
     pio_sm_unclaim(triggerPIO, sm_Trigger);
     pio_remove_program(triggerPIO, &FAST_TRIGGER_program, triggerOffset);
 }
+//Check if the capture has finished, this is done because the W messes the PIO interrupts
 void check_fast_interrupt()
 {
     if(lastCaptureType == CAPTURE_TYPE_FAST && capturePIO->irq & 1)
@@ -357,6 +370,8 @@ void check_fast_interrupt()
 //Triggered when a complex capture ends
 void complex_capture_completed() 
 {
+    //Disable the GPIO's
+    disable_gpios();
     //Mark the capture as finished
     captureFinished = true;
     lastTail = find_capture_tail();
@@ -388,6 +403,8 @@ void complex_capture_completed()
 //Triggered when a simple capture ends
 void simple_capture_completed() 
 {
+    //Disable the GPIO's
+    disable_gpios();
     //Mark the capture as finished
     captureFinished = true;
     lastTail = find_capture_tail();
@@ -554,8 +571,8 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
     pio_gpio_init(triggerPIO, 0);
     pio_gpio_init(capturePIO, 1);
-    for(uint8_t i = 0; i < capturePinCount; i++)
-        pio_gpio_init(capturePIO, lastCapturePins[i]);
+    for(uint8_t i = 0; i < 24; i++)
+        pio_gpio_init(capturePIO, pinMap[i]);
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);
     pio_sm_clear_fifos(capturePIO, sm_Capture);
@@ -593,7 +610,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     sm_config_set_in_pins(&smConfig, triggerPinBase); //Trigger input starts at pin base
     sm_config_set_set_pins(&smConfig, 0, 1); //Trigger output is a set pin
     sm_config_set_sideset_pins(&smConfig, 0); //Trigger output is a side pin
-    sm_config_set_clkdiv(&smConfig, 1); //Trigger always runs at half speed (100Msps)
+    sm_config_set_clkdiv(&smConfig, 1); //Trigger always runs at max speed
     //Configure DMA's
     configureCaptureDMAs(captureMode);
     //Enable capture state machine
@@ -681,8 +698,8 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
     pio_gpio_init(capturePIO, 0);
     pio_gpio_init(capturePIO, 1);
-    for(uint8_t i = 0; i < capturePinCount; i++)
-        pio_gpio_init(capturePIO, lastCapturePins[i]);
+    for(uint8_t i = 0; i < 24; i++)
+        pio_gpio_init(capturePIO, pinMap[i]);
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);
     pio_sm_clear_fifos(capturePIO, sm_Capture);
@@ -766,6 +783,9 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Incorrect pin count?
     if(capturePinCount < 0 || capturePinCount > 24)
         return false;
+    //Incorrect trigger pin?
+    if(triggerPin < 0 || triggerPin > 24)
+        return false;
     //Clear capture buffer (to avoid sending bad data if the trigger happens before the presamples are filled)
     memset(captureBuffer, 0, sizeof(captureBuffer));
     //Store info about the capture
@@ -795,12 +815,14 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
         captureOffset = pio_add_program(capturePIO, &NEGATIVE_CAPTURE_program);
     else
         captureOffset = pio_add_program(capturePIO, &POSITIVE_CAPTURE_program);
-    //Configure pins
+    //Configure capture pins
     for(int i = 0; i < 24; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    for(uint8_t i = 0; i < 24; i++)
+        pio_gpio_init(capturePIO, pinMap[i]);
+    //Configure trigger pin
+    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
     pio_gpio_init(capturePIO, triggerPin);
-    for(uint8_t i = 0; i < capturePinCount; i++)
-        pio_gpio_init(capturePIO, lastCapturePins[i]);
     //Configure state machines
     pio_sm_config smConfig = invertTrigger?
                                 NEGATIVE_CAPTURE_program_get_default_config(captureOffset):

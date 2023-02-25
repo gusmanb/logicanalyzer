@@ -25,7 +25,7 @@ namespace LogicAnalyzer.Protocols
         /// </summary>
         /// <param name="SelectedSettings">Settings to validate</param>
         /// <param name="SelectedChannels">Selected channels</param>
-        /// <returns></returns>
+        /// <returns>True if the settins and signals are correct, false in other case</returns>
         public abstract bool ValidateSettings(ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels);
         /// <summary>
         /// Analyzes a set of samples

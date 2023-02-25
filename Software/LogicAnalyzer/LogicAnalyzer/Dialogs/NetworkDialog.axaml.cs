@@ -33,7 +33,7 @@ namespace LogicAnalyzer.Dialogs
         {
             if (!regAddress.IsMatch(txtAddress.Text))
             {
-                await ShowError("Invalid address", "The specified address is not in the correct format.");
+                await this.ShowError("Invalid address", "The specified address is not in the correct format.");
                 return;
             }
             this.Address = txtAddress.Text;
@@ -41,15 +41,5 @@ namespace LogicAnalyzer.Dialogs
             this.Close(true);
         }
 
-        private async Task ShowError(string Title, string Text)
-        {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Error);
-
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = this.Icon;
-            await box.ShowDialog(this);
-        }
     }
 }

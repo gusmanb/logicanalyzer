@@ -14,7 +14,7 @@ namespace LogicAnalyzer.Dialogs
 {
     public partial class SelectedRegionDialog : Window
     {
-        public SelectedSampleRegion SelectedRegion { get; set; } = new SelectedSampleRegion();
+        public SampleRegion NewRegion { get; set; } = new SampleRegion();
         public SelectedRegionDialog()
         {
             InitializeComponent();
@@ -37,26 +37,16 @@ namespace LogicAnalyzer.Dialogs
 
         private async void BtnAccept_Click(object? sender, RoutedEventArgs e)
         {
-            if (SelectedRegion == null)
+            if (NewRegion == null)
             {
-                await ShowError("Error", "No region selected, internal error.");
+                await this.ShowError("Error", "No region selected, internal error.");
                 return;
             }
 
-            SelectedRegion.RegionColor = clrRegion.Color;
-            SelectedRegion.RegionName = txtName.Text;
+            NewRegion.RegionColor = clrRegion.Color;
+            NewRegion.RegionName = txtName.Text;
             this.Close(true);
         }
 
-        private async Task ShowError(string Title, string Text)
-        {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Error);
-
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = this.Icon;
-            await box.ShowDialog(this);
-        }
     }
 }

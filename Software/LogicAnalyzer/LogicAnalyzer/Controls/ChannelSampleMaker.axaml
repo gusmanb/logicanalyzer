@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="775" d:DesignHeight="60"
+             x:Class="LogicAnalyzer.Controls.ChannelSampleMaker"
+             Background="DimGray" MinWidth="775" MaxWidth="775" MinHeight="60" MaxHeight="60"
+             Width="775" Height="60">
+  <UserControl.Styles>
+    <StyleInclude Source="/Styles/ButtonStyles.axaml" />
+  </UserControl.Styles>
+  <Border BorderThickness="2" CornerRadius="2" BorderBrush="#ffa4a4a4">
+    <Grid ColumnDefinitions="1*,5*">
+      <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#ff505050">
+        <TextBlock Name="lblChannelNo" Margin="15,5,15,5" HorizontalAlignment="Center" VerticalAlignment="Center">Channel 1</TextBlock>
+        <TextBlock Name="lblChannelName" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">Signal</TextBlock>
+      </StackPanel>
+      <Border Grid.Column="1" Background="#ff909090" CornerRadius="5" Margin="2" Name="brdImage">
+        <Image Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="imgSignal" Width="630" Height="46"></Image>
+      </Border>
+    </Grid>
+  </Border>
+</UserControl>

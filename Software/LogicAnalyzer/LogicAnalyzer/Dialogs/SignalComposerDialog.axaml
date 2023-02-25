@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"
+        x:Class="LogicAnalyzer.Dialogs.SignalComposerDialog"
+        Title="Signal compositor" Icon="/Assets/Ico40.ico"
+        Width="640" Height="480" WindowStartupLocation="CenterOwner">
+  <Panel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Menu VerticalAlignment="Top" Background="#f0202020">
+      <MenuItem Header="_File">
+        <MenuItem Header="_New..." Name="mnuNew"/>
+        <MenuItem Header="_Open..." Name="mnuOpen"/>
+        <MenuItem Header="_Save..." Name="mnuSave" IsEnabled="False"/>
+      </MenuItem>
+      <MenuItem Header="_Validate" Name="mnuValidate" />
+    </Menu>
+  <AvalonEdit:TextEditor Name="editSignal"
+                         IsVisible="True"
+                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                         Foreground="#D4D4D4"
+                         Background="#ff202020"
+                         HorizontalScrollBarVisibility="Auto"
+                         VerticalScrollBarVisibility="Visible"
+                         FontWeight="Light"
+                         FontSize="14" 
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                         ShowLineNumbers="True"
+                         Margin="0,32,0,32"
+                         />
+    <Panel VerticalAlignment="Bottom" Height="32" Background="#f0202020" HorizontalAlignment="Stretch">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Height="32" Background="#f0202020" HorizontalAlignment="Right">
+        <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Line:</TextBlock>
+        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Name="tbLine">0</TextBlock>
+        <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">Column:</TextBlock>
+        <TextBlock VerticalAlignment="Center" Margin="5,0,10,0" Name="tbColumn">0</TextBlock>
+      </StackPanel>
+    </Panel>
+  </Panel>
+</Window>

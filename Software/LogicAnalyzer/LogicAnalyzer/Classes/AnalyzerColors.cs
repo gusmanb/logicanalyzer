@@ -48,6 +48,8 @@ namespace LogicAnalyzer.Classes
             Color.FromRgb(255, 1, 65),
         };
 
+        public static Color ErrorColor => Colors.Red;
+
         public static Color TxtColor => Colors.White;
     }
 }

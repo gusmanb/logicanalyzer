@@ -2,126 +2,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="660"
-        MaxWidth="900" MinWidth="900" Width="800" MaxHeight="660" MinHeight="660" Height="660"
+        xmlns:uc="clr-namespace:LogicAnalyzer.Controls;assembly=LogicAnalyzer"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="710"
+        MaxWidth="900" MinWidth="900" Width="900" MaxHeight="710" MinHeight="710" Height="710"
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
-        Title="Start capture..."
-        Background="#383838" Icon="/Assets/window.ico">
+        Title="Capture settings"
+        Background="#383838" Icon="/Assets/Ico40.ico">
   <Panel>
-    <Grid RowDefinitions="2*,14*,1*" Margin="8,15,8,15">
-      <Grid Grid.Row="0" ColumnDefinitions="168,243,223,220" Margin="10,0,10,0">
+    <Grid RowDefinitions="1*,14*,0.7*" Margin="8,15,8,15" Name="grdBase">
+      <Grid Grid.Row="0" ColumnDefinitions="*,*,*" Margin="15,0,15,0">
         <StackPanel Grid.Column="0" Orientation="Horizontal">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Mode:</TextBlock>
-          <DropDown SelectedIndex="0" Width="120" Height="35" Name="ddMode" Margin="0,20,15,0">
-            <DropDownItem>
-              8 channel
-            </DropDownItem>
-            <DropDownItem>
-              16 channel
-            </DropDownItem>
-            <DropDownItem>
-              24 channel
-            </DropDownItem>
-          </DropDown>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Frequency:</TextBlock>
+          <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Frequency:</TextBlock>
           <NumericUpDown Width="165" Height="35" Minimum="3100" Maximum="100000000" Value="100000000" Name="nudFrequency"></NumericUpDown>
         </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Presamples:</TextBlock>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Presamples:</TextBlock>
           <NumericUpDown Width="135" Height="35" Value="512" Minimum="2" Maximum="98303" Name="nudPreSamples"></NumericUpDown>
         </StackPanel>
-        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,0,0">Postsamples:</TextBlock>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Postsamples:</TextBlock>
           <NumericUpDown Width="135" Height="35" Value="1024" Minimum="512" Maximum="131069" Name="nudPostSamples"></NumericUpDown>
         </StackPanel>
       </Grid>
-      <Grid Grid.Row="1" RowDefinitions="2*,5*">
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="10,10,10,0" Background="#80505050">
-          <TextBlock Margin="15,15,0,0">Capture channels</TextBlock>
-          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="12,15,0,0">
-            <TextBlock Width="28">0
-1
-            </TextBlock>
-            <TextBlock Width="28">0
-2</TextBlock>
-            <TextBlock Width="28">0
-3</TextBlock>
-            <TextBlock Width="28">0
-4</TextBlock>
-            <TextBlock Width="28">0
-5</TextBlock>
-            <TextBlock Width="28">0
-6</TextBlock>
-            <TextBlock Width="28">0
-7</TextBlock>
-            <TextBlock Width="28">0
-8</TextBlock>
-            <TextBlock Width="28">0
-9</TextBlock>
-            <TextBlock Width="28">1
-0</TextBlock>
-            <TextBlock Width="28">1
-1</TextBlock>
-            <TextBlock Width="28">1
-2</TextBlock>
-            <TextBlock Width="28">1
-3</TextBlock>
-            <TextBlock Width="28">1
-4</TextBlock>
-            <TextBlock Width="28">1
-5</TextBlock>
-            <TextBlock Width="28">1
-6</TextBlock>
-            <TextBlock Width="28">1
-7</TextBlock>
-            <TextBlock Width="28">1
-8</TextBlock>
-            <TextBlock Width="28">1
-9</TextBlock>
-            <TextBlock Width="28">2
-0</TextBlock>
-            <TextBlock Width="28">2
-1</TextBlock>
-            <TextBlock Width="28">2
-2</TextBlock>
-            <TextBlock Width="28">2
-3</TextBlock>
-            <TextBlock Width="28">2
-4</TextBlock>
+      <Grid Grid.Row="1" RowDefinitions="15*,14*" Name="grdMainContainer">
+        <ScrollViewer Margin="10,10,10,0">
+          <StackPanel Orientation="Vertical" Name="pnlChannels">
+
           </StackPanel>
-          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
-            <CheckBox Name="ckCapture1"></CheckBox>
-            <CheckBox Name="ckCapture2"></CheckBox>
-            <CheckBox Name="ckCapture3"></CheckBox>
-            <CheckBox Name="ckCapture4"></CheckBox>
-            <CheckBox Name="ckCapture5"></CheckBox>
-            <CheckBox Name="ckCapture6"></CheckBox>
-            <CheckBox Name="ckCapture7"></CheckBox>
-            <CheckBox Name="ckCapture8"></CheckBox>
-            <CheckBox Name="ckCapture9" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture10" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture11" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture12" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture13" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture14" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture15" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture16" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture17" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture18" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture19" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture20" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture21" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture22" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture23" IsEnabled="False"></CheckBox>
-            <CheckBox Name="ckCapture24" IsEnabled="False"></CheckBox>
-          </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Margin="10,10,10,10" Background="#80505050">
-          <TextBlock Margin="15,15,0,0">Trigger</TextBlock>
-          <RadioButton Margin="15,15,0,0" IsChecked="true" Name="rbTriggerTypeEdge">Edge trigger</RadioButton>
+        </ScrollViewer>
+        <StackPanel Name="pnlAllTriggers" IsVisible="True" Grid.Row="1" Margin="10,10,10,10" Background="#80505050">
+          <RadioButton Margin="15,5,0,0" IsChecked="true" Name="rbTriggerTypeEdge">Edge trigger</RadioButton>
           <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030" Name="pnlEdge">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="12,15,0,0">
               <TextBlock Width="28">
@@ -250,16 +161,20 @@
             <CheckBox Name="ckNegativeTrigger" Margin="10,0,0,10">Negative edge</CheckBox>
           </StackPanel>
           <RadioButton Margin="15,0,0,0" Name="rbTriggerTypePattern">Pattern trigger</RadioButton>
-          <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030" Name="pnlComplex">
+          <StackPanel Name="pnlPatternTrigger" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030">
             <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">First channel:</TextBlock>
-            <NumericUpDown Margin="5,15,0,15" Value="1" Minimum="1" Maximum="24" Name="nudTriggerBase"></NumericUpDown>
+            <NumericUpDown Margin="5,15,0,15" Value="1" Minimum="1" Maximum="16" Width="110" Name="nudTriggerBase"></NumericUpDown>
             <TextBlock Margin="15,0,10,0" VerticalAlignment="Center">Pattern:</TextBlock>
             <TextBox VerticalAlignment="Center" Width="160" Name="txtPattern"></TextBox>
             <CheckBox Margin="15,0,10,0" Name="ckFastTrigger">Fast pattern matching (max. 5 bits)</CheckBox>
           </StackPanel>
         </StackPanel>
+        <StackPanel Grid.Row="1" Margin="10,10,10,10" Background="#80505050" Name="pnlSingleTrigger" IsVisible="False">
+          <Separator Height="20"></Separator>
+
+        </StackPanel>
       </Grid>
-      <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="2">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="2">
         <Button Name="btnAccept">Accept</Button>
         <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
       </StackPanel>

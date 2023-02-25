@@ -193,12 +193,12 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         {
                             #ifdef BUILD_PICO_W
                                 #ifdef ENABLE_WIFI
-                                    sendResponse("LOGIC_ANALYZER_WIFI_V3_5\n", fromWiFi); //Our ID
+                                    sendResponse("LOGIC_ANALYZER_WIFI_V4_0\n", fromWiFi); //Our ID
                                 #else
-                                    sendResponse("LOGIC_ANALYZER_W_V3_5\n", fromWiFi); //Our ID
+                                    sendResponse("LOGIC_ANALYZER_W_V4_0\n", fromWiFi); //Our ID
                                 #endif
                             #else
-                                sendResponse("LOGIC_ANALYZER_V3_5\n", fromWiFi); //Our ID
+                                sendResponse("LOGIC_ANALYZER_V4_0\n", fromWiFi); //Our ID
                             #endif
                         }
                         break;

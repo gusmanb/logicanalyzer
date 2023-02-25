@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using LogicAnalyzer.Classes;
@@ -12,27 +13,26 @@ namespace LogicAnalyzer.Controls
 {
     public partial class SampleViewer : UserControl
     {
+        const int MIN_CHANNEL_HEIGHT = 48;
+
         public int PreSamples { get; set; }
-        public uint[] Samples { get; set; }
+        public UInt128[] Samples { get; set; }
         public int ChannelCount { get; set; }
         public int SamplesInScreen { get; set; }
         public int FirstSample { get; set; }
-
         public int? UserMarker { get; set; }
 
         bool updating = false;
 
-        List<SelectedSampleRegion> regions = new List<SelectedSampleRegion>();
+        List<SampleRegion> regions = new List<SampleRegion>();
 
-        public SelectedSampleRegion[] SelectedRegions { get { return regions.ToArray(); } }
+        public SampleRegion[] SelectedRegions { get { return regions.ToArray(); } }
 
         List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
         Color sampleLineColor = Color.FromRgb(60, 60, 60);
         Color sampleDashColor = Color.FromArgb(60, 60, 60, 60);
         Color triggerLineColor = Colors.White;
         Color userLineColor = Colors.Cyan;
-        DashStyle halfDash = new DashStyle(new double[] { 1, 8 }, 0);
-        DashStyle fullDash = new DashStyle(new double[] { 8, 12 }, 0);
         public SampleViewer()
         {
             InitializeComponent();
@@ -49,15 +49,15 @@ namespace LogicAnalyzer.Controls
             updating = false;
             this.InvalidateVisual();
         }
-        public void AddRegion(SelectedSampleRegion Region)
+        public void AddRegion(SampleRegion Region)
         {
             regions.Add(Region);
         }
-        public void AddRegions(IEnumerable<SelectedSampleRegion> Regions)
+        public void AddRegions(IEnumerable<SampleRegion> Regions)
         {
             regions.AddRange(Regions);
         }
-        public bool RemoveRegion(SelectedSampleRegion Region)
+        public bool RemoveRegion(SampleRegion Region)
         {
             return regions.Remove(Region);
         }
@@ -88,6 +88,13 @@ namespace LogicAnalyzer.Controls
 
         public override void Render(DrawingContext context)
         {
+            int minSize = ChannelCount * MIN_CHANNEL_HEIGHT;
+
+            if (Parent.Bounds.Height > minSize && this.Height != double.NaN)
+                this.Height = double.NaN;
+            else if(Bounds.Height < minSize)
+                this.Height = minSize;
+
             base.Render(context);
             Rect thisBounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
             using (context.PushClip(thisBounds))
@@ -123,13 +130,20 @@ namespace LogicAnalyzer.Controls
                 for (int buc = FirstSample; buc < lastSample; buc++)
                 {
 
-                    uint sample = Samples[buc];
-                    uint prevSample = buc == 0 ? 0 : Samples[buc - 1];
+                    UInt128 sample = Samples[buc];
+                    UInt128 prevSample = buc == 0 ? 0 : Samples[buc - 1];
                     double lineX = (buc - FirstSample) * sampleWidth;
 
-                    context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1), new Point(lineX + sampleWidth / 2, 0), new Point(lineX + sampleWidth / 2, thisBounds.Height));
+                    if (SamplesInScreen < 201)
+                    {
+                        context.DrawLine(GraphicObjectsCache.GetPen(sampleLineColor, 1), new Point(lineX + sampleWidth / 2, 0), new Point(lineX + sampleWidth / 2, thisBounds.Height));
 
-                    context.DrawLine(GraphicObjectsCache.GetPen(sampleDashColor, 1), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+                        if (SamplesInScreen < 101)
+                        {
+                            context.DrawLine(GraphicObjectsCache.GetPen(sampleDashColor, 1), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+                        }
+
+                    }
 
                     if (buc == PreSamples)
                         context.DrawLine(GraphicObjectsCache.GetPen(triggerLineColor, 2), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
@@ -141,24 +155,29 @@ namespace LogicAnalyzer.Controls
                     {
                         double lineY;
 
-                        uint curVal = (uint)(sample & (1 << chan));
-                        uint prevVal = (uint)(prevSample & (1 << chan));
+                        UInt128 curVal = sample & ((UInt128)1 << chan);
+                        UInt128 prevVal = prevSample & ((UInt128)1 << chan);
                         if (curVal != 0)
                             lineY = chan * channelHeight + margin;
                         else
                             lineY = (chan + 1) * channelHeight - margin;
 
-                        context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[chan], 1), new Point(lineX, lineY), new Point(lineX + sampleWidth, lineY));
+                        context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX + sampleWidth, lineY));
 
-                        if (curVal != prevVal)
+                        if (curVal != prevVal && buc != 0)
                         {
                             lineY = chan * channelHeight + margin;
-                            context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[chan], 1), new Point(lineX, lineY), new Point(lineX, lineY + channelHeight - margin * 2));
+                            context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX, lineY + channelHeight - margin * 2));
                         }
                     }
 
                 }
 
+                if (UserMarker != null && UserMarker == lastSample)
+                {
+                    double lineX = (lastSample - FirstSample) * sampleWidth;
+                    context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+                }
                 if (analysisData != null && analysisData.Count > 0)
                 {
                     foreach (var channel in analysisData)

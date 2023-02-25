@@ -52,7 +52,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/sio.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_base\include/pico/types.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_base\include/pico/error.h \
- F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch/arch_threadsafe_background.h \
+ F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch/arch_poll.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch/arch_common.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_time\include/pico/time.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\include/hardware/timer.h \

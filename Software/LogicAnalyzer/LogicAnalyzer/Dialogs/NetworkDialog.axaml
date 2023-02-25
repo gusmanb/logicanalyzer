@@ -5,7 +5,7 @@
         mc:Ignorable="d"
         x:Class="LogicAnalyzer.Dialogs.NetworkDialog"
         Background="#383838" Title="Connect to device"
-        Classes="tool_window" Icon="/Assets/window.ico"
+        Classes="tool_window" Icon="/Assets/Ico40.ico"
         Width="300" Height="150" CanResize="False" WindowStartupLocation="CenterOwner">
   <Panel>
     <Grid ColumnDefinitions="100,*" RowDefinitions="*,*,*" Margin="10,15,10,15">

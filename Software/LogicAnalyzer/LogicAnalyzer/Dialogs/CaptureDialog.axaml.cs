@@ -2,6 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using LogicAnalyzer.Classes;
+using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
 using MessageBox.Avalonia;
 using Newtonsoft.Json;
@@ -17,10 +19,13 @@ namespace LogicAnalyzer.Dialogs
 {
     public partial class CaptureDialog : Window
     {
-        CheckBox[] captureChannels;
+        ChannelSelector[] captureChannels;
         RadioButton[] triggerChannels;
-        byte mode = 0;
+        CaptureLimits limits;
+        IAnalizerDriver driver;
         public CaptureSettings SelectedSettings { get; private set; }
+
+        string settingsFile;
 
         public bool DisableFast 
         {
@@ -38,68 +43,33 @@ namespace LogicAnalyzer.Dialogs
             InitializeComponent();
             btnAccept.Click += btnAccept_Click;
             btnCancel.Click += btnCancel_Click;
-            ddMode.SelectionChanged += DdMode_SelectionChanged;
-            InitializeControlArrays();
-            LoadSettings();
         }
 
-        private void DdMode_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        public void Initialize(IAnalizerDriver Driver)
         {
-            mode = (byte)ddMode.SelectedIndex;
+            driver = Driver;
+            SetDriverMode(driver.DriverType);
+            InitializeControlArrays(driver.Channels);
+            LoadSettings(driver.DriverType);
+        }
 
-            switch (mode)
+        private void SetDriverMode(AnalyzerDriverType DriverType)
+        {
+            if (DriverType == AnalyzerDriverType.Multi)
             {
-                case 0:
-
-                    for(int buc = 0; buc < 8; buc++)
-                        captureChannels[buc].IsEnabled= true;
-
-                    for (int buc = 8; buc < 24; buc++)
-                    {
-                        captureChannels[buc].IsEnabled = false;
-                        captureChannels[buc].IsChecked = false;
-                    }
-
-                    nudPreSamples.Minimum = 2;
-                    nudPreSamples.Maximum = 98303;
-                    nudPostSamples.Minimum = 512;
-                    nudPostSamples.Maximum = 131069;
-                    break;
-
-                case 1:
-
-                    for (int buc = 0; buc < 16; buc++)
-                        captureChannels[buc].IsEnabled = true;
-
-                    for (int buc = 16; buc < 24; buc++)
-                    {
-                        captureChannels[buc].IsEnabled = false;
-                        captureChannels[buc].IsChecked = false;
-                    }
-
-                    nudPreSamples.Minimum = 2;
-                    nudPreSamples.Maximum = 49151;
-                    nudPostSamples.Minimum = 512;
-                    nudPostSamples.Maximum = 65533;
-                    break;
-
-                case 2:
-
-                    for (int buc = 0; buc < 24; buc++)
-                        captureChannels[buc].IsEnabled = true;
-
-                    nudPreSamples.Minimum = 2;
-                    nudPreSamples.Maximum = 24576;
-                    nudPostSamples.Minimum = 512;
-                    nudPostSamples.Maximum = 32765;
-                    break;
+                pnlAllTriggers.Children.Remove(pnlPatternTrigger);
+                pnlSingleTrigger.Children.Add(pnlPatternTrigger);
+                pnlAllTriggers.IsVisible = false;
+                pnlSingleTrigger.IsVisible = true;
+                grdMainContainer.RowDefinitions = new RowDefinitions("4*,*");
             }
-
-            if(nudPreSamples.Value > nudPreSamples.Maximum)
-                nudPreSamples.Value = nudPreSamples.Maximum;
-
-            if (nudPostSamples.Value > nudPostSamples.Maximum)
-                nudPostSamples.Value = nudPostSamples.Maximum;
+            else if (DriverType == AnalyzerDriverType.Emulated)
+            {
+                pnlAllTriggers.IsVisible = false;
+                grdMainContainer.RowDefinitions = new RowDefinitions("1*");
+                MaxHeight = MinHeight = Height = 410;
+                grdBase.RowDefinitions = new RowDefinitions("1*,7*,1*");
+            }
         }
 
         protected override void OnOpened(EventArgs e)
@@ -108,199 +78,311 @@ namespace LogicAnalyzer.Dialogs
             this.FixStartupPosition();
         }
 
-        private void InitializeControlArrays()
+        private void InitializeControlArrays(int ChannelCount)
         {
-            List<CheckBox> channels = new List<CheckBox>();
+            List<ChannelSelector> channels = new List<ChannelSelector>();
             List<RadioButton> triggers = new List<RadioButton>();
 
-            for (int buc = 1; buc < 25; buc++)
+            StackPanel currentPanel = new StackPanel();
+            currentPanel.Orientation = Avalonia.Layout.Orientation.Horizontal;
+            currentPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            int pannelChannel = 0;
+            pnlChannels.Children.Add(currentPanel);
+            for (int buc = 0; buc < ChannelCount; buc++)
             {
-                channels.Add(this.FindControl<CheckBox>($"ckCapture{buc}"));
-                triggers.Add(this.FindControl<RadioButton>($"rbTrigger{buc}"));
+                if (pannelChannel == 8)
+                {
+                    pannelChannel = 0;
+                    currentPanel = new StackPanel();
+                    currentPanel.Orientation = Avalonia.Layout.Orientation.Horizontal;
+                    currentPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+                    pnlChannels.Children.Add(currentPanel);
+                }
+
+                var channel = new ChannelSelector { ChannelNumber = (byte)buc };
+                currentPanel.Children.Add(channel);
+                channel.Selected += Channel_Selected;
+                channel.Deselected += Channel_Deselected;
+                channels.Add(channel);
+                triggers.Add(this.FindControl<RadioButton>($"rbTrigger{buc + 1}"));
+                pannelChannel++;
             }
 
             captureChannels = channels.ToArray();
             triggerChannels = triggers.ToArray();
         }
 
-        private void LoadSettings()
+        private void Channel_Deselected(object? sender, EventArgs e)
         {
-            if (File.Exists("captureSettings.json"))
+            CheckMode();
+        }
+
+        private void Channel_Selected(object? sender, EventArgs e)
+        {
+            CheckMode();
+        }
+
+        private void CheckMode()
+        {
+            var enabledChannels = captureChannels.Where(c => c.Enabled).Select(c => (int)c.ChannelNumber).ToArray();
+            limits = driver.GetLimits(enabledChannels);
+
+            nudPreSamples.Minimum = limits.MinPreSamples;
+            nudPreSamples.Maximum = limits.MaxPreSamples;
+            nudPostSamples.Minimum = limits.MinPostSamples;
+            nudPostSamples.Maximum = limits.MaxPostSamples;
+
+            if (nudPreSamples.Value > limits.MaxPreSamples)
+                nudPreSamples.Value = limits.MaxPreSamples;
+
+            if (nudPostSamples.Value > limits.MaxPostSamples)
+                nudPostSamples.Value = limits.MaxPostSamples;
+
+        }
+
+        private void LoadSettings(AnalyzerDriverType DriverType)
+        {
+            settingsFile = $"cpSettings{DriverType}.json";
+
+            if (File.Exists(settingsFile))
             {
-                string data = File.ReadAllText("captureSettings.json");
-                var settings = JsonConvert.DeserializeObject<CaptureSettings>(data);
+                string data = File.ReadAllText(settingsFile);
+
+                CaptureSettings? settings = null; 
+                
+                try
+                {
+                    settings = JsonConvert.DeserializeObject<CaptureSettings>(data);
+                }
+                catch { }
 
                 if (settings == null)
-                    return;
+                {
+                    try
+                    {
+                        var oldset = JsonConvert.DeserializeObject<OldCaptureSettings>(data);
+
+                        if (oldset != null)
+                        {
+                            CaptureChannel[] channels = new CaptureChannel[oldset.CaptureChannels.Length];
+                            for (int buc = 0; buc < channels.Length; buc++)
+                                channels[buc] = new CaptureChannel
+                                {
+                                    ChannelName = (oldset.ChannelTexts?.Length ?? 0) > buc ? oldset.ChannelTexts[buc] : "",
+                                    ChannelNumber = (int)oldset.CaptureChannels[buc]
+                                };
+
+                            settings = new CaptureSettings
+                            {
+                                CaptureChannels = channels,
+                                Frequency = oldset.Frequency,
+                                PostTriggerSamples = oldset.PostTriggerSamples,
+                                PreTriggerSamples = oldset.PreTriggerSamples,
+                                TriggerBitCount = oldset.TriggerBitCount,
+                                TriggerChannel = oldset.TriggerChannel,
+                                TriggerInverted = oldset.TriggerInverted,
+                                TriggerPattern = oldset.TriggerPattern,
+                                TriggerType = oldset.TriggerType
+                            };
+                        }
+
+                    }
+                    catch { }
+
+                    if (settings == null)
+                        return;
+                }
 
                 nudFrequency.Value = settings.Frequency;
                 nudPreSamples.Value = settings.PreTriggerSamples;
                 nudPostSamples.Value = settings.PostTriggerSamples;
 
                 foreach (var channel in settings.CaptureChannels)
-                    captureChannels[channel].IsChecked = true;
-
-                switch (settings.TriggerType)
                 {
-                    case 0:
-                        rbTriggerTypePattern.IsChecked = false;
-                        rbTriggerTypeEdge.IsChecked = true;
+                    if (channel.ChannelNumber >= captureChannels.Length)
+                        continue;
 
-                        triggerChannels[settings.TriggerChannel].IsChecked = true;
-                        ckNegativeTrigger.IsChecked = settings.TriggerInverted;
-
-                        rbTriggerTypePattern.IsChecked = false;
-                        rbTriggerTypeEdge.IsChecked = true;
-
-                        ckFastTrigger.IsChecked = false;
-
-                        break;
-
-                    case 1:
-                        {
-                            rbTriggerTypePattern.IsChecked = true;
-                            rbTriggerTypeEdge.IsChecked = false;
-
-                            nudTriggerBase.Value = settings.TriggerChannel + 1;
-                            string pattern = "";
-
-                            for (int buc = 0; buc < settings.TriggerBitCount; buc++)
-                                pattern += (settings.TriggerPattern & (1 << buc)) == 0 ? "0" : "1";
-
-                            txtPattern.Text = pattern;
-
-                            ckFastTrigger.IsChecked = false;
-                        }
-                        break;
-
-                    case 2:
-                        {
-                            rbTriggerTypePattern.IsChecked = true;
-                            rbTriggerTypeEdge.IsChecked = false;
-
-                            nudTriggerBase.Value = settings.TriggerChannel + 1;
-                            string pattern = "";
-
-                            for (int buc = 0; buc < settings.TriggerBitCount; buc++)
-                                pattern += (settings.TriggerPattern & (1 << buc)) == 0 ? "0" : "1";
-
-                            txtPattern.Text = pattern;
-
-                            ckFastTrigger.IsChecked = true;
-                        }
-                        break;
+                    captureChannels[channel.ChannelNumber].Enabled = true;
+                    captureChannels[channel.ChannelNumber].ChannelName = channel.ChannelName;
                 }
 
-                ddMode.SelectedIndex = settings.CaptureMode;
+                if (DriverType != AnalyzerDriverType.Emulated)
+                {
+                    switch (settings.TriggerType)
+                    {
+                        case 0:
+                            rbTriggerTypePattern.IsChecked = false;
+                            rbTriggerTypeEdge.IsChecked = true;
+
+                            triggerChannels[settings.TriggerChannel].IsChecked = true;
+                            ckNegativeTrigger.IsChecked = settings.TriggerInverted;
+
+                            rbTriggerTypePattern.IsChecked = false;
+                            rbTriggerTypeEdge.IsChecked = true;
+
+                            ckFastTrigger.IsChecked = false;
+
+                            break;
+
+                        case 1:
+                            {
+                                rbTriggerTypePattern.IsChecked = true;
+                                rbTriggerTypeEdge.IsChecked = false;
+
+                                nudTriggerBase.Value = settings.TriggerChannel + 1;
+                                string pattern = "";
+
+                                for (int buc = 0; buc < settings.TriggerBitCount; buc++)
+                                    pattern += (settings.TriggerPattern & (1 << buc)) == 0 ? "0" : "1";
+
+                                txtPattern.Text = pattern;
+
+                                ckFastTrigger.IsChecked = false;
+                            }
+                            break;
+
+                        case 2:
+                            {
+                                rbTriggerTypePattern.IsChecked = true;
+                                rbTriggerTypeEdge.IsChecked = false;
+
+                                nudTriggerBase.Value = settings.TriggerChannel + 1;
+                                string pattern = "";
+
+                                for (int buc = 0; buc < settings.TriggerBitCount; buc++)
+                                    pattern += (settings.TriggerPattern & (1 << buc)) == 0 ? "0" : "1";
+
+                                txtPattern.Text = pattern;
+
+                                ckFastTrigger.IsChecked = true;
+                            }
+                            break;
+                    }
+                }
             }
         }
 
         private async void btnAccept_Click(object? sender, RoutedEventArgs e)
         {
-            int max = mode == 0 ? 131071 : (mode == 1 ? 65535 : 32767);
-
-            if (nudPreSamples.Value + nudPostSamples.Value > max)
-            {
-                await ShowError("Error", $"Total samples cannot exceed {max}.");
-                return;
-            }
-
-            List<int> channelsToCapture = new List<int>();
+            List<CaptureChannel> channelsToCapture = new List<CaptureChannel>();
 
             for (int buc = 0; buc < captureChannels.Length; buc++)
             {
-                if (captureChannels[buc].IsChecked == true)
-                    channelsToCapture.Add(buc);
+                if (captureChannels[buc].Enabled == true)
+                    channelsToCapture.Add(new CaptureChannel { ChannelName = captureChannels[buc].ChannelName, ChannelNumber = buc });
             }
 
             if (channelsToCapture.Count == 0)
             {
-                await ShowError("Error", "Select at least one channel to be captured.");
+                await this.ShowError("Error", "Select at least one channel to be captured.");
                 return;
             }
 
-            int trigger = -1;
-            int triggerBits = 0;
+            int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
-            UInt16 triggerPattern = 0;
-
-            if (rbTriggerTypeEdge.IsChecked == true)
+            if (nudPreSamples.Value + nudPostSamples.Value > max)
             {
-                for (int buc = 0; buc < triggerChannels.Length; buc++)
-                {
-                    if (triggerChannels[buc].IsChecked == true)
-                    {
-                        if (trigger == -1)
-                            trigger = buc;
-                        else
-                        {
-                            await ShowError("Error", "Only one trigger channel supported.");
-                            return;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                trigger = (int)nudTriggerBase.Value - 1;
-
-                char[] patternChars = txtPattern.Text.ToArray();
-
-                if (patternChars.Length == 0)
-                {
-                    await ShowError("Error", "Trigger pattern must be at least one bit long.");
-                    return;
-                }
-
-                if (patternChars.Any(c => c != '0' && c != '1'))
-                {
-                    await ShowError("Error", "Trigger patterns must be composed only by 0's and 1's.");
-                    return;
-                }
-
-                if ((trigger - 1) + patternChars.Length > 16)
-                {
-                    await ShowError("Error", "Only first 16 channels can be used in a pattern trigger.");
-                    return;
-                }
-
-                if (ckFastTrigger.IsChecked == true && patternChars.Length > 5)
-                {
-                    await ShowError("Error", "Fast pattern matching is restricted to 5 channels.");
-                    return;
-                }
-
-                for (int buc = 0; buc < patternChars.Length; buc++)
-                {
-                    if (patternChars[buc] == '1')
-                        triggerPattern |= (UInt16)(1 << buc);
-                }
-
-                triggerBits = patternChars.Length;
-            }
-
-            if (trigger == -1)
-            {
-                await ShowError("Error", "You must select a trigger channel. How the heck did you managed to deselect all? ¬¬");
+                await this.ShowError("Error", $"Total samples cannot exceed {max}.");
                 return;
             }
 
             CaptureSettings settings = new CaptureSettings();
 
+            if (driver.DriverType != AnalyzerDriverType.Emulated)
+            {
+
+                int trigger = -1;
+                int triggerBits = 0;
+
+                UInt16 triggerPattern = 0;
+
+                if (driver.DriverType != AnalyzerDriverType.Multi && rbTriggerTypeEdge.IsChecked == true)
+                {
+                    for (int buc = 0; buc < triggerChannels.Length; buc++)
+                    {
+                        if (triggerChannels[buc].IsChecked == true)
+                        {
+                            if (trigger == -1)
+                                trigger = buc;
+                            else
+                            {
+                                await this.ShowError("Error", "Only one trigger channel supported.");
+                                return;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    trigger = (int)nudTriggerBase.Value - 1;
+
+                    char[] patternChars = txtPattern.Text.ToArray();
+
+                    if (patternChars.Length == 0)
+                    {
+                        await this.ShowError("Error", "Trigger pattern must be at least one bit long.");
+                        return;
+                    }
+
+                    if (patternChars.Any(c => c != '0' && c != '1'))
+                    {
+                        await this.ShowError("Error", "Trigger patterns must be composed only by 0's and 1's.");
+                        return;
+                    }
+
+                    if ((trigger - 1) + patternChars.Length > 16)
+                    {
+                        await this.ShowError("Error", "Only first 16 channels can be used in a pattern trigger.");
+                        return;
+                    }
+
+                    if (ckFastTrigger.IsChecked == true && patternChars.Length > 5)
+                    {
+                        await this.ShowError("Error", "Fast pattern matching is restricted to 5 channels.");
+                        return;
+                    }
+
+                    for (int buc = 0; buc < patternChars.Length; buc++)
+                    {
+                        if (patternChars[buc] == '1')
+                            triggerPattern |= (UInt16)(1 << buc);
+                    }
+
+                    triggerBits = patternChars.Length;
+                }
+
+                if (trigger == -1)
+                {
+                    await this.ShowError("Error", "You must select a trigger channel. How the heck did you managed to deselect all? ¬¬");
+                    return;
+                }
+
+                settings.TriggerPattern = triggerPattern;
+                settings.TriggerBitCount = triggerBits;
+                settings.TriggerChannel = trigger;
+            }
+
+            switch (driver.DriverType)
+            {
+                case AnalyzerDriverType.Emulated:
+                    settings.TriggerType = 0;
+                    break;
+                case AnalyzerDriverType.Multi:
+                    settings.TriggerType = ckFastTrigger.IsChecked == true ? 2 : 1;
+                    break;
+                default:
+                    settings.TriggerType = rbTriggerTypePattern.IsChecked == true ? (ckFastTrigger.IsChecked == true ? 2 : 1) : 0;
+                    break;
+            }
+            
+
             settings.Frequency = (int)nudFrequency.Value;
             settings.PreTriggerSamples = (int)nudPreSamples.Value;
             settings.PostTriggerSamples = (int)nudPostSamples.Value;
-
-            settings.TriggerType = rbTriggerTypePattern.IsChecked == true ? (ckFastTrigger.IsChecked == true ? 2 : 1) : 0;
-            settings.TriggerPattern = triggerPattern;
-            settings.TriggerBitCount = triggerBits;
-            settings.TriggerChannel = trigger;
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;
-
             settings.CaptureChannels = channelsToCapture.ToArray();
-            settings.CaptureMode = mode;
-
-            File.WriteAllText("captureSettings.json", JsonConvert.SerializeObject(settings));
+            
+            File.WriteAllText(settingsFile, JsonConvert.SerializeObject(settings));
             SelectedSettings = settings;
             this.Close(true);
         }
@@ -315,12 +397,12 @@ namespace LogicAnalyzer.Dialogs
             if (rbTriggerTypeEdge.IsChecked == true)
             {
                 pnlEdge.IsEnabled = true;
-                pnlComplex.IsEnabled = false;
+                pnlPatternTrigger.IsEnabled = false;
             }
             else
             {
                 pnlEdge.IsEnabled = false;
-                pnlComplex.IsEnabled = true;
+                pnlPatternTrigger.IsEnabled = true;
             }
         }
 
@@ -330,17 +412,6 @@ namespace LogicAnalyzer.Dialogs
                 txtPattern.MaxLength = 5;
             else
                 txtPattern.MaxLength = 16;
-        }
-
-        private async Task ShowError(string Title, string Text)
-        {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Error);
-
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = this.Icon;
-            await box.ShowDialog(this);
         }
     }
 }

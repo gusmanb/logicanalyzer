@@ -5,8 +5,8 @@
         x:Class="LogicAnalyzer.Dialogs.MeasureDialog"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
         MaxWidth="400" MinWidth="400"
-        MaxHeight="450" MinHeight="450"
-        Title="Measurements" Icon="/Assets/window.ico"
+        MinHeight="450" MaxHeight="600" Width="400" Height="450"
+        Title="Measurements" Icon="/Assets/Ico40.ico"
         Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
   <StackPanel>
     <Grid ColumnDefinitions="2.5*,*" RowDefinitions="20,20,20">

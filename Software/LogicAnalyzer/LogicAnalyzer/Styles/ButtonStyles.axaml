@@ -1,0 +1,29 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+  <Style Selector="Button.Link">
+    <Setter Property="Foreground" Value="Blue" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter Content="{TemplateBinding Content}">
+          <ContentPresenter.Styles>
+            <Style Selector="TextBlock">
+              <Setter Property="Foreground" Value="{TemplateBinding Foreground}"/>
+              <Setter Property="FontSize" Value="{TemplateBinding FontSize}"/>
+              <Setter Property="TextDecorations" Value="Underline"/>
+            </Style>
+          </ContentPresenter.Styles>
+        </ContentPresenter>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

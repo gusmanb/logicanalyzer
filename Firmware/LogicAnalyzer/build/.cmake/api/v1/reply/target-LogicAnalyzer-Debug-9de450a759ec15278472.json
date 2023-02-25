@@ -1,0 +1,3830 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "LogicAnalyzer.elf"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_EXECUTABLE",
+			"target_link_libraries",
+			"pico_define_boot_stage2",
+			"add_dependencies",
+			"pico_generate_pio_header",
+			"find_package",
+			"pico_add_uf2_output",
+			"pico_add_extra_outputs",
+			"target_compile_definitions",
+			"pico_set_program_name",
+			"pico_set_program_version",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cyw43_driver/CMakeLists.txt",
+			"F:/PicoSDK/Pico/pico-sdk/src/rp2_common/boot_stage2/CMakeLists.txt",
+			"F:/PicoSDK/Pico/pico-sdk/tools/CMakeLists.txt",
+			"F:/PicoSDK/Pico/pico-sdk/tools/FindELF2UF2.cmake",
+			"F:/PicoSDK/Pico/pico-sdk/src/rp2_common.cmake",
+			"F:/PicoSDK/Pico/pico-sdk/src/common/pico_binary_info/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 47,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 3
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 100,
+				"parent" : 5
+			},
+			{
+				"command" : 1,
+				"file" : 2,
+				"line" : 76,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 37,
+				"parent" : 8
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 5,
+				"line" : 45,
+				"parent" : 10
+			},
+			{
+				"command" : 5,
+				"file" : 3,
+				"line" : 49,
+				"parent" : 11
+			},
+			{
+				"file" : 4,
+				"parent" : 12
+			},
+			{
+				"command" : 3,
+				"file" : 4,
+				"line" : 41,
+				"parent" : 13
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 74,
+				"parent" : 6
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 67,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 3,
+				"line" : 37,
+				"parent" : 16
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 68,
+				"parent" : 3
+			},
+			{
+				"command" : 9,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 6,
+				"line" : 15,
+				"parent" : 19
+			},
+			{
+				"command" : 10,
+				"file" : 0,
+				"line" : 33,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 6,
+				"line" : 33,
+				"parent" : 21
+			},
+			{
+				"command" : 8,
+				"file" : 5,
+				"line" : 28,
+				"parent" : 10
+			},
+			{
+				"command" : 11,
+				"file" : 3,
+				"line" : 42,
+				"parent" : 8
+			},
+			{
+				"command" : 11,
+				"file" : 0,
+				"line" : 61,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-mcpu=cortex-m0plus -mthumb -Og -g"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"fragment" : "-std=gnu11"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_DEBUG=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_MCU=OPT_MCU_RP2040"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_OS=OPT_OS_PICO"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CYW43_LWIP=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_BIT_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_BIT_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_CYW43_ARCH=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DIVIDER=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DIVIDER_HARDWARE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DOUBLE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DOUBLE_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FIX_RP2040_USB_DEVICE_ENUMERATION=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FLOAT=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FLOAT_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_INT64_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_INT64_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MALLOC=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MEM_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MEM_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MULTICORE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PLATFORM=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PRINTF=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PRINTF_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_RUNTIME=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STANDARD_LINK=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDIO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDIO_USB=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDLIB=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_CORE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_CRITICAL_SECTION=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_MUTEX=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_SEM=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_TIME=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_UNIQUE_ID=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_UTIL=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_BOARD=\"pico_w\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_BUILD=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CMAKE_BUILD_TYPE=\"Debug\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_COPY_TO_RAM=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CXX_ENABLE_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CYW43_ARCH_POLL=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_NO_FLASH=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_NO_HARDWARE=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_ON_DEVICE=1"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "PICO_PROGRAM_NAME=\"LogicAnalyzer\""
+				},
+				{
+					"backtrace" : 22,
+					"define" : "PICO_PROGRAM_VERSION_STRING=\"4.0\""
+				},
+				{
+					"backtrace" : 23,
+					"define" : "PICO_TARGET_NAME=\"LogicAnalyzer\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_USE_BLOCKED_RAM=0"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 24,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build"
+				},
+				{
+					"backtrace" : 25,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_stdlib/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build/generated/pico_base"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/boards/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_structs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_resets/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_bit_ops/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_divider/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/boot_stage2/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_binary_info/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/common"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_usb_reset_interface/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build/pico-sdk/src/rp2_common/cyw43_driver"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/firmware"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/include"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				31,
+				34,
+				35,
+				39,
+				40,
+				42,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126,
+				127,
+				128,
+				129,
+				130,
+				131,
+				132,
+				133,
+				134,
+				135,
+				136,
+				137,
+				138,
+				139,
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				149,
+				150,
+				151,
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159,
+				160,
+				161,
+				162,
+				163,
+				164,
+				165,
+				166,
+				167,
+				168,
+				169,
+				170,
+				171
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-mcpu=cortex-m0plus -mthumb -Og -g"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fdata-sections"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_DEBUG=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_MCU=OPT_MCU_RP2040"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_OS=OPT_OS_PICO"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CYW43_LWIP=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_BIT_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_BIT_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_CYW43_ARCH=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DIVIDER=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DIVIDER_HARDWARE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DOUBLE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DOUBLE_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FIX_RP2040_USB_DEVICE_ENUMERATION=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FLOAT=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FLOAT_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_INT64_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_INT64_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MALLOC=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MEM_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MEM_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MULTICORE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PLATFORM=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PRINTF=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PRINTF_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_RUNTIME=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STANDARD_LINK=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDIO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDIO_USB=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDLIB=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_CORE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_CRITICAL_SECTION=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_MUTEX=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_SEM=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_TIME=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_UNIQUE_ID=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_UTIL=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_BOARD=\"pico_w\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_BUILD=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CMAKE_BUILD_TYPE=\"Debug\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_COPY_TO_RAM=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CXX_ENABLE_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CYW43_ARCH_POLL=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_NO_FLASH=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_NO_HARDWARE=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_ON_DEVICE=1"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "PICO_PROGRAM_NAME=\"LogicAnalyzer\""
+				},
+				{
+					"backtrace" : 22,
+					"define" : "PICO_PROGRAM_VERSION_STRING=\"4.0\""
+				},
+				{
+					"backtrace" : 23,
+					"define" : "PICO_TARGET_NAME=\"LogicAnalyzer\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_USE_BLOCKED_RAM=0"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 24,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build"
+				},
+				{
+					"backtrace" : 25,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_stdlib/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build/generated/pico_base"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/boards/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_structs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_resets/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_bit_ops/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_divider/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/boot_stage2/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_binary_info/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/common"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_usb_reset_interface/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build/pico-sdk/src/rp2_common/cyw43_driver"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/firmware"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/include"
+				}
+			],
+			"language" : "ASM",
+			"sourceIndexes" : 
+			[
+				10,
+				22,
+				30,
+				32,
+				33,
+				36,
+				37,
+				38,
+				41,
+				43,
+				44
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-mcpu=cortex-m0plus -mthumb -Og -g"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fno-exceptions"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fno-unwind-tables"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fno-rtti"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fno-use-cxa-atexit"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_DEBUG=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_MCU=OPT_MCU_RP2040"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CFG_TUSB_OS=OPT_OS_PICO"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "CYW43_LWIP=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_BIT_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_BIT_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_CYW43_ARCH=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DIVIDER=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DIVIDER_HARDWARE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DOUBLE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_DOUBLE_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FIX_RP2040_USB_DEVICE_ENUMERATION=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FLOAT=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_FLOAT_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_INT64_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_INT64_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MALLOC=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MEM_OPS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MEM_OPS_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_MULTICORE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PLATFORM=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PRINTF=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_PRINTF_PICO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_RUNTIME=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STANDARD_LINK=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDIO=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDIO_USB=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_STDLIB=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_CORE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_CRITICAL_SECTION=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_MUTEX=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_SYNC_SEM=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_TIME=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_UNIQUE_ID=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "LIB_PICO_UTIL=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_BOARD=\"pico_w\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_BUILD=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CMAKE_BUILD_TYPE=\"Debug\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_COPY_TO_RAM=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CXX_ENABLE_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_CYW43_ARCH_POLL=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_NO_FLASH=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_NO_HARDWARE=0"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_ON_DEVICE=1"
+				},
+				{
+					"backtrace" : 20,
+					"define" : "PICO_PROGRAM_NAME=\"LogicAnalyzer\""
+				},
+				{
+					"backtrace" : 22,
+					"define" : "PICO_PROGRAM_VERSION_STRING=\"4.0\""
+				},
+				{
+					"backtrace" : 23,
+					"define" : "PICO_TARGET_NAME=\"LogicAnalyzer\""
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PICO_USE_BLOCKED_RAM=0"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 24,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build"
+				},
+				{
+					"backtrace" : 25,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_stdlib/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build/generated/pico_base"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/boards/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_regs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2040/hardware_structs/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_resets/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_bit_ops/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_divider/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/boot_stage2/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_binary_info/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/common"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/hw"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_usb_reset_interface/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Projects/LogicAnalyzer/build/pico-sdk/src/rp2_common/cyw43_driver"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/firmware"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				45
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 9,
+			"id" : "LogicAnalyzer_LogicAnalyzer_pio_h::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 14,
+			"id" : "ELF2UF2Build::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 15,
+			"id" : "bs2_default_padded_checksummed_asm::@bc554eaed616d198a22d"
+		},
+		{
+			"backtrace" : 17,
+			"id" : "cyw43_driver_picow_cyw43_bus_pio_spi_pio_h::@29db30da11e86cddb3e0"
+		},
+		{
+			"backtrace" : 18,
+			"id" : "cyw43_firmware_package::@29db30da11e86cddb3e0"
+		}
+	],
+	"id" : "LogicAnalyzer::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-mcpu=cortex-m0plus -mthumb -Og -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "--specs=nosys.specs",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sprintf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=snprintf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=vsnprintf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__clzsi2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__clzdi2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__ctzsi2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__ctzdi2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__popcountsi2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__popcountdi2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__clz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__clzl",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__clzll",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_idiv",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_idivmod",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_ldivmod",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_uidiv",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_uidivmod",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_uldivmod",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dadd",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_ddiv",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dmul",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_drsub",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dsub",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_cdcmpeq",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_cdrcmple",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_cdcmple",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dcmpeq",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dcmplt",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dcmple",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dcmpge",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dcmpgt",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_dcmpun",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_i2d",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_l2d",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_ui2d",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_ul2d",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_d2iz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_d2lz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_d2uiz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_d2ulz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_d2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sqrt",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=cos",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sin",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=tan",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=atan2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=exp",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=ldexp",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=copysign",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=trunc",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=floor",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=ceil",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=round",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sincos",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=asin",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=acos",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=atan",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sinh",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=cosh",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=tanh",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=asinh",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=acosh",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=atanh",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=exp2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log2",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=exp10",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log10",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=pow",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=powint",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=hypot",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=cbrt",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=fmod",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=drem",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=remainder",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=remquo",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=expm1",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log1p",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=fma",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_lmul",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fadd",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fdiv",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fmul",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_frsub",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fsub",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_cfcmpeq",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_cfrcmple",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_cfcmple",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fcmpeq",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fcmplt",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fcmple",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fcmpge",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fcmpgt",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_fcmpun",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_i2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_l2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_ui2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_ul2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_f2iz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_f2lz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_f2uiz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_f2ulz",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_f2d",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sqrtf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=cosf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sinf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=tanf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=atan2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=expf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=logf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=ldexpf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=copysignf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=truncf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=floorf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=ceilf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=roundf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sincosf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=asinf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=acosf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=atanf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=sinhf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=coshf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=tanhf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=asinhf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=acoshf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=atanhf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=exp2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log2f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=exp10f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log10f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=powf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=powintf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=hypotf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=cbrtf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=fmodf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=dremf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=remainderf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=remquof",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=expm1f",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=log1pf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=fmaf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=malloc",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=calloc",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=realloc",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=free",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=memcpy",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=memset",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_memcpy",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_memset",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_memcpy4",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_memset4",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_memcpy8",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=__aeabi_memset8",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,-Map=LogicAnalyzer.elf.map",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--script=F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/memmap_default.ld",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,-z,max-page-size=4096",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--gc-sections",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=printf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=vprintf",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=puts",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=putchar",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--wrap=getchar",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "pico-sdk\\src\\rp2_common\\cyw43_driver\\cyw43_resource.o",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 7,
+				"fragment" : "pico-sdk\\src\\rp2_common\\boot_stage2\\bs2_default_padded_checksummed.S",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "LogicAnalyzer",
+	"nameOnDisk" : "LogicAnalyzer.elf",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				31,
+				34,
+				35,
+				39,
+				40,
+				42,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126,
+				127,
+				128,
+				129,
+				130,
+				131,
+				132,
+				133,
+				134,
+				135,
+				136,
+				137,
+				138,
+				139,
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				149,
+				150,
+				151,
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159,
+				160,
+				161,
+				162,
+				163,
+				164,
+				165,
+				166,
+				167,
+				168,
+				169,
+				170,
+				171
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				10,
+				22,
+				30,
+				32,
+				33,
+				36,
+				37,
+				38,
+				41,
+				43,
+				44
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Event_Machine.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "LogicAnalyzer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "LogicAnalyzer_WiFi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Shared_Buffers.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/sem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/lock_core.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/time.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_time/timeout_helper.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/datetime.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/pheap.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_util/queue.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/mutex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/common/pico_sync/critical_section.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/uart.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/divider.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/vreg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_math.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_math.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 1,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 2,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_rt_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/hid/hid_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/midi/midi_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/msc/msc_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/net/ecm_rndis_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/net/ncm_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/usbtmc/usbtmc_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/vendor/vendor_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/video/video_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/tusb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/dma.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/multicore.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_poll.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_threadsafe_background.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_freertos.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/cyw43_driver/cyw43_bus_pio_spi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_ll.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_stats.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_lwip.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_ctrl.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/exception.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/init.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/def.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/dns.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/inet_chksum.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ip.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/mem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/memp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/netif.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/pbuf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/raw.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/stats.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/sys.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp_alloc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp_tcp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp_in.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp_out.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/timeouts.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/udp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/random.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/acd.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/autoip.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/dhcp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/etharp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/icmp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/igmp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4_frag.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4_addr.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/dhcp6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ethip6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/icmp6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/inet6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6_addr.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6_frag.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/mld6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/nd6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/api_lib.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/api_msg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/err.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/if_api.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netbuf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netdb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netifapi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/sockets.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/tcpip.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ethernet.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/bridgeif.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/bridgeif_fdb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/slipif.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6_common.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6_ble.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/zepif.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/auth.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ccp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap-md5.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap_ms.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap-new.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/demand.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/eap.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ecp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/eui64.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/fsm.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ipcp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ipv6cp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/lcp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/magic.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/mppe.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/multilink.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ppp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppapi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppcrypt.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppoe.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppol2tp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppos.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/upap.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/utils.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/vj.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/arc4.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/des.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/md4.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/md5.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/sha1.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/nosys.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

@@ -4,10 +4,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
         mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="150"
+        MinWidth="300" MaxWidth="300" Width="300"
+        MinHeight="150" MaxHeight="150" Height="150"
         x:Class="LogicAnalyzer.Dialogs.SelectedRegionDialog"
         Background="#383838" Title="Region properties..."
-        Classes="tool_window" Icon="/Assets/window.ico"
-        Width="300" Height="150" CanResize="False" WindowStartupLocation="CenterOwner">
+        Classes="tool_window" Icon="/Assets/Ico40.ico"
+        CanResize="False" WindowStartupLocation="CenterOwner">
   <Panel>
     <Grid ColumnDefinitions="100,*" RowDefinitions="*,*,*" Margin="10,15,10,15">
       <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0">Region name:</TextBlock>
@@ -15,7 +17,7 @@
       <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5,0,0,0">Region color:</TextBlock>
       <colorpicker:ColorButton Name="clrRegion" Color="#2010ff10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"></colorpicker:ColorButton >
       <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right">
-        <Button Name="btnAccept">Accept</Button>
+        <Button Name="btnAccept" Margin="0,0,10,0">Accept</Button>
         <Button Name="btnCancel">Cancel</Button>
       </StackPanel>
     </Grid>

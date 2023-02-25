@@ -59,7 +59,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_
  F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src/cyw43.h \
  F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src/cyw43_config.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/cyw43_configport.h \
- F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch/arch_threadsafe_background.h \
+ F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch/arch_poll.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch/arch_common.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_time\include/pico/time.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\include/hardware/timer.h \
@@ -77,6 +77,39 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/intctrl.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/m0plus.h \
  F:\PicoSDK\Pico\pico-sdk\src\common\pico_base\include/pico/error.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/netif.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/opt.h \
+ F:\PicoSDK\Projects\LogicAnalyzer/lwipopts.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/debug.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/arch.h \
+ F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\include/arch/cc.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\inttypes.h \
+ c:\progra~2\gnuarm~1\102021~1.10\lib\gcc\arm-none-eabi\10.3.1\include-fixed\limits.h \
+ c:\progra~2\gnuarm~1\102021~1.10\lib\gcc\arm-none-eabi\10.3.1\include-fixed\syslimits.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\limits.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\syslimits.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\ctype.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/err.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/ip_addr.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/def.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/ip4_addr.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/ip6_addr.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/def.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/pbuf.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/stats.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/mem.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/memp.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/priv/memp_std.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/priv/memp_priv.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/priv/mem_priv.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/dhcp.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/udp.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/ip.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/ip4.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/prot/ip4.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/ip6.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/prot/ip.h \
+ F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\include/lwip/prot/udp.h \
  F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src/cyw43_ll.h \
  F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\include/pico/cyw43_arch.h \
  F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src/cyw43_country.h \

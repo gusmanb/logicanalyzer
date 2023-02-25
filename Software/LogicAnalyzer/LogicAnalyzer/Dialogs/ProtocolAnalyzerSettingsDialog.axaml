@@ -4,10 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="450"
         MaxWidth="350" MinWidth="350"
-        MaxHeight="450" MinHeight="450"
+        MinHeight="450" MaxHeight="450" Width="350" Height="450"
         x:Class="LogicAnalyzer.Dialogs.ProtocolAnalyzerSettingsDialog"
-        Title="ProtocolAnalyzerSettingsDialog" Icon="/Assets/window.ico"
-        TransparencyLevelHint="AcrylicBlur"
+        Title="ProtocolAnalyzerSettingsDialog" Icon="/Assets/Ico40.ico"
         Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
   <Grid RowDefinitions="8*,2*">
     <ScrollViewer Name="scrViewer" Margin="10" VerticalAlignment="Top" Height="380">

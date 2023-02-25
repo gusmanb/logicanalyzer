@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
 using System.Collections;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace LogicAnalyzer.Dialogs
 {
-    public partial class MeasureDialog : Window
+    public partial class MeasureDialog : PersistableWindowBase
     {
         public MeasureDialog()
         {

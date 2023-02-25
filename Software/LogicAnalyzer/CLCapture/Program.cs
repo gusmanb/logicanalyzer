@@ -150,10 +150,7 @@ async Task<int> Capture(CLCaptureOptions opts)
 
     try
     {
-        if (isNetworkAddress)
-            driver = new LogicAnalyzerDriver(opts.AddressPort);
-        else
-            driver = new LogicAnalyzerDriver(opts.AddressPort, 115200);
+        driver = new LogicAnalyzerDriver(opts.AddressPort);
     }
     catch
     {
@@ -171,7 +168,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     {
         Console.WriteLine("Starting edge triggered capture...");
         var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", (byte)channelMode, CaptureFinished);
+            channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -211,7 +208,7 @@ async Task<int> Capture(CLCaptureOptions opts)
         }
 
         var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, (byte)channelMode, CaptureFinished);
+            channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -252,7 +249,7 @@ async Task<int> Capture(CLCaptureOptions opts)
 
         for (int buc = 0; buc < opts.Channels.Length; buc++)
         {
-            if ((result.Samples[sample] & (1 << buc)) == 0)
+            if ((result.Samples[sample] & ((UInt128)1 << buc)) == 0)
                 sb.Append("0,");
             else
                 sb.Append("1,");
@@ -311,7 +308,7 @@ int Configure(CLNetworkOptions opts)
 
     try
     {
-        driver = new LogicAnalyzerDriver(opts.SerialPort, 115200);
+        driver = new LogicAnalyzerDriver(opts.SerialPort);
     }
     catch
     {

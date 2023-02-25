@@ -128,7 +128,11 @@ namespace SerialProtocolAnalyzer
                     break;
 
                 //Position our sampling "pointer" on the middle of the start bit
-                double samplePos = pos + (period / 2) - 1; //
+                //double samplePos = pos + (period / 2) - 1; //
+                double samplePos = pos + (period / 2) - 1;
+
+                if (samplePos < pos)
+                    samplePos = pos;
 
                 for (int buc = 0; buc < dataBits; buc++)
                 {

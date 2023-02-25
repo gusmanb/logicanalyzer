@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="107" d:DesignHeight="95"
+             x:Class="LogicAnalyzer.Controls.ChannelSelector"
+             Background="#444444" 
+             BorderBrush="White" BorderThickness="1" MinWidth="107" MaxWidth="107" MinHeight="95" MaxHeight="95">
+  <StackPanel Margin="3">
+    <CheckBox Name="ckEnable" HorizontalAlignment="Center">Enable</CheckBox>
+    <TextBlock HorizontalAlignment="Center" Margin="2" Name="tbChannel">No channel</TextBlock>
+    <TextBox Margin="2" Name="txtName" MinHeight="16" FontSize="10" IsEnabled="false"></TextBox>
+  </StackPanel>
+</UserControl>

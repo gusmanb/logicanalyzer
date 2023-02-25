@@ -3,8 +3,8 @@
 
     //Configure the build settings
 
-    //#define BUILD_PICO_W
-    //#define ENABLE_WIFI
+    #define BUILD_PICO_W
+    #define ENABLE_WIFI
 
     /**
      * WARNING! Ensure you choose the correct cyw library in the CMakeLists.txt

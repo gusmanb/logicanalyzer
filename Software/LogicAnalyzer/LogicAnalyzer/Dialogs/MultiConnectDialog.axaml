@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="LogicAnalyzer.Dialogs.MultiConnectDialog"
+          mc:Ignorable="d" d:DesignWidth="375" d:DesignHeight="300"
+          MinWidth="375" MaxWidth="375"
+          MinHeight="260" MaxHeight="300"
+          Width="375" Height="300"
+          Title="Multidevice connection" Icon="/Assets/Ico40.ico"
+          Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
+  <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
+      <TextBlock VerticalAlignment="Center" Margin="0,0,37,0">Master:</TextBlock>
+      <ComboBox Width="100" Name="ddMaster"></ComboBox>
+      <TextBlock Name="tbMaster" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
+      <CheckBox Name="ckSlave1" Margin="0,0,10,0">Slave 1:</CheckBox>
+      <ComboBox Width="100" Name="ddSlave1" IsEnabled="False"></ComboBox>
+      <TextBlock Name="tbSlave1" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
+      <CheckBox Name="ckSlave2" Margin="0,0,10,0">Slave 2:</CheckBox>
+      <ComboBox Width="100" Name="ddSlave2" IsEnabled="False"></ComboBox>
+      <TextBlock Name="tbSlave2" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
+      <CheckBox Name="ckSlave3" Margin="0,0,10,0">Slave 3:</CheckBox>
+      <ComboBox Width="100" Name="ddSlave3" IsEnabled="False"></ComboBox>
+      <TextBlock Name="tbSlave3" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
+      <CheckBox Name="ckSlave4" Margin="0,0,10,0">Slave 4:</CheckBox>
+      <ComboBox Width="100" Name="ddSlave4" IsEnabled="False"></ComboBox>
+      <TextBlock Name="tbSlave4" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+      <Button Name="btnAccept">Accept</Button>
+      <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
+    </StackPanel>
+  </StackPanel>
+</Window>

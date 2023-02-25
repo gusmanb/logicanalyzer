@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using LogicAnalyzer.Classes;
+using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,29 +14,14 @@ namespace LogicAnalyzer.Controls
     {
         TextBox[] boxes;
 
-        int[] channels;
-        public int[] Channels
+        CaptureChannel[] channels;
+        public CaptureChannel[] Channels
         {
             get { return channels; }
             set 
             { 
                 channels = value;
                 CreateControls();
-            }
-        }
-
-        public string[] ChannelsText
-        {
-            get { return boxes.Select(b => b.Text).ToArray(); }
-            set
-            {
-                if (value == null || channels == null || value.Length != channels.Length)
-                    return;
-                else
-                {
-                    for (int buc = 0; buc < value.Length; buc++)
-                        boxes[buc].Text = value[buc];
-                }
             }
         }
 
@@ -79,7 +65,7 @@ namespace LogicAnalyzer.Controls
                 newChannelLabel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
                 newChannelLabel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
 
-                newChannelLabel.Text = $"Channel {channels[buc] + 1}";
+                newChannelLabel.Text = channels[buc].TextualChannelNumber;
 
                 newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(AnalyzerColors.FgChannelColors[buc]);
 
@@ -103,14 +89,20 @@ namespace LogicAnalyzer.Controls
                 newChannelTextbox.BorderThickness = new Thickness(0);
                 newChannelTextbox.FontSize = 10;
                 newChannelTextbox.TextAlignment = TextAlignment.Center;
-
+                newChannelTextbox.Text = channels[buc].ChannelName;
+                newChannelTextbox.Tag = channels[buc];
+                newChannelTextbox.GetPropertyChangedObservable(TextBox.TextProperty).Subscribe(NewChannelTextbox_TextChanged);
                 newChannelGrid.Children.Add(newChannelTextbox);
             }
 
             boxes = newBoxes.ToArray();
 
             ChannelGrid.EndBatchUpdate();
+        }
 
+        void NewChannelTextbox_TextChanged(AvaloniaPropertyChangedEventArgs e)
+        {
+            ((e.Sender as TextBox).Tag as CaptureChannel).ChannelName = e.NewValue?.ToString();
         }
 
         public ChannelViewer()
@@ -121,7 +113,7 @@ namespace LogicAnalyzer.Controls
 
     public class RegionEventArgs : EventArgs
     {
-        public SelectedSampleRegion? Region { get; set; }
+        public SampleRegion? Region { get; set; }
     }
 
     public class SamplesEventArgs : EventArgs
@@ -130,8 +122,13 @@ namespace LogicAnalyzer.Controls
         public int SampleCount { get; set; }
     }
 
+    public class SampleEventArgs : EventArgs
+    {
+        public int Sample { get; set; }
+    }
+
     public class UserMarkerEventArgs : EventArgs
     {
-        public int Position { get; set; }
+        public int? Position { get; set; }
     }
 }

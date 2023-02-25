@@ -2,7 +2,7 @@
   "profiles": {
     "CLCapture": {
       "commandName": "Project",
-      "commandLineArgs": "netconfig COM5 sagemcom6AA8 GJNVWNUJYWQMYF 192.168.0.50 4045"
+      "commandLineArgs": "netconfig"
     }
   }
 }

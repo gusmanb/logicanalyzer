@@ -8,12 +8,20 @@
     <TextBlock Margin="0,0,0,0" Name="lblLeft" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
     <TextBlock Name="lblCenter" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
     <TextBlock Margin="0,0,0,0" Name="lblRight" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
-
     <Panel.ContextMenu>
-        <ContextMenu Name="rgnDeleteMenu">
-          <MenuItem Header="Delete regions" Name="mnuDeleteRegions" />
-          <MenuItem Header="Delete regions and samples" Name="mnuDeleteRegionsSamples" />
-          <MenuItem Header="Measure region" Name="mnuMeasure" />
+        <ContextMenu Name="smplMenu">
+          <MenuItem Header="Insert" Name="mnuInsert" />
+          <MenuItem Header="Cut" Name="mnuCut" />
+          <MenuItem Header="Copy" Name="mnuCopy" />
+          <MenuItem Header="Paste" Name="mnuPaste" />
+          <MenuItem Header="Delete" Name="mnuDelete" />
+          <MenuItem Header="-"/>
+          <MenuItem Header="Shift" Name="mnuShift" />
+          <MenuItem Header="-"/>
+          <MenuItem Header="Measure" Name="mnuMeasure" />
+          <MenuItem Header="-"/>
+          <MenuItem Header="Create region" Name="mnuCreateRegion" />
+          <MenuItem Header="Delete region" Name="mnuDeleteRegion" />
         </ContextMenu>
     </Panel.ContextMenu>
   </Panel>
