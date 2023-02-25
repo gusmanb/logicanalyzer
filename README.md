@@ -4,9 +4,61 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 3.5.0.1, 07/01/2023
+Latest version: Release 4.0.0.0, 25/02/2023
 
 ----
+
+## UPDATE 25/02/2023 - Release 4.0 is up! Channels a go-go!
+
+Hi again! This is a BIG update loaded with new functions and improvements to the hardware, firmware and software!
+
+Let's start with the little things: we have a logo! Yes, it's nothing important but I hated to not to have a proper one so I designed one that I think fits well to the project :D
+
+<img src="https://user-images.githubusercontent.com/4086913/221263290-0e8598d1-3c6e-4d85-b33a-16c73146cd27.png" width="50%" height="50%" />
+
+Next, we have a proper Wiki! All the project has been documented: hardware, firmware and software. If you have any doubt check it as I have tried to explain everything related to the analyzer usage in there. If you find any error or missing feature please open an issue and I will correct it as soon as I can.
+
+<img src="https://user-images.githubusercontent.com/4086913/221356351-c3212066-0ef0-408c-88f3-6c6818878d60.png" width="50%" height="50%" />
+
+Ok, now the changes to the hardware. There is a new pcb for the analyzer that includes two connectors to daisy chain the analyzers. You can use two or three Dupont wires (the central pin is unused, it's reserved for future usage, I have left it there so anyone that produces these PCB's can patch them easily).
+
+<img src="https://user-images.githubusercontent.com/4086913/221230472-f05828de-72f3-4337-a71d-685bb989c1a1.png" height="60%" width="60%" />
+
+And the firmware has also been updated to support the daisy chaining. So, what is for the daisy chaining? Well, daisy chaining allows to chain up to five analyzers without wasting pins so you now will be able to capture a massive ammount of **120 CHANNELS!!!** Check the [Connection](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#connecting-to-devices) and [Capture](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#capture) sections of the Wiki to know all the possibilities and how to use them.
+
+Now, the software. It contains many changes, so I'm going to start with the improvements and then with the new functionalities.
+
+First I have improved the sample rendering. It is now more visible and looks a lot better. Also, the guides shown to see where a sample starts and ends are automatically scaled or removed, it made no sense to have so many lines that they made a solid gray background, so when there are too many they will get automatically deactivated. Also, this allowed to improve the performance so now the sample viewer will allow to show up to 2000 samples in screen without any check.
+
+![New render](https://user-images.githubusercontent.com/4086913/221300523-39c6b881-09c4-49e0-b3d6-0126883eba27.png)
+
+Related to this the protocol analyzer renderer has been updated, it will take less useless space and will hide the information if it does not fit in the assigned space.
+
+Now, the connection system has been updated to include a "multidevice", this is the device that you must use when using the daisy chained analyzers.
+
+![Multidevice](https://user-images.githubusercontent.com/4086913/221277047-dccae975-ab8c-4cd9-9d39-7edbcb344218.png)
+
+Next, the capture dialog has been updated, the mode selector has been removed and the mode is autoselected based in the channels enabled, check the [Wiki page](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#basic-parameters) to know the limits and modes.
+
+Also, the capture dialog has a new channel selector, more visual and that includes the name field for the channels, instead of configuring the names after the capture has been finished (and lose these if you capture again) the names can be entered directly on the capture dialog. These names will be preserved between captures (and if you change them from the channel viewer these changes will be respected).
+
+<img src="https://user-images.githubusercontent.com/4086913/221279281-5abe0a5e-7ead-4242-8703-36d6bef0d882.png" width="50%" height="50%" />
+
+This new channel selector also allows to show up to the 120 channels that can be used when daisy chaining five devices, the selector will have a scrollbar when the channel list is bigger than its space.
+
+Another change, the editing features have been improved and expanded. First of all, you will not need to create regions to execute edit actions, the sample range selection has been improved and it is used now for these. Check the [Wiki page](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#editing-captures) to see a description on how it works and which new features have been included.
+
+Finally, the system now can create capture files from scratch, for this I have implemented a language that allows to describe signals in an easy way, it even includes a colored syntax editor, check the [Wiki](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#the-signal-description-language) for a description of this language!
+
+<img src="https://user-images.githubusercontent.com/4086913/221319793-ee273022-f2fb-453f-b9f4-c35706b2b6eb.png" width="50%" height="50%" />
+
+Also, I already have planned the next update, I'm not sure when it will be ready but I will implement it for sure, and this is one of the motivations to create the SDL language: replay captures! ;)
+
+This is a resume of the most prominent changes, surely that I forgot some, but all are documented in the Wiki, so ensure to review it!
+
+Any feedback about the update will be welcome, so don't hesitate to open issues or start discussions.
+
+Have fun!
 
 ## UPDATE 07/02/2023 - New release with updated shared driver.
 
