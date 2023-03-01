@@ -375,7 +375,13 @@ namespace SharedDriver
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message + " - " + ex.StackTrace);
+                //if(ex.GetType() != typeof(OperationCanceledException))
+                //    Console.WriteLine(ex.Message + " - " + ex.StackTrace);
+
+                if (currentCaptureHandler != null)
+                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                else if (CaptureCompleted != null)
+                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
             }
         }
         public bool StopCapture()
@@ -389,7 +395,7 @@ namespace SharedDriver
             {
                 baseStream.WriteByte(0xff);
                 baseStream.Flush();
-                Thread.Sleep(1);
+                Thread.Sleep(2000);
                 tcpClient.Close();
                 Thread.Sleep(1);
                 tcpClient = new TcpClient();
@@ -403,7 +409,7 @@ namespace SharedDriver
 
                 sp.Write(new byte[] { 0xFF }, 0, 1);
                 sp.BaseStream.Flush();
-                Thread.Sleep(1);
+                Thread.Sleep(2000);
                 sp.Close();
                 Thread.Sleep(1);
                 sp.Open();

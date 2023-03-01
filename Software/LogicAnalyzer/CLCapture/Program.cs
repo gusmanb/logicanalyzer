@@ -9,8 +9,11 @@ using System.Text.RegularExpressions;
 
 Regex regAddressPort = new Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\\:[0-9]+");
 Regex regAddress = new Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+");
+LogicAnalyzerDriver? driver = null;
 
 TaskCompletionSource<CaptureEventArgs> captureCompletedTask;
+
+Console.CancelKeyPress += Console_CancelKeyPress;
 
 return await Parser.Default.ParseArguments<CLCaptureOptions, CLNetworkOptions>(args)
         .MapResult(
@@ -144,8 +147,6 @@ async Task<int> Capture(CLCaptureOptions opts)
             break;
     }
 
-    LogicAnalyzerDriver driver;
-
     Console.WriteLine($"Opening logic analyzer in {opts.AddressPort}...");
 
     try
@@ -234,6 +235,12 @@ async Task<int> Capture(CLCaptureOptions opts)
 
     var result = await captureCompletedTask.Task;
 
+    if (result.Samples == null)
+    {
+        Console.WriteLine("Capture aborted.");
+        return -1;
+    }
+
     Console.WriteLine("Capture complete, writting output file...");
 
     var file = File.Create(opts.OutputFile);
@@ -302,7 +309,7 @@ int Configure(CLNetworkOptions opts)
         return -1;
     }
 
-    LogicAnalyzerDriver driver;
+    
 
     Console.WriteLine($"Opening logic analyzer in port {opts.SerialPort}...");
 
@@ -343,4 +350,18 @@ int Configure(CLNetworkOptions opts)
 void CaptureFinished(CaptureEventArgs e)
 {
     captureCompletedTask.SetResult(e);
+}
+
+void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
+{
+    if (driver != null)
+    {
+        try
+        {
+            driver.StopCapture();
+            driver.Dispose();
+        }
+        catch { }
+        driver = null;
+    }
 }

@@ -1,0 +1,46 @@
+{
+  "AppName": "Avalonia.Designer.HostApp, Version=0.10.16.0, Culture=neutral, PublicKeyToken=c8d484a7012f9a8b",
+  "WindowSettings": {
+    "LogicAnalyzer.Dialogs.CreateSamplesDialog": {
+      "Width": 800.0,
+      "Height": 600.0,
+      "Position": {
+        "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
+        "X": 0,
+        "Y": 0
+      },
+      "WindowState": 0
+    },
+    "LogicAnalyzer.MainWindow": {
+      "Width": 1024.0,
+      "Height": 800.0,
+      "Position": {
+        "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
+        "X": 0,
+        "Y": 0
+      },
+      "WindowState": 0
+    },
+    "LogicAnalyzer.Dialogs.SignalComposerDialog": {
+      "EditorFontSize": 14.0,
+      "Width": 640.0,
+      "Height": 480.0,
+      "Position": {
+        "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
+        "X": 0,
+        "Y": 0
+      },
+      "WindowState": 0
+    },
+    "LogicAnalyzer.Dialogs.MeasureDialog": {
+      "Width": 400.0,
+      "Height": 450.0,
+      "Position": {
+        "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
+        "X": 0,
+        "Y": 0
+      },
+      "WindowState": 0
+    }
+  }
+}

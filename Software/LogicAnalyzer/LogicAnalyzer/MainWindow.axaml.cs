@@ -549,6 +549,9 @@ namespace LogicAnalyzer
 
         private void Driver_CaptureCompleted(object? sender, CaptureEventArgs e)
         {
+            if (e.Samples == null)
+                return;
+
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 sampleViewer.BeginUpdate();
