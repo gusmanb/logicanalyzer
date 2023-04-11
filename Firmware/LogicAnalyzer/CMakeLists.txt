@@ -30,7 +30,7 @@ pico_generate_pio_header(${PROJECT_NAME}
 )
 
 pico_set_program_name(LogicAnalyzer "LogicAnalyzer")
-pico_set_program_version(LogicAnalyzer "4.0")
+pico_set_program_version(LogicAnalyzer "4.5")
 
 
 pico_enable_stdio_uart(LogicAnalyzer 0)

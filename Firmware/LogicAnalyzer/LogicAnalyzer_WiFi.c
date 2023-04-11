@@ -1,6 +1,6 @@
-#include "LogicAnalyzer_Build_Settings.h"
+#include "LogicAnalyzer_Board_Settings.h"
 
-#ifdef ENABLE_WIFI
+#ifdef USE_CYGW_WIFI
 
 #include "Event_Machine.h"
 #include "Shared_Buffers.h"

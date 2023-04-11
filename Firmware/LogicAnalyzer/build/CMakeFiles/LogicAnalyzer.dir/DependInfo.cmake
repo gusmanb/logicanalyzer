@@ -70,7 +70,7 @@ set(CMAKE_TARGET_DEFINITIONS_ASM
   "PICO_NO_HARDWARE=0"
   "PICO_ON_DEVICE=1"
   "PICO_PROGRAM_NAME=\"LogicAnalyzer\""
-  "PICO_PROGRAM_VERSION_STRING=\"4.0\""
+  "PICO_PROGRAM_VERSION_STRING=\"4.5\""
   "PICO_TARGET_NAME=\"LogicAnalyzer\""
   "PICO_USE_BLOCKED_RAM=0"
   )
@@ -295,6 +295,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
   "F:/PicoSDK/Projects/LogicAnalyzer/LogicAnalyzer.c" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.obj.d"
+  "F:/PicoSDK/Projects/LogicAnalyzer/LogicAnalyzer_W2812.c" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.obj.d"
   "F:/PicoSDK/Projects/LogicAnalyzer/LogicAnalyzer_WiFi.c" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj.d"
   "F:/PicoSDK/Projects/LogicAnalyzer/Shared_Buffers.c" "CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj.d"
   "F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj" "gcc" "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj.d"

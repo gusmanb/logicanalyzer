@@ -328,6 +328,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
   "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.obj"
   "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.obj.d"
+  "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.obj"
+  "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.obj.d"
   "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj"
   "CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj.d"
   "CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj"

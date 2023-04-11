@@ -86,10 +86,24 @@ CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer.c.s"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer.c -o CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.s
 
+CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
+CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj: F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer_W2812.c
+CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.obj"
+	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj -MF CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj -c F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer_W2812.c
+
+CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.i"
+	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer_W2812.c > CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.i
+
+CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_W2812.c.s"
+	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer_W2812.c -o CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.s
+
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj: F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer_WiFi.c
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/LogicAnalyzer.dir/LogicAnalyzer_WiFi.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj -MF CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj -c F:\PicoSDK\Projects\LogicAnalyzer\LogicAnalyzer_WiFi.c
 
 CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.i: cmake_force
@@ -103,7 +117,7 @@ CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.s: cmake_force
 CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj: F:\PicoSDK\Projects\LogicAnalyzer\Shared_Buffers.c
 CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/LogicAnalyzer.dir/Shared_Buffers.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj -MF CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj -c F:\PicoSDK\Projects\LogicAnalyzer\Shared_Buffers.c
 
 CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.s: cmake_force
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.i: cmake_force
@@ -131,7 +145,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gpio\gpio.c.i: cmake_force
@@ -145,7 +159,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_gp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_claim\claim.c.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_cl
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platform\platform.c.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_platfo
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sync\sync.c.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_sy
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq.c.i: cmake_force
@@ -200,7 +214,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_ir
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq_handler_chain.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq_handler_chain.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq_handler_chain.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq_handler_chain.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq_handler_chain.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_irq\irq_handler_chain.S.i: cmake_force
@@ -214,7 +228,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_ir
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/sem.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/sem.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c.i: cmake_force
@@ -228,7 +242,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\sem.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/lock_core.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/lock_core.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_core.c.i: cmake_force
@@ -242,7 +256,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\lock_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_time/time.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_time/time.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.c.i: cmake_force
@@ -256,7 +270,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\time.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_time/timeout_helper.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_time/timeout_helper.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeout_helper.c.i: cmake_force
@@ -270,7 +284,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_time\timeo
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_timer\timer.c.i: cmake_force
@@ -284,7 +298,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_ti
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_util/datetime.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_util/datetime.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datetime.c.i: cmake_force
@@ -298,7 +312,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\datet
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_util/pheap.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_util/pheap.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap.c.i: cmake_force
@@ -312,7 +326,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\pheap
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_util/queue.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_util/queue.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue.c.i: cmake_force
@@ -326,7 +340,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_util\queue
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/mutex.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/mutex.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex.c.i: cmake_force
@@ -340,7 +354,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\mutex
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.obj: F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/critical_section.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/common/pico_sync/critical_section.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\critical_section.c.i: cmake_force
@@ -354,7 +368,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\common\pico_sync\criti
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_uart\uart.c.i: cmake_force
@@ -367,7 +381,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_ua
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_divider\divider.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_divider\divider.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_divider\divider.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_divider\divider.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_divider\divider.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_divider\divider.S.i: cmake_force
@@ -381,7 +395,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_di
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtime\runtime.c.i: cmake_force
@@ -395,7 +409,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_runtim
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_clocks\clocks.c.i: cmake_force
@@ -409,7 +423,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_cl
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pll\pll.c.i: cmake_force
@@ -423,7 +437,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pl
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vreg\vreg.c.i: cmake_force
@@ -437,7 +451,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_vr
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_watchdog\watchdog.c.i: cmake_force
@@ -451,7 +465,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_wa
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xosc\xosc.c.i: cmake_force
@@ -465,7 +479,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_xo
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf\printf.c.i: cmake_force
@@ -478,7 +492,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_printf
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_ops\bit_ops_aeabi.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_ops\bit_ops_aeabi.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_ops\bit_ops_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_ops\bit_ops_aeabi.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_ops\bit_ops_aeabi.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_ops\bit_ops_aeabi.S.i: cmake_force
@@ -492,7 +506,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bit_op
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootrom\bootrom.c.i: cmake_force
@@ -505,7 +519,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_bootro
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divider\divider.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divider\divider.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divider\divider.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divider\divider.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divider\divider.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divider\divider.S.i: cmake_force
@@ -518,7 +532,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_divide
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_aeabi.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_aeabi.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_aeabi.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_aeabi.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_aeabi.S.i: cmake_force
@@ -532,7 +546,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_init_rom.c.i: cmake_force
@@ -546,7 +560,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_math.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_math.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_math.c.i: cmake_force
@@ -559,7 +573,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_v1_rom_shim.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_v1_rom_shim.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_v1_rom_shim.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_v1_rom_shim.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_v1_rom_shim.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double\double_v1_rom_shim.S.i: cmake_force
@@ -572,7 +586,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_double
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_ops\pico_int64_ops_aeabi.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_ops\pico_int64_ops_aeabi.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_ops\pico_int64_ops_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_ops\pico_int64_ops_aeabi.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_ops\pico_int64_ops_aeabi.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_ops\pico_int64_ops_aeabi.S.i: cmake_force
@@ -585,7 +599,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_int64_
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_aeabi.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_aeabi.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_aeabi.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_aeabi.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_aeabi.S.i: cmake_force
@@ -599,7 +613,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_init_rom.c.i: cmake_force
@@ -613,7 +627,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_math.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_math.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_math.c.i: cmake_force
@@ -626,7 +640,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_v1_rom_shim.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_v1_rom_shim.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_v1_rom_shim.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_v1_rom_shim.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_v1_rom_shim.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\float_v1_rom_shim.S.i: cmake_force
@@ -640,7 +654,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_float\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc\pico_malloc.c.i: cmake_force
@@ -653,7 +667,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_malloc
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_ops\mem_ops_aeabi.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_ops\mem_ops_aeabi.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_ops\mem_ops_aeabi.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_ops\mem_ops_aeabi.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_ops\mem_ops_aeabi.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_ops\mem_ops_aeabi.S.i: cmake_force
@@ -666,7 +680,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_mem_op
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\crt0.S.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\crt0.S.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\crt0.S
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building ASM object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\crt0.S.obj   -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\crt0.S
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\crt0.S.i: cmake_force
@@ -680,7 +694,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standa
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR10B2~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\new_delete.cpp.i: cmake_force
@@ -694,7 +708,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standa
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standard_link\binary_info.c.i: cmake_force
@@ -708,7 +722,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_standa
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\stdio.c.i: cmake_force
@@ -722,7 +736,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\reset_interface.c.i: cmake_force
@@ -736,7 +750,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb.c.i: cmake_force
@@ -750,7 +764,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\stdio_usb_descriptors.c.i: cmake_force
@@ -764,7 +778,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdio_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\dcd_rp2040.c.i: cmake_force
@@ -778,7 +792,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\r
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\raspberrypi\rp2040\rp2040_usb.c.i: cmake_force
@@ -792,7 +806,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\portable\r
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd.c.i: cmake_force
@@ -806,7 +820,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usb
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usbd_control.c.i: cmake_force
@@ -820,7 +834,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\device\usb
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audio\audio_device.c.i: cmake_force
@@ -834,7 +848,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\audi
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\cdc_device.c.i: cmake_force
@@ -848,7 +862,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\cdc\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_device.c.i: cmake_force
@@ -862,7 +876,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_rt_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/dfu/dfu_rt_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\dfu_rt_device.c.i: cmake_force
@@ -876,7 +890,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\dfu\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/hid/hid_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/hid/hid_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\hid_device.c.i: cmake_force
@@ -890,7 +904,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\hid\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/midi/midi_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/midi/midi_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi\midi_device.c.i: cmake_force
@@ -904,7 +918,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\midi
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/msc/msc_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/msc/msc_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\msc_device.c.i: cmake_force
@@ -918,7 +932,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\msc\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/net/ecm_rndis_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/net/ecm_rndis_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ecm_rndis_device.c.i: cmake_force
@@ -932,7 +946,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/net/ncm_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/net/ncm_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\ncm_device.c.i: cmake_force
@@ -946,7 +960,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\net\
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/usbtmc/usbtmc_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/usbtmc/usbtmc_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbtmc\usbtmc_device.c.i: cmake_force
@@ -960,7 +974,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\usbt
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/vendor/vendor_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/vendor/vendor_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vendor\vendor_device.c.i: cmake_force
@@ -974,7 +988,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vend
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/video/video_device.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/class/video/video_device.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\video\video_device.c.i: cmake_force
@@ -988,7 +1002,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\class\vide
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/tusb.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/tusb.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.i: cmake_force
@@ -1002,7 +1016,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\tusb.c.s: 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tusb_fifo.c.i: cmake_force
@@ -1016,7 +1030,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\tinyusb\src\common\tus
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp2040_usb_device_enumeration\rp2040_usb_device_enumeration.c.i: cmake_force
@@ -1030,7 +1044,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_fix\rp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.i: cmake_force
@@ -1044,7 +1058,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_unique
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_flash\flash.c.i: cmake_force
@@ -1058,7 +1072,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_fl
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/dma.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_dma/dma.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dma\dma.c.i: cmake_force
@@ -1072,7 +1086,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_dm
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pio\pio.c.i: cmake_force
@@ -1086,7 +1100,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_pi
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_multicore/multicore.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multicore\multicore.c.i: cmake_force
@@ -1100,7 +1114,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_multic
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch.c.i: cmake_force
@@ -1114,7 +1128,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_poll.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_poll.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_poll.c.i: cmake_force
@@ -1128,7 +1142,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_threadsafe_background.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_threadsafe_background.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_threadsafe_background.c.i: cmake_force
@@ -1142,7 +1156,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_freertos.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_cyw43_arch/cyw43_arch_freertos.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_arch\cyw43_arch_freertos.c.i: cmake_force
@@ -1156,7 +1170,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_cyw43_
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/cyw43_driver/cyw43_bus_pio_spi.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/cyw43_driver/cyw43_bus_pio_spi.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_driver\cyw43_bus_pio_spi.c.i: cmake_force
@@ -1170,7 +1184,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\cyw43_drive
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_ll.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_ll.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ll.c.i: cmake_force
@@ -1184,7 +1198,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_stats.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_stats.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_stats.c.i: cmake_force
@@ -1198,7 +1212,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_lwip.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_lwip.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_lwip.c.i: cmake_force
@@ -1212,7 +1226,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_ctrl.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/cyw43-driver/src/cyw43_ctrl.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43_ctrl.c.i: cmake_force
@@ -1226,7 +1240,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\cyw43-driver\src\cyw43
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_85) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/exception.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/hardware_exception/exception.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_exception\exception.c.i: cmake_force
@@ -1240,7 +1254,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\hardware_ex
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_86) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/init.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/init.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.i: cmake_force
@@ -1254,7 +1268,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\init.c.s
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_87) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/def.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/def.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.i: cmake_force
@@ -1268,7 +1282,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\def.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_88) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/dns.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/dns.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.i: cmake_force
@@ -1282,7 +1296,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\dns.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_89) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/inet_chksum.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/inet_chksum.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chksum.c.i: cmake_force
@@ -1296,7 +1310,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\inet_chk
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_90) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ip.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ip.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.i: cmake_force
@@ -1310,7 +1324,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ip.c.s: 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_91) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/mem.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/mem.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.i: cmake_force
@@ -1324,7 +1338,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\mem.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_92) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/memp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/memp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.i: cmake_force
@@ -1338,7 +1352,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\memp.c.s
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_93) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/netif.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/netif.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.i: cmake_force
@@ -1352,7 +1366,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\netif.c.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_94) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/pbuf.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/pbuf.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.i: cmake_force
@@ -1366,7 +1380,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\pbuf.c.s
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/raw.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_96) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/raw.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.i: cmake_force
@@ -1380,7 +1394,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\raw.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_96) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/stats.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_97) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/stats.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.i: cmake_force
@@ -1394,7 +1408,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\stats.c.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_97) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/sys.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_98) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/sys.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.i: cmake_force
@@ -1408,7 +1422,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\sys.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_98) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_99) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.i: cmake_force
@@ -1422,7 +1436,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp.c.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_99) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp_alloc.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp_alloc.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_alloc.c.i: cmake_force
@@ -1436,7 +1450,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_al
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_100) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp_tcp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_101) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/altcp_tcp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tcp.c.i: cmake_force
@@ -1450,7 +1464,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\altcp_tc
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_101) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_102) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.i: cmake_force
@@ -1464,7 +1478,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_102) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp_in.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_103) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp_in.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c.i: cmake_force
@@ -1478,7 +1492,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_in.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_103) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp_out.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_104) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/tcp_out.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.c.i: cmake_force
@@ -1492,7 +1506,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\tcp_out.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_104) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/timeouts.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_105) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/timeouts.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts.c.i: cmake_force
@@ -1506,7 +1520,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\timeouts
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_105) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/udp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_106) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/udp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.i: cmake_force
@@ -1520,7 +1534,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\udp.c.s:
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_106) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/random.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_107) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/random.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\random.c.i: cmake_force
@@ -1534,7 +1548,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\r
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_107) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/acd.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_108) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/acd.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd.c.i: cmake_force
@@ -1548,7 +1562,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\acd
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_108) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/autoip.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_109) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/autoip.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\autoip.c.i: cmake_force
@@ -1562,7 +1576,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\aut
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_109) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/dhcp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_110) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/dhcp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhcp.c.i: cmake_force
@@ -1576,7 +1590,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\dhc
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_110) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/etharp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_111) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/etharp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\etharp.c.i: cmake_force
@@ -1590,7 +1604,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\eth
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_111) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/icmp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_112) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/icmp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icmp.c.i: cmake_force
@@ -1604,7 +1618,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\icm
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_112) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/igmp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_113) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/igmp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igmp.c.i: cmake_force
@@ -1618,7 +1632,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\igm
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_113) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4_frag.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_114) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4_frag.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_frag.c.i: cmake_force
@@ -1632,7 +1646,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_114) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_115) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4.c.i: cmake_force
@@ -1646,7 +1660,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_115) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4_addr.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_116) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv4/ip4_addr.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4_addr.c.i: cmake_force
@@ -1660,7 +1674,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv4\ip4
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_116) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/dhcp6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_117) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/dhcp6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhcp6.c.i: cmake_force
@@ -1674,7 +1688,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\dhc
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_117) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ethip6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_118) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ethip6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ethip6.c.i: cmake_force
@@ -1688,7 +1702,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\eth
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_118) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/icmp6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_119) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/icmp6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icmp6.c.i: cmake_force
@@ -1702,7 +1716,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\icm
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_119) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/inet6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_120) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/inet6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\inet6.c.i: cmake_force
@@ -1716,7 +1730,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ine
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_120) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_121) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6.c.i: cmake_force
@@ -1730,7 +1744,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_121) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6_addr.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_122) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6_addr.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_addr.c.i: cmake_force
@@ -1744,7 +1758,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_122) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6_frag.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_123) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/ip6_frag.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6_frag.c.i: cmake_force
@@ -1758,7 +1772,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\ip6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_123) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/mld6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_124) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/mld6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld6.c.i: cmake_force
@@ -1772,7 +1786,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\mld
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_124) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/nd6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_125) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/core/ipv6/nd6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6.c.i: cmake_force
@@ -1786,7 +1800,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\core\ipv6\nd6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_125) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/api_lib.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_126) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/api_lib.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c.i: cmake_force
@@ -1800,7 +1814,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_lib.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_126) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/api_msg.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_127) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/api_msg.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c.i: cmake_force
@@ -1814,7 +1828,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\api_msg.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_127) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/err.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_128) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/err.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.i: cmake_force
@@ -1828,7 +1842,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\err.c.s: 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_128) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/if_api.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_129) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/if_api.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.i: cmake_force
@@ -1842,7 +1856,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\if_api.c.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_129) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netbuf.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_130) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netbuf.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.i: cmake_force
@@ -1856,7 +1870,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netbuf.c.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_130) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netdb.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_131) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netdb.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.i: cmake_force
@@ -1870,7 +1884,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netdb.c.s
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_131) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netifapi.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_132) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/netifapi.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.c.i: cmake_force
@@ -1884,7 +1898,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\netifapi.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_132) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/sockets.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_133) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/sockets.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c.i: cmake_force
@@ -1898,7 +1912,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\sockets.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_133) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/tcpip.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_134) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/api/tcpip.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.i: cmake_force
@@ -1912,7 +1926,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\api\tcpip.c.s
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_134) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ethernet.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_135) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ethernet.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ethernet.c.i: cmake_force
@@ -1926,7 +1940,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\etherne
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_135) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/bridgeif.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_136) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/bridgeif.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif.c.i: cmake_force
@@ -1940,7 +1954,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgei
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_136) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/bridgeif_fdb.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_137) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/bridgeif_fdb.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgeif_fdb.c.i: cmake_force
@@ -1954,7 +1968,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\bridgei
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_137) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/slipif.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_138) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/slipif.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.c.i: cmake_force
@@ -1968,7 +1982,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\slipif.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_138) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6_common.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_139) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6_common.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_common.c.i: cmake_force
@@ -1982,7 +1996,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_139) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_140) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6.c.i: cmake_force
@@ -1996,7 +2010,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_140) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6_ble.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_141) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/lowpan6_ble.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6_ble.c.i: cmake_force
@@ -2010,7 +2024,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\lowpan6
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_141) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/zepif.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_142) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/zepif.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c.i: cmake_force
@@ -2024,7 +2038,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\zepif.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_142) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/auth.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_143) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/auth.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\auth.c.i: cmake_force
@@ -2038,7 +2052,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\aut
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_143) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ccp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_144) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ccp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp.c.i: cmake_force
@@ -2052,7 +2066,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ccp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_144) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap-md5.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_145) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap-md5.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-md5.c.i: cmake_force
@@ -2066,7 +2080,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\cha
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_145) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap_ms.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_146) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap_ms.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap_ms.c.i: cmake_force
@@ -2080,7 +2094,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\cha
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_146) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap-new.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_147) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/chap-new.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\chap-new.c.i: cmake_force
@@ -2094,7 +2108,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\cha
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_147) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/demand.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_148) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/demand.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\demand.c.i: cmake_force
@@ -2108,7 +2122,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\dem
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_148) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/eap.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_149) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/eap.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap.c.i: cmake_force
@@ -2122,7 +2136,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eap
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_149) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ecp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_150) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ecp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp.c.i: cmake_force
@@ -2136,7 +2150,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ecp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_150) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/eui64.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_151) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/eui64.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui64.c.i: cmake_force
@@ -2150,7 +2164,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\eui
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_151) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/fsm.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_152) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/fsm.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm.c.i: cmake_force
@@ -2164,7 +2178,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\fsm
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_152) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ipcp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_153) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ipcp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipcp.c.i: cmake_force
@@ -2178,7 +2192,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipc
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_153) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ipv6cp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_154) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ipv6cp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv6cp.c.i: cmake_force
@@ -2192,7 +2206,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ipv
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_154) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/lcp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_155) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/lcp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp.c.i: cmake_force
@@ -2206,7 +2220,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\lcp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_155) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/magic.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_156) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/magic.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\magic.c.i: cmake_force
@@ -2220,7 +2234,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mag
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_156) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/mppe.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_157) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/mppe.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mppe.c.i: cmake_force
@@ -2234,7 +2248,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mpp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_157) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/multilink.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_158) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/multilink.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\multilink.c.i: cmake_force
@@ -2248,7 +2262,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\mul
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_158) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ppp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_159) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/ppp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp.c.i: cmake_force
@@ -2262,7 +2276,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_159) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppapi.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_160) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppapi.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppapi.c.i: cmake_force
@@ -2276,7 +2290,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_160) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppcrypt.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_161) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppcrypt.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppcrypt.c.i: cmake_force
@@ -2290,7 +2304,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_161) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppoe.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_162) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppoe.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppoe.c.i: cmake_force
@@ -2304,7 +2318,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_162) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppol2tp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_163) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppol2tp.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppol2tp.c.i: cmake_force
@@ -2318,7 +2332,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_163) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppos.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_164) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/pppos.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pppos.c.i: cmake_force
@@ -2332,7 +2346,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\ppp
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_164) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/upap.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_165) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/upap.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upap.c.i: cmake_force
@@ -2346,7 +2360,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\upa
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_165) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/utils.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_166) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/utils.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\utils.c.i: cmake_force
@@ -2360,7 +2374,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\uti
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_166) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/vj.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_167) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/vj.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.c.i: cmake_force
@@ -2374,7 +2388,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\vj.
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_167) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/arc4.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_168) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/arc4.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\arc4.c.i: cmake_force
@@ -2388,7 +2402,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pol
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_168) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/des.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_169) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/des.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\des.c.i: cmake_force
@@ -2402,7 +2416,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pol
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_169) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/md4.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_170) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/md4.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md4.c.i: cmake_force
@@ -2416,7 +2430,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pol
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_170) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/md5.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_171) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/md5.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\md5.c.i: cmake_force
@@ -2430,7 +2444,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pol
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.obj: F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_171) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/sha1.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_172) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/lib/lwip/src/netif/ppp/polarssl/sha1.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.obj -c F:\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\polarssl\sha1.c.i: cmake_force
@@ -2444,7 +2458,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\lib\lwip\src\netif\ppp\pol
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.obj: CMakeFiles\LogicAnalyzer.dir\flags.make
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.obj: F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.obj: CMakeFiles\LogicAnalyzer.dir\compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_172) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/nosys.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_173) "Building C object CMakeFiles/LogicAnalyzer.dir/F_/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_lwip/nosys.c.obj"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.obj -MF CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.obj.d -o CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.obj -c F:\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c
 
 CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\nosys.c.i: cmake_force
@@ -2459,6 +2473,7 @@ CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_lwip\n
 LogicAnalyzer_OBJECTS = \
 "CMakeFiles\LogicAnalyzer.dir\Event_Machine.c.obj" \
 "CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj" \
+"CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj" \
 "CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj" \
 "CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj" \
 "CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj" \
@@ -2635,6 +2650,7 @@ LogicAnalyzer_EXTERNAL_OBJECTS =
 
 LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\Event_Machine.c.obj
 LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.obj
+LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj
 LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_WiFi.c.obj
 LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\Shared_Buffers.c.obj
 LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\F_\PicoSDK\Pico\pico-sdk\src\rp2_common\pico_stdlib\stdlib.c.obj
@@ -2809,7 +2825,7 @@ LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\build.make
 LogicAnalyzer.elf: pico-sdk\src\rp2_common\cyw43_driver\cyw43_resource.o
 LogicAnalyzer.elf: pico-sdk\src\rp2_common\boot_stage2\bs2_default_padded_checksummed.S
 LogicAnalyzer.elf: CMakeFiles\LogicAnalyzer.dir\objects1
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_173) "Linking CXX executable LogicAnalyzer.elf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=F:\PicoSDK\Projects\LogicAnalyzer\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_174) "Linking CXX executable LogicAnalyzer.elf"
 	C:\PROGRA~2\GNUARM~1\102021~1.10\bin\AR10B2~1.EXE -mcpu=cortex-m0plus -mthumb -Og -g -Wl,--build-id=none --specs=nosys.specs -Wl,--wrap=sprintf -Wl,--wrap=snprintf -Wl,--wrap=vsnprintf -Wl,--wrap=__clzsi2 -Wl,--wrap=__clzdi2 -Wl,--wrap=__ctzsi2 -Wl,--wrap=__ctzdi2 -Wl,--wrap=__popcountsi2 -Wl,--wrap=__popcountdi2 -Wl,--wrap=__clz -Wl,--wrap=__clzl -Wl,--wrap=__clzll -Wl,--wrap=__aeabi_idiv -Wl,--wrap=__aeabi_idivmod -Wl,--wrap=__aeabi_ldivmod -Wl,--wrap=__aeabi_uidiv -Wl,--wrap=__aeabi_uidivmod -Wl,--wrap=__aeabi_uldivmod -Wl,--wrap=__aeabi_dadd -Wl,--wrap=__aeabi_ddiv -Wl,--wrap=__aeabi_dmul -Wl,--wrap=__aeabi_drsub -Wl,--wrap=__aeabi_dsub -Wl,--wrap=__aeabi_cdcmpeq -Wl,--wrap=__aeabi_cdrcmple -Wl,--wrap=__aeabi_cdcmple -Wl,--wrap=__aeabi_dcmpeq -Wl,--wrap=__aeabi_dcmplt -Wl,--wrap=__aeabi_dcmple -Wl,--wrap=__aeabi_dcmpge -Wl,--wrap=__aeabi_dcmpgt -Wl,--wrap=__aeabi_dcmpun -Wl,--wrap=__aeabi_i2d -Wl,--wrap=__aeabi_l2d -Wl,--wrap=__aeabi_ui2d -Wl,--wrap=__aeabi_ul2d -Wl,--wrap=__aeabi_d2iz -Wl,--wrap=__aeabi_d2lz -Wl,--wrap=__aeabi_d2uiz -Wl,--wrap=__aeabi_d2ulz -Wl,--wrap=__aeabi_d2f -Wl,--wrap=sqrt -Wl,--wrap=cos -Wl,--wrap=sin -Wl,--wrap=tan -Wl,--wrap=atan2 -Wl,--wrap=exp -Wl,--wrap=log -Wl,--wrap=ldexp -Wl,--wrap=copysign -Wl,--wrap=trunc -Wl,--wrap=floor -Wl,--wrap=ceil -Wl,--wrap=round -Wl,--wrap=sincos -Wl,--wrap=asin -Wl,--wrap=acos -Wl,--wrap=atan -Wl,--wrap=sinh -Wl,--wrap=cosh -Wl,--wrap=tanh -Wl,--wrap=asinh -Wl,--wrap=acosh -Wl,--wrap=atanh -Wl,--wrap=exp2 -Wl,--wrap=log2 -Wl,--wrap=exp10 -Wl,--wrap=log10 -Wl,--wrap=pow -Wl,--wrap=powint -Wl,--wrap=hypot -Wl,--wrap=cbrt -Wl,--wrap=fmod -Wl,--wrap=drem -Wl,--wrap=remainder -Wl,--wrap=remquo -Wl,--wrap=expm1 -Wl,--wrap=log1p -Wl,--wrap=fma -Wl,--wrap=__aeabi_lmul -Wl,--wrap=__aeabi_fadd -Wl,--wrap=__aeabi_fdiv -Wl,--wrap=__aeabi_fmul -Wl,--wrap=__aeabi_frsub -Wl,--wrap=__aeabi_fsub -Wl,--wrap=__aeabi_cfcmpeq -Wl,--wrap=__aeabi_cfrcmple -Wl,--wrap=__aeabi_cfcmple -Wl,--wrap=__aeabi_fcmpeq -Wl,--wrap=__aeabi_fcmplt -Wl,--wrap=__aeabi_fcmple -Wl,--wrap=__aeabi_fcmpge -Wl,--wrap=__aeabi_fcmpgt -Wl,--wrap=__aeabi_fcmpun -Wl,--wrap=__aeabi_i2f -Wl,--wrap=__aeabi_l2f -Wl,--wrap=__aeabi_ui2f -Wl,--wrap=__aeabi_ul2f -Wl,--wrap=__aeabi_f2iz -Wl,--wrap=__aeabi_f2lz -Wl,--wrap=__aeabi_f2uiz -Wl,--wrap=__aeabi_f2ulz -Wl,--wrap=__aeabi_f2d -Wl,--wrap=sqrtf -Wl,--wrap=cosf -Wl,--wrap=sinf -Wl,--wrap=tanf -Wl,--wrap=atan2f -Wl,--wrap=expf -Wl,--wrap=logf -Wl,--wrap=ldexpf -Wl,--wrap=copysignf -Wl,--wrap=truncf -Wl,--wrap=floorf -Wl,--wrap=ceilf -Wl,--wrap=roundf -Wl,--wrap=sincosf -Wl,--wrap=asinf -Wl,--wrap=acosf -Wl,--wrap=atanf -Wl,--wrap=sinhf -Wl,--wrap=coshf -Wl,--wrap=tanhf -Wl,--wrap=asinhf -Wl,--wrap=acoshf -Wl,--wrap=atanhf -Wl,--wrap=exp2f -Wl,--wrap=log2f -Wl,--wrap=exp10f -Wl,--wrap=log10f -Wl,--wrap=powf -Wl,--wrap=powintf -Wl,--wrap=hypotf -Wl,--wrap=cbrtf -Wl,--wrap=fmodf -Wl,--wrap=dremf -Wl,--wrap=remainderf -Wl,--wrap=remquof -Wl,--wrap=expm1f -Wl,--wrap=log1pf -Wl,--wrap=fmaf -Wl,--wrap=malloc -Wl,--wrap=calloc -Wl,--wrap=realloc -Wl,--wrap=free -Wl,--wrap=memcpy -Wl,--wrap=memset -Wl,--wrap=__aeabi_memcpy -Wl,--wrap=__aeabi_memset -Wl,--wrap=__aeabi_memcpy4 -Wl,--wrap=__aeabi_memset4 -Wl,--wrap=__aeabi_memcpy8 -Wl,--wrap=__aeabi_memset8 -Wl,-Map=LogicAnalyzer.elf.map -Wl,--script=F:/PicoSDK/Pico/pico-sdk/src/rp2_common/pico_standard_link/memmap_default.ld -Wl,-z,max-page-size=4096 -Wl,--gc-sections -Wl,--wrap=printf -Wl,--wrap=vprintf -Wl,--wrap=puts -Wl,--wrap=putchar -Wl,--wrap=getchar @CMakeFiles\LogicAnalyzer.dir\objects1 -o LogicAnalyzer.elf  pico-sdk\src\rp2_common\cyw43_driver\cyw43_resource.o pico-sdk\src\rp2_common\boot_stage2\bs2_default_padded_checksummed.S 
 	echo >nul && "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin\arm-none-eabi-objcopy.exe" -Oihex F:/PicoSDK/Projects/LogicAnalyzer/build/LogicAnalyzer.elf LogicAnalyzer.hex
 	echo >nul && "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin\arm-none-eabi-objcopy.exe" -Obinary F:/PicoSDK/Projects/LogicAnalyzer/build/LogicAnalyzer.elf LogicAnalyzer.bin

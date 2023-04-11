@@ -4126,6 +4126,30 @@ LogicAnalyzer.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\LogicAnalyzer.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer.c.s
 .PHONY : LogicAnalyzer.c.s
 
+LogicAnalyzer_W2812.obj: LogicAnalyzer_W2812.c.obj
+.PHONY : LogicAnalyzer_W2812.obj
+
+# target to build an object file
+LogicAnalyzer_W2812.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LogicAnalyzer.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.obj
+.PHONY : LogicAnalyzer_W2812.c.obj
+
+LogicAnalyzer_W2812.i: LogicAnalyzer_W2812.c.i
+.PHONY : LogicAnalyzer_W2812.i
+
+# target to preprocess a source file
+LogicAnalyzer_W2812.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LogicAnalyzer.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.i
+.PHONY : LogicAnalyzer_W2812.c.i
+
+LogicAnalyzer_W2812.s: LogicAnalyzer_W2812.c.s
+.PHONY : LogicAnalyzer_W2812.s
+
+# target to generate assembly for a file
+LogicAnalyzer_W2812.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\LogicAnalyzer.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\LogicAnalyzer.dir\LogicAnalyzer_W2812.c.s
+.PHONY : LogicAnalyzer_W2812.c.s
+
 LogicAnalyzer_WiFi.obj: LogicAnalyzer_WiFi.c.obj
 .PHONY : LogicAnalyzer_WiFi.obj
 
@@ -4679,6 +4703,9 @@ help:
 	@echo ... LogicAnalyzer.obj
 	@echo ... LogicAnalyzer.i
 	@echo ... LogicAnalyzer.s
+	@echo ... LogicAnalyzer_W2812.obj
+	@echo ... LogicAnalyzer_W2812.i
+	@echo ... LogicAnalyzer_W2812.s
 	@echo ... LogicAnalyzer_WiFi.obj
 	@echo ... LogicAnalyzer_WiFi.i
 	@echo ... LogicAnalyzer_WiFi.s

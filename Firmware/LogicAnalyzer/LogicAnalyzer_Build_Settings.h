@@ -1,25 +1,13 @@
 #ifndef __BUILD_SETTINGS__
     #define __BUILD_SETTINGS__
 
-    //Configure the build settings
+    #define FIRMWARE_VERSION "4_5"
 
-    #define BUILD_PICO_W
-    #define ENABLE_WIFI
-
-    /**
-     * WARNING! Ensure you choose the correct cyw library in the CMakeLists.txt
-     * 
-     * It includes instructions on what to do
-     * 
-     */
-
-    //Do not touch, simple check for sanity
-
-    #ifdef ENABLE_WIFI
-        #ifndef BUILD_PICO_W
-            #error "WiFi can only be enabled if the build is for the pico W"
-        #endif
-    #endif
+    //Select the board type to build the firmware for
+    //#define BUILD_PICO
+    //#define BUILD_PICO_W
+    #define BUILD_PICO_W_WIFI
+    //#define BUILD_ZERO
 
 #endif
 

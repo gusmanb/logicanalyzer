@@ -38,7 +38,7 @@
 
     }CAPTURE_REQUEST;
 
-    #ifdef ENABLE_WIFI
+    #ifdef USE_CYGW_WIFI
 
         typedef struct _WIFI_SETTINGS
         {

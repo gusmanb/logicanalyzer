@@ -1,4 +1,4 @@
-#include "LogicAnalyzer_Build_Settings.h"
+#include "LogicAnalyzer_Board_Settings.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -11,11 +11,15 @@
 #include "LogicAnalyzer.pio.h"
 #include "LogicAnalyzer_Structs.h"
 
-#ifdef BUILD_PICO_W
+#ifdef WS2812_LED
+    #include "LogicAnalyzer_W2812.h"
+#endif
+
+#if defined (CYGW_LED) || defined(USE_CYGW_WIFI)
 
     #include "pico/cyw43_arch.h"
 
-    #ifdef ENABLE_WIFI
+    #ifdef USE_CYGW_WIFI
 
         #include "Event_Machine.h"
         #include "Shared_Buffers.h"
@@ -36,12 +40,18 @@
 
 #endif
 
-#ifdef BUILD_PICO_W
+#if defined (GPIO_LED)
+    #define INIT_LED() {\
+                            gpio_init(LED_IO); \
+                            gpio_set_dir(LED_IO, GPIO_OUT); \
+                        }
+    #define LED_ON() gpio_put(LED_IO, 1)
+    #define LED_OFF() gpio_put(LED_IO, 0)
+#elif defined (CYGW_LED)
 
     #define INIT_LED() { }
 
-    #ifdef ENABLE_WIFI
-
+    #ifdef USE_CYGW_WIFI
         #define LED_ON() {\
         EVENT_FROM_FRONTEND lonEvt;\
         lonEvt.event = LED_ON;\
@@ -53,23 +63,15 @@
         loffEvt.event = LED_OFF;\
         event_push(&frontendToWifi, &loffEvt);\
         }
-
     #else
-
         #define LED_ON() cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1)
         #define LED_OFF() cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0)
-
     #endif
-#else
-    
-    #define LED_IO 25
-    #define INIT_LED() {\
-                            gpio_init(LED_IO); \
-                            gpio_set_dir(LED_IO, GPIO_OUT); \
-                        }
-    #define LED_ON() gpio_put(LED_IO, 1)
-    #define LED_OFF() gpio_put(LED_IO, 0)
 
+#elif defined (WS2812_LED)
+    #define INIT_LED() init_rgb()
+    #define LED_ON() send_rgb(0,32,0)
+    #define LED_OFF() send_rgb(0,0,32)
 #endif
 
 //Buffer used to store received data
@@ -81,7 +83,7 @@ bool capturing = false;
 //Capture request pointer
 CAPTURE_REQUEST* req;
 
-#ifdef ENABLE_WIFI
+#ifdef USE_CYGW_WIFI
 
 void storeSettings(WIFI_SETTINGS* settings)
 {
@@ -129,7 +131,7 @@ void storeSettings(WIFI_SETTINGS* settings)
 #endif
 void sendResponse(const char* response, bool toWiFi)
 {
-    #ifdef ENABLE_WIFI
+    #ifdef USE_CYGW_WIFI
     if(toWiFi)
     {
         EVENT_FROM_FRONTEND evt;
@@ -190,17 +192,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         if(bufferPos != 5) //Malformed message?
                             sendResponse("ERR_UNKNOWN_MSG\n", fromWiFi);
                         else
-                        {
-                            #ifdef BUILD_PICO_W
-                                #ifdef ENABLE_WIFI
-                                    sendResponse("LOGIC_ANALYZER_WIFI_V4_0\n", fromWiFi); //Our ID
-                                #else
-                                    sendResponse("LOGIC_ANALYZER_W_V4_0\n", fromWiFi); //Our ID
-                                #endif
-                            #else
-                                sendResponse("LOGIC_ANALYZER_V4_0\n", fromWiFi); //Our ID
-                            #endif
-                        }
+                            sendResponse("LOGIC_ANALYZER_"BOARD_NAME"_"FIRMWARE_VERSION"\n", fromWiFi);
                         break;
 
                     case 1: //Capture request
@@ -209,13 +201,27 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         
                         bool started = false;
 
-                        if(req->triggerType == 1) //Start complex trigger capture
-                            started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
-                        else if(req->triggerType == 2) //start fast trigger capture
-                            started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
-                        else //Start simple trigger capture
-                            started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                        #ifdef SUPPORTS_COMPLEX_TRIGGER
+
+                            if(req->triggerType == 1) //Start complex trigger capture
+                                started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
+                            else if(req->triggerType == 2) //start fast trigger capture
+                                started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
+                            else //Start simple trigger capture
+                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
+                        #else
+
+                            if(req->triggerType == 1 || req->triggerType == 2)
+                            {
+                                sendResponse("CAPTURE_ERROR\n", fromWiFi);
+                                break;
+                            }
+                            else
+                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                        
+                        #endif
+
                         if(started) //If started successfully inform to the host
                         {
                             sendResponse("CAPTURE_STARTED\n", fromWiFi);
@@ -226,7 +232,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
 
                         break;
                     
-                    #ifdef ENABLE_WIFI
+                    #ifdef USE_CYGW_WIFI
 
                     case 2:
 
@@ -313,7 +319,7 @@ bool processUSBInput(bool skipProcessing)
 
 }
 
-#ifdef ENABLE_WIFI
+#ifdef USE_CYGW_WIFI
 
 void purgeUSBData()
 {
@@ -368,7 +374,7 @@ bool processWiFiInput(bool skipProcessing)
 
 void processInput()
 {
-    #ifdef ENABLE_WIFI
+    #ifdef USE_CYGW_WIFI
         if(!usbDisabled)
             processUSBInput(false);
 
@@ -380,7 +386,7 @@ void processInput()
 
 bool processCancel()
 {
-    #ifdef ENABLE_WIFI
+    #ifdef USE_CYGW_WIFI
         if(!usbDisabled)
             if(processUSBInput(true))
                 return true;
@@ -399,16 +405,14 @@ int main()
     //Initialize USB stdio
     stdio_init_all();
 
-    #ifdef BUILD_PICO_W
-        #ifdef ENABLE_WIFI
-            event_machine_init(&wifiToFrontend, wifiEvent, sizeof(EVENT_FROM_WIFI), 8);
+    #if defined (BUILD_PICO_W)
+        cyw43_arch_init();
+    #elif defined (BUILD_PICO_W_WIFI)
+        event_machine_init(&wifiToFrontend, wifiEvent, sizeof(EVENT_FROM_WIFI), 8);
             multicore_launch_core1(runWiFiCore);
             while(!cywReady)
                 event_process_queue(&wifiToFrontend, &wifiEventBuffer, 1);
-        #else
-            cyw43_arch_init();
-        #endif
-    #endif 
+    #endif
 
     //A bit of delay, if the program tries to send data before Windows has identified the device it may crash
     sleep_ms(1000);
@@ -439,7 +443,7 @@ int main()
                 //Send capture length
                 sleep_ms(100);
 
-                #ifdef ENABLE_WIFI
+                #ifdef USE_CYGW_WIFI
 
                     if(usbDisabled)
                     {
@@ -479,7 +483,7 @@ int main()
                         break;
                 }
 
-                #ifdef ENABLE_WIFI
+                #ifdef USE_CYGW_WIFI
 
                     //Send the samples
                     if(usbDisabled)
