@@ -17,6 +17,8 @@ You can download the firmware for it on the [releases](https://github.com/gusman
 
 And second, the firmware has been refactored in order to make a lot easier to add new boards. You have the complete instructions on how to add support to a new board on [the wiki firmware section](https://github.com/gusmanb/logicanalyzer/wiki/03---LogicAnalyzer-Firmware). Also, as some boards include the very popular WS2812 RGB led the firmware includes a driver for it, it's purely software-based, no timers nor interrupts needed, so feel free to use it if you want.
 
+If you add support for a new board, feel free to create a pull request with the changes :)
+
 Have fun!
 
 ----
