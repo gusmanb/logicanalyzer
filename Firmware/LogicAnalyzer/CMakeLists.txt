@@ -40,7 +40,7 @@ pico_enable_stdio_usb(LogicAnalyzer 1)
 # Regular pico: empty
 # Pico W without WiFi support: pico_cyw43_arch_none
 # Pico W with WiFi support: pico_cyw43_arch_lwip_poll
-set (CYW_LIB pico_cyw43_arch_lwip_poll)
+# set (CYW_LIB pico_cyw43_arch_lwip_poll)
 # set (CYW_LIB pico_cyw43_arch_none)
 
 # Add any user requested libraries
