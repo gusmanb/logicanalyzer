@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #Releases folder
 Releases/
+
+#Firmware build files
+Firmware/LogicAnalyzer/build/
