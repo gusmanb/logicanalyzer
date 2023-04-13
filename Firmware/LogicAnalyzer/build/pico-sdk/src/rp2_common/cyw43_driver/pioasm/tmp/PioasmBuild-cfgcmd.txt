@@ -1,1 +1,0 @@
-cmd='F:/RPico/CMake/bin/cmake.exe;-GNMake Makefiles;-C<TMP_DIR>/PioasmBuild-cache-$<CONFIG>.cmake;<SOURCE_DIR><SOURCE_SUBDIR>'

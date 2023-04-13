@@ -1,1 +1,0 @@
-cmd='F:/RPico/CMake/bin/cmake.exe;-GNMake Makefiles;<SOURCE_DIR><SOURCE_SUBDIR>'
