@@ -8,6 +8,25 @@ Latest version: Release 4.5.1.0, 28/06/2023
 
 ----
 
+## UPDATE 28/06/2023 - Release 4.5.1 - QOL improvements
+
+This release include some QOL updates to the applications.
+
+LogicAnalyzer app:
+
+-Ammount of on-screen samples will be preserved if you repeat the last capture.
+-Added a new menu entry called "Repeat las analysis" to the protocol analyzers, it will execute the last analysis performed to speed up things.
+-Changed where config files are stored, they will use the %appData% folder now ($home/.config in Linux).
+-Changed horizontal scrollbar visibility.
+
+CLCapture app:
+
+-Now channel names can be provided from the command line.
+
+Have fun!
+
+----
+
 ## UPDATE 11/04/2023 - Release 4.5 - Support for the RP2040-Zero and new board definition system
 
 This release includes only an update to the firmware.
