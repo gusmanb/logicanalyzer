@@ -3,11 +3,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:LogicAnalyzer.Controls"
-        mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="800"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="LogicAnalyzer.MainWindow"
         Title="LogicAnalyzer - Multiplatform version"
         Icon="/Assets/Ico40.ico"
-        Background="#383838" MinWidth="1024" MinHeight="800" Width="1024" Height="800" WindowStartupLocation="CenterScreen">
+        Background="#383838" MinWidth="800" MinHeight="600" Width="800" Height="600" WindowStartupLocation="CenterScreen">
   <DockPanel VerticalAlignment="Stretch">
     <Menu DockPanel.Dock="Top" Background="#f0202020">
         <MenuItem Header="_File">
@@ -47,7 +47,7 @@
       <controls:SampleMarker Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" Background="Transparent" Name="sampleMarker"></controls:SampleMarker>
     </Grid>
     
-    <ScrollBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Bottom" Name="scrSamplePos"></ScrollBar>
+    <ScrollBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Bottom" Name="scrSamplePos" AllowAutoHide="False"></ScrollBar>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="*,240" DockPanel.Dock="Bottom">
       <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid ColumnDefinitions="140,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

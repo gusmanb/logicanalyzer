@@ -142,7 +142,7 @@ namespace LogicAnalyzer.Dialogs
 
         private void LoadSettings(AnalyzerDriverType DriverType)
         {
-            settingsFile = $"cpSettings{DriverType}.json";
+            settingsFile = WindowExtensions.GetFilePath($"cpSettings{DriverType}.json");
 
             if (File.Exists(settingsFile))
             {
@@ -316,7 +316,13 @@ namespace LogicAnalyzer.Dialogs
                 {
                     trigger = (int)nudTriggerBase.Value - 1;
 
-                    char[] patternChars = txtPattern.Text.ToArray();
+                    if (string.IsNullOrWhiteSpace(txtPattern.Text))
+                    {
+                        await this.ShowError("Error", "Trigger pattern must be at least one bit long.");
+                        return;
+                    }
+
+                    char[] patternChars = txtPattern.Text.Trim().ToArray();
 
                     if (patternChars.Length == 0)
                     {

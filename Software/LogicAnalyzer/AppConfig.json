@@ -1,19 +1,9 @@
 {
-  "AppName": "Avalonia.Designer.HostApp, Version=0.10.16.0, Culture=neutral, PublicKeyToken=c8d484a7012f9a8b",
+  "AppName": "LogicAnalyzer, Version=3.5.0.1, Culture=neutral, PublicKeyToken=null",
   "WindowSettings": {
-    "LogicAnalyzer.Dialogs.CreateSamplesDialog": {
-      "Width": 800.0,
-      "Height": 600.0,
-      "Position": {
-        "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
-        "X": 0,
-        "Y": 0
-      },
-      "WindowState": 0
-    },
     "LogicAnalyzer.MainWindow": {
-      "Width": 1024.0,
-      "Height": 800.0,
+      "Width": 1837.0,
+      "Height": 1083.0,
       "Position": {
         "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
         "X": 0,
@@ -22,13 +12,23 @@
       "WindowState": 0
     },
     "LogicAnalyzer.Dialogs.SignalComposerDialog": {
-      "EditorFontSize": 14.0,
-      "Width": 640.0,
-      "Height": 480.0,
+      "EditorFontSize": 19.0,
+      "Width": 973.0,
+      "Height": 415.0,
       "Position": {
         "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
-        "X": 0,
-        "Y": 0
+        "X": 1280,
+        "Y": 1016
+      },
+      "WindowState": 0
+    },
+    "LogicAnalyzer.Dialogs.CreateSamplesDialog": {
+      "Width": 800.0,
+      "Height": 600.0,
+      "Position": {
+        "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
+        "X": 1665,
+        "Y": 1233
       },
       "WindowState": 0
     },
@@ -37,8 +37,8 @@
       "Height": 450.0,
       "Position": {
         "$type": "Avalonia.PixelPoint, Avalonia.Visuals",
-        "X": 0,
-        "Y": 0
+        "X": 1629,
+        "Y": 793
       },
       "WindowState": 0
     }

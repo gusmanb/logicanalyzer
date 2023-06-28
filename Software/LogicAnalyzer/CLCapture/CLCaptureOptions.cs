@@ -16,7 +16,7 @@ namespace CLCapture
         public string? AddressPort { get; set; }
         [Value(1, Required = true, HelpText = "Desired sampling frequency.")]
         public int SamplingFrequency { get; set; }
-        [Value(2, Required = true, HelpText = "List of channels to capture (channels sepparated by comma).")]
+        [Value(2, Required = true, HelpText = "List of channels to capture (channels sepparated by comma, can contain a name adding a semicolon after the channel number, no spaces allowed).")]
         public string? Channels { get; set; }
         [Value(3, Required = true, HelpText = "Number of samples to capture before the trigger.")]
         public int PreSamples { get; set; }

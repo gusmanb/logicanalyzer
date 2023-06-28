@@ -35,6 +35,12 @@ namespace LogicAnalyzer
 
         UInt128[]? copiedSamples;
 
+        MenuItem? mnuRepeatAnalysis;
+
+        AnalysisSettings? analysisSettings;
+
+        bool preserveSamples = false;
+
         public MainWindow()
         {
             Instance = this;
@@ -558,7 +564,10 @@ namespace LogicAnalyzer
                 sampleViewer.Samples = e.Samples;
                 sampleViewer.PreSamples = e.PreSamples;
                 sampleViewer.ChannelCount = e.ChannelCount;
-                sampleViewer.SamplesInScreen = Math.Min(100, e.Samples.Length / 10);
+
+                if(!preserveSamples)
+                    sampleViewer.SamplesInScreen = Math.Min(100, e.Samples.Length / 10);
+
                 sampleViewer.FirstSample = Math.Max(e.PreSamples - 10, 0);
                 sampleViewer.ClearRegions();
                 sampleViewer.ClearAnalyzedChannels();
@@ -613,11 +622,40 @@ namespace LogicAnalyzer
                     return itm;
                 }).ToArray());
 
+                mnuRepeatAnalysis = new MenuItem { Header = "Repeat last analysis" };
+                mnuRepeatAnalysis.IsEnabled = false;
+                mnuRepeatAnalysis.Click += MnuRepeatAnalysis_Click;
+                finalItems.Add(mnuRepeatAnalysis);
+
                 var clearItem = new MenuItem { Header = "C_lear analysis data" };
                 clearItem.Click += ClearItem_Click;
                 finalItems.Add(clearItem);
 
+                
+
                 mnuProtocols.Items = finalItems;
+            }
+        }
+
+        private void MnuRepeatAnalysis_Click(object? sender, RoutedEventArgs e)
+        {
+
+            if (analysisSettings == null || analysisSettings.Channels == null || analysisSettings.Analyzer == null || analysisSettings.Settings == null)
+                return;
+
+            var channels = analysisSettings.Channels;
+            var samples = sampleViewer.Samples;
+
+            foreach (var channel in channels)
+                ExtractSamples(channel, samples);
+
+            var analysisResult = analysisSettings.Analyzer.Analyze(settings.Frequency, settings.PreTriggerSamples - 1, analysisSettings.Settings, channels);
+
+            if (analysisResult != null)
+            {
+                sampleViewer.BeginUpdate();
+                sampleViewer.AddAnalyzedChannels(analysisResult);
+                sampleViewer.EndUpdate();
             }
         }
 
@@ -662,6 +700,11 @@ namespace LogicAnalyzer
                     sampleViewer.AddAnalyzedChannels(analysisResult);
                     sampleViewer.EndUpdate();
                 }
+
+                analysisSettings = new AnalysisSettings { Analyzer = analyzer, Channels = channels, Settings = dlg.SelectedSettings };
+
+                if(mnuRepeatAnalysis != null)
+                    mnuRepeatAnalysis.IsEnabled = true;
             }
         }
 
@@ -762,7 +805,7 @@ namespace LogicAnalyzer
                 await this.ShowError("Error", "No capture to repeat");
                 return;
             }
-
+            preserveSamples = true;
             BeginCapture();
         }
 
@@ -775,6 +818,7 @@ namespace LogicAnalyzer
                 return;
 
             settings = dialog.SelectedSettings;
+            preserveSamples = false;
             BeginCapture();
 
         }

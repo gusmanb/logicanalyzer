@@ -11,18 +11,32 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using System.Text.Json;
+using static System.Environment;
 
 namespace LogicAnalyzer.Extensions
 {
     public static class WindowExtensions
     {
+
+        static string BasePath { get { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) ?? ""; } }
+
         static JsonSerializerSettings jSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+
+        public static string GetFilePath(string FileName) 
+        {
+            string appData = Path.Combine(Environment.GetFolderPath(SpecialFolder.ApplicationData, SpecialFolderOption.DoNotVerify), "LogicAnalyzer");
+            Directory.CreateDirectory(appData);
+            return Path.Combine(appData, FileName); 
+        }
 
         static AppConfig config;
         static WindowExtensions()
         {
-            if (File.Exists("AppConfig.json"))
-                config = JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText("AppConfig.json"),  jSettings);
+
+            string path = GetFilePath("AppConfig.json");
+
+            if (File.Exists(path))
+                config = JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText(path),  jSettings);
 
             if(config == null)
                 config = new AppConfig();
@@ -132,8 +146,9 @@ namespace LogicAnalyzer.Extensions
         }
         private static void PersistSettings()
         {
+            string path = GetFilePath("AppConfig.json");
 
-            File.WriteAllText("AppConfig.json", JsonConvert.SerializeObject(config, Formatting.Indented, jSettings));
+            File.WriteAllText(path, JsonConvert.SerializeObject(config, Formatting.Indented, jSettings));
         }
         private static object GetPropertyValue(object Source, string PropertyName)
         {

@@ -39,15 +39,27 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    int[]? channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c)).ToArray();
+    CLChannel[]? channels;
 
-    if (channels == null || channels.Any(c => c < 1 || c > 24))
+    try
+    {
+
+        //int[]? channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c)).ToArray();
+        channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => new CLChannel(c)).ToArray();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        return -1;
+    }
+
+    if (channels == null || channels.Any(c => c.ChannelNumber < 1 || c.ChannelNumber > 24))
     {
         Console.WriteLine("Specified capture channels out of range.");
         return -1;
     }
 
-    int maxChannel = channels.Max();
+    int maxChannel = channels.Max(c => c.ChannelNumber);
     int channelMode = maxChannel <= 8 ? 0 : (maxChannel <= 16 ? 1 : 2);
 
     int channelCount = maxChannel <= 8 ? 8 : (maxChannel <= 16 ? 16 : 24);
@@ -163,13 +175,13 @@ async Task<int> Capture(CLCaptureOptions opts)
 
     captureCompletedTask = new TaskCompletionSource<CaptureEventArgs>();
 
-    channels = opts.Channels.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c) - 1).ToArray();
+    int[] nChannels = channels.Select(c => c.ChannelNumber - 1).ToArray();
 
     if (opts.Trigger.TriggerType == CLTriggerType.Edge)
     {
         Console.WriteLine("Starting edge triggered capture...");
         var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            channels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+            nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -209,7 +221,7 @@ async Task<int> Capture(CLCaptureOptions opts)
         }
 
         var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            channels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
+            nChannels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -246,7 +258,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     var file = File.Create(opts.OutputFile);
     StreamWriter sw = new StreamWriter(file);
 
-    sw.WriteLine(String.Join(',', channels.Select(c => $"Channel {c + 1}").ToArray()));
+    sw.WriteLine(String.Join(',', channels.Select(c => c.ChannelName).ToArray()));
 
     StringBuilder sb = new StringBuilder();
 
@@ -254,14 +266,14 @@ async Task<int> Capture(CLCaptureOptions opts)
     {
         sb.Clear();
 
-        for (int buc = 0; buc < opts.Channels.Length; buc++)
+        for (int buc = 0; buc < nChannels.Length; buc++)
         {
-            if ((result.Samples[sample] & ((UInt128)1 << buc)) == 0)
+            if ((result.Samples[sample] & ((UInt128)1 << nChannels[buc])) == 0)
                 sb.Append("0,");
             else
                 sb.Append("1,");
         }
-
+        sb.Remove(sb.Length - 1, 1);
         sw.WriteLine(sb.ToString());
     }
 
