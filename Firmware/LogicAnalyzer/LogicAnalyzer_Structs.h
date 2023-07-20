@@ -33,6 +33,8 @@
         uint32_t preSamples;
         //Number of samples stored after the trigger
         uint32_t postSamples;
+        //Number of capture loops
+        uint8_t loopCount;
         //Capture mode (0 = 8 channel, 1 = 16 channel, 2 = 24 channel)
         uint8_t captureMode;
 

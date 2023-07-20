@@ -178,6 +178,7 @@ namespace LogicAnalyzer.Dialogs
                                 Frequency = oldset.Frequency,
                                 PostTriggerSamples = oldset.PostTriggerSamples,
                                 PreTriggerSamples = oldset.PreTriggerSamples,
+                                LoopCount = 0,
                                 TriggerBitCount = oldset.TriggerBitCount,
                                 TriggerChannel = oldset.TriggerChannel,
                                 TriggerInverted = oldset.TriggerInverted,
@@ -216,6 +217,8 @@ namespace LogicAnalyzer.Dialogs
 
                             triggerChannels[settings.TriggerChannel].IsChecked = true;
                             ckNegativeTrigger.IsChecked = settings.TriggerInverted;
+                            ckBurst.IsChecked = settings.LoopCount > 0;
+                            nudBurstCount.Value = settings.LoopCount > 0 ? settings.LoopCount : 1;
 
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
@@ -280,7 +283,9 @@ namespace LogicAnalyzer.Dialogs
 
             int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
-            if (nudPreSamples.Value + nudPostSamples.Value > max)
+            int loops = (int)((ckBurst.IsChecked ?? false) ? nudBurstCount.Value - 1 : 0);
+
+            if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
             {
                 await this.ShowError("Error", $"Total samples cannot exceed {max}.");
                 return;
@@ -385,6 +390,7 @@ namespace LogicAnalyzer.Dialogs
             settings.Frequency = (int)nudFrequency.Value;
             settings.PreTriggerSamples = (int)nudPreSamples.Value;
             settings.PostTriggerSamples = (int)nudPostSamples.Value;
+            settings.LoopCount = loops;
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;
             settings.CaptureChannels = channelsToCapture.ToArray();
             

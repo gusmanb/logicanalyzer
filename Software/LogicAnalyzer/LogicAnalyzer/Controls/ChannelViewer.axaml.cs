@@ -67,7 +67,7 @@ namespace LogicAnalyzer.Controls
 
                 newChannelLabel.Text = channels[buc].TextualChannelNumber;
 
-                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(AnalyzerColors.FgChannelColors[buc]);
+                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(AnalyzerColors.FgChannelColors[buc % 24]);
 
                 newChannelGrid.Children.Add(newChannelLabel);
 

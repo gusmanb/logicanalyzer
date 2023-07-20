@@ -2,7 +2,9 @@
 .program POSITIVE_CAPTURE
 
     pull
-    out x 32    		        ;read capture length
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
 
 .wrap_target
 
@@ -16,19 +18,28 @@ POST_CAPTURE:
     in pins 32			        ;read sample
     jmp x-- POST_CAPTURE		;loop if more samples needed
 
+    jmp y-- LOOP                ;jump to loop control
+
     irq 0                       ;notify to the main program that we have finished capturing
 
 LOCK:
 
     jmp LOCK                    ;block the program
 
+LOOP:
+    mov x, osr                  ;read loop count
+INNER_LOOP:
+
+    jmp pin POST_CAPTURE        ;wait for trigger
+    jmp INNER_LOOP
+
 ;--------------------------------------------------------------------------------------------
 .program NEGATIVE_CAPTURE
 
-.wrap_target
-
     pull
-    out x 32			        ;read capture length
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
 
 PRE_CAPTURE:
 
@@ -37,14 +48,23 @@ PRE_CAPTURE:
 
 POST_CAPTURE:
 
+.wrap_target
+
     in pins 32			        ;read sample
     jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
 
     irq 0                       ;notify to the main program that we have finished capturing
 
 LOCK:
 
     jmp LOCK                    ;block the program
+
+LOOP:
+    mov x, osr                  ;read loop count
+INNER_LOOP:
+    jmp pin INNER_LOOP          ;wait for trigger
 
 .wrap
 
@@ -131,6 +151,8 @@ LOCK:
 #include "string.h"
 #include "hardware/sync.h"
 
+#define CAPTURE_BUFFER_SIZE (128 * 1024)
+
 typedef enum
 {
     MODE_8_CHANNEL,
@@ -161,6 +183,7 @@ static uint8_t lastCapturePinCount;         //Count of captured pins
 static uint32_t lastTriggerCapture;         //Moment where the trigger happened inside the circular pre buffer
 static uint32_t lastPreSize;                //Pre-trigger buffer size
 static uint32_t lastPostSize;               //Post-trigger buffer size
+static uint32_t lastLoopCount;              //Number of loops
 static bool lastTriggerInverted;            //Inverted?
 static uint8_t lastTriggerPin;
 static uint32_t lastStartPosition;
@@ -187,7 +210,7 @@ static bool captureProcessed;
 #endif
 
 //Main capture buffer, aligned at a 32k boundary, to use the maxixmum ring size supported by DMA channels
-static uint8_t captureBuffer[128 * 1024] __attribute__((aligned(32768)));
+static uint8_t captureBuffer[CAPTURE_BUFFER_SIZE] __attribute__((aligned(32768)));
 
 //-----------------------------------------------------------------------------
 //--------------Complex trigger PIO program------------------------------------
@@ -330,8 +353,8 @@ uint32_t find_capture_tail()
     if(busy_channel == 0xFFFFFFFF) 
         return 0xFFFFFFFF;
     
-    //Ok, now we need to know at which transfer the DMA is. The value equals to MAX_TRANSFERS - TRANSFERS_LEFT.
-    int32_t transfer = transferCount - dma_channel_hw_addr(busy_channel)->transfer_count;
+    //Ok, now we need to know at which transfer the DMA is. The value equals to MAX_TRANSFERS - TRANSFERS_LEFT - 1 (DMA channel decrements transfer_count when it starts :/).
+    int32_t transfer = transferCount - dma_channel_hw_addr(busy_channel)->transfer_count - 1;
 
     //Now compute the last capture position
     transfer = (transfer + busy_offset) - 1;
@@ -636,6 +659,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Store info about the capture
     lastPreSize = preLength;
     lastPostSize = postLength;
+    lastLoopCount = 0;
     lastCapturePinCount = capturePinCount;
     lastCaptureComplexFast = true;
     lastCaptureMode = captureMode;
@@ -653,8 +677,8 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     //Store the PIO units and clear program memory
     capturePIO = pio1; //Cannot clear it in PIO1 because the W uses PIO1 to transfer data
-
     triggerPIO = pio0;
+
     pio_clear_instruction_memory(triggerPIO);
 
     //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
@@ -665,7 +689,7 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure capture SM
-    sm_Capture = pio_claim_unused_sm(capturePIO, true);
+    sm_Capture = pio_claim_unused_sm(capturePIO, true); 
     pio_sm_clear_fifos(capturePIO, sm_Capture);
     pio_sm_restart(capturePIO, sm_Capture);
     captureOffset = pio_add_program(capturePIO, &FAST_CAPTURE_program);
@@ -802,6 +826,7 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Store info about the capture
     lastPreSize = preLength;
     lastPostSize = postLength;
+    lastLoopCount = 0;
     lastCapturePinCount = capturePinCount;
     lastCaptureComplexFast = true;
     lastCaptureMode = captureMode;
@@ -910,7 +935,7 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
 
 #endif
 
-bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
+bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
 {
 
     int maxSamples;
@@ -950,6 +975,7 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Store info about the capture
     lastPreSize = preLength;
     lastPostSize = postLength;
+    lastLoopCount = loopCount;
     lastCapturePinCount = capturePinCount;
     lastTriggerInverted = invertTrigger;
     lastCaptureComplexFast = false;
@@ -1028,8 +1054,10 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Enable state machine
     pio_sm_set_enabled(capturePIO, sm_Capture, true);
 
-    //Write capture length to post program to start the capture process
+    //Write loop count and capture length to post program to start the capture process
+    pio_sm_put_blocking(capturePIO, sm_Capture, loopCount);
     pio_sm_put_blocking(capturePIO, sm_Capture, postLength - 1);
+    
 
     //Finally clear capture status, process flags and capture type
     captureFinished = false;
@@ -1048,6 +1076,9 @@ bool IsCapturing()
 
 uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* captureMode)
 {
+    //Compute total sample count
+    uint32_t totalSamples = lastPreSize + (lastPostSize * (lastLoopCount + 1));
+
     //If we don't have processed the buffer...
     if(!captureProcessed)
     {
@@ -1066,11 +1097,13 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                 break;
         }
         //Calculate start position
-        if(lastTail < lastPreSize + lastPostSize - 1)
-            lastStartPosition = maxSize - ((lastPreSize + lastPostSize) - (lastTail - 1));
+        if(lastTail < totalSamples - 1)
+            lastStartPosition = (maxSize - totalSamples) + lastTail + 1;
         else
-            lastStartPosition = lastTail - (lastPreSize + lastPostSize) + 1;
+            lastStartPosition = lastTail - totalSamples + 1;
+
         uint32_t currentPos = lastStartPosition;
+
         switch(lastCaptureMode)
         {
             case MODE_24_CHANNEL:
@@ -1082,7 +1115,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
-                    for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
+                    for(int buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
@@ -1110,7 +1143,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
-                    for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
+                    for(int buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
@@ -1138,7 +1171,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
-                    for(int buc = 0; buc < lastPreSize + lastPostSize; buc++)
+                    for(int buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
@@ -1162,7 +1195,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
     }
     //Return data
     *captureMode = lastCaptureMode;
-    *bufferSize = lastPreSize + lastPostSize;
+    *bufferSize = totalSamples;
     *firstSample = lastStartPosition;
     return captureBuffer;
 }

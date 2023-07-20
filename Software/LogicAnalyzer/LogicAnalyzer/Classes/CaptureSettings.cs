@@ -11,12 +11,18 @@ namespace LogicAnalyzer.Classes
         public int Frequency { get; set; }
         public int PreTriggerSamples { get; set; }
         public int PostTriggerSamples { get; set; }
+        public int LoopCount { get; set; }
         public CaptureChannel[] CaptureChannels { get; set; } = new CaptureChannel[0];
         public int TriggerType { get; set; }
         public int TriggerChannel { get; set; }
         public bool TriggerInverted { get; set; }
         public int TriggerBitCount { get; set; }
         public ushort TriggerPattern { get; set; }
+
+        public CaptureSettings Clone()
+        {
+            return (CaptureSettings)MemberwiseClone();
+        }
     }
 
     public class CaptureChannel

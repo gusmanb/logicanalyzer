@@ -10,7 +10,7 @@ namespace SharedDriver
 {
     public class MultiAnalizerDriver : IDisposable, IAnalizerDriver
     {
-        Regex regVersion = new Regex(".*?(V[0-9]_[0-9])$");
+        Regex regVersion = new Regex(".*?(V([0-9]+)_([0-9]+))$");
         LogicAnalyzerDriver[] connectedDevices;
 
         UInt128[][]? tempCapture;
@@ -79,7 +79,24 @@ namespace SharedDriver
                 }
 
                 if (ver == null)
+                {
                     ver = mVer.Groups[1].Value;
+
+                    if (mVer == null || !mVer.Success || !mVer.Groups[2].Success)
+                    {
+                        Dispose();
+                        throw new DeviceConnectionException($"Invalid device version V{(string.IsNullOrWhiteSpace(mVer?.Value) ? "(unknown)" : mVer?.Value)}, minimum supported version: V5_0");
+                    }
+
+                    int majorVer = int.Parse(mVer.Groups[2].Value);
+
+                    if (majorVer < 5)
+                    {
+                        Dispose();
+                        throw new DeviceConnectionException($"Invalid device version V{mVer.Value}, minimum supported version: V5_0");
+                    }
+
+                }
                 else
                 {
                     if (ver != mVer.Groups[1].Value)
@@ -96,7 +113,7 @@ namespace SharedDriver
         {
             throw new NotSupportedException();
         }
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             throw new NotSupportedException();
         }
@@ -163,7 +180,7 @@ namespace SharedDriver
                         continue;
 
                     connectedDevices[buc].Tag = channelsCapturing;
-                    var err = connectedDevices[buc].StartCapture(Frequency, PreSamples + offset, PostSamples - offset, chan, 24, false);
+                    var err = connectedDevices[buc].StartCapture(Frequency, PreSamples + offset, PostSamples - offset, 0, chan, 24, false);
 
                     if (err != CaptureError.None)
                     {

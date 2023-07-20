@@ -14,17 +14,25 @@ namespace CLCapture
     {
         [Value(0, Required = true, HelpText = "Device's serial port or IP address and port.")]
         public string? AddressPort { get; set; }
+
         [Value(1, Required = true, HelpText = "Desired sampling frequency.")]
         public int SamplingFrequency { get; set; }
+
         [Value(2, Required = true, HelpText = "List of channels to capture (channels sepparated by comma, can contain a name adding a semicolon after the channel number, no spaces allowed).")]
         public string? Channels { get; set; }
+
         [Value(3, Required = true, HelpText = "Number of samples to capture before the trigger.")]
         public int PreSamples { get; set; }
+
         [Value(4, Required = true, HelpText = "Number of samples to capture after the trigger.")]
         public int PostSamples { get; set; }
-        [Value(5, Required = true, HelpText = "Trigger definition in the form of \"TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string containing 1's and 0's indicating each trigger chanel state)\".")]
+
+        [Value(5, Required = true, HelpText = "Number of bursts to capture (0 or 1 to disable burst mode).")]
+        public int LoopCount { get; set; }
+
+        [Value(6, Required = true, HelpText = "Trigger definition in the form of \"TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string containing 1's and 0's indicating each trigger chanel state)\".")]
         public CLTrigger? Trigger { get; set; }
-        [Value(6, Required = true, HelpText = "Name of the output file.")]
+        [Value(7, Required = true, HelpText = "Name of the output file.")]
         public string? OutputFile { get; set; }
     }
 

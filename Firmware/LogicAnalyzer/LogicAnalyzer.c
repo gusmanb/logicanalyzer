@@ -10,6 +10,7 @@
 #include "pico/multicore.h"
 #include "LogicAnalyzer.pio.h"
 #include "LogicAnalyzer_Structs.h"
+#include "tusb.h"
 
 #ifdef WS2812_LED
     #include "LogicAnalyzer_W2812.h"
@@ -85,6 +86,8 @@ CAPTURE_REQUEST* req;
 
 #ifdef USE_CYGW_WIFI
 
+/// @brief Stores a new WiFi configuration in the flash of the device
+/// @param settings Settings to store
 void storeSettings(WIFI_SETTINGS* settings)
 {
     uint8_t buffer[FLASH_PAGE_SIZE];
@@ -129,6 +132,10 @@ void storeSettings(WIFI_SETTINGS* settings)
 }
 
 #endif
+
+/// @brief Sends a response message to the host application in string mode
+/// @param response The message to be sent (null terminated)
+/// @param toWiFi If true the message is sent to a WiFi endpoint, else to the USB connection through STDIO
 void sendResponse(const char* response, bool toWiFi)
 {
     #ifdef USE_CYGW_WIFI
@@ -146,6 +153,10 @@ void sendResponse(const char* response, bool toWiFi)
         printf(response);
 }
 
+/// @brief Processes data received from the host application
+/// @param data The received data
+/// @param length Length of the data
+/// @param fromWiFi If true the message comes from a WiFi connection
 void processData(uint8_t* data, uint length, bool fromWiFi)
 {
     for(uint pos = 0; pos < length; pos++)
@@ -208,7 +219,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                             else if(req->triggerType == 2) //start fast trigger capture
                                 started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
                             else //Start simple trigger capture
-                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         #else
 
@@ -301,6 +312,44 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
     //have any data, but the capture request has a CAPTURE_REQUEST struct as data.
 }
 
+/// @brief Transfer a buffer of data through USB using the TinyUSB CDC functions
+/// @param data Buffer of data to transfer
+/// @param len Length of the buffer
+void cdc_transfer(unsigned char* data, int len)
+{
+
+    int left = len;
+    int pos = 0;
+
+    while(left > 0)
+    {
+        int avail = (int) tud_cdc_write_available();
+
+        if(avail > left)
+            avail = left;
+
+        if(avail)
+        {
+            int transferred = (int) tud_cdc_write(data + pos, avail);
+            tud_task();
+            tud_cdc_write_flush();
+            
+            pos += transferred;
+            left -= transferred;
+        }
+        else
+        {
+            tud_task();
+            tud_cdc_write_flush();
+            if (!tud_cdc_connected())
+                break;
+        }
+    }
+}
+
+/// @brief Receive and process USB data from the host application
+/// @param skipProcessing If true the received data is not processed (used for cleanup)
+/// @return True if anything is received, false if not
 bool processUSBInput(bool skipProcessing)
 {
     //Try to get char
@@ -321,11 +370,14 @@ bool processUSBInput(bool skipProcessing)
 
 #ifdef USE_CYGW_WIFI
 
+/// @brief Purges any pending data in the USB input
 void purgeUSBData()
 {
     while(getchar_timeout_us(0) != PICO_ERROR_TIMEOUT);
 }
 
+/// @brief Callback for the WiFi event queue
+/// @param event Received event
 void wifiEvent(void* event)
 {
     EVENT_FROM_WIFI* wEvent = (EVENT_FROM_WIFI*)event;
@@ -353,6 +405,9 @@ void wifiEvent(void* event)
     }
 }
 
+/// @brief Receives and processes input from the host application (when connected through WiFi)
+/// @param skipProcessing /// @param skipProcessing If true the received data is not processed (used for cleanup)
+/// @return True if anything is received, false if not
 bool processWiFiInput(bool skipProcessing)
 {
     bool res = event_has_events(&wifiToFrontend);
@@ -372,6 +427,7 @@ bool processWiFiInput(bool skipProcessing)
 
 #endif
 
+/// @brief Process input data from the host application if it is available
 void processInput()
 {
     #ifdef USE_CYGW_WIFI
@@ -384,6 +440,8 @@ void processInput()
     #endif
 }
 
+/// @brief Processes input data from the host application to check if there is any cancel capture request
+/// @return True if there was input data
 bool processCancel()
 {
     #ifdef USE_CYGW_WIFI
@@ -397,6 +455,8 @@ bool processCancel()
     #endif
 }
 
+/// @brief Main app loop
+/// @return Exit code
 int main()
 {
     //Overclock Powerrrr!
@@ -454,18 +514,10 @@ int main()
                         event_push(&frontendToWifi, &evt);
                     }
                     else
-                    {   
-                        putchar_raw(lengthPointer[0]);
-                        putchar_raw(lengthPointer[1]);
-                        putchar_raw(lengthPointer[2]);
-                        putchar_raw(lengthPointer[3]);
-                    }
+                        cdc_transfer(lengthPointer, 4);
 
                 #else
-                    putchar_raw(lengthPointer[0]);
-                    putchar_raw(lengthPointer[1]);
-                    putchar_raw(lengthPointer[2]);
-                    putchar_raw(lengthPointer[3]);
+                    cdc_transfer(lengthPointer, 4);
                 #endif
 
                 sleep_ms(100);
@@ -513,23 +565,24 @@ int main()
                     }
                     else
                     {
-                        for(int buc = 0; buc < length; buc++)
+                        if(first + length > CAPTURE_BUFFER_SIZE)
                         {
-                            putchar_raw(buffer[first++]);
-
-                            if(first >= 131072)
-                                first = 0;
+                            cdc_transfer(buffer + first, CAPTURE_BUFFER_SIZE - first);
+                            cdc_transfer(buffer, (first + length) - CAPTURE_BUFFER_SIZE);
                         }
+                        else
+                            cdc_transfer(buffer + first, length);
                     }
                 #else
-                    //Send the samples
-                    for(int buc = 0; buc < length; buc++)
-                    {
-                        putchar_raw(buffer[first++]);
 
-                        if(first >= 131072)
-                            first = 0;
+                    if(first + length > CAPTURE_BUFFER_SIZE)
+                    {
+                        cdc_transfer(buffer + first, CAPTURE_BUFFER_SIZE - first);
+                        cdc_transfer(buffer, (first + length) - CAPTURE_BUFFER_SIZE);
                     }
+                    else
+                        cdc_transfer(buffer + first, length);
+
                 #endif
                 //Done!
                 capturing = false;

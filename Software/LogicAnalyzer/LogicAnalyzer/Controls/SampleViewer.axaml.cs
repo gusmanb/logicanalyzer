@@ -16,6 +16,7 @@ namespace LogicAnalyzer.Controls
         const int MIN_CHANNEL_HEIGHT = 48;
 
         public int PreSamples { get; set; }
+        public int[]? Bursts { get; set; }
         public UInt128[] Samples { get; set; }
         public int ChannelCount { get; set; }
         public int SamplesInScreen { get; set; }
@@ -32,7 +33,9 @@ namespace LogicAnalyzer.Controls
         Color sampleLineColor = Color.FromRgb(60, 60, 60);
         Color sampleDashColor = Color.FromArgb(60, 60, 60, 60);
         Color triggerLineColor = Colors.White;
+        Color burstLineColor = Colors.Azure;
         Color userLineColor = Colors.Cyan;
+
         public SampleViewer()
         {
             InitializeComponent();
@@ -101,7 +104,7 @@ namespace LogicAnalyzer.Controls
             {
                 //context.FillRectangle(GraphicObjectsCache.GetBrush(AnalyzerColors.BgChannelColors[0]), thisBounds);
 
-                if (PreSamples == 0 || Samples == null || ChannelCount == 0 || SamplesInScreen == 0 || updating)
+                if (Samples == null || ChannelCount == 0 || SamplesInScreen == 0 || updating)
                     return;
 
                 double channelHeight = thisBounds.Height / (double)ChannelCount;
@@ -147,6 +150,14 @@ namespace LogicAnalyzer.Controls
 
                     if (buc == PreSamples)
                         context.DrawLine(GraphicObjectsCache.GetPen(triggerLineColor, 2), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+
+                    if (Bursts != null)
+                    {
+                        if (Bursts.Any(b => b == buc))
+                        {
+                            context.DrawLine(GraphicObjectsCache.GetPen(burstLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
+                        }
+                    }
 
                     if(UserMarker != null && UserMarker == buc)
                         context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));

@@ -10,6 +10,7 @@ namespace SharedDriver
 {
     public class LogicAnalyzerDriver : IDisposable, IAnalizerDriver
     {
+        Regex regVersion = new Regex(".*?(V([0-9]+)_([0-9]+))$");
         Regex regAddressPort = new Regex("([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)\\:([0-9]+)");
         StreamReader readResponse;
         BinaryReader readData;
@@ -74,7 +75,26 @@ namespace SharedDriver
 
             baseStream.ReadTimeout = 10000;
             DeviceVersion = readResponse.ReadLine();
+
+            var verMatch = regVersion.Match(DeviceVersion ?? "");
+
+            if (verMatch == null || !verMatch.Success || !verMatch.Groups[2].Success)
+            {
+                Dispose();
+                throw new DeviceConnectionException($"Invalid device version V{ (string.IsNullOrWhiteSpace(verMatch?.Value) ? "(unknown)" : verMatch?.Value) }, minimum supported version: V5_0");
+            }
+
+            int majorVer = int.Parse(verMatch.Groups[2].Value);
+
+            if (majorVer < 5)
+            {
+                Dispose();
+                throw new DeviceConnectionException($"Invalid device version V{verMatch.Value}, minimum supported version: V5_0");
+            }
+
             baseStream.ReadTimeout = Timeout.Infinite;
+
+
         }
         private void InitNetwork(string AddressPort)
         {
@@ -138,7 +158,7 @@ namespace SharedDriver
 
             return false;
         }
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
@@ -159,25 +179,27 @@ namespace SharedDriver
 
             var captureMode = GetCaptureMode(Channels);
 
+            int requestedSamples = PreSamples + (PostSamples * ((byte)LoopCount + 1));
+
             try
             {
                 switch (captureMode)
                 {
                     case 0:
 
-                        if (PreSamples > 98303 || PostSamples > 131069 || PreSamples + PostSamples > 131071)
+                        if (PreSamples > 98303 || PostSamples > 131069 || requestedSamples > 131071)
                             return CaptureError.BadParams;
                         break;
 
                     case 1:
 
-                        if (PreSamples > 49151 || PostSamples > 65533 || PreSamples + PostSamples > 65535)
+                        if (PreSamples > 49151 || PostSamples > 65533 || requestedSamples > 65535)
                             return CaptureError.BadParams;
                         break;
 
                     case 2:
 
-                        if (PreSamples > 24576 || PostSamples > 32765 || PreSamples + PostSamples > 32767)
+                        if (PreSamples > 24576 || PostSamples > 32765 || requestedSamples > 32767)
                             return CaptureError.BadParams;
                         break;
                 }
@@ -197,6 +219,7 @@ namespace SharedDriver
                     frequency = (uint)Frequency,
                     preSamples = (uint)PreSamples,
                     postSamples = (uint)PostSamples,
+                    loopCount = (byte)LoopCount,
                     captureMode = captureMode
                 };
 
@@ -217,7 +240,7 @@ namespace SharedDriver
                 if (result == "CAPTURE_STARTED")
                 {
                     capturing = true;
-                    Task.Run(() => ReadCapture(PreSamples + PostSamples, captureMode));
+                    Task.Run(() => ReadCapture(requestedSamples, captureMode));
                     return CaptureError.None;
                 }
                 return CaptureError.HardwareError;
@@ -547,6 +570,7 @@ namespace SharedDriver
             public UInt32 frequency;
             public UInt32 preSamples;
             public UInt32 postSamples;
+            public byte loopCount;
             public byte captureMode;
         }
 

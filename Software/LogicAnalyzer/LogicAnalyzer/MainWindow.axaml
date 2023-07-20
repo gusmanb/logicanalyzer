@@ -46,8 +46,10 @@
       </TextBlock>
       <controls:SampleMarker Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" Background="Transparent" Name="sampleMarker"></controls:SampleMarker>
     </Grid>
+
     
     <ScrollBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Bottom" Name="scrSamplePos" AllowAutoHide="False"></ScrollBar>
+    <controls:SamplePreviewer IsVisible="False" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="144" ZIndex="1000" Name="samplePreviewer" DockPanel.Dock="Bottom" Margin="0,-144,0,0"></controls:SamplePreviewer>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="*,240" DockPanel.Dock="Bottom">
       <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid ColumnDefinitions="140,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

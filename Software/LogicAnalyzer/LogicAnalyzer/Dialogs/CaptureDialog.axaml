@@ -158,7 +158,12 @@
               <RadioButton Name="rbTrigger23"></RadioButton>
               <RadioButton Name="rbTrigger24"></RadioButton>
             </StackPanel>
-            <CheckBox Name="ckNegativeTrigger" Margin="10,0,0,10">Negative edge</CheckBox>
+            <StackPanel Orientation="Horizontal">
+              <CheckBox Name="ckNegativeTrigger" Margin="10,0,0,10">Negative edge</CheckBox>
+              <CheckBox Name="ckBurst" Margin="20,0,0,10">Burst mode</CheckBox>
+              <TextBlock Margin="20,10,0,10">Burst count:</TextBlock>
+              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="10000" Value="2" Name="nudBurstCount"></NumericUpDown>
+            </StackPanel>
           </StackPanel>
           <RadioButton Margin="15,0,0,0" Name="rbTriggerTypePattern">Pattern trigger</RadioButton>
           <StackPanel Name="pnlPatternTrigger" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030">

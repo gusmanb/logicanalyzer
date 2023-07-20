@@ -180,8 +180,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     if (opts.Trigger.TriggerType == CLTriggerType.Edge)
     {
         Console.WriteLine("Starting edge triggered capture...");
-        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples, opts.LoopCount < 2 ? 0 : opts.LoopCount - 1, nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
