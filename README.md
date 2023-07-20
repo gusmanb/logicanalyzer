@@ -4,7 +4,26 @@
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
-Latest version: Release 4.0.0.0, 25/02/2023
+Latest version: Release 4.5.1.0, 28/06/2023
+
+----
+
+## UPDATE 28/06/2023 - Release 4.5.1 - QOL improvements
+
+This release include some QOL updates to the applications.
+
+LogicAnalyzer app:
+
+* Ammount of on-screen samples will be preserved if you repeat the last capture.
+* Added a new menu entry called "Repeat las analysis" to the protocol analyzers, it will execute the last analysis performed to speed up things.
+* Changed where config files are stored, they will use the %appData% folder now ($home/.config in Linux).
+* Changed horizontal scrollbar visibility.
+
+CLCapture app:
+
+* Now channel names can be provided from the command line.
+
+Have fun!
 
 ----
 
