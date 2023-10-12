@@ -31,7 +31,7 @@ namespace I2CProtocolAnalyzer
         {
             get
             {
-                return new ProtocolAnalyzerSignal[] 
+                return new ProtocolAnalyzerSignal[]
                 {
                     new ProtocolAnalyzerSignal{ Required = true, SignalName = "SCL" },
                     new ProtocolAnalyzerSignal{ Required = true, SignalName = "SDA" },
@@ -79,16 +79,16 @@ namespace I2CProtocolAnalyzer
                 {
                     addressByte = false;
 
-                    segment.Value += $"\r\nOp: {((value & 1) == 1 ? "Read" : "Write") }";
+                    segment.Value += $"\r\nOp: {((value & 1) == 1 ? "Read" : "Write")}";
 
-                    if ((value & 0xf8) == 0xf7)
+                    if ((value & 0xf8) == 0xf0)
                     {
                         address10 = true;
                         firstAddressByte = value;
                     }
                     else
                         segment.Value += $"\r\nAddress (7b): 0x{(value >> 1).ToString("X2")}";
-                    
+
                 }
                 else if (address10)
                 {
@@ -105,7 +105,7 @@ namespace I2CProtocolAnalyzer
                 if (pos == -1)
                     break;
 
-                if(foundStartStop)
+                if (foundStartStop)
                     segments.Add(new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = isStart ? "START" : "STOP" });
 
                 if (foundStartStop && !isStart)
@@ -216,7 +216,7 @@ namespace I2CProtocolAnalyzer
 
         private int ReadByte(int pos, ProtocolAnalyzerSelectedChannel scl, ProtocolAnalyzerSelectedChannel sda, out int byteStart, out int byteEnd, out byte value, out bool ack, out bool frameError)
         {
-            byteStart = 0; byteEnd = 0; value = 0; ack = false; frameError= false;
+            byteStart = 0; byteEnd = 0; value = 0; ack = false; frameError = false;
 
             while (pos < scl.Samples.Length && scl.Samples[pos] == 1) //Find next low clock
                 pos++;
