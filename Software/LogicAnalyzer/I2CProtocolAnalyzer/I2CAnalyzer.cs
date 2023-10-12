@@ -81,7 +81,7 @@ namespace I2CProtocolAnalyzer
 
                     segment.Value += $"\r\nOp: {((value & 1) == 1 ? "Read" : "Write")}";
 
-                    if ((value & 0xf8) == 0xf7)
+                    if ((value & 0xf8) == 0xf0)
                     {
                         address10 = true;
                         firstAddressByte = value;
