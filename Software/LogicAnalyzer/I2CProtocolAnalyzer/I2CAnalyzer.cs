@@ -48,66 +48,143 @@ namespace I2CProtocolAnalyzer
 
             int startPosition;
             int endPosition;
+            string addr = "";
+            string op = "";
+            string addr_space = "";
             byte value;
             bool ack;
             bool frameError;
             bool foundStartStop;
 
+            bool repeatStart = false;
             bool addressByte = true;
             bool address10 = false;
+            bool address10read = false;
             byte firstAddressByte = 0;
 
             int pos = FindStartCondition(0, scl, sda, out startPosition, out endPosition);
 
             if (pos == -1)
+                // If no start is found no further analysis
                 return new ProtocolAnalyzedChannel[0];
 
             segments.Add(new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = $"START" });
 
             while (pos < sda.Samples.Length)
             {
+                // iterate through samples byte by byte
                 pos = ReadByte(pos, scl, sda, out startPosition, out endPosition, out value, out ack, out frameError);
 
+                // no (more) bytes stop processing
                 if (pos == -1)
                     break;
 
+                // Create New Empty Segment
+                var segment = new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = "" };
+
+                // convert byte value to printable ascii or '.'
                 string asciival = value >= 0x20 && value <= 0x7e ? Encoding.ASCII.GetString(new byte[] { (byte)value }) : "·";
 
-                var segment = new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = $"0x{value.ToString("X2")} '{asciival}' <{(ack ? "A" : "N")}{(frameError ? "F" : "")}>" };
 
+                if (address10read)
+                {
+                    address10read = false;
+                    // Check for 10 bit high address pattern
+                    // 0b11110NNN
+                    if ((value & 0xf8) == 0xf0)
+                    {
+                        // current byte is firstAddressByte with read set
+                        if ((firstAddressByte | 1) == value)
+                        {
+                            // Reset addressByte from repeat start
+                            addressByte = false;
+                            op = "Read";
+                            segment.Value += "10b Op Change";
+                            segment.Value += $"\r\nAddress: {addr}";
+                            segment.Value += $" Op: {op}";
+
+                        }
+                        // else This is a new start with a new address
+                    }
+                }
+
+                // Check/Parse address byte(s)
                 if (addressByte)
                 {
                     addressByte = false;
 
-                    segment.Value += $"\r\nOp: {((value & 1) == 1 ? "Read" : "Write")}";
+                    op = (value & 1) == 1 ? "Read" : "Write";
 
+                    // Check 10bit High Byte address mask
+                    // 0x11110NNN
                     if ((value & 0xf8) == 0xf0)
                     {
+                        // Mark for 10 bit second byte address parsing 
                         address10 = true;
                         firstAddressByte = value;
+                        segment.Value += "10b High Addr Byte";
+                        addr_space = "10b";
+                        addr = $">= {((value & 6) >> 1) << 7}";
                     }
                     else
-                        segment.Value += $"\r\nAddress (7b): 0x{(value >> 1).ToString("X2")}";
+                    {
+                        addr = $"0x{value >> 1:X2}";
+                        addr_space = "7b";
+                        // Add 7Bit Address to Segment
+                        // Address (7b): 0x12
+                        segment.Value += $"{addr_space} Address: {addr}";
+                    }
+                    // Add Operation to segment for address Byte
+                    segment.Value += $"\r\nOp: {op}";
 
                 }
+                // Parse 10 bit low address byte
                 else if (address10)
                 {
                     address10 = false;
-                    segment.Value += $"\r\nAddress (10b): {(((firstAddressByte & 6) << 7) | value).ToString("X4")}";
+                    addr = $"0x{((firstAddressByte & 6) << 7) | value:X4}";
+                    // Add 10 bit address to segment using high byte address bits and current byte value
+                    // Address (10b): 0x031A
+                    segment.Value += "10b Low Addr Byte";
+                    segment.Value += $"\r\nAddress: {addr} Op: {op}";
+
+                    // enable check for high address byte repeat with read bit 
+                    address10read = true;
                 }
 
+                if (segment.Value == "")
+                {
+                    // Add Addr Data to Empty Segment
+                    segment.Value += $"{addr_space} {addr}";
+                }
+                // Add Byte Data to Segment
+                // HEX_VALUE 'ASCII_VALUE' <A(CK)/N(ACK)/F(rame Error)>
+                // 0x3A ':' <A>
+                segment.Value += $"\r\n{op}: 0x{value.ToString("X2")} '{asciival}' <{(ack ? "A" : "N")}{(frameError ? "F" : "")}>";
+
+                // Add segment for processed byte
                 segments.Add(segment);
 
                 bool isStart;
 
+                // Search for next start 
                 pos = FindStartStopCondition(pos, scl, sda, out isStart, out startPosition, out endPosition, out foundStartStop);
 
+                // no more start/stop processing complete
+                // TODO: REMOVE? this assumes capture ends with whole transaction? 
                 if (pos == -1)
                     break;
 
                 if (foundStartStop)
-                    segments.Add(new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = isStart ? "START" : "STOP" });
+                {
+                    string start_stop = (repeatStart && isStart) ? "RE-START" : (isStart ? "START" : "STOP");
+                    // Add START/STOP segment
+                    segments.Add(new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = start_stop });
+                    repeatStart = isStart;
+                    addressByte = true;
+                }
 
+                // If last start/stop is not start look for following start 
                 if (foundStartStop && !isStart)
                 {
                     pos = FindStartCondition(pos, scl, sda, out startPosition, out endPosition);
@@ -117,13 +194,13 @@ namespace I2CProtocolAnalyzer
 
                     segments.Add(new ProtocolAnalyzerDataSegment { FirstSample = startPosition, LastSample = endPosition, Value = $"START" });
 
-                    addressByte = true;
                 }
             }
 
             ProtocolAnalyzedChannel channel = new ProtocolAnalyzedChannel("SDA", sda.ChannelIndex, renderer, segments.ToArray(), Colors.White, Color.FromUInt32(0x7f008b8b));
 
-            return new ProtocolAnalyzedChannel[] { channel };
+            return new ProtocolAnalyzedChannel[] { channel
+    };
         }
 
         private int FindStartStopCondition(int pos, ProtocolAnalyzerSelectedChannel scl, ProtocolAnalyzerSelectedChannel sda, out bool isStart, out int startPosition, out int endPosition, out bool found)
