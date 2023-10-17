@@ -98,10 +98,11 @@ namespace I2CProtocolAnalyzer
                         {
                             // Reset addressByte from repeat start
                             addressByte = false;
-                            op = "Read";
                             segment.Value += "10b Op Change";
                             segment.Value += $"\r\nAddress: {addr}";
                             segment.Value += $" Op: {op}";
+                            // Don't change op until after adding current segment value
+                            op = "Read";
 
                         }
                         // else This is a new start with a new address
