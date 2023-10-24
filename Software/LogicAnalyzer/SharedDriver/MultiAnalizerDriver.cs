@@ -29,6 +29,10 @@ namespace SharedDriver
         private int preSamples;
 
         private Action<CaptureEventArgs>? currentCaptureHandler;
+
+        public bool IsCapturing { get { return capturing; } }
+        public bool IsNetwork { get { return false; } }
+
         public string DeviceVersion { get; private set; }
         public AnalyzerDriverType DriverType
         {
@@ -237,6 +241,12 @@ namespace SharedDriver
             var mode = GetCaptureMode(Channels);
             return CaptureModes.Modes[mode];
         }
+
+        public string? GetVoltageStatus()
+        {
+            return "UNSUPPORTED";
+        }
+
         private void Dev_CaptureCompleted(object? sender, CaptureEventArgs e)
         {
             lock(locker) 

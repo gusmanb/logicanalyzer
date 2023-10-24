@@ -12,34 +12,17 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Text.Json;
 using static System.Environment;
+using LogicAnalyzer.Classes;
 
 namespace LogicAnalyzer.Extensions
 {
     public static class WindowExtensions
     {
-
-        static string BasePath { get { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) ?? ""; } }
-
-        static JsonSerializerSettings jSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-
-        public static string GetFilePath(string FileName) 
-        {
-            string appData = Path.Combine(Environment.GetFolderPath(SpecialFolder.ApplicationData, SpecialFolderOption.DoNotVerify), "LogicAnalyzer");
-            Directory.CreateDirectory(appData);
-            return Path.Combine(appData, FileName); 
-        }
-
         static AppConfig config;
         static WindowExtensions()
         {
-
-            string path = GetFilePath("AppConfig.json");
-
-            if (File.Exists(path))
-                config = JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText(path),  jSettings);
-
-            if(config == null)
-                config = new AppConfig();
+            var cfg = AppSettingsManager.GetSettings<AppConfig>("AppConfig.json");
+            config = cfg ?? new AppConfig();
         }
         public static void FixStartupPosition(this Window windowToFix)
         {
@@ -122,7 +105,7 @@ namespace LogicAnalyzer.Extensions
 
             config.WindowSettings[Window.GetType().FullName] = settings;
 
-            PersistSettings();
+            AppSettingsManager.PersistSettings("AppConfig.json", config);
         }
         public static bool RestoreSettings(this Window Window, IEnumerable<string> Properties) 
         {
@@ -143,12 +126,6 @@ namespace LogicAnalyzer.Extensions
             }
 
             return true;
-        }
-        private static void PersistSettings()
-        {
-            string path = GetFilePath("AppConfig.json");
-
-            File.WriteAllText(path, JsonConvert.SerializeObject(config, Formatting.Indented, jSettings));
         }
         private static object GetPropertyValue(object Source, string PropertyName)
         {

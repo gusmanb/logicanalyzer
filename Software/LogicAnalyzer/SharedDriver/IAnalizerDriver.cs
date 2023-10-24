@@ -9,6 +9,8 @@ namespace SharedDriver
     public interface IAnalizerDriver : IDisposable
     {
         public string? DeviceVersion { get; }
+        public bool IsCapturing { get; }
+        public bool IsNetwork { get; }
         public AnalyzerDriverType DriverType { get; }
         public int Channels { get; }
         public event EventHandler<CaptureEventArgs> CaptureCompleted;
@@ -17,6 +19,8 @@ namespace SharedDriver
         public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public bool StopCapture();
         public CaptureLimits GetLimits(int[] Channels);
+
+        public string? GetVoltageStatus();
     }
 
     public class CaptureEventArgs : EventArgs

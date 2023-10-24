@@ -24,7 +24,12 @@
       <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
         <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
       </MenuItem>
-      </Menu>
+      <MenuItem Header="Help">
+        <MenuItem Header="Online documentation" Name="mnuDocs" />
+        <Separator/>
+        <MenuItem Header="About LogicAnalyzer" Name="mnuAbout" />
+      </MenuItem>
+    </Menu>
     <Grid DockPanel.Dock="Top" Height="48" ColumnDefinitions="*,*" Background="#80303030">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Column="0" Margin="10,0,0,0">
         <Button Name="btnRefresh">Refresh</Button>
@@ -57,7 +62,7 @@
           <controls:SampleViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="sampleViewer" Grid.Column="1"></controls:SampleViewer>
         </Grid>
       </ScrollViewer>
-      <Panel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#ff303030">
+      <Panel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#ff202020">
         <Grid DockPanel.Dock="Top" RowDefinitions="*,*,2*,*,2*,*" ColumnDefinitions="*,4*,*" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5" Background="#80383838">
           <TextBlock Grid.ColumnSpan="2" Margin="10">
             Adjustments
@@ -79,9 +84,7 @@
             </StackPanel>
           </StackPanel>
         </Grid>
-        <Panel VerticalAlignment="Stretch" Margin="0,180,0,180" Background="Black">
-          <Image Source="/Assets/Logo40.png" VerticalAlignment="Center"></Image>
-        </Panel>
+        <Image Source="/Assets/Logo40.png" VerticalAlignment="Center"></Image>
         <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5" Background="#80383838">
           <TextBlock Margin="5,2,5,2">
             Information
@@ -127,6 +130,15 @@
               - Value:
             </TextBlock>
             <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblValue"></TextBlock>
+          </Panel>
+          <Panel Name="pnlPower" IsVisible="False">
+            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+              - Power status:
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+              <Image Margin="5,2,5,2" Name="imgPowerSource" Width="16" Height="16" HorizontalAlignment="Right" Source="/Assets/plug.png"></Image>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblVoltage">3.38v</TextBlock>
+            </StackPanel>
           </Panel>
         </StackPanel>
       </Panel>

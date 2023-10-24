@@ -1,7 +1,11 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using Avalonia.Shared.PlatformSupport;
 using Avalonia.Threading;
 using AvaloniaEdit.Utils;
 using LogicAnalyzer.Classes;
@@ -16,11 +20,14 @@ using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -28,7 +35,7 @@ namespace LogicAnalyzer
 {
     public partial class MainWindow : PersistableWindowBase
     {
-        IAnalizerDriver driver;
+        IAnalizerDriver? driver;
         CaptureSettings settings;
 
         ProtocolAnalyzerLoader pLoader;
@@ -41,7 +48,7 @@ namespace LogicAnalyzer
         AnalysisSettings? analysisSettings;
 
         bool preserveSamples = false;
-
+        Timer tmrPower;
         public MainWindow()
         {
             Instance = this;
@@ -73,11 +80,67 @@ namespace LogicAnalyzer
             mnuExit.Click += MnuExit_Click;
             mnuExport.Click += MnuExport_Click;
             mnuNetSettings.Click += MnuNetSettings_Click;
-
+            mnuDocs.Click += MnuDocs_Click;
+            mnuAbout.Click += MnuAbout_Click;
             AddHandler(InputElement.KeyDownEvent, MainWindow_KeyDown, handledEventsToo: true);
 
             LoadAnalyzers();
             RefreshPorts();
+
+            tmrPower = new Timer((o) => 
+            {
+                Dispatcher.UIThread.InvokeAsync(() => 
+                {
+                    GetPowerStatus();
+                });
+            });
+        }
+
+        private async void MnuAbout_Click(object? sender, RoutedEventArgs e)
+        {
+            var aboutDialog = new AboutDialog();
+            await aboutDialog.ShowDialog(this);
+        }
+
+        private async void MnuDocs_Click(object? sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenUrl("https://github.com/gusmanb/logicanalyzer/wiki");
+            }
+            catch 
+            { 
+                await this.ShowError("Cannot open page.", "Cannot start the default browser. You can access the online documentation in https://github.com/gusmanb/logicanalyzer/wiki");
+            }
+        }
+
+        private void OpenUrl(string url)
+        {
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         private void MainWindow_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
@@ -713,7 +776,7 @@ namespace LogicAnalyzer
                 mnuExport.IsEnabled = true;
                 mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
                 LoadInfo();
-
+                GetPowerStatus();
             });
         }
 
@@ -725,7 +788,19 @@ namespace LogicAnalyzer
 
         void LoadAnalyzers()
         {
-            pLoader = new ProtocolAnalyzerLoader(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "analyzers"));
+
+            string path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "analyzers");
+
+            if(!Directory.Exists(path))
+                path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Analyzers");
+
+            if (!Directory.Exists(path))
+            {
+                mnuProtocols.Items = new MenuItem[] { new MenuItem { Header = "<- None ->" } };
+                return;
+            }
+
+            pLoader = new ProtocolAnalyzerLoader(path);
 
             var protocols = pLoader.ProtocolNames;
             mnuProtocols.Items = null;
@@ -799,7 +874,19 @@ namespace LogicAnalyzer
             var dlg = new ProtocolAnalyzerSettingsDialog();
             {
                 dlg.Analyzer = analyzer;
-                dlg.Channels = channelViewer.Channels.Select(c => c.ChannelNumber).ToArray();
+                dlg.Channels = channelViewer.Channels.Select(c => 
+                {
+                    var ch = new ProtocolAnalyzerSettingsDialog.Channel 
+                    { 
+                        ChannelIndex = c.ChannelNumber, 
+                        ChannelName = string.IsNullOrWhiteSpace(c.ChannelName) ? 
+                        $"Channel {c.ChannelNumber + 1}" : 
+                        c.ChannelName 
+                    };
+
+                    return ch; 
+                
+                }).ToArray();
 
                 if (await dlg.ShowDialog<bool>(this) != true)
                     return;
@@ -892,6 +979,7 @@ namespace LogicAnalyzer
                 btnCapture.IsEnabled = true;
                 btnRepeat.IsEnabled = true;
                 mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+                tmrPower.Change(30000, Timeout.Infinite);
             }
             else
             {
@@ -905,9 +993,48 @@ namespace LogicAnalyzer
                 btnCapture.IsEnabled = false;
                 btnRepeat.IsEnabled = false;
                 mnuSettings.IsEnabled = false;
+                tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
             }
+
+            GetPowerStatus();
         }
 
+        void GetPowerStatus()
+        {
+            if (driver == null || !driver.IsNetwork)
+            {
+                pnlPower.IsVisible = false;
+                return;
+            }
+
+            if(driver.IsCapturing)
+                return;
+
+            var powerStatus = driver.GetVoltageStatus();
+
+            if (string.IsNullOrWhiteSpace(powerStatus) || powerStatus == "UNSUPPORTED")
+            {
+                pnlPower.IsVisible = false;
+                return;
+            }
+
+            string[] parts = powerStatus.Split("_");
+
+            if(parts.Length == 2 ) 
+            {
+                lblVoltage.Text = parts[0];
+
+                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                using var str = assets.Open(new Uri(parts[1] == "1" ? "avares://LogicAnalyzer/Assets/plug.png" : "avares://LogicAnalyzer/Assets/battery.png"));
+                Bitmap bmp = new Bitmap(str);
+                var oldSrc = imgPowerSource.Source;
+                imgPowerSource.Source = bmp;
+                pnlPower.IsVisible = true;
+                if (oldSrc is IDisposable)
+                    ((IDisposable)oldSrc).Dispose();
+            }
+                    
+        }
         private void btnRefresh_Click(object? sender, RoutedEventArgs e)
         {
             RefreshPorts();
@@ -934,13 +1061,26 @@ namespace LogicAnalyzer
         {
             var dialog = new CaptureDialog();
             dialog.Initialize(driver);
-
             if (!await dialog.ShowDialog<bool>(this))
                 return;
 
             settings = dialog.SelectedSettings;
             preserveSamples = false;
-            BeginCapture();
+            
+            tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
+
+            try
+            {
+                BeginCapture();
+
+                var settingsFile = $"cpSettings{driver.DriverType}.json";
+                AppSettingsManager.PersistSettings(settingsFile, settings);
+
+            }
+            finally 
+            { 
+                tmrPower.Change(30000, Timeout.Infinite); 
+            }
 
         }
 

@@ -326,9 +326,9 @@ namespace SPIProtocolAnalyzer
                 if (csChannel.Samples[buc] == 0)
                 {
                     if (underConstruction == null)
-                        underConstruction = new ActiveRange { FirstSample = buc };
+                        underConstruction = new ActiveRange { FirstSample = buc, LastSample = buc };
                     else
-                        continue;
+                        underConstruction.LastSample = buc;
                 }
                 else
                 {
@@ -340,6 +340,12 @@ namespace SPIProtocolAnalyzer
                     underConstruction = null;
                 }
 
+            }
+
+            if (underConstruction != null)
+            {
+                ranges.Add(underConstruction);
+                underConstruction = null;
             }
 
             return ranges;

@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using LogicAnalyzer.Classes;
 using LogicAnalyzer.Extensions;
 using MessageBox.Avalonia;
 using System;
@@ -18,6 +19,14 @@ namespace LogicAnalyzer.Dialogs
             InitializeComponent();
             btnAccept.Click += BtnAccept_Click;
             btnCancel.Click += BtnCancel_Click;
+
+            var settings = AppSettingsManager.GetSettings<NetworkConnectionSettings>("NetConnection.json");
+
+            if (settings != null)
+            {
+                txtAddress.Text = settings.Address;
+                nudPort.Value = settings.Port;
+            }
         }
         protected override void OnOpened(EventArgs e)
         {
@@ -36,10 +45,24 @@ namespace LogicAnalyzer.Dialogs
                 await this.ShowError("Invalid address", "The specified address is not in the correct format.");
                 return;
             }
+            NetworkConnectionSettings settings = new NetworkConnectionSettings
+            {
+                Address = txtAddress.Text,
+                Port = (ushort)nudPort.Value
+            };
+
+            AppSettingsManager.PersistSettings("NetConnection.json", settings);
+            
             this.Address = txtAddress.Text;
             this.Port = (ushort)nudPort.Value;
             this.Close(true);
         }
 
+    }
+
+    public class NetworkConnectionSettings
+    {
+        public string? Address { get; set; }
+        public ushort Port { get; set; }
     }
 }

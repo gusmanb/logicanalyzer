@@ -10,6 +10,9 @@ namespace SharedDriver
     {
         int deviceCount;
 
+        public bool IsConnected => false;
+        public bool IsCapturing => false;
+        public bool IsNetwork => false;
         public EmulatedAnalizerDriver(int DeviceCount)
         {
             deviceCount = DeviceCount;
@@ -70,6 +73,11 @@ namespace SharedDriver
         public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, ushort TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             throw new NotSupportedException();
+        }
+
+        public string? GetVoltageStatus()
+        {
+            return "UNSUPPORTED";
         }
 
         public bool StopCapture()

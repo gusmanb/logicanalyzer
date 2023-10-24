@@ -1,4 +1,5 @@
 ﻿using System.IO.Ports;
+using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
@@ -19,6 +20,9 @@ namespace SharedDriver
         TcpClient tcpClient;
         string devAddr;
         ushort devPort;
+
+        public bool IsCapturing { get { return capturing; } }
+        public bool IsNetwork { get { return isNetwork; } }
 
         public object Tag { get; set; }
         public string? DeviceVersion { get; private set; }
@@ -448,6 +452,24 @@ namespace SharedDriver
         {
             var mode = GetCaptureMode(Channels);
             return CaptureModes.Modes[mode];
+        }
+
+        public string? GetVoltageStatus() 
+        {
+            if(!isNetwork)
+                return "UNSUPPORTED";
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(3);
+
+            baseStream.Write(pack.Serialize());
+            baseStream.Flush();
+
+            baseStream.ReadTimeout = Timeout.Infinite;
+            var result = readResponse.ReadLine();
+            baseStream.ReadTimeout = Timeout.Infinite;
+
+            return result;
         }
 
         public void Dispose()

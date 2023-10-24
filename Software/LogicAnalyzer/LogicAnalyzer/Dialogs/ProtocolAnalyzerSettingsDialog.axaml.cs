@@ -19,8 +19,8 @@ namespace LogicAnalyzer.Dialogs
         ProtocolAnalyzerBase analyzer;
         public ProtocolAnalyzerBase Analyzer { get { return analyzer; } set { analyzer = value; LoadControls(); } }
 
-        int[] channels;
-        public int[] Channels { get { return channels; } set { channels = value; LoadControls(); } }
+        Channel[] channels;
+        public Channel[] Channels { get { return channels; } set { channels = value; LoadControls(); } }
 
 
         public ProtocolAnalyzerSettingsDialog()
@@ -54,7 +54,7 @@ namespace LogicAnalyzer.Dialogs
 
                 channelsSource.Add("< None >");
 
-                channelsSource.AddRange(channels.Select(c => $"Channel {c + 1}"));
+                channelsSource.AddRange(channels.Select(c => c.ChannelName));
 
                 for (int buc = 0; buc < signals.Length; buc++)
                 {
@@ -219,7 +219,6 @@ namespace LogicAnalyzer.Dialogs
             }
 
             return settingsValues.ToArray();
-
         }
 
         ProtocolAnalyzerSelectedChannel[]? ComposeChannels()
@@ -237,6 +236,9 @@ namespace LogicAnalyzer.Dialogs
 
                 if (list == null)
                     return null;
+
+                if (list.SelectedIndex == -1)
+                    continue;
 
                 selectedChannels.Add(new ProtocolAnalyzerSelectedChannel
                 {
@@ -258,6 +260,12 @@ namespace LogicAnalyzer.Dialogs
             SelectedSettings = ComposeSettings();
             SelectedChannels = ComposeChannels();
             this.Close(true);
+        }
+
+        public class Channel
+        {
+            public required int ChannelIndex { get; set; }
+            public required string ChannelName { get; set; }
         }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "CLCapture": {
       "commandName": "Project",
-      "commandLineArgs": "capture COM9 1000000 1:SDA,2:SDB,3:SDC_A,4:nana,5,6,7,8 20 20000 TriggerType:Edge,Channel:1,Value:0 test.csv"
+      "commandLineArgs": "capture COM9 1000000 1:SDA,2:SDB,3:SDC_A,4:nana,5,6,7,8 512 1000 5 TriggerType:Edge,Channel:1,Value:1 test.csv"
     }
   }
 }

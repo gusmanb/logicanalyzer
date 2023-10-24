@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>C:\Users\geniw\source\repos\LogicAnalyzer\LogicAnalyzer\Properties\PublishProfiles\Linux.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>C:\Users\geniw\source\repos\LogicAnalyzer\LogicAnalyzer\Properties\PublishProfiles\Windows.pubxml</_LastSelectedProfileId>
     <ActiveDebugProfile>LogicAnalyzer</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

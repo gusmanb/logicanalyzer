@@ -142,58 +142,11 @@ namespace LogicAnalyzer.Dialogs
 
         private void LoadSettings(AnalyzerDriverType DriverType)
         {
-            settingsFile = WindowExtensions.GetFilePath($"cpSettings{DriverType}.json");
+            settingsFile = $"cpSettings{DriverType}.json";
+            CaptureSettings? settings = AppSettingsManager.GetSettings<CaptureSettings>(settingsFile);
 
-            if (File.Exists(settingsFile))
+            if (settings != null)
             {
-                string data = File.ReadAllText(settingsFile);
-
-                CaptureSettings? settings = null; 
-                
-                try
-                {
-                    settings = JsonConvert.DeserializeObject<CaptureSettings>(data);
-                }
-                catch { }
-
-                if (settings == null)
-                {
-                    try
-                    {
-                        var oldset = JsonConvert.DeserializeObject<OldCaptureSettings>(data);
-
-                        if (oldset != null)
-                        {
-                            CaptureChannel[] channels = new CaptureChannel[oldset.CaptureChannels.Length];
-                            for (int buc = 0; buc < channels.Length; buc++)
-                                channels[buc] = new CaptureChannel
-                                {
-                                    ChannelName = (oldset.ChannelTexts?.Length ?? 0) > buc ? oldset.ChannelTexts[buc] : "",
-                                    ChannelNumber = (int)oldset.CaptureChannels[buc]
-                                };
-
-                            settings = new CaptureSettings
-                            {
-                                CaptureChannels = channels,
-                                Frequency = oldset.Frequency,
-                                PostTriggerSamples = oldset.PostTriggerSamples,
-                                PreTriggerSamples = oldset.PreTriggerSamples,
-                                LoopCount = 0,
-                                TriggerBitCount = oldset.TriggerBitCount,
-                                TriggerChannel = oldset.TriggerChannel,
-                                TriggerInverted = oldset.TriggerInverted,
-                                TriggerPattern = oldset.TriggerPattern,
-                                TriggerType = oldset.TriggerType
-                            };
-                        }
-
-                    }
-                    catch { }
-
-                    if (settings == null)
-                        return;
-                }
-
                 nudFrequency.Value = settings.Frequency;
                 nudPreSamples.Value = settings.PreTriggerSamples;
                 nudPostSamples.Value = settings.PostTriggerSamples;
@@ -218,7 +171,7 @@ namespace LogicAnalyzer.Dialogs
                             triggerChannels[settings.TriggerChannel].IsChecked = true;
                             ckNegativeTrigger.IsChecked = settings.TriggerInverted;
                             ckBurst.IsChecked = settings.LoopCount > 0;
-                            nudBurstCount.Value = settings.LoopCount > 0 ? settings.LoopCount : 1;
+                            nudBurstCount.Value = settings.LoopCount > 0 ? settings.LoopCount + 1 : 2;
 
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
