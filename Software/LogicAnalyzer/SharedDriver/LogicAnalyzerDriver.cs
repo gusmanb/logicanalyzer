@@ -456,7 +456,9 @@ namespace SharedDriver
 
         public string? GetVoltageStatus() 
         {
-            if(!isNetwork)
+            return "UNSUPPORTED";
+
+            if (!isNetwork)
                 return "UNSUPPORTED";
 
             OutputPacket pack = new OutputPacket();
