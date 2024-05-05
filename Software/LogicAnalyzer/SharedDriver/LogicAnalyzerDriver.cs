@@ -84,27 +84,10 @@ namespace SharedDriver
             baseStream.ReadTimeout = 10000;
             DeviceVersion = readResponse.ReadLine();
 
-            var verMatch = regVersion.Match(DeviceVersion ?? "");
-
-            if (verMatch == null || !verMatch.Success || !verMatch.Groups[2].Success)
+            if (!ValidateVersion())
             {
                 Dispose();
-                throw new DeviceConnectionException($"Invalid device version V{ (string.IsNullOrWhiteSpace(verMatch?.Value) ? "(unknown)" : verMatch?.Value) }, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
-            }
-
-            int majorVer = int.Parse(verMatch.Groups[2].Value);
-            int minorVer = int.Parse(verMatch.Groups[3].Value);
-
-            if (majorVer < MAJOR_VERSION)
-            {
-                Dispose();
-                throw new DeviceConnectionException($"Invalid device version V{verMatch.Value}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
-            }
-
-            if (majorVer == MAJOR_VERSION && minorVer < MINOR_VERSION)
-            {
-                Dispose();
-                throw new DeviceConnectionException($"Invalid device version V{verMatch.Value}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
+                throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
             }
 
             baseStream.ReadTimeout = Timeout.Infinite;
@@ -139,10 +122,38 @@ namespace SharedDriver
 
             baseStream.ReadTimeout = 10000;
             DeviceVersion = readResponse.ReadLine();
+            
+            if (!ValidateVersion())
+            {
+                Dispose();
+                throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
+            }
+            
             baseStream.ReadTimeout = Timeout.Infinite;
-
+            
             isNetwork = true;
         }
+
+        private bool ValidateVersion()
+        {
+            var verMatch = regVersion.Match(DeviceVersion ?? "");
+
+            if (verMatch == null || !verMatch.Success || !verMatch.Groups[2].Success)
+                return false;
+
+            int majorVer = int.Parse(verMatch.Groups[2].Value);
+            int minorVer = int.Parse(verMatch.Groups[3].Value);
+
+            if (majorVer < MAJOR_VERSION)
+                return false;
+
+            if (majorVer == MAJOR_VERSION && minorVer < MINOR_VERSION)
+                return false;
+
+            return true;
+            
+        }
+
         public unsafe bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port)
         {
             if(isNetwork) 
@@ -525,7 +536,6 @@ namespace SharedDriver
             readData = null;
             readData = null;
 
-            DeviceVersion = null;
             CaptureCompleted = null;
         }
       
