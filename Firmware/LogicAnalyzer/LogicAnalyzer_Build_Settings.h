@@ -1,7 +1,7 @@
 #ifndef __BUILD_SETTINGS__
     #define __BUILD_SETTINGS__
 
-    #define FIRMWARE_VERSION "V5_0"
+    #define FIRMWARE_VERSION "V5_1"
 
     //Select the board type to build the firmware for
     #define BUILD_PICO

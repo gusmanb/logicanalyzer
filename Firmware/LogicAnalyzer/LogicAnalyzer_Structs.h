@@ -66,7 +66,8 @@
             CYW_READY,
             CONNECTED,
             DISCONNECTED,
-            DATA_RECEIVED
+            DATA_RECEIVED,
+            POWER_STATUS_DATA
 
         } WIFI_EVENT;
 
@@ -75,7 +76,8 @@
             LED_ON,
             LED_OFF,
             CONFIG_RECEIVED,
-            SEND_DATA
+            SEND_DATA,
+            GET_POWER_STATUS
 
         } FRONTEND_EVENT;
 
@@ -94,6 +96,13 @@
             uint8_t dataLength;
 
         } EVENT_FROM_FRONTEND;
+
+        typedef struct _POWER_STATUS
+        {
+            float vsysVoltage;
+            bool vbusConnected;
+
+        } POWER_STATUS;
 
     #endif
 

@@ -18,6 +18,7 @@
         } WIFI_STATE_MACHINE;
 
         void runWiFiCore();
+        bool getVsysState();
     #endif
 
 #endif

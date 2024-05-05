@@ -13,13 +13,14 @@
       "type": "cortex-debug",
       "servertype": "openocd",
       "gdbPath": "arm-none-eabi-gdb",
+      "openOCDLaunchCommands": ["adapter speed 5000"],
       "device": "RP2040",
       "configFiles": [
-        "interface/picoprobe.cfg",
+        "interface/cmsis-dap.cfg",
         "target/rp2040.cfg"
         ],
       "svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
-      "runToMain": true,
+      "runToEntryPoint": "main",
       // Give restart the same functionality as runToMain
       "postRestartCommands": [
           "break main",

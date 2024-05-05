@@ -153,6 +153,41 @@ void sendResponse(const char* response, bool toWiFi)
         printf(response);
 }
 
+/// @brief Transfer a buffer of data through USB using the TinyUSB CDC functions
+/// @param data Buffer of data to transfer
+/// @param len Length of the buffer
+void cdc_transfer(unsigned char* data, int len)
+{
+
+    int left = len;
+    int pos = 0;
+
+    while(left > 0)
+    {
+        int avail = (int) tud_cdc_write_available();
+
+        if(avail > left)
+            avail = left;
+
+        if(avail)
+        {
+            int transferred = (int) tud_cdc_write(data + pos, avail);
+            tud_task();
+            tud_cdc_write_flush();
+            
+            pos += transferred;
+            left -= transferred;
+        }
+        else
+        {
+            tud_task();
+            tud_cdc_write_flush();
+            if (!tud_cdc_connected())
+                break;
+        }
+    }
+}
+
 /// @brief Processes data received from the host application
 /// @param data The received data
 /// @param length Length of the data
@@ -229,7 +264,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                                 break;
                             }
                             else
-                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         #endif
 
@@ -245,7 +280,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                     
                     #ifdef USE_CYGW_WIFI
 
-                    case 2:
+                    case 2: //Update WiFi settings
 
                         wReq = (WIFI_SETTINGS_REQUEST*)&messageBuffer[3];
                         WIFI_SETTINGS settings;
@@ -277,6 +312,27 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
 
                         sendResponse("SETTINGS_SAVED\n", fromWiFi);
 
+                        break;
+
+                    case 3: //Read power status
+
+                        if(!fromWiFi)
+                            sendResponse("ERR_UNSUPPORTED\n", fromWiFi);
+                        else 
+                        {
+                            EVENT_FROM_FRONTEND powerEvent;
+                            powerEvent.event = GET_POWER_STATUS;
+                            event_push(&frontendToWifi, &powerEvent);
+                        }
+                        
+                        break;
+
+                    #else
+
+                    case 2:
+                    case 3:
+
+                        sendResponse("ERR_UNSUPPORTED\n", fromWiFi);
                         break;
 
                     #endif
@@ -312,41 +368,6 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
     //have any data, but the capture request has a CAPTURE_REQUEST struct as data.
 }
 
-/// @brief Transfer a buffer of data through USB using the TinyUSB CDC functions
-/// @param data Buffer of data to transfer
-/// @param len Length of the buffer
-void cdc_transfer(unsigned char* data, int len)
-{
-
-    int left = len;
-    int pos = 0;
-
-    while(left > 0)
-    {
-        int avail = (int) tud_cdc_write_available();
-
-        if(avail > left)
-            avail = left;
-
-        if(avail)
-        {
-            int transferred = (int) tud_cdc_write(data + pos, avail);
-            tud_task();
-            tud_cdc_write_flush();
-            
-            pos += transferred;
-            left -= transferred;
-        }
-        else
-        {
-            tud_task();
-            tud_cdc_write_flush();
-            if (!tud_cdc_connected())
-                break;
-        }
-    }
-}
-
 /// @brief Receive and process USB data from the host application
 /// @param skipProcessing If true the received data is not processed (used for cleanup)
 /// @return True if anything is received, false if not
@@ -376,6 +397,19 @@ void purgeUSBData()
     while(getchar_timeout_us(0) != PICO_ERROR_TIMEOUT);
 }
 
+/// @brief Send a string response with the power status
+/// @param status Status received from the WiFi core
+void sendPowerStatus(POWER_STATUS* status)
+{
+    char buffer[32];
+    memset(buffer, 0, 32);
+    int len = sprintf(buffer, "%.2f", status->vsysVoltage);
+    buffer[len++] = '_';
+    buffer[len++] = status->vbusConnected ? '1' : '0';
+    buffer[len] = '\n';
+    sendResponse(buffer, true);
+}
+
 /// @brief Callback for the WiFi event queue
 /// @param event Received event
 void wifiEvent(void* event)
@@ -401,6 +435,13 @@ void wifiEvent(void* event)
                 dataFromWiFi = true;
             else
                 processData(wEvent->data, wEvent->dataLength, true);
+            break;
+        case POWER_STATUS_DATA:
+            {
+                POWER_STATUS status;
+                memcpy(&status, wEvent->data, sizeof(POWER_STATUS));
+                sendPowerStatus(&status);
+            }
             break;
     }
 }
@@ -603,7 +644,9 @@ int main()
                 else
                 {
                     LED_ON();
+                    #ifdef SUPPORTS_COMPLEX_TRIGGER
                     check_fast_interrupt();
+                    #endif
                     sleep_ms(1000);
                 }
             }

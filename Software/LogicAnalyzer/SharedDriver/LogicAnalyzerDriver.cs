@@ -11,6 +11,10 @@ namespace SharedDriver
 {
     public class LogicAnalyzerDriver : IDisposable, IAnalizerDriver
     {
+        const int MAJOR_VERSION = 5;
+        const int MINOR_VERSION = 1;
+
+
         Regex regVersion = new Regex(".*?(V([0-9]+)_([0-9]+))$");
         Regex regAddressPort = new Regex("([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)\\:([0-9]+)");
         StreamReader readResponse;
@@ -85,15 +89,22 @@ namespace SharedDriver
             if (verMatch == null || !verMatch.Success || !verMatch.Groups[2].Success)
             {
                 Dispose();
-                throw new DeviceConnectionException($"Invalid device version V{ (string.IsNullOrWhiteSpace(verMatch?.Value) ? "(unknown)" : verMatch?.Value) }, minimum supported version: V5_0");
+                throw new DeviceConnectionException($"Invalid device version V{ (string.IsNullOrWhiteSpace(verMatch?.Value) ? "(unknown)" : verMatch?.Value) }, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
             }
 
             int majorVer = int.Parse(verMatch.Groups[2].Value);
+            int minorVer = int.Parse(verMatch.Groups[3].Value);
 
-            if (majorVer < 5)
+            if (majorVer < MAJOR_VERSION)
             {
                 Dispose();
-                throw new DeviceConnectionException($"Invalid device version V{verMatch.Value}, minimum supported version: V5_0");
+                throw new DeviceConnectionException($"Invalid device version V{verMatch.Value}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
+            }
+
+            if (majorVer == MAJOR_VERSION && minorVer < MINOR_VERSION)
+            {
+                Dispose();
+                throw new DeviceConnectionException($"Invalid device version V{verMatch.Value}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
             }
 
             baseStream.ReadTimeout = Timeout.Infinite;
@@ -456,8 +467,6 @@ namespace SharedDriver
 
         public string? GetVoltageStatus() 
         {
-            return "UNSUPPORTED";
-
             if (!isNetwork)
                 return "UNSUPPORTED";
 

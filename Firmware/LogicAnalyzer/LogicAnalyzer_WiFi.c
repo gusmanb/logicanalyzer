@@ -11,6 +11,8 @@
 #include "pico/stdlib.h"
 #include "pico/cyw43_arch.h"
 #include "pico/multicore.h"
+#include "hardware/adc.h"
+#include "hardware/gpio.h"
 #include "hardware/flash.h"
 #include "lwip/pbuf.h"
 #include "lwip/tcp.h"
@@ -26,6 +28,39 @@ bool boot = false;
 
 #define LED_ON() cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1)
 #define LED_OFF() cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0)
+
+void getPowerStatus()
+{
+    EVENT_FROM_WIFI evtPower;
+    evtPower.event = POWER_STATUS_DATA;
+    evtPower.dataLength = sizeof(POWER_STATUS);
+    POWER_STATUS* status = (POWER_STATUS*)&evtPower.data;
+    
+    adc_init();
+
+    uint32_t oldInt = save_and_disable_interrupts();
+    uint32_t old_pad = padsbank0_hw->io[29];
+    uint32_t old_ctrl = iobank0_hw->io[29].ctrl;
+
+    adc_gpio_init(29);
+    adc_select_input(3);
+
+    sleep_ms(100);
+
+    const float conversion_factor = 3.3f / (1 << 12);
+    status->vsysVoltage = adc_read() * conversion_factor * 3;
+
+    gpio_init(29);
+
+    padsbank0_hw->io[29] = old_pad;
+    iobank0_hw->io[29].ctrl = old_ctrl;
+    restore_interrupts(oldInt);
+
+    status->vbusConnected = cyw43_arch_gpio_get(2);
+    
+    event_push(&wifiToFrontend, &evtPower);
+
+}
 
 void readSettings()
 {
@@ -87,7 +122,9 @@ err_t serverReceiveData(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t e
     //Client disconnected
     if(!p || p->tot_len == 0)
     {
-        pbuf_free(p);
+        if(p)
+            pbuf_free(p);
+            
         killClient();
         evt.event = DISCONNECTED;
         event_push(&wifiToFrontend, &evt);
@@ -227,6 +264,7 @@ void frontendEvent(void* event)
         case LED_ON:
             LED_ON();
             break;
+
         case LED_OFF:
             LED_OFF();
             break;
@@ -240,6 +278,10 @@ void frontendEvent(void* event)
 
         case SEND_DATA:
             sendData(evt->data, evt->dataLength);
+            break;
+        
+        case GET_POWER_STATUS:
+            getPowerStatus();
             break;
     }
 }
@@ -262,4 +304,5 @@ void runWiFiCore()
             cyw43_arch_poll();
     }
 }
+
 #endif

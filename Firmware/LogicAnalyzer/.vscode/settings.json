@@ -61,8 +61,6 @@
       "cyw43_arch.h": "c",
       "logicanalyzer_build_settings.h": "c",
       "sync.h": "c",
-      "flash.h": "c",
-      "shared_buffers.h": "c",
-      "logicanalyzer_wifi.h": "c"
+      "flash.h": "c"
     },
 }

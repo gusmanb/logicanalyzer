@@ -199,6 +199,7 @@ static bool captureFinished;
 static bool captureProcessed;
 
 //Pin mapping, used to map the channels to the PIO program
+//COMPLEX_TRIGGER_IN_PIN is added at the end of the array to support the chained mode
 #if defined (BUILD_PICO)
     const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
 #elif defined (BUILD_PICO_W)
@@ -212,15 +213,17 @@ static bool captureProcessed;
 //Main capture buffer, aligned at a 32k boundary, to use the maxixmum ring size supported by DMA channels
 static uint8_t captureBuffer[CAPTURE_BUFFER_SIZE] __attribute__((aligned(32768)));
 
-//-----------------------------------------------------------------------------
-//--------------Complex trigger PIO program------------------------------------
-//-----------------------------------------------------------------------------
-#define COMPLEX_TRIGGER_wrap_target 0
-#define COMPLEX_TRIGGER_wrap 8
-
 #define CAPTURE_TYPE_SIMPLE 0
 #define CAPTURE_TYPE_COMPLEX 1
 #define CAPTURE_TYPE_FAST 2
+
+//-----------------------------------------------------------------------------
+//--------------Complex trigger PIO program------------------------------------
+//-----------------------------------------------------------------------------
+#ifdef SUPPORTS_COMPLEX_TRIGGER
+
+#define COMPLEX_TRIGGER_wrap_target 0
+#define COMPLEX_TRIGGER_wrap 8
 
 uint16_t COMPLEX_TRIGGER_program_instructions[] = {
             //     .wrap_target
@@ -247,6 +250,7 @@ static inline pio_sm_config COMPLEX_TRIGGER_program_get_default_config(uint offs
     sm_config_set_wrap(&c, offset + COMPLEX_TRIGGER_wrap_target, offset + COMPLEX_TRIGGER_wrap);
     return c;
 }
+#endif
 //-----------------------------------------------------------------------------
 //--------------Complex trigger PIO program END--------------------------------
 //-----------------------------------------------------------------------------
@@ -254,6 +258,8 @@ static inline pio_sm_config COMPLEX_TRIGGER_program_get_default_config(uint offs
 //-----------------------------------------------------------------------------
 //--------------Fast trigger PIO program---------------------------------------
 //-----------------------------------------------------------------------------
+#ifdef SUPPORTS_COMPLEX_TRIGGER
+
 #define FAST_TRIGGER_wrap_target 0
 #define FAST_TRIGGER_wrap 31
 
@@ -295,6 +301,7 @@ uint8_t create_fast_trigger_program(uint8_t pattern, uint8_t length)
 
     return first;
 }
+#endif
 //-----------------------------------------------------------------------------
 //--------------Fast trigger PIO program END-----------------------------------
 //-----------------------------------------------------------------------------
@@ -370,8 +377,10 @@ uint32_t find_capture_tail()
 //Disable the trigger GPIOs to avoid triggering again a chained device
 void disable_gpios()
 {
+    #ifdef SUPPORTS_COMPLEX_TRIGGER
     gpio_deinit(COMPLEX_TRIGGER_OUT_PIN);
     gpio_deinit(COMPLEX_TRIGGER_IN_PIN); 
+    #endif
 
     for(uint8_t i = 0; i < lastCapturePinCount; i++)
         gpio_deinit(lastCapturePins[i]);
@@ -590,12 +599,20 @@ void stopCapture()
     {
         uint32_t int_status = save_and_disable_interrupts();
 
+        #ifdef SUPPORTS_COMPLEX_TRIGGER
+
         if(lastCaptureType == CAPTURE_TYPE_SIMPLE)
             simple_capture_completed();
         else if(lastCaptureType == CAPTURE_TYPE_COMPLEX)
             complex_capture_completed();
         else if(lastCaptureType == CAPTURE_TYPE_FAST)
             fast_capture_completed();
+
+        #else
+
+        simple_capture_completed();
+
+        #endif
 
         restore_interrupts(int_status);
     }
