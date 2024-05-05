@@ -282,7 +282,6 @@ namespace SPIProtocolAnalyzer
             }
             else if (cpol == 1 && cpha == 1)
             {
-                //High-low-high-low
                 //High-log-high
 
                 pos = FindSample(pos, clockRange, 1);
@@ -297,13 +296,6 @@ namespace SPIProtocolAnalyzer
 
                 return FindSample(pos, clockRange, 1);
 
-                /*
-                pos = FindSample(pos, clockRange, 1);
-
-                if (pos == -1)
-                    return -1;
-
-                return FindSample(pos, clockRange, 0); */
             }
 
             return -1;

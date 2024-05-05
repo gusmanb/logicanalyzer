@@ -11,9 +11,9 @@
         WindowStartupLocation="CenterScreen"
 		    Topmost="True">
   <Grid ColumnDefinitions="Auto,180">
-    <Image Source="/Assets/Logo40.png" Margin="20" Height="420" Width="420"></Image>
+    <Image Source="/Assets/Logo.png" Margin="20" Height="420" Width="420"></Image>
     <StackPanel Spacing="10" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20">
-      <TextBlock TextWrapping="Wrap">©2023 Agustín Giménez Bernad</TextBlock>
+      <TextBlock TextWrapping="Wrap">©2024 Agustín Giménez Bernad</TextBlock>
       <TextBlock TextWrapping="Wrap" Name="txtVersion">Version 5.0.0.0</TextBlock>
       <Button Name="btnLicense" Margin="10,0,10,0">License</Button>
     </StackPanel>

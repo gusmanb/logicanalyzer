@@ -84,7 +84,7 @@
             </StackPanel>
           </StackPanel>
         </Grid>
-        <Image Source="/Assets/Logo40.png" VerticalAlignment="Center"></Image>
+        <Image Source="/Assets/Logo.png" VerticalAlignment="Center"></Image>
         <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5" Background="#80383838">
           <TextBlock Margin="5,2,5,2">
             Information

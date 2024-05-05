@@ -10,6 +10,6 @@
         SystemDecorations="None"
 		    Topmost="True">
   <Border BorderBrush="Black" BorderThickness="2">
-    <Image Source="/Assets/Logo40.png"></Image>
+    <Image Source="/Assets/Logo.png"></Image>
   </Border>
 </Window>
