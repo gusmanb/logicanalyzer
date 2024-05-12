@@ -18,7 +18,9 @@ namespace LogicAnalyzer.Controls
         public int PreSamples { get; set; }
         public int[]? Bursts { get; set; }
         public UInt128[] Samples { get; set; }
-        public int ChannelCount { get; set; }
+
+        public CaptureChannel[]? Channels { get; set; }
+        //public int ChannelCount { get; set; }
         public int SamplesInScreen { get; set; }
         public int FirstSample { get; set; }
         public int? UserMarker { get; set; }
@@ -91,6 +93,9 @@ namespace LogicAnalyzer.Controls
 
         public override void Render(DrawingContext context)
         {
+
+            int ChannelCount = Channels?.Length ?? 0;
+
             int minSize = ChannelCount * MIN_CHANNEL_HEIGHT;
 
             if (Parent.Bounds.Height > minSize && this.Height != double.NaN)
@@ -173,12 +178,12 @@ namespace LogicAnalyzer.Controls
                         else
                             lineY = (chan + 1) * channelHeight - margin;
 
-                        context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX + sampleWidth, lineY));
+                        context.DrawLine(GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX + sampleWidth, lineY));
 
                         if (curVal != prevVal && buc != 0)
                         {
                             lineY = chan * channelHeight + margin;
-                            context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX, lineY + channelHeight - margin * 2));
+                            context.DrawLine(GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX, lineY + channelHeight - margin * 2));
                         }
                     }
 

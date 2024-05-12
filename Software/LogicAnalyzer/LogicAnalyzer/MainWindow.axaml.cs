@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Shared.PlatformSupport;
 using Avalonia.Threading;
+using AvaloniaColorPicker;
 using AvaloniaEdit.Utils;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
@@ -24,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -70,6 +72,8 @@ namespace LogicAnalyzer
             sampleMarker.SamplesInserted += SampleMarker_SamplesInserted;
             sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
 
+            channelViewer.ChannelClick += ChannelViewer_ChannelClick;
+
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
             scrSamplePos.Scroll += scrSamplePos_ValueChanged;
             scrSamplePos.PointerEnter += ScrSamplePos_PointerEnter;
@@ -94,6 +98,26 @@ namespace LogicAnalyzer
                     GetPowerStatus();
                 });
             });
+        }
+
+        private async void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
+        {
+            var picker = new ColorPickerWindow();
+
+            if (e.Channel.ChannelColor != null)
+                picker.Color = e.Channel.ChannelColor.Value;
+            else
+                picker.Color = AnalyzerColors.FgChannelColors[e.Channel.ChannelNumber];
+
+            var color = await picker.ShowDialog(this);
+
+            if (color == null)
+                return;
+
+            e.Channel.ChannelColor = color;
+            (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, sampleViewer.Samples);
+            sampleViewer.InvalidateVisual();
         }
 
         private async void MnuAbout_Click(object? sender, RoutedEventArgs e)
@@ -283,7 +307,7 @@ namespace LogicAnalyzer
                 sampleViewer.BeginUpdate();
                 sampleViewer.Samples = samples;
                 sampleViewer.EndUpdate();
-                samplePreviewer.UpdateSamples(samples, sampleViewer.ChannelCount);
+                samplePreviewer.UpdateSamples(channelViewer.Channels, samples);
                 samplePreviewer.ViewPosition = sampleViewer.FirstSample;
             }
         }
@@ -352,7 +376,7 @@ namespace LogicAnalyzer
                 sampleViewer.BeginUpdate();
                 sampleViewer.Samples = samples;
                 sampleViewer.PreSamples = settings.PreTriggerSamples;
-                sampleViewer.ChannelCount = settings.CaptureChannels.Length;
+                sampleViewer.Channels = settings.CaptureChannels;
                 sampleViewer.SamplesInScreen = Math.Min(100, samples.Length / 10);
                 sampleViewer.FirstSample = Math.Max(settings.PreTriggerSamples - 10, 0);
                 sampleViewer.ClearRegions();
@@ -360,8 +384,10 @@ namespace LogicAnalyzer
 
                 sampleViewer.EndUpdate();
 
+                channelViewer.Channels = settings.CaptureChannels;
+
                 samplePreviewer.ViewPosition = sampleViewer.FirstSample;
-                samplePreviewer.UpdateSamples(samples, sampleViewer.ChannelCount);
+                samplePreviewer.UpdateSamples(channelViewer.Channels, samples);
 
                 sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
                 sampleMarker.FirstSample = sampleViewer.FirstSample;
@@ -371,8 +397,6 @@ namespace LogicAnalyzer
                 scrSamplePos.Maximum = samples.Length - 1;
                 scrSamplePos.Value = sampleViewer.FirstSample;
                 tkInScreen.Value = sampleViewer.SamplesInScreen;
-
-                channelViewer.Channels = settings.CaptureChannels;
 
                 mnuSave.IsEnabled = true;
                 mnuProtocols.IsEnabled = true;
@@ -587,7 +611,7 @@ namespace LogicAnalyzer
 
             sampleViewer.EndUpdate();
 
-            samplePreviewer.UpdateSamples(finalSamples, sampleViewer.ChannelCount);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, finalSamples);
             samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
             sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
@@ -630,7 +654,7 @@ namespace LogicAnalyzer
 
             List<byte[]> samples = new List<byte[]>();
 
-            for (int buc = 0; buc < sampleViewer.ChannelCount; buc++)
+            for (int buc = 0; buc < (sampleViewer.Channels?.Length ?? 0); buc++)
                 samples.Add(ExtractSamples(buc, sampleViewer.Samples, e.FirstSample, e.SampleCount));
 
             var names = channelViewer.Channels.Select(c => c.ChannelName).ToArray();
@@ -729,7 +753,7 @@ namespace LogicAnalyzer
                 sampleViewer.BeginUpdate();
                 sampleViewer.Samples = e.Samples;
                 sampleViewer.PreSamples = e.PreSamples;
-                sampleViewer.ChannelCount = e.ChannelCount;
+                sampleViewer.Channels = settings.CaptureChannels;
 
                 if(!preserveSamples)
                     sampleViewer.SamplesInScreen = Math.Min(100, e.Samples.Length / 10);
@@ -756,14 +780,14 @@ namespace LogicAnalyzer
                 sampleViewer.ClearAnalyzedChannels();
                 sampleViewer.EndUpdate();
 
-                samplePreviewer.UpdateSamples(e.Samples, sampleViewer.ChannelCount);
+                channelViewer.Channels = settings.CaptureChannels;
+
+                samplePreviewer.UpdateSamples(channelViewer.Channels, e.Samples);
                 samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
                 scrSamplePos.Maximum = e.Samples.Length - 1;
                 scrSamplePos.Value = sampleViewer.FirstSample;
                 tkInScreen.Value = sampleViewer.SamplesInScreen;
-
-                channelViewer.Channels = settings.CaptureChannels;
 
                 sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
                 sampleMarker.FirstSample = sampleViewer.FirstSample;
@@ -1296,7 +1320,7 @@ namespace LogicAnalyzer
                     sampleViewer.BeginUpdate();
                     sampleViewer.Samples = ex.Samples;
                     sampleViewer.PreSamples = ex.Settings.PreTriggerSamples;
-                    sampleViewer.ChannelCount = ex.Settings.CaptureChannels.Length;
+                    sampleViewer.Channels = ex.Settings.CaptureChannels;
                     sampleViewer.SamplesInScreen = Math.Min(100, ex.Samples.Length / 10);
                     sampleViewer.FirstSample = Math.Max(ex.Settings.PreTriggerSamples - 10, 0);
                     sampleViewer.ClearRegions();
@@ -1307,7 +1331,9 @@ namespace LogicAnalyzer
 
                     sampleViewer.EndUpdate();
 
-                    samplePreviewer.UpdateSamples(ex.Samples, sampleViewer.ChannelCount);
+                    channelViewer.Channels = ex.Settings.CaptureChannels;
+
+                    samplePreviewer.UpdateSamples(channelViewer.Channels, ex.Samples);
                     samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
                     sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
@@ -1322,7 +1348,7 @@ namespace LogicAnalyzer
                     scrSamplePos.Value = sampleViewer.FirstSample;
                     tkInScreen.Value = sampleViewer.SamplesInScreen;
 
-                    channelViewer.Channels = ex.Settings.CaptureChannels;
+                    
 
                     mnuSave.IsEnabled = true;
                     mnuProtocols.IsEnabled = true;

@@ -25,6 +25,8 @@ namespace LogicAnalyzer.Controls
             }
         }
 
+        public event EventHandler<ChannelEventArgs> ChannelClick;
+
         private void CreateControls()
         {
             ChannelGrid.Children.Clear();
@@ -67,7 +69,10 @@ namespace LogicAnalyzer.Controls
 
                 newChannelLabel.Text = channels[buc].TextualChannelNumber;
 
-                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(AnalyzerColors.FgChannelColors[buc % 24]);
+                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(channels[buc].ChannelColor ??  AnalyzerColors.FgChannelColors[buc % 24]);
+
+                newChannelLabel.Tag = channels[buc];
+                newChannelLabel.PointerPressed += NewChannelLabel_PointerPressed;
 
                 newChannelGrid.Children.Add(newChannelLabel);
 
@@ -100,6 +105,24 @@ namespace LogicAnalyzer.Controls
             ChannelGrid.EndBatchUpdate();
         }
 
+        private void NewChannelLabel_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            var label = sender as TextBlock;
+
+            if (label == null)
+                return;
+
+            var channel = label.Tag as CaptureChannel;
+
+            if(channel == null) 
+                return;
+
+            if (ChannelClick == null)
+                return;
+
+            ChannelClick(sender , new ChannelEventArgs { Channel = channel });
+        }
+
         void NewChannelTextbox_TextChanged(AvaloniaPropertyChangedEventArgs e)
         {
             ((e.Sender as TextBox).Tag as CaptureChannel).ChannelName = e.NewValue?.ToString();
@@ -109,6 +132,11 @@ namespace LogicAnalyzer.Controls
         {
             InitializeComponent();
         }
+    }
+
+    public class ChannelEventArgs : EventArgs
+    {
+        public required CaptureChannel Channel { get; set; }
     }
 
     public class RegionEventArgs : EventArgs

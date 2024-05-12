@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,7 @@ namespace LogicAnalyzer.Classes
         public string TextualChannelNumber { get { return $"Channel {ChannelNumber + 1}"; } }
         public int ChannelNumber { get; set; }
         public string ChannelName { get; set; } = "";
+        public Color? ChannelColor { get; set; }
     }
 
     public class OldCaptureSettings

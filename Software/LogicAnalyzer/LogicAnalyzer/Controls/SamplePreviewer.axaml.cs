@@ -21,25 +21,27 @@ namespace LogicAnalyzer.Controls
             InitializeComponent();
         }
 
-        public void UpdateSamples(UInt128[] Samples, int ChannelCount)
+        public void UpdateSamples(CaptureChannel[] Channels, UInt128[] Samples)
         {
-            if (ChannelCount > 24)
-                ChannelCount = 24;
+            int channelCount = Channels.Length;
+
+            if (channelCount > 24)
+                channelCount = 24;
 
             int width = Math.Max(Math.Min(Samples.Length, 4096), 1024);
 
-            float cHeight = 144 / (float)ChannelCount;
+            float cHeight = 144 / (float)channelCount;
             float sWidth = (float)width / (float)Samples.Length;
             float high = cHeight / 6;
             float low = cHeight - high;
 
             using SKBitmap skb = new SKBitmap(width, 144);
 
-            SKPaint[] colors = new SKPaint[ChannelCount];
+            SKPaint[] colors = new SKPaint[channelCount];
 
-            for (int buc = 0; buc < ChannelCount; buc++)
+            for (int buc = 0; buc < channelCount; buc++)
             {
-                var avColor = AnalyzerColors.FgChannelColors[buc];
+                var avColor = Channels[buc].ChannelColor ?? AnalyzerColors.FgChannelColors[buc];
 
                 colors[buc] = new SKPaint
                 {
@@ -56,7 +58,7 @@ namespace LogicAnalyzer.Controls
                     UInt128 sample = Samples[x];
                     UInt128 prevSample = Samples[x == 0 ? x : x - 1];
 
-                    for (int chan = 0; chan < ChannelCount; chan++)
+                    for (int chan = 0; chan < channelCount; chan++)
                     {
                         UInt128 curVal = sample & ((UInt128)1 << chan);
                         UInt128 prevVal = prevSample & ((UInt128)1 << chan);
