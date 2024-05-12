@@ -366,6 +366,7 @@ namespace LogicAnalyzer
                 sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
                 sampleMarker.FirstSample = sampleViewer.FirstSample;
                 sampleMarker.ClearRegions();
+                sampleMarker.ClearAnalyzedChannels();
 
                 scrSamplePos.Maximum = samples.Length - 1;
                 scrSamplePos.Value = sampleViewer.FirstSample;
@@ -592,6 +593,7 @@ namespace LogicAnalyzer
             sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
             sampleMarker.FirstSample = sampleViewer.FirstSample;
             sampleMarker.ClearRegions();
+            sampleMarker.ClearAnalyzedChannels();
 
             if (finalRegions.Count > 0)
                 sampleMarker.AddRegions(finalRegions);
@@ -766,6 +768,7 @@ namespace LogicAnalyzer
                 sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
                 sampleMarker.FirstSample = sampleViewer.FirstSample;
                 sampleMarker.ClearRegions();
+                sampleMarker.ClearAnalyzedChannels();
 
                 btnCapture.IsEnabled = true;
                 btnRepeat.IsEnabled = true;
@@ -852,6 +855,9 @@ namespace LogicAnalyzer
                 sampleViewer.BeginUpdate();
                 sampleViewer.AddAnalyzedChannels(analysisResult);
                 sampleViewer.EndUpdate();
+                sampleMarker.BeginUpdate();
+                sampleMarker.AddAnalyzedChannels(analysisResult);
+                sampleMarker.EndUpdate();
             }
         }
 
@@ -860,6 +866,9 @@ namespace LogicAnalyzer
             sampleViewer.BeginUpdate();
             sampleViewer.ClearAnalyzedChannels();
             sampleViewer.EndUpdate();
+            sampleMarker.BeginUpdate();
+            sampleMarker.ClearAnalyzedChannels();
+            sampleMarker.EndUpdate();
         }
 
         private async void ProtocolAnalyzer_Click(object? sender, RoutedEventArgs e)
@@ -873,6 +882,10 @@ namespace LogicAnalyzer
 
             var dlg = new ProtocolAnalyzerSettingsDialog();
             {
+
+                if (analysisSettings != null && analysisSettings.Analyzer == analyzer)
+                    dlg.InitialSettings = analysisSettings;
+
                 dlg.Analyzer = analyzer;
                 dlg.Channels = channelViewer.Channels.Select(c => 
                 {
@@ -907,6 +920,10 @@ namespace LogicAnalyzer
                     sampleViewer.BeginUpdate();
                     sampleViewer.AddAnalyzedChannels(analysisResult);
                     sampleViewer.EndUpdate();
+
+                    sampleMarker.BeginUpdate();
+                    sampleMarker.AddAnalyzedChannels(analysisResult);
+                    sampleMarker.EndUpdate();
                 }
 
                 analysisSettings = new AnalysisSettings { Analyzer = analyzer, Channels = channels, Settings = dlg.SelectedSettings };
@@ -1296,6 +1313,7 @@ namespace LogicAnalyzer
                     sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
                     sampleMarker.FirstSample = sampleViewer.FirstSample;
                     sampleMarker.ClearRegions();
+                    sampleMarker.ClearAnalyzedChannels();
 
                     if (ex.SelectedRegions != null)
                         sampleMarker.AddRegions(ex.SelectedRegions);

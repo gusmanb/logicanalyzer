@@ -5,12 +5,6 @@ cmake_minimum_required(VERSION 3.13)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-# set(PICO_BOARD pico_w)
-
-# Initialise pico_sdk from installed location
-# (note this can come from environment, CMake cache etc)
-set(PICO_SDK_PATH "F:/PicoSDK/Pico/pico-sdk")
-
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
@@ -42,7 +36,7 @@ pico_enable_stdio_usb(LogicAnalyzer 1)
 # Regular pico: empty
 # Pico W without WiFi support: pico_cyw43_arch_none
 # Pico W with WiFi support: pico_cyw43_arch_lwip_poll
-# set (CYW_LIB pico_cyw43_arch_lwip_poll)
+set (CYW_LIB pico_cyw43_arch_lwip_poll)
 # set (CYW_LIB pico_cyw43_arch_none)
 
 # Add any user requested libraries

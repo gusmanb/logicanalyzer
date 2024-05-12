@@ -73,6 +73,10 @@ namespace LogicAnalyzer.Protocols
         public string SignalName { get; set; }
         //If true the signal must be provided, else the signal is optional
         public bool Required { get; set; }
+        /// <summary>
+        /// If true the signal is a bus and the size will be requested to the protocol analyzer
+        /// </summary>
+        public bool IsBus { get; set; }
     }
 
     /// <summary>
@@ -82,6 +86,8 @@ namespace LogicAnalyzer.Protocols
     {
         //Signal name for which the channel was selected
         public string SignalName { get; set; }
+        //Index (for buses)
+        public int BusIndex { get; set; }
         //Channel index in the channel viewer
         public int ChannelIndex { get; set; }
         //List of samples

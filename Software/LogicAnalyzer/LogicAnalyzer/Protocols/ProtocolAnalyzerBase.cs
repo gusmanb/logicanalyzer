@@ -35,6 +35,15 @@ namespace LogicAnalyzer.Protocols
         /// <returns>An array of analyzed channels</returns>
         public abstract ProtocolAnalyzedChannel[] Analyze(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels);
 
-        
+        /// <summary>
+        /// Informs the analyzer of the size of a bus. By default returns 0 (bus not used).
+        /// </summary>
+        /// <param name="Signal">The bus to get the size for</param>
+        /// <param name="SelectedSettings">The settings the user selected</param>
+        /// <returns>The size of the bus</returns>
+        public virtual int GetBusWidth(ProtocolAnalyzerSignal Signal, ProtocolAnalyzerSettingValue[] SelectedSettings)
+        {
+            return 0;
+        }
     }
 }

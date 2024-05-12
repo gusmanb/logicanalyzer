@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using LogicAnalyzer.Classes;
 using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Protocols;
 using System;
@@ -18,6 +19,9 @@ namespace LogicAnalyzer.Dialogs
 
         ProtocolAnalyzerBase analyzer;
         public ProtocolAnalyzerBase Analyzer { get { return analyzer; } set { analyzer = value; LoadControls(); } }
+
+        AnalysisSettings? initialSettings;
+        public AnalysisSettings? InitialSettings { get { return initialSettings; } set { initialSettings = value; LoadControls(); } }
 
         Channel[] channels;
         public Channel[] Channels { get { return channels; } set { channels = value; LoadControls(); } }
@@ -60,9 +64,17 @@ namespace LogicAnalyzer.Dialogs
                 {
                     var signal = signals[buc];
 
-                    pnlControls.Children.Add(new TextBlock{ IsVisible = true, Name = $"Label_Signal{buc}", Text = $"Channel for signal { signal.SignalName }:" });
+                    pnlControls.Children.Add(new TextBlock{ IsVisible = true, Name = $"Label_Signal{buc}", Text = signal.IsBus ? $"First channel of bus {signal.SignalName}" : $"Channel for signal { signal.SignalName }:" });
 
                     var list = new ComboBox { IsVisible = true, Name = $"List_Signal{buc}", Items = channelsSource.ToArray(), HorizontalAlignment=Avalonia.Layout.HorizontalAlignment.Stretch, Margin= new Thickness(0,10,20,0) };
+
+                    if (initialSettings != null)
+                    {
+                        var chan = initialSettings.Channels?.FirstOrDefault(c => c.SignalName == signal.SignalName && c.BusIndex == 0);
+
+                        if(chan != null)
+                            list.SelectedIndex = chan.ChannelIndex + 1;
+                    }
 
                     pnlControls.Children.Add(list);
 
@@ -87,13 +99,32 @@ namespace LogicAnalyzer.Dialogs
                         case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Boolean:
 
                             var ck = new CheckBox { IsVisible = true, Name = $"Check_Index{buc}", Content = set.CheckCaption, Margin = new Thickness(0, 10, 20, 0) };
+                            
+                            if (initialSettings != null)
+                            {
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+
+                                if(setV != null)
+                                    ck.IsChecked = (bool)(setV.Value ?? false);
+                            }
+
                             pnlControls.Children.Add(ck);
+
                             ck.Checked += BooleanSetting_CheckedChanged;
                             break;
 
                         case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer:
 
-                            var nud = new NumericUpDown { IsVisible = true, Name = $"Numeric_Index{buc}", Minimum = set.IntegerMinimumValue, Maximum = set.IntegerMaximumValue, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
+                            var nud = new NumericUpDown { IsVisible = true, Name = $"Numeric_Index{buc}", Minimum = set.IntegerMinimumValue, Maximum = set.IntegerMaximumValue, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0), Value = set.IntegerMinimumValue };
+
+                            if (initialSettings != null)
+                            {
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+
+                                if (setV != null)
+                                    nud.Value = (int)(setV.Value ?? 0);
+                            }
+
                             pnlControls.Children.Add(nud);
                             nud.ValueChanged += IntegerSetting_ValueChanged;
                             break;
@@ -101,6 +132,15 @@ namespace LogicAnalyzer.Dialogs
                         case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.List:
 
                             var list = new ComboBox { IsVisible = true, Name = $"List_Index{buc}", Items = set.ListValues, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
+
+                            if (initialSettings != null)
+                            {
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+
+                                if (setV != null)
+                                    list.SelectedIndex = Array.IndexOf(set.ListValues, setV.Value);
+                            }
+
                             pnlControls.Children.Add(list);
                             list.SelectionChanged += ListSetting_SelectedIndexChanged;
                             break;
@@ -112,6 +152,7 @@ namespace LogicAnalyzer.Dialogs
                 }
             }
 
+            ValidateSettings();
         }
 
         private void ListSetting_SelectedIndexChanged(object? sender, RoutedEventArgs e)
@@ -137,9 +178,16 @@ namespace LogicAnalyzer.Dialogs
         void ValidateSettings()
         {
             var st = ComposeSettings();
-            var ch = ComposeChannels();
 
-            if (st == null || ch == null)
+            if (st == null)
+            {
+                btnAccept.IsEnabled = false;
+                return;
+            }
+
+            var ch = ComposeChannels(st);
+
+            if (ch == null)
             {
                 btnAccept.IsEnabled = false;
                 return;
@@ -221,7 +269,7 @@ namespace LogicAnalyzer.Dialogs
             return settingsValues.ToArray();
         }
 
-        ProtocolAnalyzerSelectedChannel[]? ComposeChannels()
+        ProtocolAnalyzerSelectedChannel[]? ComposeChannels(ProtocolAnalyzerSettingValue[] values)
         {
             if (analyzer == null || channels == null)
                 return null;
@@ -240,11 +288,37 @@ namespace LogicAnalyzer.Dialogs
                 if (list.SelectedIndex == -1)
                     continue;
 
-                selectedChannels.Add(new ProtocolAnalyzerSelectedChannel
+                var size = signal.IsBus ? analyzer.GetBusWidth(signal, values) : 1;
+
+                if (size == 0)
+                    continue;
+
+                int idx = list.SelectedIndex - 1;
+
+                if (idx + size > channels.Length)
+                    return null;
+
+                if (size == 1)
                 {
-                    ChannelIndex = list.SelectedIndex - 1,
-                    SignalName = signal.SignalName
-                });
+
+                    selectedChannels.Add(new ProtocolAnalyzerSelectedChannel
+                    {
+                        ChannelIndex = idx,
+                        SignalName = signal.SignalName
+                    });
+                }
+                else
+                {
+                    for (int bucS = 0; bucS < size; bucS++)
+                    {
+                        selectedChannels.Add(new ProtocolAnalyzerSelectedChannel
+                        {
+                            ChannelIndex = idx + bucS,
+                            SignalName = signal.SignalName,
+                            BusIndex = bucS
+                        });
+                    }
+                }
             }
 
             return selectedChannels.ToArray();
@@ -258,7 +332,7 @@ namespace LogicAnalyzer.Dialogs
         private void btnAccept_Click(object? sender, RoutedEventArgs e)
         {
             SelectedSettings = ComposeSettings();
-            SelectedChannels = ComposeChannels();
+            SelectedChannels = ComposeChannels(SelectedSettings);
             this.Close(true);
         }
 

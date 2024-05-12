@@ -6,6 +6,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Dialogs;
+using LogicAnalyzer.Protocols;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -62,6 +63,7 @@ namespace LogicAnalyzer.Controls
 
 
         List<SampleRegion> regions = new List<SampleRegion>();
+        List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
 
         SelectedSamples? selectedSamples = null;
         SampleRegion? selectedRegion = null;
@@ -69,6 +71,7 @@ namespace LogicAnalyzer.Controls
         int? userMarker = null;
         int mnuSample = 0;
         bool samplesCopied = false;
+        bool updating = false;
 
         public SampleMarker()
         {
@@ -163,6 +166,37 @@ namespace LogicAnalyzer.Controls
             }
         }
 
+        public void BeginUpdate()
+        {
+            updating = true;
+        }
+
+        public void EndUpdate()
+        {
+            updating = false;
+            InvalidateVisual();
+        }
+        public void AddAnalyzedChannel(ProtocolAnalyzedChannel Data)
+        {
+            analysisData.Add(Data);
+        }
+        public void AddAnalyzedChannels(IEnumerable<ProtocolAnalyzedChannel> Data)
+        {
+            analysisData.AddRange(Data);
+        }
+        public bool RemoveAnalyzedChannel(ProtocolAnalyzedChannel Data)
+        {
+            return analysisData.Remove(Data);
+        }
+
+        public void ClearAnalyzedChannels()
+        {
+            foreach (var data in analysisData)
+                data.Dispose();
+
+            analysisData.Clear();
+        }
+
         public void AddRegion(SampleRegion Region)
         {
             regions.Add(Region);
@@ -202,70 +236,97 @@ namespace LogicAnalyzer.Controls
 
         public override void Render(DrawingContext context)
         {
-            context.FillRectangle(Background, new Rect(0, 0, Bounds.Width, Bounds.Height));
 
-            if (VisibleSamples == 0)
-                return;
+            var bounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
 
-            double sampleWidth = this.Bounds.Width / VisibleSamples;
-            double halfWidth = sampleWidth / 2;
-            double halfHeight = this.Bounds.Height / 2f;
-
-
-            if (selectedSamples != null)
+            using (context.PushClip(bounds))
             {
-                int first = selectedSamples.Start;
-                double start = (first - FirstSample) * sampleWidth;
-                double end = sampleWidth * selectedSamples.SampleCount;
-                context.FillRectangle(GraphicObjectsCache.GetBrush(Color.FromArgb(128, 255, 255, 255)), new Rect(start, 0, end, this.Bounds.Height));
 
-            }
+                if(updating) 
+                    return;
 
-            if (regions.Count > 0)
-            {
-                foreach (var region in regions)
+                context.FillRectangle(Background, bounds);
+
+                if (VisibleSamples == 0)
+                    return;
+
+                double sampleWidth = this.Bounds.Width / VisibleSamples;
+                double halfWidth = sampleWidth / 2;
+                double halfHeight = this.Bounds.Height / 2f;
+
+
+                if (selectedSamples != null)
                 {
-                    int first = region.FirstSample;
+                    int first = selectedSamples.Start;
                     double start = (first - FirstSample) * sampleWidth;
-                    double end = sampleWidth * region.SampleCount;
-                    context.FillRectangle(GraphicObjectsCache.GetBrush(region.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
-                    FormattedText text = new FormattedText(region.RegionName, Typeface.Default, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
-                    context.DrawText(GraphicObjectsCache.GetBrush(Colors.White), new Point(start + (end / 2) - (text.Bounds.Width / 2), 5), text);
+                    double end = sampleWidth * selectedSamples.SampleCount;
+                    context.FillRectangle(GraphicObjectsCache.GetBrush(Color.FromArgb(128, 255, 255, 255)), new Rect(start, 0, end, this.Bounds.Height));
+
                 }
-            }
 
-            int increment;
-
-            if (VisibleSamples < 101)
-                increment = 1;
-            else if (VisibleSamples < 501)
-                increment = 5;
-            else if (VisibleSamples < 1001)
-                increment = 10;
-            else
-                increment = 20;
-
-            //Draw ticks
-            for (int buc = 0; buc < VisibleSamples; buc += increment)
-            {
-                double x =  buc * sampleWidth; 
-                double y1 = halfHeight * 1.5f;
-                double y2 = this.Bounds.Height;
-
-                context.DrawLine(GraphicObjectsCache.GetPen(Foreground, 1), new Point(x, y1), new Point(x, y2));
-
-                if (increment == 1)
+                if (regions.Count > 0)
                 {
-                    x = buc * sampleWidth +halfWidth;
-                    y1 = halfHeight * 1.75f;
+                    foreach (var region in regions)
+                    {
+                        int first = region.FirstSample;
+                        double start = (first - FirstSample) * sampleWidth;
+                        double end = sampleWidth * region.SampleCount;
+                        context.FillRectangle(GraphicObjectsCache.GetBrush(region.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
+                        FormattedText text = new FormattedText(region.RegionName, Typeface.Default, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
+                        context.DrawText(GraphicObjectsCache.GetBrush(Colors.White), new Point(start + (end / 2) - (text.Bounds.Width / 2), 5), text);
+                    }
+                }
+
+                int increment;
+
+                if (VisibleSamples < 101)
+                    increment = 1;
+                else if (VisibleSamples < 501)
+                    increment = 5;
+                else if (VisibleSamples < 1001)
+                    increment = 10;
+                else
+                    increment = 20;
+
+                //Draw ticks
+                for (int buc = 0; buc < VisibleSamples; buc += increment)
+                {
+                    double x = buc * sampleWidth;
+                    double y1 = halfHeight * 1.5f;
+                    double y2 = this.Bounds.Height;
 
                     context.DrawLine(GraphicObjectsCache.GetPen(Foreground, 1), new Point(x, y1), new Point(x, y2));
 
+                    if (increment == 1)
+                    {
+                        x = buc * sampleWidth + halfWidth;
+                        y1 = halfHeight * 1.75f;
+
+                        context.DrawLine(GraphicObjectsCache.GetPen(Foreground, 1), new Point(x, y1), new Point(x, y2));
+
+                    }
+
                 }
 
-            }
+                if (analysisData.Count > 0)
+                {
+                    foreach (var chan in analysisData)
+                    {
+                        foreach (var evt in chan.Segments)
+                        {
+                            double x1 = (evt.FirstSample - FirstSample) * sampleWidth;
+                            double x2 = (evt.LastSample + 1 - FirstSample) * sampleWidth;
+                            double y1 = 0;
+                            double y2 = this.Bounds.Height;
 
-            base.Render(context);
+                            Rect r = new Rect(new Point(x1, y1), new Point(x2, y2));
+                            context.FillRectangle(GraphicObjectsCache.GetBrush(chan.BackColor), r);
+                        }
+                    }
+                }
+
+                base.Render(context);
+            }
         }
 
         protected override void OnPointerMoved(PointerEventArgs e)

@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerialProtocolAnalyzer", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "I2CProtocolAnalyzer", "I2CProtocolAnalyzer\I2CProtocolAnalyzer.csproj", "{74E41F50-E208-4690-84C6-51012C2F26E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalDescriptionLanguage", "SignalDescriptionLanguage\SignalDescriptionLanguage.csproj", "{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalDescriptionLanguage", "SignalDescriptionLanguage\SignalDescriptionLanguage.csproj", "{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelProtocolAnalyzer", "ParallelProtocolAnalyzer\ParallelProtocolAnalyzer.csproj", "{952FD20C-7C12-407B-A264-BA5F429BDD3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
