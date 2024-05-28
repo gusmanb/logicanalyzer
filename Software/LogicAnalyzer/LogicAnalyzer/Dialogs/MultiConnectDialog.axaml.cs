@@ -58,7 +58,7 @@ namespace LogicAnalyzer.Dialogs
                     }
 
                     if (connStr == "Network")
-                        connStr = tbs[buc].Text;
+                        connStr = tbs[buc + 1].Text;
 
                     conns.Add(connStr);
                 }
