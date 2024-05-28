@@ -1,0 +1,2 @@
+## LogicAnalyzer_JasonYANG170
+#### This is a fork ,this AnalyzerBoxPCB_fork supports 3.3V-5V, and at the same time adds IO protection and reduces the size. AnalyzerBoxMain_fork is a 3D printed enclosure for this PCB. If you plan to use this shell, it is recommended that you fix the PCB and socket inside the shell when soldering the 2*15PIN socket to avoid the mismatch of the 3D shell hole position. Also, when soldering the Raspberry Pi RP2040, try to keep the RP2040 to the left center to make sure your Type-C or mirco usb cable can be plugged into the RP2040.

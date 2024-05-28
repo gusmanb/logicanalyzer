@@ -1,0 +1,2 @@
+## LogicAnalyzer_JasonYANG170
+#### This is a Fork, this shell is suitable for AnalyzerBoxPCB_fork, the shell uses snap design,the volume has been reduced and the rounded corners have been added.And adds windows and characters, you can customize their colors, it supports multi-color 3D printers.In order to ensure transparency, the thickness of the window is 0.6mm, recommend you turn on the top ironing function
