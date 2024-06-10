@@ -49,6 +49,17 @@ namespace LogicAnalyzer.Controls
             set { SetValue<IBrush>(BackgroundProperty, value); InvalidateVisual(); }
         }
 
+        private BurstInfo[] bursts;
+        public BurstInfo[] Bursts
+        {
+            get => bursts;
+            set
+            {
+                bursts = value;
+                InvalidateVisual();
+            }
+        }
+
         public event EventHandler<RegionEventArgs> RegionCreated;
         public event EventHandler<RegionEventArgs> RegionDeleted;
 
@@ -72,6 +83,10 @@ namespace LogicAnalyzer.Controls
         int mnuSample = 0;
         bool samplesCopied = false;
         bool updating = false;
+
+        private Color burstPenColor = Color.FromRgb(224, 175, 29);
+
+        private Color burstFillColor = Color.FromArgb(128, 224, 175, 29);
 
         public SampleMarker()
         {
@@ -325,6 +340,32 @@ namespace LogicAnalyzer.Controls
                     }
                 }
 
+                if (this.bursts != null)
+                {
+                    double burstWidth = 16.0;
+                    foreach (var burstInfo in bursts)
+                    {
+                        double x4 = (burstInfo.SampleNumber - FirstSample) * sampleWidth - burstWidth / 2;
+                        double x5 = (burstInfo.SampleNumber - FirstSample) * sampleWidth + burstWidth / 2;
+                        double y5 = 0.0;
+                        double y6 = Bounds.Height;
+                        var container = new PathFigure
+                        {
+                            StartPoint = new(x4, y5)
+                        };
+                        container.Segments.Add(new LineSegment { Point = new Point(x5, y5) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x5, y6 / 2.0) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x4 + (x5 - x4) / 2.0, y6) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x4, y6 / 2.0) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x4, y5 / 2.0) });
+
+                        container.IsClosed = true;
+                        PathGeometry gContainer = new PathGeometry();
+                        gContainer.Figures.Add(container);
+                        context.DrawGeometry(GraphicObjectsCache.GetBrush(this.burstFillColor), GraphicObjectsCache.GetPen(this.burstPenColor, 1), gContainer);
+                    }
+                }
+
                 base.Render(context);
             }
         }
@@ -348,6 +389,30 @@ namespace LogicAnalyzer.Controls
                 }
                 else
                 {
+                    if (bursts != null)
+                    {
+                        var burst = bursts.FirstOrDefault(b =>
+                        {
+                            double num = (b.SampleNumber - FirstSample) * sampleWidth;
+                            double minX = num - 8.0;
+                            double maxX = num + 8.0;
+                            return pos.Position.X >= minX && pos.Position.X <= maxX;
+                        });
+                        if (burst != null)
+                        {
+                            string burstText = "Burst delay: " + burst.GetTime();
+                            object tip = ToolTip.GetTip(this);
+                            if (((tip != null) ? tip.ToString() : null) != burstText)
+                            {
+                                ToolTip.SetTip(this, burstText);
+                                ToolTip.SetIsOpen(this, false);
+                                ToolTip.SetShowDelay(this, 0);
+                                ToolTip.SetIsOpen(this, true);
+                            }
+                            return;
+                        }
+                    }
+
                     if (ToolTip.GetTip(this)?.ToString() != ovrSample.ToString())
                     {
                         ToolTip.SetTip(this, ovrSample.ToString());

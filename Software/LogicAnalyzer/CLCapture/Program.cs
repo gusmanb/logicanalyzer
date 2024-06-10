@@ -2,8 +2,6 @@
 using CommandLine;
 using SharedDriver;
 using System.IO.Ports;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -159,6 +157,12 @@ async Task<int> Capture(CLCaptureOptions opts)
             break;
     }
 
+    if (string.IsNullOrWhiteSpace(opts.OutputFile))
+    {
+        Console.WriteLine("Output file not specified.");
+        return -1;
+    }
+
     Console.WriteLine($"Opening logic analyzer in {opts.AddressPort}...");
 
     try
@@ -171,7 +175,7 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port/address {opts.AddressPort}");
+    Console.WriteLine($"Connected to device {driver.DeviceVersion} in port/address {opts.AddressPort}");
 
     captureCompletedTask = new TaskCompletionSource<CaptureEventArgs>();
 
@@ -180,7 +184,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     if (opts.Trigger.TriggerType == CLTriggerType.Edge)
     {
         Console.WriteLine("Starting edge triggered capture...");
-        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples, opts.LoopCount < 2 ? 0 : opts.LoopCount - 1, nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples, opts.LoopCount < 2 ? 0 : opts.LoopCount - 1, true, nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -252,22 +256,113 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    Console.WriteLine("Capture complete, writting output file...");
+    Console.WriteLine("Capture complete, writing output file...");
+    System.Diagnostics.Debugger.Launch();
+    if (opts.ExportVCD)
+        ExportVCD(nChannels, result.Samples, result.BurstTimestamps, opts);
 
-    var file = File.Create(opts.OutputFile);
-    StreamWriter sw = new StreamWriter(file);
+    if (opts.ExportCSV)
+        ExportCSV(channels, nChannels, result.Samples, opts.OutputFile);
+
+    Console.WriteLine("Done.");
+
+    return 1;
+}
+
+void ExportVCD(int[] channelIndices, UInt128[] samples, uint[] burstTimeStamps, CLCaptureOptions opts)
+{
+    using var vcdFile = File.Create(Path.ChangeExtension(opts.OutputFile, "vcd"));
+    using var vcdWriter = new StreamWriter(vcdFile);
+
+    var vcdSb = new StringBuilder();
+
+    uint timeStep = 1000000000U / (uint)opts.SamplingFrequency;
+
+    var dateNowStr = DateTime.Now.ToString("ddd MMM MM HH:mm:ss yyyy", new System.Globalization.CultureInfo("en-us"));
+    vcdSb.Append($"$date {dateNowStr} $end\n");
+    vcdSb.Append($"$timescale {timeStep} ns $end\n");
+
+    char channelId = '!';
+    var channelAliases = new Dictionary<int, char>();
+    foreach (var channelIdx in channelIndices)
+    {
+        vcdSb.Append($"$var wire 1 {channelId} 0 $end\n");
+        channelAliases[channelIdx] = channelId;
+
+        channelId++;
+    }
+
+    vcdSb.Append("$enddefinitions $end\n\n");
+
+    char getChannelValue(UInt128 sample, int channelIdx)
+    {
+        return (sample & ((UInt128)1 << channelIdx)) == 0 ? '0' : '1';
+    }
+
+    UInt128? prevSample = null;
+    uint previdx = 0;
+    void appendSampleIfChanged(uint sampleIdx, UInt128 sample)
+    {
+        if (sample == prevSample)
+            return;
+
+        vcdSb.Append($"#{sampleIdx}");
+
+        if (sampleIdx < previdx)
+            DateTime.Now.AddDays(0);
+        previdx = sampleIdx;
+
+        foreach (var channelIdx in channelIndices)
+        {
+            var currentChannelValue = getChannelValue(sample, channelIdx);
+            if (!prevSample.HasValue || currentChannelValue != getChannelValue(prevSample.Value, channelIdx))
+                vcdSb.Append($" {currentChannelValue}{channelAliases[channelIdx]}");
+        }
+
+        vcdSb.Append('\n');
+    }
+
+    uint sampleIdxOffset = 0; // offset for a samples after the first burst, converted to index, since vcd format operates with indices and not time
+
+    for (uint sampleIdx = 0; sampleIdx < samples.Length; sampleIdx++)
+    {
+        if (sampleIdx >= opts.PreSamples)
+        {
+            var burstStartIdx = (sampleIdx - opts.PreSamples);
+
+            if (burstStartIdx > 0 && burstStartIdx % opts.PostSamples == 0) // first burst does not have an offset, all consequent - does
+            {
+                var burstIdx = burstStartIdx / opts.PostSamples - 1;
+                sampleIdxOffset += burstTimeStamps[burstIdx] / timeStep;
+            }
+        }
+
+        UInt128 sample = samples[sampleIdx];
+        appendSampleIfChanged(sampleIdx + sampleIdxOffset, sample);
+        prevSample = sample;
+    }
+
+    vcdWriter.Write(vcdSb.ToString());
+    vcdWriter.Flush();
+    vcdFile.Flush();
+}
+
+void ExportCSV(CLChannel[] channels, int[] channelIndices, UInt128[] samples, string outputFileName)
+{
+    using var file = File.Create(Path.ChangeExtension(outputFileName, "csv"));
+    using var sw = new StreamWriter(file);
 
     sw.WriteLine(String.Join(',', channels.Select(c => c.ChannelName).ToArray()));
 
-    StringBuilder sb = new StringBuilder();
+    var sb = new StringBuilder();
 
-    for (int sample = 0; sample < result.Samples.Length; sample++)
+    for (int sample = 0; sample < samples.Length; sample++)
     {
         sb.Clear();
 
-        for (int buc = 0; buc < nChannels.Length; buc++)
+        for (int buc = 0; buc < channelIndices.Length; buc++)
         {
-            if ((result.Samples[sample] & ((UInt128)1 << nChannels[buc])) == 0)
+            if ((samples[sample] & ((UInt128)1 << channelIndices[buc])) == 0)
                 sb.Append("0,");
             else
                 sb.Append("1,");
@@ -276,14 +371,8 @@ async Task<int> Capture(CLCaptureOptions opts)
         sw.WriteLine(sb.ToString());
     }
 
-    sw.Close();
-    sw.Dispose();
-    file.Close();
-    file.Dispose();
-
-    Console.WriteLine("Done.");
-
-    return 1;
+    sw.Flush();
+    file.Flush();
 }
 
 int Configure(CLNetworkOptions opts)
@@ -334,7 +423,7 @@ int Configure(CLNetworkOptions opts)
         return -1;
     }
 
-    Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port {opts.SerialPort}");
+    Console.WriteLine($"Connected to device {driver.DeviceVersion} in port {opts.SerialPort}");
 
     if (driver.DeviceVersion == null || !driver.DeviceVersion.Contains("WIFI"))
     {

@@ -12,7 +12,7 @@ namespace SharedDriver
     public class LogicAnalyzerDriver : IDisposable, IAnalizerDriver
     {
         const int MAJOR_VERSION = 5;
-        const int MINOR_VERSION = 1;
+        const int MINOR_VERSION = 2;
 
 
         Regex regVersion = new Regex(".*?(V([0-9]+)_([0-9]+))$");
@@ -37,6 +37,10 @@ namespace SharedDriver
         private int channelCount;
         private int triggerChannel;
         private int preSamples;
+        private int postSamples;
+        private int loopCount;
+        private bool measure;
+        private int frequency;
         private Action<CaptureEventArgs>? currentCaptureHandler;
 
         bool isNetwork;
@@ -184,7 +188,7 @@ namespace SharedDriver
 
             return false;
         }
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool MeasureBursts, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
 
             if (capturing)
@@ -199,7 +203,8 @@ namespace SharedDriver
                 PreSamples < 2 || 
                 PostSamples < 512 || 
                 Frequency < 3100 || 
-                Frequency > 100000000
+                Frequency > 100000000 ||
+                LoopCount > 255
                 )
                 return CaptureError.BadParams;
 
@@ -233,6 +238,10 @@ namespace SharedDriver
                 channelCount = Channels.Length;
                 triggerChannel = TriggerChannel;
                 preSamples = PreSamples;
+                postSamples = PostSamples;
+                loopCount = LoopCount;
+                measure = MeasureBursts;
+                frequency = Frequency;
                 currentCaptureHandler = CaptureCompletedHandler;
 
                 CaptureRequest request = new CaptureRequest
@@ -246,6 +255,7 @@ namespace SharedDriver
                     preSamples = (uint)PreSamples,
                     postSamples = (uint)PostSamples,
                     loopCount = (byte)LoopCount,
+                    measure = MeasureBursts ? (byte)1 : (byte)0,
                     captureMode = captureMode
                 };
 
@@ -310,6 +320,8 @@ namespace SharedDriver
                 channelCount = Channels.Length;
                 triggerChannel = TriggerChannel;
                 preSamples = PreSamples;
+                loopCount = 0;
+                measure = false;
                 currentCaptureHandler = CaptureCompletedHandler;
 
                 CaptureRequest request = new CaptureRequest
@@ -362,6 +374,7 @@ namespace SharedDriver
             {
                 uint length = readData.ReadUInt32();
                 UInt128[] samples = new UInt128[length];
+                uint[] timestamps = new uint[(this.loopCount == 0 || !this.measure) ? 0 : (this.loopCount + 2)];
 
                 BinaryReader rdData;
 
@@ -369,7 +382,16 @@ namespace SharedDriver
                     rdData = readData;
                 else
                 {
-                    byte[] readBuffer = new byte[Samples * (Mode == 0 ? 1 : (Mode == 1 ? 2 : 4))];
+                    int bufLen = Samples * ((Mode == 0) ? 1 : ((Mode == 1) ? 2 : 4));
+                    if (this.loopCount == 0 || !this.measure)
+                    {
+                        bufLen++;
+                    }
+                    else
+                    {
+                        bufLen += 1 + (this.loopCount + 2) * 4;
+                    }
+                    byte[] readBuffer = new byte[bufLen];
                     int left = readBuffer.Length;
                     int pos = 0;
 
@@ -398,11 +420,48 @@ namespace SharedDriver
                             samples[buc] = rdData.ReadUInt32();
                         break;
                 }
-
+                if (rdData.ReadByte() > 0)
+                {
+                    for (int buc4 = 0; buc4 < this.loopCount + 2; buc4++)
+                    {
+                        timestamps[buc4] = rdData.ReadUInt32();
+                    }
+                }
+                if (timestamps.Length != 0)
+                {
+                    for (int buc5 = 0; buc5 < timestamps.Length; buc5++)
+                    {
+                        uint tt = timestamps[buc5];
+                        tt = (tt & 4278190080U) | (16777215U - (tt & 16777215U));
+                        timestamps[buc5] = tt;
+                    }
+                    double num = 1000000000.0 / (double)this.frequency;
+                    double ticksPerSample = num / 5.0;
+                    double ticksPerBurst = num * (double)this.postSamples / 5.0;
+                    for (int buc6 = 1; buc6 < timestamps.Length; buc6++)
+                    {
+                        ulong top = (ulong)((timestamps[buc6] < timestamps[buc6 - 1]) ? (timestamps[buc6] + uint.MaxValue) : timestamps[buc6]);
+                        if (top - (ulong)timestamps[buc6 - 1] <= ticksPerBurst)
+                        {
+                            uint diff = (uint)(ticksPerBurst - (top - (ulong)timestamps[buc6 - 1]) + ticksPerSample * 2.0);
+                            for (int buc7 = buc6; buc7 < timestamps.Length; buc7++)
+                            {
+                                timestamps[buc7] += diff;
+                            }
+                        }
+                    }
+                    uint[] delays = new uint[timestamps.Length - 2];
+                    for (int buc8 = 2; buc8 < timestamps.Length; buc8++)
+                    {
+                        ulong top2 = (ulong)((timestamps[buc8] < timestamps[buc8 - 1]) ? (timestamps[buc8] + uint.MaxValue) : timestamps[buc8]);
+                        delays[buc8 - 2] = (uint)((top2 - (ulong)timestamps[buc8 - 1] - ticksPerBurst) * 5.0);
+                    }
+                    timestamps = delays;
+                }
                 if (currentCaptureHandler != null)
-                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, BurstTimestamps = timestamps });
                 else if (CaptureCompleted != null)
-                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, BurstTimestamps = timestamps });
 
                 if (!isNetwork)
                 {
@@ -614,6 +673,7 @@ namespace SharedDriver
             public UInt32 preSamples;
             public UInt32 postSamples;
             public byte loopCount;
+            public byte measure;
             public byte captureMode;
         }
 

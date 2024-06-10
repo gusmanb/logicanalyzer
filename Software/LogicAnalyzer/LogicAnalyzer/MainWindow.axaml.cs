@@ -772,6 +772,24 @@ namespace LogicAnalyzer
                     }
 
                     sampleViewer.Bursts = bursts.ToArray();
+                    uint[] burstTimestamps = e.BurstTimestamps;
+                    if (((burstTimestamps != null) ? burstTimestamps.Length : 0) == bursts.Count)
+                    {
+                        List<BurstInfo> burstsInfo = new List<BurstInfo>();
+                        for (int buc2 = 0; buc2 < e.BurstTimestamps.Length; buc2++)
+                        {
+                            burstsInfo.Add(new BurstInfo
+                            {
+                                SampleNumber = bursts[buc2],
+                                Nanoseconds = e.BurstTimestamps[buc2]
+                            });
+                        }
+                        sampleMarker.Bursts = burstsInfo.ToArray();
+                    }
+                    else
+                    {
+                        sampleMarker.Bursts = null;
+                    }
                 }
                 else
                     sampleViewer.Bursts = null;
@@ -1146,7 +1164,7 @@ namespace LogicAnalyzer
             }
             else
             {
-                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.LoopCount, settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray(), settings.TriggerChannel, settings.TriggerInverted);
+                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.LoopCount, settings.MeasureBursts, settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray(), settings.TriggerChannel, settings.TriggerInverted);
 
                 if (error != CaptureError.None)
                 {

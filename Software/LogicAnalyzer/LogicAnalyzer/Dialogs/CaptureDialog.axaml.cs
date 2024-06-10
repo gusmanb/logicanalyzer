@@ -172,7 +172,7 @@ namespace LogicAnalyzer.Dialogs
                             ckNegativeTrigger.IsChecked = settings.TriggerInverted;
                             ckBurst.IsChecked = settings.LoopCount > 0;
                             nudBurstCount.Value = settings.LoopCount > 0 ? settings.LoopCount + 1 : 2;
-
+                            ckMeasure.IsChecked = new bool?(settings.LoopCount > 0 && settings.MeasureBursts);
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
 
@@ -237,7 +237,7 @@ namespace LogicAnalyzer.Dialogs
             int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
             int loops = (int)((ckBurst.IsChecked ?? false) ? nudBurstCount.Value - 1 : 0);
-
+            bool measure = ckBurst.IsChecked.GetValueOrDefault() && ckMeasure.IsChecked.GetValueOrDefault();
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
             {
                 await this.ShowError("Error", $"Total samples cannot exceed {max}.");
@@ -344,6 +344,7 @@ namespace LogicAnalyzer.Dialogs
             settings.PreTriggerSamples = (int)nudPreSamples.Value;
             settings.PostTriggerSamples = (int)nudPostSamples.Value;
             settings.LoopCount = loops;
+            settings.MeasureBursts = measure;
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;
             settings.CaptureChannels = channelsToCapture.ToArray();
             
