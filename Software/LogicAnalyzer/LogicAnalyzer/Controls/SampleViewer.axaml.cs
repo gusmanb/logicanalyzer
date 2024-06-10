@@ -1,9 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.Markup.Xaml;
+using Avalonia.Input;
 using Avalonia.Media;
 using LogicAnalyzer.Classes;
+using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Protocols;
 using System;
 using System.Collections.Generic;
@@ -30,6 +30,8 @@ namespace LogicAnalyzer.Controls
         List<SampleRegion> regions = new List<SampleRegion>();
 
         public SampleRegion[] SelectedRegions { get { return regions.ToArray(); } }
+
+        public int TimeStepNs { get; internal set; }
 
         List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
         Color sampleLineColor = Color.FromRgb(60, 60, 60);
@@ -93,14 +95,13 @@ namespace LogicAnalyzer.Controls
 
         public override void Render(DrawingContext context)
         {
-
             int ChannelCount = Channels?.Length ?? 0;
 
             int minSize = ChannelCount * MIN_CHANNEL_HEIGHT;
 
             if (Parent.Bounds.Height > minSize && this.Height != double.NaN)
                 this.Height = double.NaN;
-            else if(Bounds.Height < minSize)
+            else if (Bounds.Height < minSize)
                 this.Height = minSize;
 
             base.Render(context);
@@ -118,12 +119,12 @@ namespace LogicAnalyzer.Controls
 
                 int lastSample = Math.Min(SamplesInScreen + FirstSample, Samples.Length);
 
-                
+
                 for (int chan = 0; chan < ChannelCount; chan++)
                 {
                     context.FillRectangle(GraphicObjectsCache.GetBrush(AnalyzerColors.BgChannelColors[chan % 2]), new Rect(0, chan * channelHeight, thisBounds.Width, channelHeight));
                 }
-                
+
                 if (regions.Count > 0)
                 {
                     foreach (var region in regions)
@@ -131,6 +132,7 @@ namespace LogicAnalyzer.Controls
                         int first = Math.Min(region.FirstSample, region.LastSample);
                         double start = (first - FirstSample) * sampleWidth;
                         double end = sampleWidth * region.SampleCount;
+
                         context.FillRectangle(GraphicObjectsCache.GetBrush(region.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
                     }
                 }
@@ -164,7 +166,7 @@ namespace LogicAnalyzer.Controls
                         }
                     }
 
-                    if(UserMarker != null && UserMarker == buc)
+                    if (UserMarker != null && UserMarker == buc)
                         context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
 
                     for (int chan = 0; chan < ChannelCount; chan++)
@@ -218,8 +220,96 @@ namespace LogicAnalyzer.Controls
                         }
                     }
                 }
+
+                if (IsPointerOver && _pointer != null)
+                {
+                    var pointerX = _pointer.Value.X;
+                    var pointerY = _pointer.Value.Y;
+
+                    var sampleIdx = (int)(pointerX / sampleWidth + FirstSample);
+                    UInt128 sample = Samples[sampleIdx];
+                    UInt128 sampleValue = sample & ((UInt128)1 << 0); // TODO
+
+                    int leftSampleIdx = sampleIdx;
+                    UInt128 leftSampleValue = sampleValue;
+                    do
+                    {
+                        UInt128 leftSample = Samples[leftSampleIdx];
+                        leftSampleValue = leftSample & ((UInt128)1 << 0); // TODO
+
+                        leftSampleIdx--;
+                    }
+                    while (leftSampleIdx >= 0 && leftSampleValue == sampleValue);
+
+                    int rightSampleIdx = sampleIdx;
+                    UInt128 rightSampleValue = sampleValue;
+                    do
+                    {
+                        UInt128 rightSample = Samples[rightSampleIdx];
+                        rightSampleValue = rightSample & ((UInt128)1 << 0); // TODO
+
+                        rightSampleIdx++;
+                    }
+                    while (rightSampleIdx < Samples.Length && rightSampleValue == sampleValue);
+
+                    if (leftSampleIdx >= 0 && rightSampleIdx < Samples.Length)
+                    {
+                        var lineStart = (Math.Max(FirstSample, leftSampleIdx) - FirstSample) * sampleWidth;
+                        var lineEnd = (Math.Min(lastSample, rightSampleIdx) - FirstSample) * sampleWidth;
+
+                        //context.DrawEllipse(GraphicObjectsCache.GetBrush(burstLineColor), GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), _pointer.Value, 4, 4);
+
+                        /*context.DrawEllipse(GraphicObjectsCache.GetBrush(burstLineColor), GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new(lineStart, y), 4, 4);
+                        context.DrawEllipse(GraphicObjectsCache.GetBrush(burstLineColor), GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new(lineEnd, y), 8, 8);*/
+
+                        const int arrowSize = 5;
+
+                        context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1, DashStyle.DashDot), new Point(lineStart, _pointer.Value.Y), new Point(lineEnd, _pointer.Value.Y));
+
+                        if (leftSampleIdx>=FirstSample)
+                        {
+                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineStart, _pointer.Value.Y), new Point(lineStart + arrowSize, _pointer.Value.Y + arrowSize));
+                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineStart, _pointer.Value.Y), new Point(lineStart + arrowSize, _pointer.Value.Y - arrowSize));
+                        }
+                        
+                        if (rightSampleIdx<= lastSample)
+                        {
+                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineEnd, _pointer.Value.Y), new Point(lineEnd - arrowSize, _pointer.Value.Y + arrowSize));
+                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineEnd, _pointer.Value.Y), new Point(lineEnd - arrowSize, _pointer.Value.Y - arrowSize));
+                        }
+
+                        var widthNanoSeconds = (rightSampleIdx - leftSampleIdx) * TimeStepNs / 1000000000d;
+                        var timeStr = widthNanoSeconds.ToSmallTime();
+
+                        var region = regions.FirstOrDefault(r => r.FirstSample >= leftSampleIdx && r.LastSample <= rightSampleIdx);
+                        if (region != null && region.RegionName.StartsWith("Burst distance"))
+                            timeStr = region.RegionName;
+
+                        var formattedText = new FormattedText($"{timeStr}", Typeface.Default, 12, TextAlignment.Center, TextWrapping.NoWrap, Size.Infinity);
+                        context.DrawText(Foreground, new((lineEnd - lineStart) / 2 + lineStart - 20, pointerY - 14), formattedText);
+                    }
+                }
             }
         }
 
+        Point? _pointer;
+
+        protected override void OnPointerMoved(PointerEventArgs e)
+        {
+            base.OnPointerMoved(e);
+
+            var point = e.GetCurrentPoint(this);
+
+            _pointer = IsPointerOver ? point.Position : null;
+            InvalidateVisual();
+        }
+
+        protected override void OnPointerLeave(PointerEventArgs e)
+        {
+            base.OnPointerLeave(e);
+
+            _pointer = null;
+            InvalidateVisual();
+        }
     }
 }

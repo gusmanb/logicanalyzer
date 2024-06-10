@@ -257,7 +257,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     }
 
     Console.WriteLine("Capture complete, writing output file...");
-    System.Diagnostics.Debugger.Launch();
+
     if (opts.ExportVCD)
         ExportVCD(nChannels, result.Samples, result.BurstTimestamps, opts);
 
@@ -300,17 +300,12 @@ void ExportVCD(int[] channelIndices, UInt128[] samples, uint[] burstTimeStamps, 
     }
 
     UInt128? prevSample = null;
-    uint previdx = 0;
     void appendSampleIfChanged(uint sampleIdx, UInt128 sample)
     {
         if (sample == prevSample)
             return;
 
         vcdSb.Append($"#{sampleIdx}");
-
-        if (sampleIdx < previdx)
-            DateTime.Now.AddDays(0);
-        previdx = sampleIdx;
 
         foreach (var channelIdx in channelIndices)
         {
