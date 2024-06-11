@@ -139,6 +139,7 @@ namespace LogicAnalyzer.Controls
                     }
                 }
 
+                var horizontalLineSegments = new Dictionary<(int channel, double lineLevel), List<(double start, double end)>>();
                 for (int buc = FirstSample; buc < lastSample; buc++)
                 {
 
@@ -182,7 +183,15 @@ namespace LogicAnalyzer.Controls
                         else
                             lineY = (chan + 1) * channelHeight - margin;
 
-                        context.DrawLine(GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX + sampleWidth, lineY));
+                        // render performance penalty due to a lots of small lines being drawn
+                        //context.DrawLine(GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX + sampleWidth, lineY));
+                        // collect all horizontal lines needed, then merge them to draw one line at once
+                        {
+                            if (!horizontalLineSegments.TryGetValue((chan, lineY), out var lineSegments))
+                                horizontalLineSegments[(chan, lineY)] = lineSegments = new List<(double start, double end)>();
+
+                            lineSegments.Add((lineX, lineX + sampleWidth));
+                        }
 
                         if (curVal != prevVal && buc != 0)
                         {
@@ -191,6 +200,8 @@ namespace LogicAnalyzer.Controls
                         }
                     }
                 }
+
+                RenderHorizontalLines(context, horizontalLineSegments);
 
                 if (UserMarker != null && UserMarker == lastSample)
                 {
@@ -227,6 +238,38 @@ namespace LogicAnalyzer.Controls
             }
         }
 
+        private void RenderHorizontalLines(DrawingContext context, Dictionary<(int channel, double lineLevel), List<(double start, double end)>> lines)
+        {
+            foreach (var channelLineSegments in lines)
+            {
+                var chan = channelLineSegments.Key.channel;
+                var lineY = channelLineSegments.Key.lineLevel;
+
+                for (int i = 0; i < channelLineSegments.Value.Count;)
+                {
+                    var seg = channelLineSegments.Value[i];
+                    var start = seg.start;
+                    var end = seg.end;
+                    var innerIdx = i + 1;
+                    while (innerIdx < channelLineSegments.Value.Count)
+                    {
+                        if (Math.Abs(end - channelLineSegments.Value[innerIdx].start) < 0.001)
+                        {
+                            end = channelLineSegments.Value[innerIdx].end;
+                            innerIdx++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    context.DrawLine(GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan], 2), new Point(start, lineY), new Point(end, lineY));
+                    i = innerIdx;
+                }
+            }
+        }
+
         private void RenderPointerRuler(DrawingContext context, Point pointerLocation, double sampleWidth, int lastSample, double channelHeight, double channelMargin)
         {
             if (Channels == null)
@@ -246,17 +289,16 @@ namespace LogicAnalyzer.Controls
                 return;
 
             var channelNum = Channels[channelIdx].ChannelNumber;
-            UInt128 getChannelValue(UInt128 sample) => sample & ((UInt128)1 << channelNum);
 
             UInt128 sample = Samples[sampleIdx];
-            UInt128 sampleValue = getChannelValue(sample);
+            UInt128 sampleValue = getChannelValue(sample, channelNum);
 
             int leftSampleIdx = sampleIdx;
             UInt128 leftSampleValue = sampleValue;
             do
             {
                 UInt128 leftSample = Samples[leftSampleIdx];
-                leftSampleValue = getChannelValue(leftSample);
+                leftSampleValue = getChannelValue(leftSample, channelNum);
 
                 leftSampleIdx--;
             }
@@ -271,7 +313,7 @@ namespace LogicAnalyzer.Controls
             do
             {
                 UInt128 rightSample = Samples[rightSampleIdx];
-                rightSampleValue = getChannelValue(rightSample);
+                rightSampleValue = getChannelValue(rightSample, channelNum);
 
                 rightSampleIdx++;
             }
@@ -310,6 +352,8 @@ namespace LogicAnalyzer.Controls
             var formattedText = new FormattedText($"{timeStr} ({samplesWidth} samples)", Typeface.Default, 12, TextAlignment.Center, TextWrapping.NoWrap, Size.Infinity);
             context.DrawText(Foreground, new((lineEnd - lineStart) / 2 + lineStart - 20, pointerLocation.Y - 16), formattedText);
         }
+
+        static UInt128 getChannelValue(UInt128 sample, int channelNumber) => sample & ((UInt128)1 << channelNumber);
 
         protected override void OnPointerMoved(PointerEventArgs e)
         {
