@@ -227,7 +227,7 @@ namespace LogicAnalyzer.Controls
                     var pointerY = _pointer.Value.Y;
 
                     var sampleIdx = (int)(pointerX / sampleWidth + FirstSample);
-                    if (sampleIdx > lastSample)
+                    if (sampleIdx >= lastSample || sampleIdx < 0)
                         return;
 
                     UInt128 sample = Samples[sampleIdx];

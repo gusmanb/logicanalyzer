@@ -564,8 +564,8 @@ namespace SharedDriver
 
             try
             {
-                tcpClient.Close();
-                tcpClient.Dispose();
+                tcpClient?.Close();
+                tcpClient?.Dispose();
 
             } catch { }
 
@@ -684,6 +684,6 @@ namespace SharedDriver
             public fixed byte Password[64];
             public fixed byte IPAddress[16];
             public UInt16 Port;
-        }     
+        }
     }
 }
