@@ -15,6 +15,8 @@ namespace LogicAnalyzer.Controls
     {
         const int MIN_CHANNEL_HEIGHT = 48;
 
+        private Point? _lastPointerLocation;
+
         public int PreSamples { get; set; }
         public int[]? Bursts { get; set; }
         public UInt128[] Samples { get; set; }
@@ -188,7 +190,6 @@ namespace LogicAnalyzer.Controls
                             context.DrawLine(GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan], 2), new Point(lineX, lineY), new Point(lineX, lineY + channelHeight - margin * 2));
                         }
                     }
-
                 }
 
                 if (UserMarker != null && UserMarker == lastSample)
@@ -221,81 +222,94 @@ namespace LogicAnalyzer.Controls
                     }
                 }
 
-                if (IsPointerOver && _pointer != null)
-                {
-                    var pointerX = _pointer.Value.X;
-                    var pointerY = _pointer.Value.Y;
-
-                    var sampleIdx = (int)(pointerX / sampleWidth + FirstSample);
-                    if (sampleIdx >= lastSample || sampleIdx < 0)
-                        return;
-
-                    UInt128 sample = Samples[sampleIdx];
-                    UInt128 sampleValue = sample & ((UInt128)1 << 0); // TODO
-
-                    int leftSampleIdx = sampleIdx;
-                    UInt128 leftSampleValue = sampleValue;
-                    do
-                    {
-                        UInt128 leftSample = Samples[leftSampleIdx];
-                        leftSampleValue = leftSample & ((UInt128)1 << 0); // TODO
-
-                        leftSampleIdx--;
-                    }
-                    while (leftSampleIdx >= 0 && leftSampleValue == sampleValue);
-
-                    int rightSampleIdx = sampleIdx;
-                    UInt128 rightSampleValue = sampleValue;
-                    do
-                    {
-                        UInt128 rightSample = Samples[rightSampleIdx];
-                        rightSampleValue = rightSample & ((UInt128)1 << 0); // TODO
-
-                        rightSampleIdx++;
-                    }
-                    while (rightSampleIdx < Samples.Length && rightSampleValue == sampleValue);
-
-                    if (leftSampleIdx >= 0 && rightSampleIdx < Samples.Length)
-                    {
-                        var lineStart = (Math.Max(FirstSample, leftSampleIdx) - FirstSample) * sampleWidth;
-                        var lineEnd = (Math.Min(lastSample, rightSampleIdx) - FirstSample) * sampleWidth;
-
-                        //context.DrawEllipse(GraphicObjectsCache.GetBrush(burstLineColor), GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), _pointer.Value, 4, 4);
-
-                        /*context.DrawEllipse(GraphicObjectsCache.GetBrush(burstLineColor), GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new(lineStart, y), 4, 4);
-                        context.DrawEllipse(GraphicObjectsCache.GetBrush(burstLineColor), GraphicObjectsCache.GetPen(userLineColor, 2, DashStyle.DashDot), new(lineEnd, y), 8, 8);*/
-
-                        const int arrowSize = 5;
-
-                        context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1, DashStyle.DashDot), new Point(lineStart, _pointer.Value.Y), new Point(lineEnd, _pointer.Value.Y));
-
-                        if (leftSampleIdx>=FirstSample)
-                        {
-                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineStart, _pointer.Value.Y), new Point(lineStart + arrowSize, _pointer.Value.Y + arrowSize));
-                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineStart, _pointer.Value.Y), new Point(lineStart + arrowSize, _pointer.Value.Y - arrowSize));
-                        }
-                        
-                        if (rightSampleIdx<= lastSample)
-                        {
-                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineEnd, _pointer.Value.Y), new Point(lineEnd - arrowSize, _pointer.Value.Y + arrowSize));
-                            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineEnd, _pointer.Value.Y), new Point(lineEnd - arrowSize, _pointer.Value.Y - arrowSize));
-                        }
-
-                        var widthNanoSeconds = (rightSampleIdx - leftSampleIdx) * TimeStepNs / 1000000000d;
-                        var timeStr = widthNanoSeconds.ToSmallTime();
-
-                        var region = regions.FirstOrDefault(r => r.FirstSample >= leftSampleIdx && r.LastSample <= rightSampleIdx);
-                        if (region != null && region.RegionName.StartsWith("Burst distance"))
-                            timeStr = region.RegionName;
-
-                        var formattedText = new FormattedText($"{timeStr}", Typeface.Default, 12, TextAlignment.Center, TextWrapping.NoWrap, Size.Infinity);
-                        context.DrawText(Foreground, new((lineEnd - lineStart) / 2 + lineStart - 20, pointerY - 14), formattedText);
-                    }
-                }
+                if (IsPointerOver && _lastPointerLocation != null)
+                    RenderPointerRuler(context, _lastPointerLocation.Value, sampleWidth, lastSample, channelHeight, margin);
             }
         }
 
-        Point? _pointer;
+        private void RenderPointerRuler(DrawingContext context, Point pointerLocation, double sampleWidth, int lastSample, double channelHeight, double channelMargin)
+        {
+            if (Channels == null)
+                return;
+
+            var sampleIdx = (int)(pointerLocation.X / sampleWidth + FirstSample);
+            if (sampleIdx >= lastSample || sampleIdx < 0)
+                return;
+
+            var channelIdx = (int)(pointerLocation.Y / channelHeight);
+            if (channelIdx >= Channels.Length)
+                return;
+
+            var channelTopMargin = channelIdx * channelHeight + channelMargin;
+            var channelBotMargin = (channelIdx + 1) * channelHeight - channelMargin;
+            if (pointerLocation.Y < channelTopMargin || pointerLocation.Y > channelBotMargin)
+                return;
+
+            var channelNum = Channels[channelIdx].ChannelNumber;
+            UInt128 getChannelValue(UInt128 sample) => sample & ((UInt128)1 << channelNum);
+
+            UInt128 sample = Samples[sampleIdx];
+            UInt128 sampleValue = getChannelValue(sample);
+
+            int leftSampleIdx = sampleIdx;
+            UInt128 leftSampleValue = sampleValue;
+            do
+            {
+                UInt128 leftSample = Samples[leftSampleIdx];
+                leftSampleValue = getChannelValue(leftSample);
+
+                leftSampleIdx--;
+            }
+            while (leftSampleIdx >= 0 && leftSampleValue == sampleValue);
+            if (leftSampleValue != sampleValue)
+                leftSampleIdx++;
+            else
+                return;
+
+            int rightSampleIdx = sampleIdx;
+            UInt128 rightSampleValue = sampleValue;
+            do
+            {
+                UInt128 rightSample = Samples[rightSampleIdx];
+                rightSampleValue = getChannelValue(rightSample);
+
+                rightSampleIdx++;
+            }
+            while (rightSampleIdx < Samples.Length && rightSampleValue == sampleValue);
+            if (rightSampleValue != sampleValue)
+                rightSampleIdx--;
+            else
+                return;
+
+            var lineStart = ((Math.Max(FirstSample, leftSampleIdx) - FirstSample) + 1) * sampleWidth;
+            var lineEnd = (Math.Min(lastSample, rightSampleIdx) - FirstSample) * sampleWidth;
+
+            const int arrowSize = 5;
+
+            context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1, DashStyle.DashDot), new Point(lineStart, pointerLocation.Y), new Point(lineEnd, pointerLocation.Y));
+
+            if (leftSampleIdx >= FirstSample)
+            {
+                context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineStart, pointerLocation.Y), new Point(lineStart + arrowSize, pointerLocation.Y + arrowSize));
+                context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineStart, pointerLocation.Y), new Point(lineStart + arrowSize, pointerLocation.Y - arrowSize));
+            }
+
+            if (rightSampleIdx <= lastSample)
+            {
+                context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineEnd, pointerLocation.Y), new Point(lineEnd - arrowSize, pointerLocation.Y + arrowSize));
+                context.DrawLine(GraphicObjectsCache.GetPen(userLineColor, 1), new Point(lineEnd, pointerLocation.Y), new Point(lineEnd - arrowSize, pointerLocation.Y - arrowSize));
+            }
+
+            var samplesWidth = rightSampleIdx - leftSampleIdx - 1;
+
+            var region = regions.OfType<BurstGapRegion>().FirstOrDefault(r => r.FirstSample >= leftSampleIdx && r.LastSample <= rightSampleIdx);
+            if (region != null)
+                samplesWidth = samplesWidth - region.GapSamples + region.BurstDelaySamples;
+
+            var timeStr = (samplesWidth * TimeStepNs / 1000000000d).ToSmallTime();
+            var formattedText = new FormattedText($"{timeStr} ({samplesWidth} samples)", Typeface.Default, 12, TextAlignment.Center, TextWrapping.NoWrap, Size.Infinity);
+            context.DrawText(Foreground, new((lineEnd - lineStart) / 2 + lineStart - 20, pointerLocation.Y - 16), formattedText);
+        }
 
         protected override void OnPointerMoved(PointerEventArgs e)
         {
@@ -303,7 +317,7 @@ namespace LogicAnalyzer.Controls
 
             var point = e.GetCurrentPoint(this);
 
-            _pointer = IsPointerOver ? point.Position : null;
+            _lastPointerLocation = IsPointerOver ? point.Position : null;
             InvalidateVisual();
         }
 
@@ -311,7 +325,7 @@ namespace LogicAnalyzer.Controls
         {
             base.OnPointerLeave(e);
 
-            _pointer = null;
+            _lastPointerLocation = null;
             InvalidateVisual();
         }
     }
