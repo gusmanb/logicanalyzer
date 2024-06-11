@@ -45,6 +45,10 @@ namespace LogicAnalyzer
 
         bool preserveSamples = false;
         Timer tmrPower;
+
+        private bool _hideGapsCheckState;
+        private bool _updatingHideGapsCheckState;
+
         public MainWindow()
         {
             Instance = this;
@@ -81,6 +85,8 @@ namespace LogicAnalyzer
             mnuDocs.Click += MnuDocs_Click;
             mnuAbout.Click += MnuAbout_Click;
             AddHandler(InputElement.KeyDownEvent, MainWindow_KeyDown, handledEventsToo: true);
+
+            _hideGapsCheckState = hideGapsChk.IsChecked ?? false;
 
             LoadAnalyzers();
             RefreshPorts();
@@ -817,25 +823,34 @@ namespace LogicAnalyzer
                                     var burstIdx = burstStartIdx / settings.PostTriggerSamples - 1;
                                     var pointsToInsert = (int)(_burstTimestampsFromScan[burstIdx] / timeStepNs);
 
-                                    if (pointsToInsert > 4)
+                                    // expand small gaps silently
+                                    if (pointsToInsert <= 4)
                                     {
-                                        if (hideGapsChk.IsChecked == true)
+                                        burstsOffset += pointsToInsert;
+
+                                        for (var j = 0; j < pointsToInsert; ++j)
+                                            newSamples.Add(prevSample);
+                                    }
+                                    else
+                                    {
+                                        if (_hideGapsCheckState)
                                             pointsToInsert = Math.Min(settings.PostTriggerSamples / 4, pointsToInsert);
 
-                                        burstsOffset += (int)pointsToInsert;
-                                        var ccnt = newSamples.Count;
+                                        burstsOffset += pointsToInsert;
 
                                         for (var j = 0; j < pointsToInsert; ++j)
                                             newSamples.Add(prevSample);
 
-                                        if (hideGapsChk.IsChecked == true)
+                                        if (_hideGapsCheckState)
                                         {
-                                            regions.Add(new()
+                                            regions.Add(new BurstGapRegion()
                                             {
                                                 FirstSample = (int)(sampleIdx + burstsOffset - pointsToInsert - 5),
                                                 LastSample = (int)(sampleIdx + burstsOffset - 5),
                                                 RegionColor = Color.FromArgb(40, 120, 120, 120),
-                                                RegionName = $"Burst distance: {((double)burstsInfo[(int)burstIdx].Nanoseconds / 1000000000d).ToSmallTime()}",
+                                                RegionName = $"Burst distance: {(burstsInfo[(int)burstIdx].Nanoseconds / 1000000000d).ToSmallTime()}",
+                                                GapSamples = pointsToInsert,
+                                                BurstDelaySamples = (int)(burstsInfo[(int)burstIdx].Nanoseconds / timeStepNs),
                                             });
                                         }
                                     }
@@ -1492,13 +1507,34 @@ namespace LogicAnalyzer
             sampleViewer.EndUpdate();
         }
 
-        private void HideGaps_Checked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private async void HideGaps_Checked(object? sender, Avalonia.Interactivity.RoutedEventArgs e) => await HideGaps_CheckChanged();
+
+        private async void HideGaps_Unchecked(object? sender, Avalonia.Interactivity.RoutedEventArgs e) => await HideGaps_CheckChanged();
+
+        private async Task HideGaps_CheckChanged()
         {
-            LoadScanResults();
+            if (_updatingHideGapsCheckState)
+                return;
+
+            if (hideGapsChk.IsChecked == false && _hideGapsCheckState)
+            {
+                var res = await this.ShowConfirm("Confirm", "Expanding gaps may generate a large amount of the samples if bursts delay are large. Continue?");
+                if (!res)
+                {
+                    _updatingHideGapsCheckState = true;
+                    try
+                    {
+                        hideGapsChk.IsChecked = true;
+                        return;
+                    }
+                    finally
+        {
+                        _updatingHideGapsCheckState = false;
+                    }
+                }
         }
 
-        private void HideGaps_Unchecked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
+            _hideGapsCheckState = hideGapsChk.IsChecked ?? false;
             LoadScanResults();
         }
     }
