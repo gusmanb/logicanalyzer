@@ -1,6 +1,18 @@
 # LogicAnalyzer
 ----
 
+# Exciting news! The Pico 2 is coming soon!
+
+As some of you may know the Pico 2 is being released this month. The new Pico 2 is a very exciting upgrade of the pico, more powerful cores, two alternative RiscV cores, three PIO units instead of two and 520Kb of RAM!
+
+This can be a game changer for LogicAnalyzer, only with the new ammount of RAM the quantity of samples is going to increase massively, we're talking about three times the current ammount of samples!
+
+Also, there are really exciting changes on the PIO side, the new IRQ system allows to intercomunicate the PIO units, this means that the trigger pins could be freed now, and this, as small change as it seems can be really amazing combined with the new third PIO unit... Think about this, a 64Mb dual SPI RAM running at 100Mhz connected to the two free pins and controlled at full speed by the third PIO unit... 
+
+I was preparing a release for this month but it's going to be delayed, once I receive the new Pico's I will start the development for the Pico 2 and once it's completed I will release all at once.
+
+Stay tuned!
+
 ## Downloads
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
