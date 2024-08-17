@@ -367,3 +367,7 @@ Releases/
 
 #Firmware build files
 Firmware/LogicAnalyzer/build/
+/Electronics/LogicAnalyzer/LogicAnalyzer-lazaj/LogicAnalyzer-backups
+/Electronics/LogicAnalyzer/LogicAnalyzer-lazaj/outputs
+/Electronics/LogicAnalyzer/LogicAnalyzer/LogicAnalyzer-backups
+/Electronics/LogicAnalyzer/LogicAnalyzer/LogicAnalyzer-backups
