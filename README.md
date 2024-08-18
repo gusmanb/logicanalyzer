@@ -6,6 +6,11 @@ You can find all the compiled projects in the [Releases section](https://github.
 Latest version: Release 5.1.0.0, 05/05/2024
 ----
 
+# Help wanted!
+
+I'm cooking something very special, if you whant to know what it is and help with it, [check this post](https://github.com/gusmanb/logicanalyzer/discussions/127).
+😉
+
 # More boards on the go!
 
 One of the new functionalities of the RP2350 is the capability of having two XIP devices and also has the full device implementation (RP2040 only had READ capabilities implemented). This means that is possible to have (for example) a flash device *and* a PSRAM connected to it.
