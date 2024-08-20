@@ -27,17 +27,23 @@ namespace LogicAnalyzer.Protocols
         /// </summary>
         public string[]? ListValues { get; set; }
         /// <summary>
-        /// If SettingType is of type "integer" this property must contain the maximum allowed value
+        /// If SettingType is a numeric type this property must contain the maximum allowed value
         /// </summary>
-        public int IntegerMaximumValue { get; set; } = 0;
+        public double MaximumValue { get; set; } = 100;
         /// <summary>
-        /// If SettingType is of type "integer" this property must contain the minimum allowed value
+        /// If SettingType is a numeric type this property must contain the minimum allowed value
         /// </summary>
-        public int IntegerMinimumValue { get; set; } = 100;
+        public double MinimumValue { get; set; } = 0;
         /// <summary>
         /// If SettingType is of type "boolean" this property contains the text shown in the checkbox
         /// </summary>
         public string CheckCaption { get; set; } = "";
+
+        /// <summary>
+        /// If provided, the default value for the setting
+        /// </summary>
+        public object? DefaultValue { get; set; }
+
         public enum ProtocolAnalyzerSettingType
         {
             /// <summary>
@@ -49,9 +55,17 @@ namespace LogicAnalyzer.Protocols
             /// </summary>
             Integer,
             /// <summary>
+            /// An double setting, represented by a numeric up/down box
+            /// </summary>
+            Double,
+            /// <summary>
             /// A list setting, represented by a dropdown list
             /// </summary>
-            List
+            List,
+            /// <summary>
+            /// A string setting, represented by a text box
+            /// </summary>
+            String
         }
     }
     /// <summary>
@@ -167,5 +181,44 @@ namespace LogicAnalyzer.Protocols
         /// </summary>
         public string Value { get; set; }
     }
+    public class ProtocolAnalyzedAnnotation
+    {
+        public string AnnotationName { get; set; }
+        public ProtocolAnalyzedAnnotationSegment[] Segments { get; set; }
+
+    }
+
+    public class ProtocolAnalyzedAnnotationSegment
+    {
+        /// <summary>
+        /// An ID used to give color to the segment
+        /// </summary>
+        public int TypeId { get; set; }
+        /// <summary>
+        /// Shape to use to render the segment
+        /// </summary>
+        public ProtocolAnalyzerSegmentShape Shape { get; set; }
+        /// <summary>
+        /// Start sample of the segment
+        /// </summary>
+        public int FirstSample { get; set; }
+        /// <summary>
+        /// End sample of the segment
+        /// </summary>
+        public int LastSample { get; set; }
+        /// <summary>
+        /// List of values. This list goes from largest to shortest possible representation
+        /// </summary>
+        public string[] Value { get; set; }
+    }
+
+    public enum ProtocolAnalyzerSegmentShape
+    {
+        Rectangle,
+        RoundRectangle,
+        Hexagon,
+        Circle
+    }
+
     #endregion
 }

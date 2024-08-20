@@ -19,6 +19,9 @@ namespace ParallelProtocolAnalyzer
         const string FALLING_EDGE = "Falling";
         const string READ_OP = "Read";
         const string WRITE_OP = "Write";
+
+        public override ProtocolAnalyzerType AnalyzerType => ProtocolAnalyzerType.ChannelAnalyzer;
+
         public override string ProtocolName
         {
             get
@@ -51,29 +54,29 @@ namespace ParallelProtocolAnalyzer
             {
                 SettingType = ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer,
                 Caption = "Read offset (in samples)",
-                IntegerMinimumValue = 0,
-                IntegerMaximumValue = 32
+                MinimumValue = 0,
+                MaximumValue = 32
             },
             new ProtocolAnalyzerSetting
             {
                 SettingType = ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer,
                 Caption = "Write offset (in samples)",
-                IntegerMinimumValue = 0,
-                IntegerMaximumValue = 32
+                MinimumValue = 0,
+                MaximumValue = 32
             },
             new ProtocolAnalyzerSetting
             {
                 SettingType = ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer,
                 Caption = "Data width",
-                IntegerMinimumValue = 4,
-                IntegerMaximumValue = 32
+                MinimumValue = 4,
+                MaximumValue = 32
             },
             new ProtocolAnalyzerSetting
             {
                 SettingType = ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer,
                 Caption = "Address width",
-                IntegerMinimumValue = 0,
-                IntegerMaximumValue = 32
+                MinimumValue = 0,
+                MaximumValue = 32
             }
         };
 
@@ -135,7 +138,7 @@ namespace ParallelProtocolAnalyzer
             return 0;
         }
 
-        public override ProtocolAnalyzedChannel[] Analyze(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        public override ProtocolAnalyzedChannel[] AnalyzeChannels(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
         {
 
             /*

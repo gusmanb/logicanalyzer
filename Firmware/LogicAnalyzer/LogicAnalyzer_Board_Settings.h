@@ -3,7 +3,7 @@
     #define __LOGICANALYZER_BOARD_SETTINGS__
 
     #include "pico/stdlib.h"
-    #include "LogicAnalyzer_Build_Settings.h"
+    //#include "LogicAnalyzer_Build_Settings.h"
 
     //Board definitions
 

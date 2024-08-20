@@ -66,7 +66,7 @@ namespace LogicAnalyzer.Dialogs
 
         public void Initialize(IEnumerable<CaptureChannel> Channels, int MaxShift)
         {
-            lstChannels.Items = Channels;
+            lstChannels.ItemsSource = Channels;
             nudShift.Maximum = MaxShift;
         }
 

@@ -15,7 +15,7 @@ namespace SharedDriver
         public int Channels { get; }
         public event EventHandler<CaptureEventArgs> CaptureCompleted;
         public bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port);
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool Measure, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public bool StopCapture();
         public CaptureLimits GetLimits(int[] Channels);
@@ -30,6 +30,8 @@ namespace SharedDriver
         public int ChannelCount { get; set; }
         public int PreSamples { get; set; }
         public UInt128[] Samples { get; set; }
+        public int LoopCount { get; set; }
+        public BurstInfo[] Bursts { get; set; }
     }
 
     public enum AnalyzerDriverType

@@ -38,7 +38,7 @@ namespace LogicAnalyzer.Controls
 
             List<TextBox> newBoxes = new List<TextBox>();
 
-            ChannelGrid.BeginBatchUpdate();
+            //ChannelGrid.BeginBatchUpdate();
 
             for (int buc = 0; buc < channels.Length; buc++)
             {
@@ -102,7 +102,7 @@ namespace LogicAnalyzer.Controls
 
             boxes = newBoxes.ToArray();
 
-            ChannelGrid.EndBatchUpdate();
+            //ChannelGrid.EndBatchUpdate();
         }
 
         private void NewChannelLabel_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)

@@ -112,7 +112,7 @@ namespace LogicAnalyzer.Dialogs
             portNames.Add("Network");
 
             foreach (var dd in dbs)
-                dd.Items = portNames.ToArray();
+                dd.ItemsSource = portNames.ToArray();
         }
 
         private async void Drop_SelectionChanged(object? sender, SelectionChangedEventArgs e)

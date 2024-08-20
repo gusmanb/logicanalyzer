@@ -27,7 +27,9 @@ LOCK:
     jmp LOCK                    ;block the program
 
 LOOP:
+
     mov x, osr                  ;read loop count
+
 INNER_LOOP:
 
     jmp pin POST_CAPTURE        ;wait for trigger
@@ -62,7 +64,89 @@ LOCK:
     jmp LOCK                    ;block the program
 
 LOOP:
+
     mov x, osr                  ;read loop count
+
+INNER_LOOP:
+    jmp pin INNER_LOOP          ;wait for trigger
+
+.wrap
+
+;--------------------------------------------------------------------------------------------
+.program POSITIVE_CAPTURE_MEASUREBURSTS
+
+    pull
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
+    irq wait 1                       ;trigger NMI to sync first timestamp
+
+.wrap_target
+
+    in pins 32			        ;read sample
+    jmp pin POST_CAPTURE		;exit wrap if pin is set
+
+.wrap
+
+POST_CAPTURE:
+
+    in pins 32			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
+
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+LOOP:
+    
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    mov x, osr                  ;read loop count
+
+INNER_LOOP:
+
+    jmp pin POST_CAPTURE        ;wait for trigger
+    jmp INNER_LOOP
+
+;--------------------------------------------------------------------------------------------
+.program NEGATIVE_CAPTURE_MEASUREBURSTS
+
+    pull
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
+    irq wait 1                  ;trigger NMI to sync first timestamp
+
+PRE_CAPTURE:
+
+    in pins 32			        ;read sample
+    jmp pin PRE_CAPTURE		    ;loop if pin is set
+
+POST_CAPTURE:
+
+.wrap_target
+
+    in pins 32			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
+
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+LOOP:
+
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    mov x, osr                  ;read loop count
+
 INNER_LOOP:
     jmp pin INNER_LOOP          ;wait for trigger
 
@@ -150,6 +234,9 @@ LOCK:
 #include "hardware/irq.h"
 #include "string.h"
 #include "hardware/sync.h"
+#include "hardware/exception.h"
+#include "hardware/structs/syscfg.h"
+#include "hardware/structs/systick.h"
 
 #define CAPTURE_BUFFER_SIZE (128 * 1024)
 
@@ -197,6 +284,13 @@ static CHANNEL_MODE lastCaptureMode = MODE_8_CHANNEL;
 //Static information of the current capture
 static bool captureFinished;
 static bool captureProcessed;
+
+//NEW//
+static volatile uint32_t loopTimestamp[256];
+static volatile uint8_t timestampIndex;
+static volatile uint8_t systickLoops;
+static exception_handler_t oldNMIHandler;
+static exception_handler_t oldSysTickHandler;
 
 //Pin mapping, used to map the channels to the PIO program
 //COMPLEX_TRIGGER_IN_PIN is added at the end of the array to support the chained mode
@@ -407,7 +501,6 @@ void fast_capture_completed()
 
     //Clear PIO interrupt 0 and unhook handler
     pio_interrupt_clear(capturePIO, 0);
-    irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), false);
 
     //Disable all DMA channels
     dma_channel_unclaim(dmaPingPong0);
@@ -456,7 +549,6 @@ void complex_capture_completed()
     //Clear PIO interrupt 0 and unhook handler
     pio_interrupt_clear(capturePIO, 0);
     irq_set_enabled(PIO0_IRQ_0, false);
-    irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), false);
     irq_remove_handler(PIO0_IRQ_0, complex_capture_completed);
 
     //Disable all DMA channels
@@ -502,8 +594,19 @@ void simple_capture_completed()
     //Clear PIO interrupt 0 and unhook handler
     pio_interrupt_clear(capturePIO, 0);
     irq_set_enabled(PIO0_IRQ_0, false);
-    irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), false);
     irq_remove_handler(PIO0_IRQ_0, simple_capture_completed);
+
+    //Clear PIO interrupt 1, disable NMI and reset systick
+    pio_interrupt_clear (capturePIO, 1);
+    pio_set_irq1_source_enabled(capturePIO, pis_interrupt1, false);
+
+    if(timestampIndex)
+    {
+        syscfg_hw->proc0_nmi_mask = 0;
+        exception_restore_handler(NMI_EXCEPTION, oldNMIHandler);
+        systick_hw->csr = 0;
+        exception_restore_handler(SYSTICK_EXCEPTION, oldSysTickHandler);
+    }
 
     dma_channel_unclaim(dmaPingPong0);
     dma_channel_unclaim(dmaPingPong1);
@@ -732,7 +835,9 @@ bool startCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     //Configure interrupt 0
     pio_interrupt_clear (capturePIO, 0);
-    irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), true);
+
+    //Reset timestamp index
+    timestampIndex = 0;
 
     //Initialize state machine
     pio_sm_init(capturePIO, sm_Capture, captureOffset, &smConfig);
@@ -899,7 +1004,9 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     pio_set_irq0_source_enabled(capturePIO, pis_interrupt0, true);
     irq_set_exclusive_handler(PIO0_IRQ_0, complex_capture_completed);
     irq_set_enabled(PIO0_IRQ_0, true);
-    irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), true);
+
+    //Reset timestamp index
+    timestampIndex = 0;
 
     //Initialize state machine
     pio_sm_init(capturePIO, sm_Capture, captureOffset, &smConfig);
@@ -952,9 +1059,21 @@ bool startCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
 
 #endif
 
-bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
+void __not_in_flash_func(sysTickRoll)()
 {
+    systickLoops++;
+}
 
+void __not_in_flash_func(loopEndHandler)()
+{
+    //Save timestamp
+    loopTimestamp[timestampIndex++] = systick_hw->cvr | systickLoops << 24; //timestamp;
+    //Clear PIO interrupt
+    capturePIO->irq = (1u << 1);
+}
+
+bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
+{
     int maxSamples;
 
     switch(captureMode)
@@ -971,7 +1090,7 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     }
 
     //Too many samples requested?
-    if(preLength + postLength >= maxSamples)
+    if(preLength + (postLength * (loopCount + 1)) >= maxSamples)
         return false;
 
     //Frequency too high?
@@ -1016,14 +1135,24 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);
     pio_sm_clear_fifos(capturePIO, sm_Capture);
-
     pio_sm_restart(capturePIO, sm_Capture);
 
     //Load correct program, depending on the trigger edge
     if(invertTrigger)
-        captureOffset = pio_add_program(capturePIO, &NEGATIVE_CAPTURE_program);
+    {
+        if(measureBursts)
+            captureOffset = pio_add_program(capturePIO, &NEGATIVE_CAPTURE_MEASUREBURSTS_program);
+        else
+            captureOffset = pio_add_program(capturePIO, &NEGATIVE_CAPTURE_program);
+    }
     else
-        captureOffset = pio_add_program(capturePIO, &POSITIVE_CAPTURE_program);
+    {
+        if(measureBursts)
+            captureOffset = pio_add_program(capturePIO, &POSITIVE_CAPTURE_MEASUREBURSTS_program);
+        else
+            captureOffset = pio_add_program(capturePIO, &POSITIVE_CAPTURE_program);
+        
+    }
 
     //Configure capture pins
     for(int i = 0; i < 24; i++)
@@ -1037,9 +1166,13 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     pio_gpio_init(capturePIO, triggerPin);
 
     //Configure state machines
-    pio_sm_config smConfig = invertTrigger?
+    pio_sm_config smConfig = measureBursts?
+                                (invertTrigger?
+                                NEGATIVE_CAPTURE_MEASUREBURSTS_program_get_default_config(captureOffset):
+                                POSITIVE_CAPTURE_MEASUREBURSTS_program_get_default_config(captureOffset)) :
+                                (invertTrigger?
                                 NEGATIVE_CAPTURE_program_get_default_config(captureOffset):
-                                POSITIVE_CAPTURE_program_get_default_config(captureOffset);
+                                POSITIVE_CAPTURE_program_get_default_config(captureOffset));
 
     //Input starts at pin INPUT_PIN_BASE
     sm_config_set_in_pins(&smConfig, INPUT_PIN_BASE);
@@ -1058,12 +1191,35 @@ bool startCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     pio_set_irq0_source_enabled(capturePIO, pis_interrupt0, true);
     irq_set_exclusive_handler(PIO0_IRQ_0, simple_capture_completed);
     irq_set_enabled(PIO0_IRQ_0, true);
-    irq_set_enabled(pio_get_dreq(capturePIO, sm_Capture, false), true);
+
+    //Set-up burst measure
+    if(loopCount > 0 && measureBursts)
+    {
+        //Configure NMI to get capture timestamp
+        pio_interrupt_clear (capturePIO, 1);
+        pio_set_irq1_source_enabled(capturePIO, pis_interrupt1, true);
+        //irq_set_exclusive_handler(PIO0_IRQ_1, loopEndHandler);
+        irq_set_priority(PIO0_IRQ_1, 0);
+        //irq_set_enabled(PIO0_IRQ_1, true);
+        syscfg_hw->proc0_nmi_mask = 1 << PIO0_IRQ_1;
+        oldNMIHandler = exception_set_exclusive_handler(NMI_EXCEPTION, loopEndHandler);
+
+        //Reset loop counter
+        systickLoops = 0;
+
+        //Enable systick
+        oldSysTickHandler = exception_set_exclusive_handler(SYSTICK_EXCEPTION, sysTickRoll);
+        systick_hw->rvr = 0x00FFFFFF;
+        systick_hw->cvr = 0x00FFFFFF;
+        systick_hw->csr = 0x7;
+
+    }
+    
+    //Reset timestamp index
+    timestampIndex = 0;
 
     //Initialize state machine
     pio_sm_init(capturePIO, sm_Capture, captureOffset, &smConfig);
-
-    irq_clear(pio_get_dreq(capturePIO, sm_Capture, false));
 
     //Configure DMA's
     configureCaptureDMAs(captureMode);
@@ -1215,6 +1371,12 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
     *bufferSize = totalSamples;
     *firstSample = lastStartPosition;
     return captureBuffer;
+}
+
+uint32_t* GetTimestamps(uint8_t* length)
+{
+    *length = timestampIndex;
+    return loopTimestamp;
 }
 
 %}

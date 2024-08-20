@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
-
+include(LogicAnalyzer_Build_Settings.cmake)
 project(LogicAnalyzer C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
@@ -15,10 +15,22 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-# add_executable(LogicAnalyzer LogicAnalyzer.c )
-
 FILE(GLOB CSources *.c)
 ADD_EXECUTABLE(LogicAnalyzer ${CSources})
+
+
+if(NOT BOARD_TYPE)
+    message(WARNING "Board not set, using default pico")
+    set(BOARD_TYPE "BOARD_PICO")
+endif()
+
+# Enable ram-only build for the base pico and zero, increases timming precission
+if(NOT DEBUG_BUILD)
+    if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO"))
+        message(STATUS "Setting RAM-only compilation")
+        pico_set_binary_type(LogicAnalyzer copy_to_ram)
+    endif()
+endif()
 
 # Create C header file with the name <pio program>.pio.h
 pico_generate_pio_header(${PROJECT_NAME}  
@@ -26,18 +38,30 @@ pico_generate_pio_header(${PROJECT_NAME}
 )
 
 pico_set_program_name(LogicAnalyzer "LogicAnalyzer")
-pico_set_program_version(LogicAnalyzer "5.1")
-
+pico_set_program_version(LogicAnalyzer "5.2")
+add_compile_definitions(FIRMWARE_VERSION="V5_2")
 
 pico_enable_stdio_uart(LogicAnalyzer 0)
 pico_enable_stdio_usb(LogicAnalyzer 1)
 
-# Configure the correct cyw library based on what this is built for
-# Regular pico: empty
-# Pico W without WiFi support: pico_cyw43_arch_none
-# Pico W with WiFi support: pico_cyw43_arch_lwip_poll
-set (CYW_LIB pico_cyw43_arch_lwip_poll)
-# set (CYW_LIB pico_cyw43_arch_none)
+if(BOARD_TYPE STREQUAL "BOARD_PICO")
+    message(STATUS "Configuring for Pico")
+    add_compile_definitions(BUILD_PICO)
+endif()
+if(BOARD_TYPE STREQUAL "BOARD_PICO_W")
+    message(STATUS "Configuring for Pico W without WiFi support")
+    add_compile_definitions(BUILD_PICO_W)
+    set (CYW_LIB pico_cyw43_arch_none)
+endif()
+if(BOARD_TYPE STREQUAL "BOARD_PICO_W_WIFI")
+    message(STATUS "Configuring for Pico W with WiFi support")
+    add_compile_definitions(BUILD_PICO_W_WIFI)
+    set (CYW_LIB pico_cyw43_arch_lwip_poll)
+endif()
+if(BOARD_TYPE STREQUAL "BOARD_ZERO")
+    message(STATUS "Configuring for Zero")
+    add_compile_definitions(BUILD_ZERO)
+endif()
 
 # Add any user requested libraries
 target_link_libraries(LogicAnalyzer
@@ -47,6 +71,7 @@ target_link_libraries(LogicAnalyzer
         hardware_clocks
         hardware_flash
         hardware_adc
+        hardware_exception
         pico_multicore
         pico_base_headers
         pico_multicore

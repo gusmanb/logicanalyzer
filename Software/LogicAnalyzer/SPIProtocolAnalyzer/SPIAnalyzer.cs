@@ -9,6 +9,14 @@ namespace SPIProtocolAnalyzer
 
         private SimpleSegmentRenderer renderer = new SimpleSegmentRenderer();
 
+        public override ProtocolAnalyzerType AnalyzerType
+        {
+            get
+            {
+                return ProtocolAnalyzerType.ChannelAnalyzer;
+            }
+        }
+
         public override string ProtocolName
         {
             get
@@ -79,7 +87,7 @@ namespace SPIProtocolAnalyzer
             }
         }
 
-        public override ProtocolAnalyzedChannel[] Analyze(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        public override ProtocolAnalyzedChannel[] AnalyzeChannels(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
         {
             string shiftOrder = SelectedSettings[0].Value.ToString();
             int cpol = int.Parse(SelectedSettings[1].Value.ToString());
@@ -148,7 +156,9 @@ namespace SPIProtocolAnalyzer
                 var clockRange = ckChannel.Samples.Skip(range.FirstSample).Take(range.Length).ToArray();
                 var dataRange = dataChannel.Samples.Skip(range.FirstSample).Take(range.Length).ToArray();
 
-                int firstClockSample = FindFirstSampleClock(0, clockRange, cpol, cpha);
+                int edge = -1;
+
+                int firstClockSample = FindFirstSampleClock(0, clockRange, cpol, cpha, out edge);
 
                 if (firstClockSample == -1)
                 {
@@ -159,7 +169,7 @@ namespace SPIProtocolAnalyzer
                 else
                 {
                     int lastSample;
-                    int value = GetByte(firstClockSample, clockRange, dataRange, shiftOrder, cpha, out lastSample);
+                    int value = GetByte(firstClockSample, clockRange, dataRange, shiftOrder, edge, out lastSample);
 
                     while (value != -1)
                     {
@@ -169,12 +179,12 @@ namespace SPIProtocolAnalyzer
                         ProtocolAnalyzerDataSegment segment = new ProtocolAnalyzerDataSegment { FirstSample = range.FirstSample + firstClockSample, LastSample = range.FirstSample + lastSample, Value = $"0x{value.ToString("X2")} '{asciival}'" };
                         segments.Add(segment);
 
-                        firstClockSample = FindFirstSampleClock(lastSample, clockRange, cpol, cpha);
+                        firstClockSample = FindFirstSampleClock(lastSample, clockRange, cpol, cpha, out edge);
 
                         if (firstClockSample == -1)
                             value = -1;
                         else
-                            value = GetByte(firstClockSample, clockRange, dataRange, shiftOrder, cpha, out lastSample);
+                            value = GetByte(firstClockSample, clockRange, dataRange, shiftOrder, edge, out lastSample);
 
                     }
                 }
@@ -185,26 +195,24 @@ namespace SPIProtocolAnalyzer
             return result;
         }
 
-        private int GetByte(int firstClockSample, byte[] clockRange, byte[] dataRange, string? shiftOrder, int cpha, out int lastSample)
+        private int GetByte(int firstClockSample, byte[] clockRange, byte[] dataRange, string? shiftOrder, int samplingEdge, out int lastSample)
         {
             lastSample = 0;
             byte[] values = new byte[8];
 
             int currentSample = firstClockSample;
 
-            values[0] = dataRange[firstClockSample];
-
-            for (int buc = 1; buc < 8; buc++)
+            for (int buc = 0; buc < 8; buc++)
             {
                 if (currentSample == -1)
                     return -1;
 
-                int edgeIndex = FindSample(currentSample, clockRange, cpha == 0 ? 1 : 0);
+                int edgeIndex = FindSample(currentSample, clockRange, samplingEdge);
                 if (edgeIndex == -1)
                     return -1;
 
                 values[buc] = dataRange[edgeIndex];
-                currentSample = FindSample(edgeIndex, clockRange, cpha);
+                currentSample = FindSample(edgeIndex, clockRange, samplingEdge == 0 ? 1 : 0);
 
             }
 
@@ -238,9 +246,11 @@ namespace SPIProtocolAnalyzer
             return value;
         }
 
-        private int FindFirstSampleClock(int start, byte[] clockRange, int cpol, int cpha)
+        private int FindFirstSampleClock(int start, byte[] clockRange, int cpol, int cpha, out int samplingEdge)
         {
             int pos = start;
+
+            samplingEdge = -1;
 
             if (cpol == 0 && cpha == 0)
             {
@@ -249,6 +259,8 @@ namespace SPIProtocolAnalyzer
 
                 if (pos == -1)
                     return -1;
+
+                samplingEdge = 1;
 
                 return FindSample(pos, clockRange, 1);
 
@@ -266,6 +278,8 @@ namespace SPIProtocolAnalyzer
                 if (pos == -1)
                     return -1;
 
+                samplingEdge = 0;
+
                 return FindSample(pos, clockRange, 0);
             }
             else if (cpol == 1 && cpha == 0)
@@ -276,6 +290,7 @@ namespace SPIProtocolAnalyzer
                 if (pos == -1)
                     return -1;
 
+                samplingEdge = 0;
 
                 return FindSample(pos, clockRange, 0);
 
@@ -293,6 +308,8 @@ namespace SPIProtocolAnalyzer
 
                 if (pos == -1)
                     return -1;
+
+                samplingEdge = 1;
 
                 return FindSample(pos, clockRange, 1);
 

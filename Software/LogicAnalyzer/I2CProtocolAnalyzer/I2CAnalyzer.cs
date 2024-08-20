@@ -11,6 +11,13 @@ namespace I2CProtocolAnalyzer
     {
         private SimpleSegmentRenderer renderer = new SimpleSegmentRenderer();
 
+        public override ProtocolAnalyzerType AnalyzerType
+        {
+            get
+            {
+                return ProtocolAnalyzerType.ChannelAnalyzer;
+            }
+        }
         public override string ProtocolName
         {
             get
@@ -39,7 +46,7 @@ namespace I2CProtocolAnalyzer
             }
         }
 
-        public override ProtocolAnalyzedChannel[] Analyze(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        public override ProtocolAnalyzedChannel[] AnalyzeChannels(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
         {
             var scl = SelectedChannels.Where(c => c.SignalName == "SCL").First();
             var sda = SelectedChannels.Where(c => c.SignalName == "SDA").First();

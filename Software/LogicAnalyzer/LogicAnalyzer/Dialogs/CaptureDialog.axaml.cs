@@ -5,7 +5,6 @@ using Avalonia.Markup.Xaml;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
-using MessageBox.Avalonia;
 using Newtonsoft.Json;
 using SharedDriver;
 using System;
@@ -172,7 +171,7 @@ namespace LogicAnalyzer.Dialogs
                             ckNegativeTrigger.IsChecked = settings.TriggerInverted;
                             ckBurst.IsChecked = settings.LoopCount > 0;
                             nudBurstCount.Value = settings.LoopCount > 0 ? settings.LoopCount + 1 : 2;
-
+                            ckMeasure.IsChecked = settings.LoopCount > 0 ? settings.MeasureBursts : false;
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
 
@@ -237,6 +236,7 @@ namespace LogicAnalyzer.Dialogs
             int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
             int loops = (int)((ckBurst.IsChecked ?? false) ? nudBurstCount.Value - 1 : 0);
+            bool measure = (ckBurst.IsChecked ?? false) ? (ckMeasure.IsChecked ?? false) : false;
 
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
             {
@@ -344,6 +344,7 @@ namespace LogicAnalyzer.Dialogs
             settings.PreTriggerSamples = (int)nudPreSamples.Value;
             settings.PostTriggerSamples = (int)nudPostSamples.Value;
             settings.LoopCount = loops;
+            settings.MeasureBursts = measure;
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;
             settings.CaptureChannels = channelsToCapture.ToArray();
             

@@ -180,7 +180,7 @@ async Task<int> Capture(CLCaptureOptions opts)
     if (opts.Trigger.TriggerType == CLTriggerType.Edge)
     {
         Console.WriteLine("Starting edge triggered capture...");
-        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples, opts.LoopCount < 2 ? 0 : opts.LoopCount - 1, nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
+        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples, opts.BurstCount < 2 ? 0 : opts.BurstCount - 1, opts.MeasureBurst, nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
 
         if (resStart != CaptureError.None)
         {
@@ -280,6 +280,27 @@ async Task<int> Capture(CLCaptureOptions opts)
     sw.Dispose();
     file.Close();
     file.Dispose();
+
+    if (result.Bursts != null && result.Bursts.Length > 0)
+    {
+
+        var outBursts = Path.Combine(Path.GetDirectoryName(opts.OutputFile) ?? "", Path.GetFileNameWithoutExtension(opts.OutputFile) + "_bursts.csv");
+        file = File.Create(outBursts);
+
+        sw = new StreamWriter(file);
+
+        sw.WriteLine("Start,End,SampleGap,TimeGap");
+
+        foreach (var burst in result.Bursts)
+        {
+            sw.WriteLine($"{burst.BurstSampleStart},{burst.BurstSampleEnd},{burst.BurstSampleGap},{burst.BurstTimeGap}");
+        }
+
+        sw.Close();
+        sw.Dispose();
+        file.Close();
+        file.Dispose();
+    }
 
     Console.WriteLine("Done.");
 

@@ -18,13 +18,13 @@ namespace LogicAnalyzer.Protocols
 
         public override void RenderSegment(ProtocolAnalyzedChannel Channel, ProtocolAnalyzerDataSegment Segment, DrawingContext G, Rect RenderArea)
         {
-            FormattedText text = new FormattedText(Segment.Value, segmentFont, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
+            FormattedText text = new FormattedText(Segment.Value, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, segmentFont, 12, GraphicObjectsCache.GetBrush(Channel.ForeColor));
 
             double midY = RenderArea.Y + (RenderArea.Height / 2.0);
-            double rectHeight = text.Bounds.Height + 10;
+            double rectHeight = text.Height + 10;
             double topY = midY - (rectHeight / 2.0);
             double bottomY = midY + (rectHeight / 2.0);
-            double minWidth = text.Bounds.Width + 10.0;
+            double minWidth = text.Width + 10.0;
 
             PathFigure container = new PathFigure();
             container.StartPoint = new Point(RenderArea.X, midY);
@@ -44,7 +44,7 @@ namespace LogicAnalyzer.Protocols
             if (RenderArea.Width < minWidth)
                 return;
 
-            G.DrawText(GraphicObjectsCache.GetBrush(Channel.ForeColor), new Point(RenderArea.X + (RenderArea.Width / 2 - text.Bounds.Width / 2), RenderArea.Y + (RenderArea.Height / 2 - text.Bounds.Height / 2)), text);
+            G.DrawText(text, new Point(RenderArea.X + (RenderArea.Width / 2 - text.Width / 2), RenderArea.Y + (RenderArea.Height / 2 - text.Height / 2)));
         }
     }
 }

@@ -2,7 +2,6 @@
 #ifndef __ANALYZER_STRUCTS__
     #define __ANALYZER_STRUCTS__
 
-    #include "LogicAnalyzer_Build_Settings.h"
     #include "pico/stdlib.h"
 
 
@@ -35,6 +34,8 @@
         uint32_t postSamples;
         //Number of capture loops
         uint8_t loopCount;
+        //Measure burst times
+        uint8_t measure;
         //Capture mode (0 = 8 channel, 1 = 16 channel, 2 = 24 channel)
         uint8_t captureMode;
 

@@ -39,8 +39,8 @@ namespace SerialProtocolAnalyzer
             {
                 Caption = "Bauds",
                 SettingType = ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer,
-                IntegerMinimumValue= 200,
-                IntegerMaximumValue= 20000000,
+                MinimumValue= 200,
+                MaximumValue= 20000000,
             }
         };
         static ProtocolAnalyzerSignal[] signals = new ProtocolAnalyzerSignal[] 
@@ -48,6 +48,14 @@ namespace SerialProtocolAnalyzer
             new ProtocolAnalyzerSignal{ SignalName = "RX", Required = false },
             new ProtocolAnalyzerSignal{ SignalName = "TX", Required = false },
         };
+
+        public override ProtocolAnalyzerType AnalyzerType
+        {
+            get
+            {
+                return ProtocolAnalyzerType.ChannelAnalyzer;
+            }
+        }
         public override string ProtocolName
         {
             get
@@ -72,7 +80,7 @@ namespace SerialProtocolAnalyzer
             }
         }
 
-        public override ProtocolAnalyzedChannel[] Analyze(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        public override ProtocolAnalyzedChannel[] AnalyzeChannels(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
         {
             double period = (double)SamplingRate / (double)(int)SelectedSettings[4].Value;
 

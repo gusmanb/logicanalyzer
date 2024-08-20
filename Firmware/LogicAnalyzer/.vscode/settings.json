@@ -61,6 +61,9 @@
       "cyw43_arch.h": "c",
       "logicanalyzer_build_settings.h": "c",
       "sync.h": "c",
-      "flash.h": "c"
+      "flash.h": "c",
+      "exception.h": "c",
+      "event_machine.h": "c",
+      "usb.h": "c"
     },
 }

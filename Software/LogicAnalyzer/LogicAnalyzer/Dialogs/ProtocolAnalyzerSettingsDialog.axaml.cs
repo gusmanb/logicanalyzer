@@ -26,7 +26,6 @@ namespace LogicAnalyzer.Dialogs
         Channel[] channels;
         public Channel[] Channels { get { return channels; } set { channels = value; LoadControls(); } }
 
-
         public ProtocolAnalyzerSettingsDialog()
         {
             InitializeComponent();
@@ -66,7 +65,7 @@ namespace LogicAnalyzer.Dialogs
 
                     pnlControls.Children.Add(new TextBlock{ IsVisible = true, Name = $"Label_Signal{buc}", Text = signal.IsBus ? $"First channel of bus {signal.SignalName}" : $"Channel for signal { signal.SignalName }:" });
 
-                    var list = new ComboBox { IsVisible = true, Name = $"List_Signal{buc}", Items = channelsSource.ToArray(), HorizontalAlignment=Avalonia.Layout.HorizontalAlignment.Stretch, Margin= new Thickness(0,10,20,0) };
+                    var list = new ComboBox { IsVisible = true, Name = $"List_Signal{buc}", ItemsSource = channelsSource.ToArray(), HorizontalAlignment=Avalonia.Layout.HorizontalAlignment.Stretch, Margin= new Thickness(0,10,20,0), Tag = "CHANNEL" };
 
                     if (initialSettings != null)
                     {
@@ -107,31 +106,63 @@ namespace LogicAnalyzer.Dialogs
                                 if(setV != null)
                                     ck.IsChecked = (bool)(setV.Value ?? false);
                             }
+                            else if(set.DefaultValue != null)
+                            {
+                                ck.IsChecked = (bool)set.DefaultValue;
+                            }
 
                             pnlControls.Children.Add(ck);
 
                             ck.Checked += BooleanSetting_CheckedChanged;
                             break;
 
-                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer:
+                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.String:
 
-                            var nud = new NumericUpDown { IsVisible = true, Name = $"Numeric_Index{buc}", Minimum = set.IntegerMinimumValue, Maximum = set.IntegerMaximumValue, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0), Value = set.IntegerMinimumValue };
+                            var tb = new TextBox { IsVisible = true, Name = $"Text_Index{buc}", HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
 
                             if (initialSettings != null)
                             {
                                 var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
 
                                 if (setV != null)
-                                    nud.Value = (int)(setV.Value ?? 0);
+                                    tb.Text = setV.Value?.ToString() ?? "";
+                            }
+                            else if(set.DefaultValue != null)
+                            {
+                                tb.Text = set.DefaultValue.ToString();
+                            }
+
+                            pnlControls.Children.Add(tb);
+                            tb.TextChanged += (s, e) => ValidateSettings();
+                            break;
+
+                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer:
+                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Double:
+
+                            var nud = new NumericUpDown { IsVisible = true, Name = $"Numeric_Index{buc}", Minimum = (decimal)set.MinimumValue, Maximum = (decimal)set.MaximumValue, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0), Value = Math.Max((decimal)set.MinimumValue, 0) };
+
+                            if(set.SettingType == ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Double)
+                                nud.FormatString = "0.00";
+
+                            if (initialSettings != null)
+                            {
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+
+                                if (setV != null)
+                                    nud.Value = Convert.ToDecimal(setV.Value ?? 0);
+                            }
+                            else if(set.DefaultValue != null)
+                            {
+                                nud.Value = Convert.ToDecimal(set.DefaultValue);
                             }
 
                             pnlControls.Children.Add(nud);
-                            nud.ValueChanged += IntegerSetting_ValueChanged;
+                            nud.ValueChanged += NumericSetting_ValueChanged;
                             break;
 
                         case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.List:
 
-                            var list = new ComboBox { IsVisible = true, Name = $"List_Index{buc}", Items = set.ListValues, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
+                            var list = new ComboBox { IsVisible = true, Name = $"List_Index{buc}", ItemsSource = set.ListValues, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
 
                             if (initialSettings != null)
                             {
@@ -139,6 +170,10 @@ namespace LogicAnalyzer.Dialogs
 
                                 if (setV != null)
                                     list.SelectedIndex = Array.IndexOf(set.ListValues, setV.Value);
+                            }
+                            else if(set.DefaultValue != null)
+                            {
+                                list.SelectedIndex = Array.IndexOf(set.ListValues, set.DefaultValue);
                             }
 
                             pnlControls.Children.Add(list);
@@ -160,7 +195,7 @@ namespace LogicAnalyzer.Dialogs
             ValidateSettings();
         }
 
-        private void IntegerSetting_ValueChanged(object? sender, RoutedEventArgs e)
+        private void NumericSetting_ValueChanged(object? sender, RoutedEventArgs e)
         {
             ValidateSettings();
         }
@@ -172,6 +207,15 @@ namespace LogicAnalyzer.Dialogs
 
         private void SignalChannel_SelectedIndexChanged(object? sender, SelectionChangedEventArgs e)
         {
+
+            var cb = sender as ComboBox;
+
+            if (cb == null)
+                return;
+
+            if (cb.SelectedIndex == 0)
+                cb.SelectedIndex = -1;
+
             ValidateSettings();
         }
 
@@ -235,6 +279,17 @@ namespace LogicAnalyzer.Dialogs
 
                         break;
 
+                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.String:
+
+                        var tb = pnlControls.Children.Where(c => c.Name == $"Text_Index{buc}").FirstOrDefault() as TextBox;
+
+                        if (tb == null)
+                            return null;
+
+                        value = tb.Text;
+
+                        break;
+
                     case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer:
 
                         var nud = pnlControls.Children.Where(c => c.Name == $"Numeric_Index{buc}").FirstOrDefault() as NumericUpDown;
@@ -243,6 +298,17 @@ namespace LogicAnalyzer.Dialogs
                             return null;
 
                         value = (int)nud.Value;
+
+                        break;
+
+                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Double:
+
+                        var nudD = pnlControls.Children.Where(c => c.Name == $"Numeric_Index{buc}").FirstOrDefault() as NumericUpDown;
+
+                        if (nudD == null)
+                            return null;
+
+                        value = (double)nudD.Value;
 
                         break;
 

@@ -66,7 +66,7 @@ namespace LogicAnalyzer.Dialogs
             editSignal.ShowLineNumbers = true;
             editSignal.ContextMenu = new ContextMenu
             {
-                Items = new List<MenuItem>
+                ItemsSource = new List<MenuItem>
                 {
                     (copyMenu = new MenuItem { Header = "Copy", InputGesture = new KeyGesture(Key.C, KeyModifiers.Control), IsEnabled = false }),
                     (pasteMenu = new MenuItem { Header = "Paste", InputGesture = new KeyGesture(Key.V, KeyModifiers.Control) }),
@@ -75,7 +75,7 @@ namespace LogicAnalyzer.Dialogs
             };
             editSignal.TextArea.Background = this.Background;
             editSignal.Options.ShowBoxForControlCharacters = true;
-            editSignal.Options.ColumnRulerPosition = 80;
+            editSignal.Options.ColumnRulerPositions = new int[] { 80 };
             editSignal.TextArea.IndentationStrategy = new AvaloniaEdit.Indentation.CSharp.CSharpIndentationStrategy(editSignal.Options);
             editSignal.TextArea.Caret.PositionChanged += Caret_PositionChanged;
             editSignal.TextArea.RightClickMovesCaret = true;
@@ -256,6 +256,5 @@ namespace LogicAnalyzer.Dialogs
         {
             editSignal.Focus();
         }
-
     }
 }

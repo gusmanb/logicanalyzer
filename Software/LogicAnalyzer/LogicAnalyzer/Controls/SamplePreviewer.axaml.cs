@@ -1,20 +1,25 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LogicAnalyzer.Classes;
-using MessageBox.Avalonia.DTO;
+using LogicAnalyzer.Interfaces;
 using SkiaSharp;
 using System;
 
 namespace LogicAnalyzer.Controls
 {
-    public partial class SamplePreviewer : UserControl
+    public partial class SamplePreviewer : UserControl, ISampleDisplay
     {
         Bitmap? bmp;
         int sampleCount = 0;
 
         int viewPosition;
         public int ViewPosition { get { return viewPosition; } set { viewPosition = value; InvalidateVisual(); } }
+
+        public int FirstSample { get; private set; }
+
+        public int VisibleSamples { get; private set; }
 
         public SamplePreviewer()
         {
@@ -93,12 +98,25 @@ namespace LogicAnalyzer.Controls
             if (sampleCount == 0 || bmp == null)
                 return;
 
-            (bmp as IImage).Draw(context, new Avalonia.Rect(bmp.Size), bounds, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            //Test quality!!!
+            (bmp as IImage).Draw(context, new Avalonia.Rect(bmp.Size), bounds);
 
             float ratio = (float)bounds.Size.Width / (float)sampleCount;
             float pos = viewPosition * ratio;
 
+            Rect rcVisible = new Rect(FirstSample * ratio, 0, VisibleSamples * ratio, bounds.Height);
+            context.FillRectangle(GraphicObjectsCache.GetBrush(Color.FromArgb(32, 255, 255, 255)), rcVisible);
+
+            /*
             context.DrawLine(GraphicObjectsCache.GetPen(Colors.White, 1, DashStyle.Dash), new Avalonia.Point(pos, 0), new Avalonia.Point(pos, 143));
+            */
+        }
+
+        public void UpdateVisibleSamples(int FirstSample, int VisibleSamples)
+        {
+            this.FirstSample = FirstSample;
+            this.VisibleSamples = VisibleSamples;
+            InvalidateVisual();
         }
     }
 }

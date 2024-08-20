@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace LogicAnalyzer.Protocols
 {
-    public abstract class ProtocolAnalyzerBase
+    public abstract class ProtocolAnalyzerBase : IDisposable
     {
+        /// <summary>
+        /// Categorization of the analyzer
+        /// </summary>
+        public virtual string[] Categories => new string[0];
+
+        /// <summary>
+        /// Type of analyzer. Depending on the type the analyzer result will be shown in the channels or the annotation band.
+        /// Also this will determine the analyziz call to execute
+        /// </summary>
+        public abstract ProtocolAnalyzerType AnalyzerType { get; }
         /// <summary>
         /// Protocol name to show in the menu
         /// </summary>
@@ -33,7 +43,15 @@ namespace LogicAnalyzer.Protocols
         /// <param name="SelectedSettings">Settings to use to analyze the protocol</param>
         /// <param name="SelectedChannels">Channels to analyze</param>
         /// <returns>An array of analyzed channels</returns>
-        public abstract ProtocolAnalyzedChannel[] Analyze(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels);
+        public virtual ProtocolAnalyzedChannel[] AnalyzeChannels(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels) 
+        {
+            throw new NotImplementedException("Analyze method not implemented");
+        }
+
+        public virtual ProtocolAnalyzedAnnotation[] AnalyzeAnnotations(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        {
+            throw new NotImplementedException("Analyze method not implemented");
+        }
 
         /// <summary>
         /// Informs the analyzer of the size of a bus. By default returns 0 (bus not used).
@@ -45,5 +63,15 @@ namespace LogicAnalyzer.Protocols
         {
             return 0;
         }
+
+        public virtual void Dispose()
+        {
+        }
+    }
+
+    public enum ProtocolAnalyzerType
+    {
+        ChannelAnalyzer,
+        AnnotationAnalyzer
     }
 }

@@ -5,7 +5,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Extensions;
-using MessageBox.Avalonia;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;

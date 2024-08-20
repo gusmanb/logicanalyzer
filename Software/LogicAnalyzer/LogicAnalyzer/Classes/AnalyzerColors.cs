@@ -9,6 +9,8 @@ namespace LogicAnalyzer.Classes
 {
     public static class AnalyzerColors
     {
+        public static Color UserLineColor = Colors.Cyan;
+
         public static Color[] BgChannelColors => new Color[]    
         {
             Color.FromRgb(36,36,36),

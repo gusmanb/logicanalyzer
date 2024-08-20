@@ -162,7 +162,8 @@
               <CheckBox Name="ckNegativeTrigger" Margin="10,0,0,10">Negative edge</CheckBox>
               <CheckBox Name="ckBurst" Margin="20,0,0,10">Burst mode</CheckBox>
               <TextBlock Margin="20,10,0,10">Burst count:</TextBlock>
-              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="10000" Value="2" Name="nudBurstCount"></NumericUpDown>
+              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="254" Value="2" Name="nudBurstCount"></NumericUpDown>
+              <CheckBox IsEnabled="{Binding #ckBurst.IsChecked}" Name="ckMeasure" Margin="20,0,0,10">Measure burst delays</CheckBox>
             </StackPanel>
           </StackPanel>
           <RadioButton Margin="15,0,0,0" Name="rbTriggerTypePattern">Pattern trigger</RadioButton>

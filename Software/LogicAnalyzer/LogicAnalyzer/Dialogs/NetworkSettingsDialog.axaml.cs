@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using LogicAnalyzer.Extensions;
-using MessageBox.Avalonia;
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
