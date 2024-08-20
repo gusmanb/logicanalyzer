@@ -1,0 +1,3 @@
+[submodule "Software/SigrokDecode"]
+	path = Software/SigrokDecode
+	url = git://sigrok.org/libsigrokdecode
