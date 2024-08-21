@@ -19,8 +19,4 @@
     <PackageReference Include="pythonnet" Version="3.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LogicAnalyzer\LogicAnalyzer.csproj" />
-  </ItemGroup>
-
 </Project>

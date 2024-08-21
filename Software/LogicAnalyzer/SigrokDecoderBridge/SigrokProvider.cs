@@ -1,5 +1,4 @@
-﻿using LogicAnalyzer.Protocols;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Diagnostics;
 using System.Reflection;
@@ -7,15 +6,29 @@ using System.Text.RegularExpressions;
 
 namespace SigrokDecoderBridge
 {
-    public class SigrokProvider : ProtocolAnalyzerProviderBase
+    public class SigrokProvider : IDisposable
     {
+        private bool sessionStarted = false;
 
+        
         private Dictionary<string, IEnumerable<SigrokOutputValue>> sessionOutputs = new Dictionary<string, IEnumerable<SigrokOutputValue>>();
 
-        public override ProtocolAnalyzerBase[] GetAnalyzers()
-        {
-            SigrokPythonEngine.EnsureInitialized();
 
+        private SigrokDecoderBase[]? decoders;
+
+        public SigrokDecoderBase[] Decoders 
+        {
+            get 
+            {
+                if (decoders == null)
+                    decoders = GetDecoders();
+
+                return decoders;
+            }
+        }
+
+        private SigrokDecoderBase[] GetDecoders()
+        {
             List<string> classTemplates = new List<string>();
             
             var dirs = Directory.GetDirectories(SigrokPythonEngine.DecoderPath);
@@ -45,7 +58,7 @@ namespace SigrokDecoderBridge
                 MetadataReference.CreateFromFile(typeof(System.Runtime.AssemblyTargetedPatchBandAttribute).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(SigrokProvider).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ProtocolAnalyzerBase).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(SigrokDecoderBase).Assembly.Location),
                 MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "mscorlib.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.dll")),
                 MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Core.dll")),
@@ -71,7 +84,7 @@ namespace SigrokDecoderBridge
             var assembly = Assembly.Load(ms.ToArray());
             var types = assembly.GetTypes();
 
-            List<ProtocolAnalyzerBase> loadedAnalyzers = new List<ProtocolAnalyzerBase>();
+            List<SigrokDecoderBase> loadedAnalyzers = new List<SigrokDecoderBase>();
 
             foreach (var type in types)
             {
@@ -93,17 +106,45 @@ namespace SigrokDecoderBridge
             return loadedAnalyzers.ToArray();
         }
 
-
-
-        protected override void BeginSession()
+        public SigrokProvider()
         {
-            base.BeginSession();
+            if(!SigrokPythonEngine.EnsureInitialized())
+                throw new Exception("Python engine could not be initialized");
         }
 
-        protected override void EndSession()
+        public SigrokDecoderBase? GetDecoder(string DecoderName)
+        {
+            return Decoders.FirstOrDefault(t => t.DecoderName == DecoderName);
+        }
+
+        public void BeginAnalysisSession()
+        {
+            if (sessionStarted)
+                return;
+
+            sessionStarted = true;
+            BeginSession();
+        }
+
+
+        public void EndAnalysisSession()
+        {
+            if (!sessionStarted)
+                return;
+
+            sessionStarted = false;
+            EndSession();
+        }
+
+
+        protected void BeginSession()
+        {
+            
+        }
+
+        protected void EndSession()
         {
             sessionOutputs.Clear();
-            base.EndSession();
         }
 
         internal IEnumerable<SigrokOutputValue>? GetInput(string OutputName)
@@ -119,12 +160,11 @@ namespace SigrokDecoderBridge
             sessionOutputs[OutputName] = Output;
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             AppContext.SetSwitch("System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization", true);
             SigrokPythonEngine.EnsureDestroyed();
             AppContext.SetSwitch("System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization", false);
-            base.Dispose();
         }
     }
 }

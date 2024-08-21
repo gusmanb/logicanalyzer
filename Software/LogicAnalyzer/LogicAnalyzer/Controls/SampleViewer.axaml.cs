@@ -6,7 +6,6 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Interfaces;
-using LogicAnalyzer.Protocols;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +32,7 @@ namespace LogicAnalyzer.Controls
 
         public SampleRegion[] Regions { get { return regions.ToArray(); } }
 
-        List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
+        //List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
         Color sampleLineColor = Color.FromRgb(60, 60, 60);
         Color sampleDashColor = Color.FromArgb(60, 60, 60, 60);
         Color triggerLineColor = Colors.White;
@@ -56,25 +55,25 @@ namespace LogicAnalyzer.Controls
             this.InvalidateVisual();
         }
         
-        public void AddAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        {
-            analysisData.Add(Data);
-        }
-        public void AddAnalyzedChannels(IEnumerable<ProtocolAnalyzedChannel> Data)
-        {
-            analysisData.AddRange(Data);
-        }
-        public bool RemoveAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        {
-            return analysisData.Remove(Data);
-        }
-        public void ClearAnalyzedChannels()
-        {
-            foreach (var data in analysisData)
-                data.Dispose();
+        //public void AddAnalyzedChannel(ProtocolAnalyzedChannel Data)
+        //{
+        //    analysisData.Add(Data);
+        //}
+        //public void AddAnalyzedChannels(IEnumerable<ProtocolAnalyzedChannel> Data)
+        //{
+        //    analysisData.AddRange(Data);
+        //}
+        //public bool RemoveAnalyzedChannel(ProtocolAnalyzedChannel Data)
+        //{
+        //    return analysisData.Remove(Data);
+        //}
+        //public void ClearAnalyzedChannels()
+        //{
+        //    foreach (var data in analysisData)
+        //        data.Dispose();
 
-            analysisData.Clear();
-        }
+        //    analysisData.Clear();
+        //}
 
         #region Interfaces
 
@@ -261,31 +260,6 @@ namespace LogicAnalyzer.Controls
                 {
                     double lineX = (lastSample - FirstSample) * sampleWidth;
                     context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.UserLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
-                }
-
-                if (analysisData != null && analysisData.Count > 0)
-                {
-                    foreach (var channel in analysisData)
-                    {
-                        var overlappingSegments = channel.Segments.Where(s => s.FirstSample <= s.LastSample && s.LastSample >= FirstSample);
-
-                        if (overlappingSegments.Any())
-                        {
-                            double yStart = channel.ChannelIndex * channelHeight + channelHeight * 0.25f;
-                            double yEnd = channelHeight * 0.5f;
-
-                            foreach (var segment in overlappingSegments)
-                            {
-
-                                double xStart = (segment.FirstSample - FirstSample) * sampleWidth;
-                                double xEnd = sampleWidth * (segment.LastSample - segment.FirstSample + 1);
-
-                                Rect area = new Rect(xStart, yStart, xEnd, yEnd);
-
-                                channel.Render(segment, context, area);
-                            }
-                        }
-                    }
                 }
             }
         }

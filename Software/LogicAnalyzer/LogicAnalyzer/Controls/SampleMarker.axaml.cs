@@ -7,7 +7,6 @@ using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Dialogs;
 using LogicAnalyzer.Interfaces;
-using LogicAnalyzer.Protocols;
 using SharedDriver;
 using System;
 using System.Collections.Generic;
@@ -63,8 +62,6 @@ namespace LogicAnalyzer.Controls
         List<SampleRegion> regions = new List<SampleRegion>();
 
         public SampleRegion[] Regions { get { return regions.ToArray(); } }
-
-        List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
 
         SelectedSamples? selectedSamples = null;
         SampleRegion? selectedRegion = null;
@@ -176,26 +173,7 @@ namespace LogicAnalyzer.Controls
             updating = false;
             InvalidateVisual();
         }
-        public void AddAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        {
-            analysisData.Add(Data);
-        }
-        public void AddAnalyzedChannels(IEnumerable<ProtocolAnalyzedChannel> Data)
-        {
-            analysisData.AddRange(Data);
-        }
-        public bool RemoveAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        {
-            return analysisData.Remove(Data);
-        }
-        public void ClearAnalyzedChannels()
-        {
-            foreach (var data in analysisData)
-                data.Dispose();
-
-            analysisData.Clear();
-        }
-
+        
         public void AddRegion(SampleRegion Region)
         {
             regions.Add(Region);
@@ -309,23 +287,6 @@ namespace LogicAnalyzer.Controls
 
                     }
 
-                }
-
-                if (analysisData.Count > 0)
-                {
-                    foreach (var chan in analysisData)
-                    {
-                        foreach (var evt in chan.Segments)
-                        {
-                            double x1 = (evt.FirstSample - FirstSample) * sampleWidth;
-                            double x2 = (evt.LastSample + 1 - FirstSample) * sampleWidth;
-                            double y1 = 0;
-                            double y2 = this.Bounds.Height;
-
-                            Rect r = new Rect(new Point(x1, y1), new Point(x2, y2));
-                            context.FillRectangle(GraphicObjectsCache.GetBrush(chan.BackColor), r);
-                        }
-                    }
                 }
 
                 if (bursts != null)

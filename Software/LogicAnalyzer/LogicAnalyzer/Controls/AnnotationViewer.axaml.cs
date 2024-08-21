@@ -7,7 +7,7 @@ using Avalonia.Threading;
 using AvaloniaEdit.Document;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Interfaces;
-using LogicAnalyzer.Protocols;
+using SigrokDecoderBridge;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,10 +20,10 @@ namespace LogicAnalyzer.Controls
     public partial class AnnotationViewer : UserControl, ISampleDisplay, IMarkerDisplay, IRegionDisplay
     {
 
-        List<ProtocolAnalyzedAnnotation> annotations = new List<ProtocolAnalyzedAnnotation>();
+        List<SigrokAnnotation> annotations = new List<SigrokAnnotation>();
         bool isUpdating = false;
 
-        const int ANNOTATION_HEIGHT = 32;
+        const int ANNOTATION_HEIGHT = 24;
         const int ANNOTATION_NAME_WIDTH = 140;
 
         public int VisibleSamples { get; private set; }
@@ -34,7 +34,7 @@ namespace LogicAnalyzer.Controls
 
         AnnotationRenderer renderer = new AnnotationRenderer();
 
-        public ProtocolAnalyzedAnnotation[] Annotations
+        public SigrokAnnotation[] Annotations
         {
             get
             {
@@ -129,17 +129,17 @@ namespace LogicAnalyzer.Controls
             base.Render(context);
         }
 
-        public void AddAnnotation(ProtocolAnalyzedAnnotation Annotation)
+        public void AddAnnotation(SigrokAnnotation Annotation)
         {
             annotations.Add(Annotation);
             Update();
         }
-        public void AddAnnotations(IEnumerable<ProtocolAnalyzedAnnotation> Annotations)
+        public void AddAnnotations(IEnumerable<SigrokAnnotation> Annotations)
         {
             annotations.AddRange(Annotations);
             Update();
         }
-        public bool RemoveAnnotation(ProtocolAnalyzedAnnotation Annotation)
+        public bool RemoveAnnotation(SigrokAnnotation Annotation)
         {
             var res = annotations.Remove(Annotation);
             Update();
@@ -266,7 +266,7 @@ namespace LogicAnalyzer.Controls
             Color.FromArgb(255, 0, 255, 255)    // Cyan
             };
 
-            internal void RenderAnnotation(ProtocolAnalyzedAnnotation annotation, int firstSample, int inScreen, Rect rectName, Rect rectData, DrawingContext context)
+            internal void RenderAnnotation(SigrokAnnotation annotation, int firstSample, int inScreen, Rect rectName, Rect rectData, DrawingContext context)
             {
                 var lastSample = firstSample + inScreen - 1;
                 var segments = annotation.Segments.Where(s => s.LastSample >= firstSample && s.FirstSample <= lastSample).ToArray();
@@ -286,13 +286,31 @@ namespace LogicAnalyzer.Controls
                         var xStart = (segment.FirstSample - firstSample) * rectData.Width / inScreen;
                         var xEnd = (segment.LastSample - firstSample) * rectData.Width / inScreen;
 
-                        var rect = new Rect(rectData.X + xStart, rectData.Y, xEnd - xStart, rectData.Height);
-                        RenderSegment(segment, context, rect);
+                        int samples = segment.LastSample - segment.FirstSample;
+
+                        Rect rc;
+
+                        if (samples < 2)
+                        {
+                            segment.Shape = ProtocolAnalyzerSegmentShape.Circle;
+                            rc = new Rect(rectData.X + xStart, rectData.Y, rectData.Height, rectData.Height);
+                        }
+                        else
+                        {
+                            rc = new Rect(rectData.X + xStart, rectData.Y, xEnd - xStart, rectData.Height);
+
+                            if(rc.Width < 20)
+                                segment.Shape = ProtocolAnalyzerSegmentShape.RoundRectangle;
+                            else
+                                segment.Shape = ProtocolAnalyzerSegmentShape.Hexagon;
+                        }
+
+                        RenderSegment(segment, context, rc);
                     }
                 }
             }
 
-            internal void RenderSegment(ProtocolAnalyzedAnnotationSegment Segment, DrawingContext G, Rect RenderArea)
+            internal void RenderSegment(SigrokAnnotationSegment Segment, DrawingContext G, Rect RenderArea)
             {
 
                 var color = itemPalette[Segment.TypeId % 64];
@@ -302,6 +320,8 @@ namespace LogicAnalyzer.Controls
                 double rectHeight = RenderArea.Height - 2;
                 double topY = RenderArea.Y + 1;
                 double bottomY = topY + rectHeight;
+
+                int margin = 0;
 
                 switch (Segment.Shape)
                 {
@@ -322,28 +342,33 @@ namespace LogicAnalyzer.Controls
 
                         G.DrawGeometry(GraphicObjectsCache.GetBrush(color), GraphicObjectsCache.GetPen(Colors.Black, 1), gContainer);
 
+                        margin = 10;
+
                         break;
 
                     case ProtocolAnalyzerSegmentShape.Rectangle:
 
                         G.DrawRectangle(GraphicObjectsCache.GetBrush(color), GraphicObjectsCache.GetPen(Colors.Black, 1), RenderArea);
-
+                        margin = 2;
                         break;
 
                     case ProtocolAnalyzerSegmentShape.RoundRectangle:
 
                         G.DrawRectangle(GraphicObjectsCache.GetBrush(color), GraphicObjectsCache.GetPen(Colors.Black, 1), RenderArea, 5, 5);
 
+                        margin = 2;
+
                         break;
 
                     case ProtocolAnalyzerSegmentShape.Circle:
 
                         G.DrawEllipse(GraphicObjectsCache.GetBrush(color), GraphicObjectsCache.GetPen(Colors.Black, 1), RenderArea);
+                        margin = 2;
 
                         break;
                 }
 
-                FormattedText? text = GetBestText(RenderArea.Width - 10, Segment.Value, textColor);
+                FormattedText? text = GetBestText(RenderArea.Width - margin, Segment.Value, textColor);
 
                 if (text == null)
                     return;

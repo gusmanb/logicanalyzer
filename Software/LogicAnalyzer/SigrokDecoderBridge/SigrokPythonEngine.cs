@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Python.Runtime;
+﻿using Python.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,8 +11,25 @@ using System.Threading.Tasks;
 
 namespace SigrokDecoderBridge
 {
-    public static class SigrokPythonEngine
+    internal static class SigrokPythonEngine
     {
+
+        const string winPyScript = @"import sys;
+import os.path as op;
+ver = str(sys.version_info.major) + str(sys.version_info.minor);
+path = sys.exec_prefix;
+print(op.join(path, 'Python' + ver + '.dll'));";
+
+        const string macLinuxPyScript = @"from distutils import sysconfig;
+import os.path as op;
+v = sysconfig.get_config_vars();
+fpaths = [op.join(v[pv], v['LDLIBRARY']) for pv in ('LIBDIR', 'LIBPL')]; 
+print(list(filter(op.exists, fpaths))[0])";
+
+
+        static string pythonExec;
+        static string pythonVersion;
+
         public static string BasePath
         {
             get
@@ -26,17 +42,17 @@ namespace SigrokDecoderBridge
         {
             get
             {
-                return Path.Combine(BasePath, "SigrokDecoders");
+                return Path.Combine(BasePath, "decoders");
             }
         }
 
         static bool initialized = false;
 
-        public static void EnsureInitialized()
+        public static bool EnsureInitialized()
         {
             if (!initialized)
             {
-                string pythonPath = "";
+                string? pythonPath = "";
 
                 string cfgFile = Path.Combine(BasePath, "python.cfg");
                 if (File.Exists(cfgFile))
@@ -45,28 +61,11 @@ namespace SigrokDecoderBridge
                 }
                 else
                 {
-                    try
-                    {
-                        ProcessStartInfo sInfo = new ProcessStartInfo("python", "-c \"import sys; print(sys.executable)\"");
-                        sInfo.RedirectStandardOutput = true;
-                        sInfo.UseShellExecute = false;
-                        sInfo.CreateNoWindow = true;
-
-                        var proc = Process.Start(sInfo);
-                        proc.WaitForExit();
-                        var tmpPath = Path.GetFullPath(Path.GetDirectoryName(proc.StandardOutput.ReadToEnd().Trim()));
-
-                        var reg = new Regex("python[0-9][0-9]+[^\\\\]*?\\.dll", RegexOptions.IgnoreCase);
-                        var dlls = Directory.GetFiles(tmpPath, "*.dll").Where(t => reg.IsMatch(t));
-                        pythonPath = dlls.FirstOrDefault();
-                    }
-                    catch { }
+                    pythonPath = FindPythonLibrary();
                 }
 
-                if(string.IsNullOrWhiteSpace(pythonPath))
-                {
-                    throw new Exception("Unable to find Python installation");
-                }
+                if (string.IsNullOrWhiteSpace(pythonPath))
+                    return false;
 
                 //Ensure the decode script is in place
 
@@ -80,6 +79,8 @@ namespace SigrokDecoderBridge
 
 
                 Runtime.PythonDLL = pythonPath;
+
+
                 PythonEngine.Initialize();
 
                 dynamic os = Py.Import("os");
@@ -87,7 +88,101 @@ namespace SigrokDecoderBridge
                 sys.path.append(DecoderPath);
 
                 initialized = true;
+
+                return true;
             }
+
+            return true;
+        }
+
+        private static string? FindPythonLibrary()
+        {
+
+            string? version = GetPythonVersion("python3");
+
+            if (version == null)
+            {
+                version = GetPythonVersion("python");
+
+                if (version == null)
+                    return null;
+                else
+                    pythonExec = "python";
+            }
+            else
+                pythonExec = "python3";
+
+            if (!version.StartsWith("3"))
+                return null;
+
+            pythonVersion = version;
+
+            if (System.OperatingSystem.IsMacOS() || System.OperatingSystem.IsLinux())
+            {
+                var res = RunPythonScript(pythonExec, macLinuxPyScript);
+
+                if (res == null)
+                    return null;
+
+                return res.Split(new[] { '\r', '\n' }).FirstOrDefault();
+            }
+            else if (System.OperatingSystem.IsWindows())
+            {
+                var res = RunPythonScript(pythonExec, winPyScript);
+
+                if (res == null)
+                    return null;
+
+                return res.Split(new[] { '\r', '\n' }).FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static string? GetPythonVersion(string PythonExecutable)
+        {
+            try
+            {
+                ProcessStartInfo sInfo = new ProcessStartInfo(PythonExecutable, $"-c \"import sys; ver = str(sys.version_info.major) + str(sys.version_info.minor); print(ver)\"");
+
+                sInfo.RedirectStandardOutput = true;
+                sInfo.UseShellExecute = false;
+                sInfo.CreateNoWindow = true;
+
+                var proc = Process.Start(sInfo);
+
+                if (proc == null)
+                    return null;
+
+                proc.WaitForExit();
+                var result = proc.StandardOutput.ReadToEnd();
+                return result?.Trim();
+            }
+            catch { return null; }
+        }
+
+        private static string? RunPythonScript(string exec, string script)
+        {
+            try
+            {
+                ProcessStartInfo sInfo = new ProcessStartInfo(exec, $"-c \"{script}\"");
+
+                sInfo.RedirectStandardOutput = true;
+                sInfo.UseShellExecute = false;
+                sInfo.CreateNoWindow = true;
+
+                var proc = Process.Start(sInfo);
+
+                if (proc == null)
+                    return null;
+
+                proc.WaitForExit();
+                var result = proc.StandardOutput.ReadToEnd();
+                return result?.Trim();
+            }
+            catch { return null; }
         }
 
         public static void EnsureDestroyed()
@@ -98,14 +193,5 @@ namespace SigrokDecoderBridge
             PythonEngine.Shutdown();
         }
 
-        public static string[] GetKeys(dynamic PythonObject)
-        {
-            List<string> items = new List<string>();
-
-            foreach (var key in PythonObject)
-                items.Add(key.ToString());
-
-            return items.ToArray();
-        }
     }
 }

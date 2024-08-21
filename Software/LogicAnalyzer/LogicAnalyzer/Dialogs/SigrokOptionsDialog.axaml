@@ -5,8 +5,8 @@
         mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="450"
         MaxWidth="350" MinWidth="350"
         MinHeight="450" MaxHeight="450" Width="350" Height="450"
-        x:Class="LogicAnalyzer.Dialogs.ProtocolAnalyzerSettingsDialog"
-        Title="ProtocolAnalyzerSettingsDialog" Icon="/Assets/Ico40.ico"
+        x:Class="LogicAnalyzer.Dialogs.SigrokOptionsDialog"
+        Title="SigrokOptionsDialog" Icon="/Assets/Ico40.ico"
         Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
   <Grid RowDefinitions="8*,2*">
     <ScrollViewer Name="scrViewer" Margin="10" VerticalAlignment="Top" Height="380">

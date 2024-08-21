@@ -9,19 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CLCapture", "CLCapture\CLCa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicAnalyzer", "LogicAnalyzer\LogicAnalyzer.csproj", "{EA087A8F-181D-4600-ACC3-A48270D018EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPIProtocolAnalyzer", "SPIProtocolAnalyzer\SPIProtocolAnalyzer.csproj", "{6F18CFDA-7596-47F7-ABB9-AB09DC003C0B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerialProtocolAnalyzer", "SerialProtocolAnalyzer\SerialProtocolAnalyzer.csproj", "{E71855EA-04A7-48C1-860A-6A85E9D9E727}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "I2CProtocolAnalyzer", "I2CProtocolAnalyzer\I2CProtocolAnalyzer.csproj", "{74E41F50-E208-4690-84C6-51012C2F26E2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalDescriptionLanguage", "SignalDescriptionLanguage\SignalDescriptionLanguage.csproj", "{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelProtocolAnalyzer", "ParallelProtocolAnalyzer\ParallelProtocolAnalyzer.csproj", "{952FD20C-7C12-407B-A264-BA5F429BDD3C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSigrok", "TestSigrok\TestSigrok.csproj", "{7CB4CEE9-8D8F-4D41-B09C-3C1A22A83137}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigrokDecoderBridge", "SigrokDecoderBridge\SigrokDecoderBridge.csproj", "{32894C02-C48A-47E8-8E34-68674C989A67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SigrokDecoderBridge", "SigrokDecoderBridge\SigrokDecoderBridge.csproj", "{32894C02-C48A-47E8-8E34-68674C989A67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,30 +31,10 @@ Global
 		{EA087A8F-181D-4600-ACC3-A48270D018EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA087A8F-181D-4600-ACC3-A48270D018EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA087A8F-181D-4600-ACC3-A48270D018EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F18CFDA-7596-47F7-ABB9-AB09DC003C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F18CFDA-7596-47F7-ABB9-AB09DC003C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F18CFDA-7596-47F7-ABB9-AB09DC003C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F18CFDA-7596-47F7-ABB9-AB09DC003C0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E71855EA-04A7-48C1-860A-6A85E9D9E727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E71855EA-04A7-48C1-860A-6A85E9D9E727}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E71855EA-04A7-48C1-860A-6A85E9D9E727}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E71855EA-04A7-48C1-860A-6A85E9D9E727}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74E41F50-E208-4690-84C6-51012C2F26E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74E41F50-E208-4690-84C6-51012C2F26E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74E41F50-E208-4690-84C6-51012C2F26E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74E41F50-E208-4690-84C6-51012C2F26E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CB4CEE9-8D8F-4D41-B09C-3C1A22A83137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CB4CEE9-8D8F-4D41-B09C-3C1A22A83137}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CB4CEE9-8D8F-4D41-B09C-3C1A22A83137}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CB4CEE9-8D8F-4D41-B09C-3C1A22A83137}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32894C02-C48A-47E8-8E34-68674C989A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32894C02-C48A-47E8-8E34-68674C989A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32894C02-C48A-47E8-8E34-68674C989A67}.Release|Any CPU.ActiveCfg = Release|Any CPU

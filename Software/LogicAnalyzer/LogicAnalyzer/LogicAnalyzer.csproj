@@ -39,8 +39,12 @@
   <ItemGroup>
     <ProjectReference Include="..\SharedDriver\SharedDriver.csproj" />
     <ProjectReference Include="..\SignalDescriptionLanguage\SignalDescriptionLanguage.csproj" />
+    <ProjectReference Include="..\SigrokDecoderBridge\SigrokDecoderBridge.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Dialogs\SigrokOptionsDialog.axaml.cs">
+      <DependentUpon>SigrokOptionsDialog.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\SelectedRegionDialog.axaml.cs">
       <DependentUpon>SelectedRegionDialog.axaml</DependentUpon>
     </Compile>

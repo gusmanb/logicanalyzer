@@ -13,9 +13,9 @@ using LogicAnalyzer.Controls;
 using LogicAnalyzer.Dialogs;
 using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Interfaces;
-using LogicAnalyzer.Protocols;
 using Newtonsoft.Json;
 using SharedDriver;
+using SigrokDecoderBridge;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +38,7 @@ namespace LogicAnalyzer
         IAnalizerDriver? driver;
         CaptureSettings settings;
 
-        ProtocolAnalyzerLoader pLoader;
+        SigrokProvider? decoderProvider;
         public static MainWindow? Instance { get; private set; }
 
         UInt128[]? copiedSamples;
@@ -113,8 +113,8 @@ namespace LogicAnalyzer
 
             this.Closed += (o, e) => 
             {
-                if(pLoader != null)
-                    pLoader.Dispose();
+                if(decoderProvider != null)
+                    decoderProvider.Dispose();
             };
 
             sampleDisplays.Add(sampleViewer);
@@ -767,36 +767,6 @@ namespace LogicAnalyzer
                 {
                     sampleViewer.Bursts = e.Bursts?.Select(b => b.BurstSampleStart).ToArray();
                     sampleMarker.Bursts = e.Bursts;
-                    /*
-                    int pos = e.PreSamples;
-                    List<int> bursts = new List<int>();
-
-                    for (int buc = 0; buc < settings.LoopCount; buc++)
-                    {
-                        pos = pos + settings.PostTriggerSamples;
-                        bursts.Add(pos);
-                    }
-
-                    
-                    sampleViewer.Bursts = bursts.ToArray();
-
-                    if ((e.Bursts?.Length ?? 0) == bursts.Count)
-                    {
-                        List<BurstInfo> burstsInfo = new List<BurstInfo>();
-                        for (int buc = 0; buc < e.BurstTimestamps.Length; buc++)
-                        {
-                            burstsInfo.Add(new BurstInfo 
-                            { 
-                                SampleNumber = bursts[buc],
-                                Nanoseconds = e.BurstTimestamps[buc]
-                            });
-                        }
-
-                        sampleMarker.Bursts = burstsInfo.ToArray();
-                    }
-                    else
-                        sampleMarker.Bursts = null;
-                    */
                 }
                 else
                     sampleViewer.Bursts = null;
@@ -832,23 +802,48 @@ namespace LogicAnalyzer
             RefreshPorts();
         }
 
+        Dictionary<string, List<string>> CategorizeDecoders()
+        {
+            var result = new Dictionary<string, List<string>>();
+
+            var decoders = decoderProvider?.Decoders;
+
+            if (decoders == null || decoders.Length == 0)
+                return new Dictionary<string, List<string>>();
+
+            result["All"] = new List<string>();
+
+            result["All"].AddRange(decoders.Select(d => d.DecoderName));
+
+            foreach (var decoder in decoders)
+            {
+                foreach (var category in decoder.Categories)
+                {
+                    if (!result.ContainsKey(category))
+                        result[category] = new List<string>();
+
+                    result[category].Add(decoder.DecoderName);
+                }
+            }
+
+            return result.OrderBy(p => p.Key).ToDictionary();
+        }
+
         void LoadAnalyzers()
         {
-
-            string path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "analyzers");
-
-            if(!Directory.Exists(path))
-                path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Analyzers");
-
-            if (!Directory.Exists(path))
+            try 
+            {
+                decoderProvider = new SigrokProvider();
+            }
+            catch (Exception ex)
             {
                 mnuProtocols.ItemsSource = new MenuItem[] { new MenuItem { Header = "<- None ->" } };
+
+                this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
                 return;
             }
 
-            pLoader = new ProtocolAnalyzerLoader(path);
-
-            var categories = pLoader.CategorizedProtocols;
+            var categories = CategorizeDecoders();
 
             if (categories.Count == 0)
                 mnuProtocols.ItemsSource = new MenuItem[] { new MenuItem { Header = "<- None ->" } };
@@ -883,38 +878,6 @@ namespace LogicAnalyzer
 
                 mnuProtocols.ItemsSource = finalItems;
             }
-
-            /*
-            var protocols = pLoader.ProtocolNames;
-            mnuProtocols.ItemsSource = null;
-
-            if (protocols.Length == 0)
-                mnuProtocols.ItemsSource = new MenuItem[] { new MenuItem { Header = "<- None ->" } };
-            else
-            {
-                List<MenuItem> finalItems = new List<MenuItem>();
-
-                finalItems.AddRange(pLoader.ProtocolNames.Select(p =>
-                {
-                    var itm = new MenuItem { Header = p, Tag = p };
-                    itm.Click += ProtocolAnalyzer_Click;
-                    return itm;
-                }).ToArray());
-
-                mnuRepeatAnalysis = new MenuItem { Header = "Repeat last analysis" };
-                mnuRepeatAnalysis.IsEnabled = false;
-                mnuRepeatAnalysis.Click += MnuRepeatAnalysis_Click;
-                finalItems.Add(mnuRepeatAnalysis);
-
-                var clearItem = new MenuItem { Header = "C_lear analysis data" };
-                clearItem.Click += ClearItem_Click;
-                finalItems.Add(clearItem);
-
-                
-
-                mnuProtocols.ItemsSource = finalItems;
-            }*/
-
         }
 
         private void MnuRepeatAnalysis_Click(object? sender, RoutedEventArgs e)
@@ -928,31 +891,14 @@ namespace LogicAnalyzer
 
             foreach (var channel in channels)
                 ExtractSamples(channel, samples);
+            
+            var analysisResult = analysisSettings.Analyzer.ExecuteAnalysis(settings.Frequency, settings.PreTriggerSamples - 1, analysisSettings.Settings, channels);
 
-
-            if (analysisSettings.Analyzer.AnalyzerType == ProtocolAnalyzerType.ChannelAnalyzer)
-            {
-                var analysisResult = analysisSettings.Analyzer.AnalyzeChannels(settings.Frequency, settings.PreTriggerSamples - 1, analysisSettings.Settings, channels);
-
-                if (analysisResult != null)
-                {
-                    sampleViewer.BeginUpdate();
-                    sampleViewer.AddAnalyzedChannels(analysisResult);
-                    sampleViewer.EndUpdate();
-                    sampleMarker.BeginUpdate();
-                    sampleMarker.AddAnalyzedChannels(analysisResult);
-                    sampleMarker.EndUpdate();
-                }
-            }
-            else
-            {
-                var analysisResult = analysisSettings.Analyzer.AnalyzeAnnotations(settings.Frequency, settings.PreTriggerSamples - 1, analysisSettings.Settings, channels);
-
-                annotationsViewer.BeginUpdate();
-                annotationsViewer.AddAnnotations(analysisResult);
-                annotationsViewer.IsVisible = true;
-                annotationsViewer.EndUpdate();
-            }
+            annotationsViewer.BeginUpdate();
+            annotationsViewer.AddAnnotations(analysisResult);
+            annotationsViewer.IsVisible = true;
+            annotationsViewer.EndUpdate();
+            
         }
 
         private void ClearItem_Click(object? sender, RoutedEventArgs e)
@@ -964,21 +910,24 @@ namespace LogicAnalyzer
         {
             var item = (sender as MenuItem)?.Tag?.ToString();
 
-            if (item == null)
+            if (item == null || decoderProvider == null)
                 return;
 
-            var analyzer = pLoader.GetAnalyzer(item);
+            var analyzer = decoderProvider.GetDecoder(item);
 
-            var dlg = new ProtocolAnalyzerSettingsDialog();
+            if (analyzer == null)
+                return;
+
+            var dlg = new SigrokOptionsDialog();
             {
 
                 if (analysisSettings != null && analysisSettings.Analyzer == analyzer)
                     dlg.InitialSettings = analysisSettings;
 
-                dlg.Analyzer = analyzer;
+                dlg.Decoder = analyzer;
                 dlg.Channels = channelViewer.Channels.Select(c => 
                 {
-                    var ch = new ProtocolAnalyzerSettingsDialog.Channel 
+                    var ch = new SigrokOptionsDialog.Channel 
                     { 
                         ChannelIndex = c.ChannelNumber, 
                         ChannelName = string.IsNullOrWhiteSpace(c.ChannelName) ? 
@@ -993,7 +942,7 @@ namespace LogicAnalyzer
                 if (await dlg.ShowDialog<bool>(this) != true)
                     return;
 
-                if (dlg.SelectedSettings == null)
+                if (dlg.SelectedOptions == null)
                     return;
 
                 var channels = dlg.SelectedChannels;
@@ -1002,42 +951,25 @@ namespace LogicAnalyzer
                 foreach (var channel in channels)
                     ExtractSamples(channel, samples);
 
-                pLoader.BeginSession();
+                decoderProvider.BeginAnalysisSession();
 
-                if (analyzer.AnalyzerType == ProtocolAnalyzerType.ChannelAnalyzer)
-                {
+                
+                var analysisResult = analyzer.ExecuteAnalysis(settings.Frequency, settings.PreTriggerSamples - 1, dlg.SelectedOptions, channels);
 
-                    var analysisResult = analyzer.AnalyzeChannels(settings.Frequency, settings.PreTriggerSamples - 1, dlg.SelectedSettings, channels);
+                annotationsViewer.BeginUpdate();
+                annotationsViewer.AddAnnotations(analysisResult);
+                annotationsViewer.IsVisible = true;
+                annotationsViewer.EndUpdate();
+                
 
-                    if (analysisResult != null)
-                    {
-                        sampleViewer.BeginUpdate();
-                        sampleViewer.AddAnalyzedChannels(analysisResult);
-                        sampleViewer.EndUpdate();
-
-                        sampleMarker.BeginUpdate();
-                        sampleMarker.AddAnalyzedChannels(analysisResult);
-                        sampleMarker.EndUpdate();
-                    }
-                }
-                else
-                {
-                    var analysisResult = analyzer.AnalyzeAnnotations(settings.Frequency, settings.PreTriggerSamples - 1, dlg.SelectedSettings, channels);
-
-                    annotationsViewer.BeginUpdate();
-                    annotationsViewer.AddAnnotations(analysisResult);
-                    annotationsViewer.IsVisible = true;
-                    annotationsViewer.EndUpdate();
-                }
-
-                analysisSettings = new AnalysisSettings { Analyzer = analyzer, Channels = channels, Settings = dlg.SelectedSettings };
+                analysisSettings = new AnalysisSettings { Analyzer = analyzer, Channels = channels, Settings = dlg.SelectedOptions };
 
                 if(mnuRepeatAnalysis != null)
                     mnuRepeatAnalysis.IsEnabled = true;
             }
         }
 
-        private void ExtractSamples(ProtocolAnalyzerSelectedChannel channel, UInt128[]? samples)
+        private void ExtractSamples(SigrokSelectedChannel channel, UInt128[]? samples)
         {
             if (channel == null || samples == null)
                 return;
@@ -1496,17 +1428,11 @@ namespace LogicAnalyzer
 
         private void clearAnalysis()
         {
-            sampleViewer.BeginUpdate();
-            sampleViewer.ClearAnalyzedChannels();
-            sampleViewer.EndUpdate();
-            sampleMarker.BeginUpdate();
-            sampleMarker.ClearAnalyzedChannels();
-            sampleMarker.EndUpdate();
             annotationsViewer.BeginUpdate();
             annotationsViewer.ClearAnnotation();
             annotationsViewer.EndUpdate();
             annotationsViewer.IsVisible = false;
-            pLoader.EndSession();
+            decoderProvider?.EndAnalysisSession();
         }
 
         private void updateSamplesInDisplay(int FirstSample, int VisibleSamples)

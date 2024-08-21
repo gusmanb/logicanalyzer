@@ -5,20 +5,20 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Extensions;
-using LogicAnalyzer.Protocols;
+using SigrokDecoderBridge;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace LogicAnalyzer.Dialogs
 {
-    public partial class ProtocolAnalyzerSettingsDialog : Window
+    public partial class SigrokOptionsDialog : Window
     {
-        public ProtocolAnalyzerSettingValue[]? SelectedSettings { get; private set; }
-        public ProtocolAnalyzerSelectedChannel[]? SelectedChannels { get; private set; }
+        public SigrokOptionValue[]? SelectedOptions { get; private set; }
+        public SigrokSelectedChannel[]? SelectedChannels { get; private set; }
 
-        ProtocolAnalyzerBase analyzer;
-        public ProtocolAnalyzerBase Analyzer { get { return analyzer; } set { analyzer = value; LoadControls(); } }
+        SigrokDecoderBase decoder;
+        public SigrokDecoderBase Decoder { get { return decoder; } set { decoder = value; LoadControls(); } }
 
         AnalysisSettings? initialSettings;
         public AnalysisSettings? InitialSettings { get { return initialSettings; } set { initialSettings = value; LoadControls(); } }
@@ -26,7 +26,7 @@ namespace LogicAnalyzer.Dialogs
         Channel[] channels;
         public Channel[] Channels { get { return channels; } set { channels = value; LoadControls(); } }
 
-        public ProtocolAnalyzerSettingsDialog()
+        public SigrokOptionsDialog()
         {
             InitializeComponent();
             btnAccept.IsEnabled = false;
@@ -43,12 +43,12 @@ namespace LogicAnalyzer.Dialogs
         {
             pnlControls.Children.Clear();
 
-            if (analyzer == null)
+            if (decoder == null)
                 return;
 
-            this.Title = $"{analyzer.ProtocolName} analyzer settings";
+            this.Title = $"{decoder.DecoderName} decoder settings";
 
-            var signals = analyzer?.Signals;
+            var signals = decoder?.Channels;
 
             if (signals != null && signals.Length > 0 && channels != null && channels.Length > 0)
             {
@@ -63,13 +63,13 @@ namespace LogicAnalyzer.Dialogs
                 {
                     var signal = signals[buc];
 
-                    pnlControls.Children.Add(new TextBlock{ IsVisible = true, Name = $"Label_Signal{buc}", Text = signal.IsBus ? $"First channel of bus {signal.SignalName}" : $"Channel for signal { signal.SignalName }:" });
+                    pnlControls.Children.Add(new TextBlock{ IsVisible = true, Name = $"Label_Signal{buc}", Text = $"Channel for signal { signal.Name }:" });
 
                     var list = new ComboBox { IsVisible = true, Name = $"List_Signal{buc}", ItemsSource = channelsSource.ToArray(), HorizontalAlignment=Avalonia.Layout.HorizontalAlignment.Stretch, Margin= new Thickness(0,10,20,0), Tag = "CHANNEL" };
 
                     if (initialSettings != null)
                     {
-                        var chan = initialSettings.Channels?.FirstOrDefault(c => c.SignalName == signal.SignalName && c.BusIndex == 0);
+                        var chan = initialSettings.Channels?.FirstOrDefault(c => c.ChannelName == signal.Name);
 
                         if(chan != null)
                             list.SelectedIndex = chan.ChannelIndex + 1;
@@ -83,7 +83,7 @@ namespace LogicAnalyzer.Dialogs
                 }
             }
 
-            var settings = analyzer?.Settings;
+            var settings = decoder?.Options;
 
             if (settings != null && settings.Length > 0)
             {
@@ -95,13 +95,13 @@ namespace LogicAnalyzer.Dialogs
 
                     switch (set.SettingType)
                     {
-                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Boolean:
+                        case SigrokOptionType.Boolean:
 
                             var ck = new CheckBox { IsVisible = true, Name = $"Check_Index{buc}", Content = set.CheckCaption, Margin = new Thickness(0, 10, 20, 0) };
                             
                             if (initialSettings != null)
                             {
-                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.OptionIndex == buc);
 
                                 if(setV != null)
                                     ck.IsChecked = (bool)(setV.Value ?? false);
@@ -116,13 +116,13 @@ namespace LogicAnalyzer.Dialogs
                             ck.Checked += BooleanSetting_CheckedChanged;
                             break;
 
-                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.String:
+                        case SigrokOptionType.String:
 
                             var tb = new TextBox { IsVisible = true, Name = $"Text_Index{buc}", HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
 
                             if (initialSettings != null)
                             {
-                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.OptionIndex == buc);
 
                                 if (setV != null)
                                     tb.Text = setV.Value?.ToString() ?? "";
@@ -136,17 +136,17 @@ namespace LogicAnalyzer.Dialogs
                             tb.TextChanged += (s, e) => ValidateSettings();
                             break;
 
-                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer:
-                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Double:
+                        case SigrokOptionType.Integer:
+                        case SigrokOptionType.Double:
 
                             var nud = new NumericUpDown { IsVisible = true, Name = $"Numeric_Index{buc}", Minimum = (decimal)set.MinimumValue, Maximum = (decimal)set.MaximumValue, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0), Value = Math.Max((decimal)set.MinimumValue, 0) };
 
-                            if(set.SettingType == ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Double)
+                            if(set.SettingType == SigrokOptionType.Double)
                                 nud.FormatString = "0.00";
 
                             if (initialSettings != null)
                             {
-                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.OptionIndex == buc);
 
                                 if (setV != null)
                                     nud.Value = Convert.ToDecimal(setV.Value ?? 0);
@@ -160,13 +160,13 @@ namespace LogicAnalyzer.Dialogs
                             nud.ValueChanged += NumericSetting_ValueChanged;
                             break;
 
-                        case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.List:
+                        case SigrokOptionType.List:
 
                             var list = new ComboBox { IsVisible = true, Name = $"List_Index{buc}", ItemsSource = set.ListValues, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
 
                             if (initialSettings != null)
                             {
-                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.SettingIndex == buc);
+                                var setV = initialSettings.Settings?.FirstOrDefault(s => s.OptionIndex == buc);
 
                                 if (setV != null)
                                     list.SelectedIndex = Array.IndexOf(set.ListValues, setV.Value);
@@ -221,7 +221,7 @@ namespace LogicAnalyzer.Dialogs
 
         void ValidateSettings()
         {
-            var st = ComposeSettings();
+            var st = ComposeOptions();
 
             if (st == null)
             {
@@ -237,7 +237,7 @@ namespace LogicAnalyzer.Dialogs
                 return;
             }
 
-            if (analyzer.ValidateSettings(st, ch))
+            if (decoder.ValidateOptions(st, ch))
             {
                 btnAccept.IsEnabled = true;
             }
@@ -249,17 +249,17 @@ namespace LogicAnalyzer.Dialogs
 
         }
 
-        ProtocolAnalyzerSettingValue[]? ComposeSettings()
+        SigrokOptionValue[]? ComposeOptions()
         {
-            if (analyzer == null)
+            if (decoder == null)
                 return null;
 
-            var settings = analyzer.Settings;
+            var settings = decoder.Options;
 
             if (settings == null)
-                return new ProtocolAnalyzerSettingValue[0];
+                return new SigrokOptionValue[0];
 
-            List<ProtocolAnalyzerSettingValue> settingsValues = new List<ProtocolAnalyzerSettingValue>();
+            List<SigrokOptionValue> settingsValues = new List<SigrokOptionValue>();
 
             for (int buc = 0; buc < settings.Length; buc++)
             {
@@ -268,7 +268,7 @@ namespace LogicAnalyzer.Dialogs
 
                 switch (setting.SettingType)
                 {
-                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Boolean:
+                    case SigrokOptionType.Boolean:
 
                         var ck = pnlControls.Children.Where(c => c.Name == $"Check_Index{buc}").FirstOrDefault() as CheckBox;
 
@@ -279,7 +279,7 @@ namespace LogicAnalyzer.Dialogs
 
                         break;
 
-                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.String:
+                    case SigrokOptionType.String:
 
                         var tb = pnlControls.Children.Where(c => c.Name == $"Text_Index{buc}").FirstOrDefault() as TextBox;
 
@@ -290,7 +290,7 @@ namespace LogicAnalyzer.Dialogs
 
                         break;
 
-                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Integer:
+                    case SigrokOptionType.Integer:
 
                         var nud = pnlControls.Children.Where(c => c.Name == $"Numeric_Index{buc}").FirstOrDefault() as NumericUpDown;
 
@@ -301,7 +301,7 @@ namespace LogicAnalyzer.Dialogs
 
                         break;
 
-                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.Double:
+                    case SigrokOptionType.Double:
 
                         var nudD = pnlControls.Children.Where(c => c.Name == $"Numeric_Index{buc}").FirstOrDefault() as NumericUpDown;
 
@@ -312,7 +312,7 @@ namespace LogicAnalyzer.Dialogs
 
                         break;
 
-                    case ProtocolAnalyzerSetting.ProtocolAnalyzerSettingType.List:
+                    case SigrokOptionType.List:
 
                         var list = pnlControls.Children.Where(c => c.Name == $"List_Index{buc}").FirstOrDefault() as ComboBox;
 
@@ -325,9 +325,9 @@ namespace LogicAnalyzer.Dialogs
 
                 }
 
-                settingsValues.Add(new ProtocolAnalyzerSettingValue
+                settingsValues.Add(new SigrokOptionValue
                 {
-                    SettingIndex = buc,
+                    OptionIndex = buc,
                     Value = value
                 });
             }
@@ -335,17 +335,18 @@ namespace LogicAnalyzer.Dialogs
             return settingsValues.ToArray();
         }
 
-        ProtocolAnalyzerSelectedChannel[]? ComposeChannels(ProtocolAnalyzerSettingValue[] values)
+        SigrokSelectedChannel[]? ComposeChannels(SigrokOptionValue[] values)
         {
-            if (analyzer == null || channels == null)
+            if (decoder == null || this.channels == null)
                 return null;
 
-            var signals = analyzer.Signals;
-            List<ProtocolAnalyzerSelectedChannel> selectedChannels = new List<ProtocolAnalyzerSelectedChannel>();
+            var channels = decoder.Channels;
 
-            for (int buc = 0; buc < signals.Length; buc++)
+            List<SigrokSelectedChannel> selectedChannels = new List<SigrokSelectedChannel>();
+
+            for (int buc = 0; buc < channels.Length; buc++)
             {
-                var signal = signals[buc];
+                var channel = channels[buc];
                 var list = pnlControls.Children.Where(c => c.Name == $"List_Signal{buc}").FirstOrDefault() as ComboBox;
 
                 if (list == null)
@@ -354,37 +355,13 @@ namespace LogicAnalyzer.Dialogs
                 if (list.SelectedIndex == -1)
                     continue;
 
-                var size = signal.IsBus ? analyzer.GetBusWidth(signal, values) : 1;
-
-                if (size == 0)
-                    continue;
-
                 int idx = list.SelectedIndex - 1;
 
-                if (idx + size > channels.Length)
-                    return null;
-
-                if (size == 1)
+                selectedChannels.Add(new SigrokSelectedChannel
                 {
-
-                    selectedChannels.Add(new ProtocolAnalyzerSelectedChannel
-                    {
-                        ChannelIndex = idx,
-                        SignalName = signal.SignalName
-                    });
-                }
-                else
-                {
-                    for (int bucS = 0; bucS < size; bucS++)
-                    {
-                        selectedChannels.Add(new ProtocolAnalyzerSelectedChannel
-                        {
-                            ChannelIndex = idx + bucS,
-                            SignalName = signal.SignalName,
-                            BusIndex = bucS
-                        });
-                    }
-                }
+                    ChannelIndex = idx,
+                    ChannelName = channel.Name
+                });
             }
 
             return selectedChannels.ToArray();
@@ -397,8 +374,8 @@ namespace LogicAnalyzer.Dialogs
 
         private void btnAccept_Click(object? sender, RoutedEventArgs e)
         {
-            SelectedSettings = ComposeSettings();
-            SelectedChannels = ComposeChannels(SelectedSettings);
+            SelectedOptions = ComposeOptions();
+            SelectedChannels = ComposeChannels(SelectedOptions);
             this.Close(true);
         }
 

@@ -1,32 +1,24 @@
-﻿using LogicAnalyzer.Protocols;
-using Newtonsoft.Json;
-using Python.Runtime;
+﻿using Python.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static LogicAnalyzer.Protocols.ProtocolAnalyzerSetting;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SigrokDecoderBridge
 {
-    public abstract class SigrokDecoderBase : ProtocolAnalyzerBase
+    public abstract class SigrokDecoderBase : IDisposable
     {
         PyModule thisModule;
         PyObject decoderObject;
         dynamic decoder;
 
-        List<SigrokSignal> signals;
+        List<SigrokChannel> channels;
         List<SigrokOption> settings;
         List<RegisteredOutput> registeredOutputs = new List<RegisteredOutput>();
 
         List<string> categories = new List<string>();
 
-        public override string[] Categories
+        public string[] Categories
         {
             get
             {
@@ -39,21 +31,13 @@ namespace SigrokDecoderBridge
         long currentSample = -1;
         long sampleCount = 0;
 
-        Dictionary<int, ProtocolAnalyzerSelectedChannel> indexedChannels = new Dictionary<int, ProtocolAnalyzerSelectedChannel>();
+        Dictionary<int, SigrokSelectedChannel> indexedChannels = new Dictionary<int, SigrokSelectedChannel>();
 
         Dictionary<int, int> currentState = new Dictionary<int, int>();
 
         protected abstract string decoderName { get; }
 
-        public override ProtocolAnalyzerType AnalyzerType
-        {
-            get
-            {
-                return ProtocolAnalyzerType.AnnotationAnalyzer;
-            }
-        }
-
-        public override string ProtocolName
+        public string DecoderName
         {
             get
             {
@@ -98,19 +82,19 @@ namespace SigrokDecoderBridge
             }
         }
 
-        public override ProtocolAnalyzerSignal[] Signals
+        public SigrokChannel[] Channels
         {
             get
             {
-                return signals.ToArray();
+                return channels.ToArray();
             }
         }
 
-        public override ProtocolAnalyzerSetting[] Settings
+        public SigrokOption[] Options
         {
             get
             {
-                return settings?.ToArray() ?? new ProtocolAnalyzerSetting[0];
+                return settings?.ToArray() ?? new SigrokOption[0];
             }
         }
 
@@ -138,20 +122,19 @@ namespace SigrokDecoderBridge
         {
             using (Py.GIL())
             {
-                signals = new List<SigrokSignal>();
+                channels = new List<SigrokChannel>();
 
                 dynamic requiredSignals = decoder.channels;
 
                 foreach (dynamic signal in requiredSignals)
                 {
-                    signals.Add(new SigrokSignal
+                    channels.Add(new SigrokChannel
                     {
-                        SignalName = signal["name"],
                         Required = true,
                         Id = signal["id"],
                         Name = signal["name"],
-                        Desc = signal["desc"],
-                        Index = signals.Count
+                        Description = signal["desc"],
+                        Index = channels.Count
                     });
 
                 }
@@ -160,14 +143,13 @@ namespace SigrokDecoderBridge
 
                 foreach (dynamic signal in optionalSignals)
                 {
-                    signals.Add(new SigrokSignal
+                    channels.Add(new SigrokChannel
                     {
-                        SignalName = signal["name"],
                         Required = false,
                         Id = signal["id"],
                         Name = signal["name"],
-                        Desc = signal["desc"],
-                        Index = signals.Count
+                        Description = signal["desc"],
+                        Index = channels.Count
                     });
                 }
             }
@@ -189,7 +171,7 @@ namespace SigrokDecoderBridge
                 foreach (dynamic option in options)
                 {
 
-                    string[] keys = SigrokPythonEngine.GetKeys(option);
+                    string[] keys = GetKeys(option);
 
                     var opt = new SigrokOption
                     {
@@ -205,11 +187,11 @@ namespace SigrokDecoderBridge
                     else
                     {
                         opt.SigrokType = ("").ToPython().GetPythonType();
-                        opt.SettingType = ProtocolAnalyzerSettingType.String;
+                        opt.SettingType = SigrokOptionType.String;
                     }
 
                     if (keys.Contains("values"))
-                        opt.Values = SigrokPythonEngine.GetKeys(option["values"]);
+                        opt.Values = GetKeys(option["values"]);
 
 
 
@@ -217,7 +199,7 @@ namespace SigrokDecoderBridge
                     {
                         var list = opt.Values.Select(o => o.ToString()).ToArray();
                         opt.ListValues = list;
-                        opt.SettingType = ProtocolAnalyzerSettingType.List;
+                        opt.SettingType = SigrokOptionType.List;
                         opt.SigrokType = opt.Default.GetPythonType();
                         opt.DefaultValue = opt.Default.ToString();
                     }
@@ -228,23 +210,23 @@ namespace SigrokDecoderBridge
                             switch (opt.Default.GetPythonType().Name)
                             {
                                 case "str":
-                                    opt.SettingType = ProtocolAnalyzerSettingType.String;
+                                    opt.SettingType = SigrokOptionType.String;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(string));
                                     break;
                                 case "int":
                                     opt.MinimumValue = int.MinValue;
                                     opt.MaximumValue = int.MaxValue;
-                                    opt.SettingType = ProtocolAnalyzerSettingType.Integer;
+                                    opt.SettingType = SigrokOptionType.Integer;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(int));
                                     break;
                                 case "float":
                                     opt.MinimumValue = (double)int.MinValue;
                                     opt.MaximumValue = (double)int.MaxValue;
-                                    opt.SettingType = ProtocolAnalyzerSettingType.Double;
+                                    opt.SettingType = SigrokOptionType.Double;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(double));
                                     break;
                                 case "bool":
-                                    opt.SettingType = ProtocolAnalyzerSettingType.Boolean;
+                                    opt.SettingType = SigrokOptionType.Boolean;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(bool));
                                     break;
                                 default:
@@ -274,11 +256,11 @@ namespace SigrokDecoderBridge
             }
         }
 
-        public override bool ValidateSettings(ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        public bool ValidateOptions(SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels)
         {
             foreach (var selSet in SelectedSettings)
             {
-                var setting = settings[selSet.SettingIndex];
+                var setting = settings[selSet.OptionIndex];
 
                 if (selSet.Value == null)
                     return false;
@@ -286,22 +268,22 @@ namespace SigrokDecoderBridge
 
                 switch (setting.SettingType)
                 {
-                    case ProtocolAnalyzerSettingType.Boolean:
+                    case SigrokOptionType.Boolean:
                         var bVal = selSet.Value as bool?;
                         if (bVal == null)
                             return false;
                         break;
-                    case ProtocolAnalyzerSettingType.Double:
+                    case SigrokOptionType.Double:
                         var dVal = selSet.Value as double?;
                         if (dVal == null)
                             return false;
                         break;
-                    case ProtocolAnalyzerSettingType.Integer:
+                    case SigrokOptionType.Integer:
                         var iVal = selSet.Value as int?;
                         if (iVal == null)
                             return false;
                         break;
-                    case ProtocolAnalyzerSettingType.List:
+                    case SigrokOptionType.List:
                         var lVal = selSet.Value as string;
 
                         if (lVal == null)
@@ -311,7 +293,7 @@ namespace SigrokDecoderBridge
                             return false;
 
                         break;
-                    case ProtocolAnalyzerSettingType.String:
+                    case SigrokOptionType.String:
                         var sVal = selSet.Value as string;
 
                         if (sVal == null)
@@ -320,17 +302,17 @@ namespace SigrokDecoderBridge
                 }
             }
 
-            var req = signals.Where(s => s.Required);
+            var req = channels.Where(s => s.Required);
             foreach (var reqSig in req)
             {
-                if (!SelectedChannels.Any(c => c.SignalName == reqSig.SignalName))
+                if (!SelectedChannels.Any(c => c.ChannelName == reqSig.Name))
                     return false;
             }
 
             return true;
         }
 
-        public override ProtocolAnalyzedAnnotation[] AnalyzeAnnotations(int SamplingRate, int TriggerSample, ProtocolAnalyzerSettingValue[] SelectedSettings, ProtocolAnalyzerSelectedChannel[] SelectedChannels)
+        public SigrokAnnotation[] ExecuteAnalysis(int SamplingRate, int TriggerSample, SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels)
         {
             using (Py.GIL())
             {
@@ -340,7 +322,7 @@ namespace SigrokDecoderBridge
 
                     foreach (var value in SelectedSettings)
                     {
-                        var setting = settings[value.SettingIndex];
+                        var setting = settings[value.OptionIndex];
 
                         switch (setting.SigrokType.Name)
                         {
@@ -365,9 +347,9 @@ namespace SigrokDecoderBridge
                 currentState.Clear();
                 indexedChannels.Clear();
 
-                for (int buc = 0; buc < signals.Count; buc++)
+                for (int buc = 0; buc < channels.Count; buc++)
                 {
-                    var channel = SelectedChannels.Where(c => c.SignalName == signals[buc].SignalName).FirstOrDefault();
+                    var channel = SelectedChannels.Where(c => c.ChannelName == channels[buc].Name).FirstOrDefault();
                     if (channel != null)
                     {
                         currentState[buc] = -1;
@@ -419,7 +401,12 @@ namespace SigrokDecoderBridge
 
                 GenerateOutputs();
 
-                return GenerateAnnotations();
+                var ann = GenerateAnnotations();
+
+                currentState.Clear();
+                indexedChannels.Clear();
+
+                return ann;
             }
         }
 
@@ -449,17 +436,17 @@ namespace SigrokDecoderBridge
             return dict;
         }
 
-        private ProtocolAnalyzedAnnotation[] GenerateAnnotations()
+        private SigrokAnnotation[] GenerateAnnotations()
         {
 
             AnnotationRow[] annRows = GetAnnotationRows();
 
-            Dictionary<int, List<ProtocolAnalyzedAnnotationSegment>> segments = new Dictionary<int, List<ProtocolAnalyzedAnnotationSegment>>();
+            Dictionary<int, List<SigrokAnnotationSegment>> segments = new Dictionary<int, List<SigrokAnnotationSegment>>();
 
-            Dictionary<int, List<List<ProtocolAnalyzedAnnotationSegment>>>
-                segmentsPerRow = new Dictionary<int, List<List<ProtocolAnalyzedAnnotationSegment>>>();
+            Dictionary<int, List<List<SigrokAnnotationSegment>>>
+                segmentsPerRow = new Dictionary<int, List<List<SigrokAnnotationSegment>>>();
 
-            List<ProtocolAnalyzedAnnotation> annotations = new List<ProtocolAnalyzedAnnotation>();
+            List<SigrokAnnotation> annotations = new List<SigrokAnnotation>();
 
             for (int buc = 0; buc < registeredOutputs.Count; buc++)
             {
@@ -475,7 +462,7 @@ namespace SigrokDecoderBridge
                 {
                     int annId = (int)((PyObject)outVal.Value[0]).AsManagedObject(typeof(int));
 
-                    var segment = new ProtocolAnalyzedAnnotationSegment
+                    var segment = new SigrokAnnotationSegment
                     {
                         TypeId = annId,
                         Shape = ProtocolAnalyzerSegmentShape.Hexagon,
@@ -485,7 +472,7 @@ namespace SigrokDecoderBridge
                     };
 
                     if (!segments.ContainsKey(annId))
-                        segments[annId] = new List<ProtocolAnalyzedAnnotationSegment>();
+                        segments[annId] = new List<SigrokAnnotationSegment>();
 
                     var segList = segments[annId];
                     segList.Add(segment);
@@ -499,7 +486,7 @@ namespace SigrokDecoderBridge
                 var row = annRows.Where(row => row.Types.Any(t => t.Index == key)).First();
 
                 if (!segmentsPerRow.ContainsKey(row.Index))
-                    segmentsPerRow[row.Index] = new List<List<ProtocolAnalyzedAnnotationSegment>>();
+                    segmentsPerRow[row.Index] = new List<List<SigrokAnnotationSegment>>();
 
                 segmentsPerRow[row.Index].Add(segments[key]);
             }
@@ -508,7 +495,7 @@ namespace SigrokDecoderBridge
             {
                 var row = annRows.Where(row => row.Index == pair.Key).First();
 
-                var annotation = new ProtocolAnalyzedAnnotation
+                var annotation = new SigrokAnnotation
                 {
                     AnnotationName = row.Name,
                     Segments = pair.Value.SelectMany(s => s).OrderBy(s => s.FirstSample).ToArray()
@@ -607,14 +594,23 @@ namespace SigrokDecoderBridge
             return annotations.ToArray();
         }
 
-        public override void Dispose()
+        private string[] GetKeys(dynamic PythonObject)
         {
-            signals?.Clear();
+            List<string> items = new List<string>();
+
+            foreach (var key in PythonObject)
+                items.Add(key.ToString());
+
+            return items.ToArray();
+        }
+
+        public void Dispose()
+        {
+            channels?.Clear();
             settings?.Clear();
             registeredOutputs?.Clear();
             decoderObject.Dispose();
             thisModule.Dispose();
-            base.Dispose();
         }
 
         #region Bridge functions
@@ -690,7 +686,7 @@ namespace SigrokDecoderBridge
         {
             List<PyObject> inputs = new List<PyObject>();
 
-            for (int buc = 0; buc < signals.Count; buc++)
+            for (int buc = 0; buc < channels.Count; buc++)
             {
                 if (currentState.ContainsKey(buc))
                 {
@@ -738,8 +734,8 @@ namespace SigrokDecoderBridge
         {
             WaitCondition cond = new WaitCondition();
 
-            var keys = (string[])SigrokPythonEngine.GetKeys(condition.keys());
-            var values = (string[])SigrokPythonEngine.GetKeys(condition.values());
+            var keys = (string[])GetKeys(condition.keys());
+            var values = (string[])GetKeys(condition.values());
 
             for (int buc = 0; buc < keys.Length; buc++)
             {
@@ -833,22 +829,6 @@ namespace SigrokDecoderBridge
         #endregion
 
         #region Internal classes
-        class SigrokSignal : ProtocolAnalyzerSignal
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string Desc { get; set; }
-            public required int Index { get; set; }
-        }
-
-        class SigrokOption : ProtocolAnalyzerSetting
-        {
-            public string Id { get; set; }
-            public PyObject Default { get; set; }
-            public string[] Values { get; set; }
-            public PyType SigrokType { get; set; }
-        }
-
         class RegisteredOutput
         {
             public AnnotationOutputType OutputType { get; set; }
