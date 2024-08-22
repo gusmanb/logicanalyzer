@@ -843,6 +843,8 @@ namespace LogicAnalyzer
                 return;
             }
 
+            sgManager.Initialize(decoderProvider);
+
             var categories = CategorizeDecoders();
 
             if (categories.Count == 0)
@@ -1235,10 +1237,10 @@ namespace LogicAnalyzer
                 annotationsViewer.FirstSample = sampleViewer.FirstSample;
                 annotationsViewer.SamplesInScreen = sampleViewer.VisibleSamples;
                 annotationsViewer.EndUpdate();
-            }*/
+            }
 
             tbSamples.Text = $"{(int)tkInScreen.Value} samples";
-
+            */
             updateSampleDisplays();
 
         }

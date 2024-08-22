@@ -24,7 +24,7 @@ namespace LogicAnalyzer.Controls
         bool isUpdating = false;
 
         const int ANNOTATION_HEIGHT = 24;
-        const int ANNOTATION_NAME_WIDTH = 140;
+        const int ANNOTATION_NAME_WIDTH = 100;
 
         public int VisibleSamples { get; private set; }
 

@@ -32,5 +32,5 @@ class Decoder:
 	def put(self, startsample, endsample, output_id, data):
 		self.cObj.Put(startsample, endsample, output_id, data)
 
-	def register (self, output_type, meta = None):
+	def register(self, output_type, proto_id = None, meta = None):
 		return self.cObj.Register(output_type, meta)

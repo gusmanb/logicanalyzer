@@ -93,7 +93,7 @@ namespace LogicAnalyzer.Dialogs
 
                     pnlControls.Children.Add(new TextBlock { IsVisible = true, Name = $"Label_Index{buc}", Text = set.Caption + ":"});
 
-                    switch (set.SettingType)
+                    switch (set.OptionType)
                     {
                         case SigrokOptionType.Boolean:
 
@@ -141,7 +141,7 @@ namespace LogicAnalyzer.Dialogs
 
                             var nud = new NumericUpDown { IsVisible = true, Name = $"Numeric_Index{buc}", Minimum = (decimal)set.MinimumValue, Maximum = (decimal)set.MaximumValue, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0), Value = Math.Max((decimal)set.MinimumValue, 0) };
 
-                            if(set.SettingType == SigrokOptionType.Double)
+                            if(set.OptionType == SigrokOptionType.Double)
                                 nud.FormatString = "0.00";
 
                             if (initialSettings != null)
@@ -266,7 +266,7 @@ namespace LogicAnalyzer.Dialogs
                 var setting = settings[buc];
                 object? value = null;
 
-                switch (setting.SettingType)
+                switch (setting.OptionType)
                 {
                     case SigrokOptionType.Boolean:
 

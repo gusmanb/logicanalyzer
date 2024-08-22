@@ -35,7 +35,7 @@ namespace SigrokDecoderBridge
         /// <summary>
         /// Type of setting
         /// </summary>
-        public SigrokOptionType SettingType { get; set; }
+        public SigrokOptionType OptionType { get; set; }
         /// <summary>
         /// If SettingType is of type "list" this array must contain the list entries
         /// </summary>

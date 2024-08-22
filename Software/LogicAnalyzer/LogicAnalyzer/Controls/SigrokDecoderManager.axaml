@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:classes="clr-namespace:LogicAnalyzer.Classes"
+             xmlns:controls="clr-namespace:LogicAnalyzer.Controls"
+             xmlns:sigrok="clr-namespace:SigrokDecoderBridge;assembly=SigrokDecoderBridge"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LogicAnalyzer.Controls.SigrokDecoderManager">
+  <Grid RowDefinitions="32,*,4,*">
+    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" Margin="5" Background="#30ffffff">Decoder session</TextBlock>
+    <TreeView ItemsSource="{Binding DecoderCategories}" Grid.Row="1" Name="tvDecoders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <TreeView.DataTemplates>
+        <TreeDataTemplate DataType="classes:DecoderCategory" ItemsSource="{Binding Decoders}">
+          <TextBlock Text="{Binding Name}"/>
+        </TreeDataTemplate>
+        <TreeDataTemplate DataType="sigrok:SigrokDecoderBase">
+          <Grid ColumnDefinitions="32,*" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,25,0">
+            <Button Click="Button_Click">+</Button>
+            <TextBlock Grid.Column="1"  Text="{Binding DecoderShortName}" ToolTip.Tip="{Binding DecoderName}" VerticalAlignment="Center"/>
+          </Grid>
+        </TreeDataTemplate>
+        </TreeView.DataTemplates>
+    </TreeView>
+    <GridSplitter ResizeDirection="Rows" Grid.Row="2" Background="#30ffffff"></GridSplitter>
+    <ScrollViewer Name="svDecoders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3">
+      <StackPanel Name="pnlControls">
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

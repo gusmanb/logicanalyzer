@@ -34,14 +34,30 @@ namespace SigrokDecoderBridge
         Dictionary<int, SigrokSelectedChannel> indexedChannels = new Dictionary<int, SigrokSelectedChannel>();
 
         Dictionary<int, int> currentState = new Dictionary<int, int>();
-
+        Dictionary<int, int> lastState = new Dictionary<int, int>();
         protected abstract string decoderName { get; }
+
+        public string Id 
+        {
+            get
+            {
+                return decoder.id;
+            }
+        }
 
         public string DecoderName
         {
             get
             {
                 return decoder.longname;
+            }
+        }
+
+        public string DecoderShortName
+        {
+            get
+            {
+                return decoder.name;
             }
         }
 
@@ -187,7 +203,7 @@ namespace SigrokDecoderBridge
                     else
                     {
                         opt.SigrokType = ("").ToPython().GetPythonType();
-                        opt.SettingType = SigrokOptionType.String;
+                        opt.OptionType = SigrokOptionType.String;
                     }
 
                     if (keys.Contains("values"))
@@ -199,7 +215,7 @@ namespace SigrokDecoderBridge
                     {
                         var list = opt.Values.Select(o => o.ToString()).ToArray();
                         opt.ListValues = list;
-                        opt.SettingType = SigrokOptionType.List;
+                        opt.OptionType = SigrokOptionType.List;
                         opt.SigrokType = opt.Default.GetPythonType();
                         opt.DefaultValue = opt.Default.ToString();
                     }
@@ -210,23 +226,23 @@ namespace SigrokDecoderBridge
                             switch (opt.Default.GetPythonType().Name)
                             {
                                 case "str":
-                                    opt.SettingType = SigrokOptionType.String;
+                                    opt.OptionType = SigrokOptionType.String;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(string));
                                     break;
                                 case "int":
                                     opt.MinimumValue = int.MinValue;
                                     opt.MaximumValue = int.MaxValue;
-                                    opt.SettingType = SigrokOptionType.Integer;
+                                    opt.OptionType = SigrokOptionType.Integer;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(int));
                                     break;
                                 case "float":
                                     opt.MinimumValue = (double)int.MinValue;
                                     opt.MaximumValue = (double)int.MaxValue;
-                                    opt.SettingType = SigrokOptionType.Double;
+                                    opt.OptionType = SigrokOptionType.Double;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(double));
                                     break;
                                 case "bool":
-                                    opt.SettingType = SigrokOptionType.Boolean;
+                                    opt.OptionType = SigrokOptionType.Boolean;
                                     opt.DefaultValue = opt.Default.AsManagedObject(typeof(bool));
                                     break;
                                 default:
@@ -266,7 +282,7 @@ namespace SigrokDecoderBridge
                     return false;
 
 
-                switch (setting.SettingType)
+                switch (setting.OptionType)
                 {
                     case SigrokOptionType.Boolean:
                         var bVal = selSet.Value as bool?;
@@ -352,7 +368,9 @@ namespace SigrokDecoderBridge
                     var channel = SelectedChannels.Where(c => c.ChannelName == channels[buc].Name).FirstOrDefault();
                     if (channel != null)
                     {
-                        currentState[buc] = -1;
+                        currentState[buc] = channel.Samples[0];
+                        lastState[buc] = channel.Samples[0];
+                        lastState[buc] = -1;
                         indexedChannels[buc] = channel;
                     }
                 }
@@ -653,6 +671,15 @@ namespace SigrokDecoderBridge
                     }
                 }
 
+                if (cnd.Any(cnd => cnd.IsZeroSkip()))
+                {
+                    PyTuple output;
+                    var match = CheckConditions(lastState, currentState, cnd, out output);
+                    decoder.matched = output;
+                    decoder.samplenum = currentSample;
+                    return CreateTuple(currentState);
+                }
+
                 while (true)
                 {
                     currentSample++;
@@ -669,6 +696,7 @@ namespace SigrokDecoderBridge
 
                     var match = CheckConditions(currentState, newState, cnd, out output);
 
+                    lastState = currentState;
                     currentState = newState;
 
                     if (match)
@@ -822,6 +850,7 @@ namespace SigrokDecoderBridge
         {
             using (Py.GIL())
             {
+                Debug.WriteLine($"{startSample} - {endSample} {((PyObject)data).ToString()}");
                 registeredOutputs[outputId].Outputs.Add(new SigrokOutputValue { StartSample = startSample, EndSample = endSample, Value = data });
             }
         }
@@ -855,6 +884,11 @@ namespace SigrokDecoderBridge
             public bool Matched(Dictionary<int, int> currentState, Dictionary<int, int> newState)
             {
                 return parameters.All(parameters => parameters.Matched(currentState, newState));
+            }
+
+            public bool IsZeroSkip()
+            {
+                return parameters.Count == 1 && parameters[0].ConditionType == WaitConditionType.Skip && parameters[0].Channel == 0;
             }
         }
 
