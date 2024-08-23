@@ -26,17 +26,17 @@ namespace LogicAnalyzer.Controls
             InitializeComponent();
         }
 
-        public void UpdateSamples(CaptureChannel[] Channels, UInt128[] Samples)
+        public void UpdateSamples(CaptureChannel[] Channels, int SampleCount)
         {
             int channelCount = Channels.Length;
 
             if (channelCount > 24)
                 channelCount = 24;
 
-            int width = Math.Max(Math.Min(Samples.Length, 4096), 1024);
+            int width = Math.Max(Math.Min(SampleCount, 4096), 1024);
 
             float cHeight = 144 / (float)channelCount;
-            float sWidth = (float)width / (float)Samples.Length;
+            float sWidth = (float)width / (float)SampleCount;
             float high = cHeight / 6;
             float low = cHeight - high;
 
@@ -58,15 +58,15 @@ namespace LogicAnalyzer.Controls
 
             using (var canvas = new SKCanvas(skb))
             {
-                for (int x = 0; x < Samples.Length; x++)
+                for (int x = 0; x < SampleCount; x++)
                 {
-                    UInt128 sample = Samples[x];
-                    UInt128 prevSample = Samples[x == 0 ? x : x - 1];
+                    int sample = x;
+                    int prevSample = x == 0 ? x : x - 1;
 
                     for (int chan = 0; chan < channelCount; chan++)
                     {
-                        UInt128 curVal = sample & ((UInt128)1 << chan);
-                        UInt128 prevVal = prevSample & ((UInt128)1 << chan);
+                        byte curVal = Channels[chan].Samples[sample];
+                        byte prevVal = Channels[chan].Samples[prevSample];
 
                         float y = chan * cHeight + (curVal != 0 ? high : low);
 
@@ -85,7 +85,7 @@ namespace LogicAnalyzer.Controls
                 bmp.Dispose();
 
             bmp = new Bitmap(stream);
-            sampleCount = Samples.Length;
+            sampleCount = SampleCount;
         }
 
         public override void Render(DrawingContext context)

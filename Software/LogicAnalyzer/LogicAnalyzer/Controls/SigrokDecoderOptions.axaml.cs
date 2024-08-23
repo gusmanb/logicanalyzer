@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using MsBox.Avalonia.Base;
 using SigrokDecoderBridge;
@@ -12,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 
 namespace LogicAnalyzer.Controls;
 
@@ -28,14 +30,25 @@ public partial class SigrokDecoderOptions : UserControl
         }
     }
 
-    public ObservableCollection<AnalyzerAvailableChannel> Channels { get; } = new ObservableCollection<AnalyzerAvailableChannel>();
+    public event EventHandler? RemoveDecoder;
+    public event EventHandler? OptionsUpdated;
 
+    public ObservableCollection<CaptureChannel> Channels { get; } = new ObservableCollection<CaptureChannel>();
     List<ComboBox> channelSelectors = new List<ComboBox>();
+
+    Dictionary<int, SigrokSelectedChannel> selectedChannels = new Dictionary<int, SigrokSelectedChannel>();
+    public IEnumerable<SigrokSelectedChannel> SelectedChannels { get { return selectedChannels.Values; } }
+
+    Dictionary<int, SigrokOptionValue> values = new Dictionary<int, SigrokOptionValue>();
+    public IEnumerable<SigrokOptionValue> Values { get { return values.Values; } }
 
     private void CreateOptions()
     {
         channelSelectors.Clear();
         pnlOptions.Children.Clear();
+
+        selectedChannels.Clear();
+        values.Clear();
 
         if (decoder == null)
             return;
@@ -82,7 +95,17 @@ public partial class SigrokDecoderOptions : UserControl
                 cbChannel.SelectedIndex = 0;
                 cbChannel.Tag = signal;
                 cbChannel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
-                //cbChannel.SelectionChanged += (o,e) => { }
+                cbChannel.SelectionChanged += (o, e) =>
+                {
+                    var selectedChannel = cbChannel.SelectedItem as CaptureChannel;
+                    if (selectedChannel == null)
+                        return;
+
+                    selectedChannels[signal.Index] = new SigrokSelectedChannel { SigrokIndex = signal.Index, CaptureIndex = selectedChannel.ChannelNumber };
+
+                    OptionsUpdated?.Invoke(this, EventArgs.Empty);
+                };
+
                 cbChannel.Margin = new Thickness(0, 0, 0, 5);
                 channelSelectors.Add(cbChannel);
 
@@ -131,6 +154,11 @@ public partial class SigrokDecoderOptions : UserControl
             
             foreach (var option in options)
             {
+
+                SigrokOptionValue optValue = new SigrokOptionValue { OptionIndex = option.Index, Value = option.DefaultValue };
+
+                values[optValue.OptionIndex] = optValue;
+
                 gridOptions.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 gridOptions.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
@@ -151,6 +179,12 @@ public partial class SigrokDecoderOptions : UserControl
                             ck.IsChecked = (bool)option.DefaultValue;
                         }
 
+                        ck.IsCheckedChanged += (o, e) =>
+                        {
+                            optValue.Value = ck.IsChecked ?? false;
+                            OptionsUpdated?.Invoke(this, EventArgs.Empty);
+                        };
+
                         optControl = ck;
 
                         break;
@@ -163,6 +197,12 @@ public partial class SigrokDecoderOptions : UserControl
                         {
                             tb.Text = option.DefaultValue.ToString();
                         }
+
+                        tb.TextChanged += (o, e) =>
+                        {
+                            optValue.Value = tb.Text;
+                            OptionsUpdated?.Invoke(this, EventArgs.Empty);
+                        };
 
                         optControl = tb;
                         
@@ -181,18 +221,30 @@ public partial class SigrokDecoderOptions : UserControl
                             nud.Value = Convert.ToDecimal(option.DefaultValue);
                         }
 
+                        nud.ValueChanged += (o, e) =>
+                        {
+                            optValue.Value = option.OptionType == SigrokOptionType.Integer ? (object)(int)nud.Value : (object)(double)nud.Value;
+                            OptionsUpdated?.Invoke(this, EventArgs.Empty);
+                        };
+
                         optControl = nud;
                         
                         break;
 
                     case SigrokOptionType.List:
 
-                        var list = new ComboBox { IsVisible = true, Name = $"List_Index{idx++}", ItemsSource = option.ListValues, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 20, 0) };
+                        var list = new ComboBox { IsVisible = true, Name = $"List_Index{idx++}", ItemsSource = option.ListValues, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch, Margin = new Thickness(0, 10, 0, 0) };
 
                         if (option.DefaultValue != null && option.ListValues != null)
                         {
                             list.SelectedIndex = Array.IndexOf(option.ListValues, option.DefaultValue);
                         }
+
+                        list.SelectionChanged += (o, e) =>
+                        {
+                            optValue.Value = list.SelectedItem?.ToString();
+                            OptionsUpdated?.Invoke(this, EventArgs.Empty);
+                        };
 
                         optControl = list;
                         
@@ -294,16 +346,52 @@ public partial class SigrokDecoderOptions : UserControl
 
             pnlOptions.Children.Add(gridInfo);
         }
-    }
 
-    private void UpdateOptions(Control? Sender)
-    {
-
+        OptionsUpdated?.Invoke(this, EventArgs.Empty);
     }
 
     public SigrokDecoderOptions()
     {
         InitializeComponent();
         DataContext = this;
+        Channels.Add(new CaptureChannel { ChannelNumber = -1, ChannelName = "<- None ->" });
+    }
+    
+    private void ButtonRemove_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if(RemoveDecoder != null)
+        {
+            RemoveDecoder(this, EventArgs.Empty);
+        }
+    }
+
+    public void UpdateChannels(IEnumerable<CaptureChannel>? Channels)
+    {
+        this.Channels.Clear();
+        this.Channels.Add(new CaptureChannel { ChannelNumber = -1, ChannelName = "<- None ->" });
+
+        var selected = selectedChannels.Values.ToArray();
+        selectedChannels.Clear();
+
+        if (Channels != null)
+        {
+            foreach (var channel in Channels)
+            {
+                this.Channels.Add(channel);
+            }
+
+            foreach (var sel in selected)
+            {
+                if (sel.CaptureIndex < Channels.Count())
+                {
+                    selectedChannels[sel.SigrokIndex] = sel;
+                    channelSelectors[sel.SigrokIndex].SelectedIndex = sel.CaptureIndex + 1;
+                    continue;
+                }
+            }
+
+        }
+
+        OptionsUpdated?.Invoke(this, EventArgs.Empty);
     }
 }

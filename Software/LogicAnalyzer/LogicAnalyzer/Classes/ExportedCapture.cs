@@ -14,11 +14,4 @@ namespace LogicAnalyzer.Classes
         public UInt128[] Samples { get; set; }
         public SampleRegion[]? SelectedRegions { get; set; }
     }
-
-    public class OldExportedCapture
-    {
-        public OldCaptureSettings Settings { get; set; }
-        public UInt128[] Samples { get; set; }
-        public SampleRegion[]? SelectedRegions { get; set; }
-    }
 }

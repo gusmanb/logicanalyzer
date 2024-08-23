@@ -7,7 +7,7 @@
   <Expander HorizontalAlignment="Stretch" VerticalAlignment="Top">
     <Expander.Header>
       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <Button>-</Button>
+        <Button Click="ButtonRemove_Click">-</Button>
         <TextBlock Name="txtDecoder" Text="Decoder options" VerticalAlignment="Center" Margin="10,0,0,0" />
       </StackPanel>
     </Expander.Header>

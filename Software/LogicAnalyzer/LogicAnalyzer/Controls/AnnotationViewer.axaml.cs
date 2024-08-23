@@ -145,7 +145,7 @@ namespace LogicAnalyzer.Controls
             Update();
             return res;
         }
-        public void ClearAnnotation()
+        public void ClearAnnotations()
         {
             annotations.Clear();
             Update();

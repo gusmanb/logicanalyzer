@@ -12,8 +12,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Assets\FontAwesome.otf" />
+    <None Remove="Assets\Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <None Remove="Assets\Logo.png" />
     <None Remove="Assets\window.ico" />
+    <None Remove="SigrokDecoderBridge\sigrokdecode.py" />
   </ItemGroup>
   <ItemGroup>
     <!--This helps with theme dll-s trimming.
@@ -32,19 +35,17 @@
     <PackageReference Include="AvaloniaColorPicker" Version="1.4.0" />
     <PackageReference Include="AvaloniaEdit.TextMate" Version="11.1.0" />
     <PackageReference Include="MessageBox.Avalonia" Version="3.1.6" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="pythonnet" Version="3.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedDriver\SharedDriver.csproj" />
     <ProjectReference Include="..\SignalDescriptionLanguage\SignalDescriptionLanguage.csproj" />
-    <ProjectReference Include="..\SigrokDecoderBridge\SigrokDecoderBridge.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Dialogs\SigrokOptionsDialog.axaml.cs">
-      <DependentUpon>SigrokOptionsDialog.axaml</DependentUpon>
-    </Compile>
     <Compile Update="Dialogs\SelectedRegionDialog.axaml.cs">
       <DependentUpon>SelectedRegionDialog.axaml</DependentUpon>
     </Compile>
@@ -57,5 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Ico40.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SigrokDecoderBridge\sigrokdecode.py" />
   </ItemGroup>
 </Project>

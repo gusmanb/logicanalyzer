@@ -4,20 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:classes="clr-namespace:LogicAnalyzer.Classes"
              xmlns:controls="clr-namespace:LogicAnalyzer.Controls"
-             xmlns:sigrok="clr-namespace:SigrokDecoderBridge;assembly=SigrokDecoderBridge"
+             xmlns:sigrok="clr-namespace:SigrokDecoderBridge"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LogicAnalyzer.Controls.SigrokDecoderManager">
   <Grid RowDefinitions="32,*,4,*">
-    <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" Margin="5" Background="#30ffffff">Decoder session</TextBlock>
+    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Margin="5" Background="#30ffffff" Name="txtFilter" TextChanged="TxtFilter_TextChanged">
+      <!--
+      <TextBox.InnerLeftContent>
+        <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free Solid"></TextBlock>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free Solid" PointerPressed="TxtFilter_PointerPressed"></TextBlock>
+      </TextBox.InnerRightContent>-->
+      <TextBox.InnerRightContent>
+        <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" PointerPressed="TxtFilter_PointerPressed">X</TextBlock>
+      </TextBox.InnerRightContent>
+    </TextBox>
+    
     <TreeView ItemsSource="{Binding DecoderCategories}" Grid.Row="1" Name="tvDecoders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
       <TreeView.DataTemplates>
         <TreeDataTemplate DataType="classes:DecoderCategory" ItemsSource="{Binding Decoders}">
           <TextBlock Text="{Binding Name}"/>
         </TreeDataTemplate>
         <TreeDataTemplate DataType="sigrok:SigrokDecoderBase">
-          <Grid ColumnDefinitions="32,*" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,25,0">
+          <Grid ColumnDefinitions="32,*" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,25,0" ToolTip.Tip="{Binding DecoderName}" Background="Transparent">
             <Button Click="Button_Click">+</Button>
-            <TextBlock Grid.Column="1"  Text="{Binding DecoderShortName}" ToolTip.Tip="{Binding DecoderName}" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1"  Text="{Binding DecoderShortName}" VerticalAlignment="Center"/>
           </Grid>
         </TreeDataTemplate>
         </TreeView.DataTemplates>

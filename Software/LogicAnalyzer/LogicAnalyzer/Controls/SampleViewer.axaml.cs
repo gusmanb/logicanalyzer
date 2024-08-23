@@ -18,8 +18,6 @@ namespace LogicAnalyzer.Controls
 
         public int PreSamples { get; set; }
         public int[]? Bursts { get; set; }
-        public UInt128[] Samples { get; set; }
-
         public CaptureChannel[]? Channels { get; set; }
         //public int ChannelCount { get; set; }
         public int VisibleSamples { get; private set; }
@@ -55,26 +53,6 @@ namespace LogicAnalyzer.Controls
             this.InvalidateVisual();
         }
         
-        //public void AddAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        //{
-        //    analysisData.Add(Data);
-        //}
-        //public void AddAnalyzedChannels(IEnumerable<ProtocolAnalyzedChannel> Data)
-        //{
-        //    analysisData.AddRange(Data);
-        //}
-        //public bool RemoveAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        //{
-        //    return analysisData.Remove(Data);
-        //}
-        //public void ClearAnalyzedChannels()
-        //{
-        //    foreach (var data in analysisData)
-        //        data.Dispose();
-
-        //    analysisData.Clear();
-        //}
-
         #region Interfaces
 
         public void AddRegion(SampleRegion Region)
@@ -121,6 +99,9 @@ namespace LogicAnalyzer.Controls
         public override void Render(DrawingContext context)
         {
 
+            if (Channels == null || Channels.Length == 0 || Channels[0].Samples == null || Channels[0].Samples.Length == 0)
+                return;
+
             int ChannelCount = Channels?.Length ?? 0;
 
             int minSize = ChannelCount * MIN_CHANNEL_HEIGHT;
@@ -137,14 +118,14 @@ namespace LogicAnalyzer.Controls
             Rect thisBounds = new Rect(0, 0, Bounds.Width, Bounds.Height);
             using (context.PushClip(thisBounds))
             {
-                if (Samples == null || ChannelCount == 0 || VisibleSamples == 0 || updating)
+                if (VisibleSamples == 0 || updating)
                     return;
 
                 double channelHeight = thisBounds.Height / (double)ChannelCount;
                 double sampleWidth = thisBounds.Width / (double)VisibleSamples;
                 double margin = channelHeight / 5;
 
-                int lastSample = Math.Min(VisibleSamples + FirstSample, Samples.Length);
+                int lastSample = Math.Min(VisibleSamples + FirstSample, Channels[0].Samples.Length);
 
                 
                 for (int chan = 0; chan < ChannelCount; chan++)
@@ -165,12 +146,13 @@ namespace LogicAnalyzer.Controls
 
                 channelRenderStatus[] renders = new channelRenderStatus[ChannelCount];
 
-                for (int buc = FirstSample; buc < lastSample; buc++)
+                for (int curSample = FirstSample; curSample < lastSample; curSample++)
                 {
 
-                    UInt128 sample = Samples[buc];
-                    UInt128 prevSample = buc == 0 ? 0 : Samples[buc - 1];
-                    double lineX = (buc - FirstSample) * sampleWidth;
+                    //UInt128 sample = Samples[buc];
+                    //UInt128 prevSample = buc == 0 ? 0 : Samples[buc - 1];
+
+                    double lineX = (curSample - FirstSample) * sampleWidth;
 
                     if (VisibleSamples < 201)
                     {
@@ -183,34 +165,34 @@ namespace LogicAnalyzer.Controls
 
                     }
 
-                    if (buc == PreSamples)
+                    if (curSample == PreSamples)
                         context.DrawLine(GraphicObjectsCache.GetPen(triggerLineColor, 2), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
 
                     if (Bursts != null)
                     {
-                        if (Bursts.Any(b => b == buc))
+                        if (Bursts.Any(b => b == curSample))
                         {
                             context.DrawLine(GraphicObjectsCache.GetPen(burstLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
                         }
                     }
 
-                    if(UserMarker != null && UserMarker == buc)
+                    if(UserMarker != null && UserMarker == curSample)
                         context.DrawLine(GraphicObjectsCache.GetPen(AnalyzerColors.UserLineColor, 2, DashStyle.DashDot), new Point(lineX, 0), new Point(lineX, thisBounds.Height));
 
-                    if (buc == FirstSample)
+                    if (curSample == FirstSample)
                     {
                         for (int chan = 0; chan < ChannelCount; chan++)
                         {
-                            renders[chan].firstSample = buc;
+                            renders[chan].firstSample = curSample;
                             renders[chan].sampleCount = 1;
-                            renders[chan].value = (sample & ((UInt128)1 << chan)) != 0;
+                            renders[chan].value = Channels[chan].Samples[curSample];//(sample & ((UInt128)1 << chan)) != 0;
                         }
                     }
                     else
                     {
                         for (int chan = 0; chan < ChannelCount; chan++)
                         {
-                            if (renders[chan].value != ((sample & ((UInt128)1 << chan)) != 0))
+                            if (renders[chan].value != Channels[chan].Samples[curSample])
                             {
                                 double yHi = chan * channelHeight + margin;
                                 double yLo = yHi + channelHeight - margin * 2;
@@ -220,7 +202,7 @@ namespace LogicAnalyzer.Controls
 
                                 var pen = GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan % 24], 2);
 
-                                if (renders[chan].value)
+                                if (renders[chan].value != 0)
                                     context.DrawLine(pen, new Point(xStart, yHi), new Point(xEnd, yHi));
                                 else
                                     context.DrawLine(pen, new Point(xStart, yLo), new Point(xEnd, yLo));
@@ -228,9 +210,9 @@ namespace LogicAnalyzer.Controls
 
                                 context.DrawLine(pen, new Point(xEnd, yHi), new Point(xEnd, yLo));
 
-                                renders[chan].firstSample = buc;
+                                renders[chan].firstSample = curSample;
                                 renders[chan].sampleCount = 1;
-                                renders[chan].value = (sample & ((UInt128)1 << chan)) != 0;
+                                renders[chan].value = Channels[chan].Samples[curSample];
                             }
                             else
                             {
@@ -250,7 +232,7 @@ namespace LogicAnalyzer.Controls
 
                     var pen = GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan % 24], 2);
 
-                    if (renders[chan].value)
+                    if (renders[chan].value != 0)
                         context.DrawLine(pen, new Point(xStart, yHi), new Point(xEnd, yHi));
                     else
                         context.DrawLine(pen, new Point(xStart, yLo), new Point(xEnd, yLo));
@@ -268,7 +250,7 @@ namespace LogicAnalyzer.Controls
         {
             public int firstSample;
             public int sampleCount;
-            public bool value;
+            public byte value;
         }
         
     }

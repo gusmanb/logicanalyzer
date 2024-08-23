@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicAnalyzer", "LogicAnaly
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalDescriptionLanguage", "SignalDescriptionLanguage\SignalDescriptionLanguage.csproj", "{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SigrokDecoderBridge", "SigrokDecoderBridge\SigrokDecoderBridge.csproj", "{32894C02-C48A-47E8-8E34-68674C989A67}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32894C02-C48A-47E8-8E34-68674C989A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32894C02-C48A-47E8-8E34-68674C989A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32894C02-C48A-47E8-8E34-68674C989A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32894C02-C48A-47E8-8E34-68674C989A67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

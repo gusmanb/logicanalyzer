@@ -328,7 +328,7 @@ namespace SigrokDecoderBridge
             return true;
         }
 
-        public SigrokAnnotation[] ExecuteAnalysis(int SamplingRate, int TriggerSample, SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels)
+        public SigrokAnnotation[] ExecuteAnalysis(int SamplingRate, SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels)
         {
             using (Py.GIL())
             {

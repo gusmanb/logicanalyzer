@@ -41,7 +41,7 @@ namespace LogicAnalyzer
         SigrokProvider? decoderProvider;
         public static MainWindow? Instance { get; private set; }
 
-        UInt128[]? copiedSamples;
+        IEnumerable<byte[]>? copiedSamples;
 
         MenuItem? mnuRepeatAnalysis;
 
@@ -64,6 +64,9 @@ namespace LogicAnalyzer
             btnRepeat.Click += btnRepeat_Click;
             btnCapture.Click += btnCapture_Click;
             btnAbort.Click += btnAbort_Click;
+
+            tkInScreen.PointerWheelChanged += TkInScreen_PointerWheelChanged;
+
             sampleMarker.RegionCreated += sampleMarker_RegionCreated;
             sampleMarker.RegionDeleted += sampleMarker_RegionDeleted;
             sampleMarker.UserMarkerSelected += SampleMarker_UserMarkerSelected;
@@ -91,9 +94,6 @@ namespace LogicAnalyzer
             mnuDocs.Click += MnuDocs_Click;
             mnuAbout.Click += MnuAbout_Click;
             AddHandler(InputElement.KeyDownEvent, MainWindow_KeyDown, handledEventsToo: true);
-
-            LoadAnalyzers();
-            RefreshPorts();
 
             tmrPower = new Timer((o) =>
             {
@@ -128,6 +128,40 @@ namespace LogicAnalyzer
             regionDisplays.Add(sampleViewer);
             regionDisplays.Add(sampleMarker);
             regionDisplays.Add(annotationsViewer);
+
+            RefreshPorts();
+            try
+            {
+                decoderProvider = new SigrokProvider();
+                sgManager.Initialize(decoderProvider);
+                sgManager.DecodingComplete += SgManager_DecodingComplete;
+            }
+            catch (Exception ex)
+            {
+                this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+            }
+        }
+
+        private void TkInScreen_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
+        {
+            if (e.Delta.Y > 0)
+            {
+                tkInScreen.Value = Math.Min(tkInScreen.Maximum, tkInScreen.Value * 1.5);
+            }
+            else if(e.Delta.Y < 0)
+            {
+                tkInScreen.Value = Math.Max(tkInScreen.Minimum, tkInScreen.Value / 1.5);
+            }
+        }
+
+        private void SgManager_DecodingComplete(object? sender, SigrokDecoderManager.DecodingEventArgs e)
+        {
+            annotationsViewer.ClearAnnotations();
+
+            var anon = e.Annotations?.Values.SelectMany(a => a);
+
+            if(anon != null && anon.Any())
+                annotationsViewer.AddAnnotations(anon);
         }
 
         private async void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
@@ -146,7 +180,7 @@ namespace LogicAnalyzer
 
             e.Channel.ChannelColor = color;
             (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
-            samplePreviewer.UpdateSamples(channelViewer.Channels, sampleViewer.Samples);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, settings.TotalSamples);
             sampleViewer.InvalidateVisual();
         }
 
@@ -288,50 +322,50 @@ namespace LogicAnalyzer
         private async void SampleMarker_ShiftSamples(object? sender, EventArgs e)
         {
             var dlg = new ShiftChannelsDialog();
-            dlg.Initialize(channelViewer.Channels, sampleViewer.Samples.Length - 1);
+            dlg.Initialize(channelViewer.Channels, settings.TotalSamples - 1);
 
             if (await dlg.ShowDialog<bool>(this))
             {
-                var samples = sampleViewer.Samples;
-
                 foreach (var channel in dlg.ShiftedChannels)
                 {
+                    var samples = channel.Samples;
+
+                    if(samples == null)
+                        continue;
+
                     int idx = Array.IndexOf(channelViewer.Channels, channel);
 
-                    var values = ExtractChannelSamples(idx, samples);
-
-                    List<bool> shiftedSamples = new List<bool>();
+                    List<byte> shiftedSamples = new List<byte>();
 
                     if (dlg.ShiftDirection == ShiftDirection.Left)
                     {
-                        shiftedSamples.AddRange(values.Skip(dlg.ShiftAmmount));
+                        shiftedSamples.AddRange(samples.Skip(dlg.ShiftAmmount));
 
                         if (dlg.ShiftMode == ShiftMode.Low)
-                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => false));
+                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => (byte)0));
                         else if (dlg.ShiftMode == ShiftMode.High)
-                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => true));
+                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => (byte)1));
                         else
-                            shiftedSamples.AddRange(values.Take(dlg.ShiftAmmount));
+                            shiftedSamples.AddRange(samples.Take(dlg.ShiftAmmount));
                     }
                     else
                     {
                         if (dlg.ShiftMode == ShiftMode.Low)
-                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => false));
+                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => (byte)0));
                         else if (dlg.ShiftMode == ShiftMode.High)
-                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => true));
+                            shiftedSamples.AddRange(Enumerable.Range(0, dlg.ShiftAmmount).Select(c => (byte)1));
                         else
-                            shiftedSamples.AddRange(values.Skip(values.Length - dlg.ShiftAmmount));
+                            shiftedSamples.AddRange(samples.Skip(samples.Length - dlg.ShiftAmmount));
 
-                        shiftedSamples.AddRange(values.Take(values.Length - dlg.ShiftAmmount));
+                        shiftedSamples.AddRange(samples.Take(samples.Length - dlg.ShiftAmmount));
                     }
 
-                    RecomposeChannelSamples(idx, samples, shiftedSamples.ToArray());
+                    channel.Samples = shiftedSamples.ToArray();
                 }
 
                 sampleViewer.BeginUpdate();
-                sampleViewer.Samples = samples;
                 sampleViewer.EndUpdate();
-                samplePreviewer.UpdateSamples(channelViewer.Channels, samples);
+                samplePreviewer.UpdateSamples(channelViewer.Channels, settings.TotalSamples);
                 samplePreviewer.ViewPosition = sampleViewer.FirstSample;
             }
         }
@@ -396,26 +430,16 @@ namespace LogicAnalyzer
 
                 settings = stn;
                 driver = drv;
+                
+                for (int chan = 0; chan < stn.CaptureChannels.Length; chan++)
+                    ExtractChannelSamples(stn.CaptureChannels[chan].ChannelNumber, samples);
 
-                clearAnalysis();
-
-                sampleViewer.BeginUpdate();
-                sampleViewer.Samples = samples;
-                sampleViewer.PreSamples = settings.PreTriggerSamples;
-                sampleViewer.Channels = settings.CaptureChannels;
-
-                sampleViewer.EndUpdate();
-
-                channelViewer.Channels = settings.CaptureChannels;
-
-                samplePreviewer.ViewPosition = sampleViewer.FirstSample;
-                samplePreviewer.UpdateSamples(channelViewer.Channels, samples);
+                updateChannels();
 
                 scrSamplePos.Maximum = samples.Length - 1;
                 updateSamplesInDisplay(sampleViewer.FirstSample, sampleViewer.VisibleSamples);
 
                 mnuSave.IsEnabled = true;
-                mnuProtocols.IsEnabled = true;
                 mnuExport.IsEnabled = true;
 
                 clearRegions();
@@ -428,7 +452,7 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_SamplesPasted(object? sender, SampleEventArgs e)
         {
-            if (e.Sample > sampleViewer.Samples.Length)
+            if (e.Sample > settings.TotalSamples)
             {
                 await this.ShowError("Out of range", "Cannot paste samples beyond the end of the sample range.");
                 return;
@@ -440,7 +464,7 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_SamplesInserted(object? sender, SampleEventArgs e)
         {
-            if (e.Sample > sampleViewer.Samples.Length)
+            if (e.Sample > settings.TotalSamples)
             {
                 await this.ShowError("Out of range", "Cannot insert samples beyond the end of the sample range.");
                 return;
@@ -454,10 +478,10 @@ namespace LogicAnalyzer
             dlgCreate.Initialize(
                 channels,
                 names,
-                driver.GetLimits(channels).MaxTotalSamples - sampleViewer.Samples.Length,
+                driver.GetLimits(channels).MaxTotalSamples - settings.TotalSamples,
                 10);
 
-            var samples = await dlgCreate.ShowDialog<UInt128[]?>(this);
+            var samples = await dlgCreate.ShowDialog<IEnumerable<byte[]>?>(this);
 
             if (samples == null)
                 return;
@@ -466,26 +490,40 @@ namespace LogicAnalyzer
             
         }
 
-        private async Task InsertSamples(int sample, UInt128[] newSamples)
+        private async Task InsertSamples(int sample, IEnumerable<byte[]> newSamples)
         {
             var chans = settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
             var maxSamples = driver.GetLimits(chans).MaxTotalSamples;
 
-            if (sampleViewer.Samples.Length + newSamples.Length > maxSamples)
+            int nCount = newSamples.First().Count();
+
+            int total = settings.TotalSamples + nCount;
+
+            if (settings.TotalSamples + newSamples.First().Length > maxSamples)
             {
                 await this.ShowError("Error", $"Total samples exceed the maximum permitted for this mode ({maxSamples}).");
                 return;
             }
 
-            List<UInt128> samples = new List<UInt128>();
-            samples.AddRange(sampleViewer.Samples.Take(sample));
-            samples.AddRange(newSamples);
-            samples.AddRange(sampleViewer.Samples.Skip(sample));
+            for(int chan = 0; chan < settings.CaptureChannels.Length; chan++)
+            {
+                var channel = settings.CaptureChannels[chan];
+                var cSamples = channel.Samples;
+
+                if (cSamples == null)
+                    continue;
+
+                List<byte> nsList = new List<byte>();
+                nsList.AddRange(cSamples.Take(sample));
+                nsList.AddRange(newSamples.Skip(chan).First());
+                nsList.AddRange(cSamples.Skip(sample));
+                channel.Samples = nsList.ToArray();
+            }
 
             var regions = sampleViewer.Regions;
             List<SampleRegion> finalRegions = new List<SampleRegion>();
 
-            int preSamples = sample <= sampleViewer.PreSamples ? sampleViewer.PreSamples + newSamples.Length : sampleViewer.PreSamples;
+            int preSamples = sample <= settings.PreTriggerSamples ? settings.PreTriggerSamples + nCount : settings.PreTriggerSamples;
 
             foreach (var region in regions)
             {
@@ -493,45 +531,45 @@ namespace LogicAnalyzer
                 int maxRegion = Math.Max(region.FirstSample, region.LastSample);
 
                 if (minRegion < sample && maxRegion >= sample)
-                    region.LastSample += newSamples.Length;
+                    region.LastSample += nCount;
                 else if (maxRegion > sample)
                 {
-                    region.FirstSample += newSamples.Length;
-                    region.LastSample += newSamples.Length;
+                    region.FirstSample += nCount;
+                    region.LastSample += nCount;
                 }
 
                 finalRegions.Add(region);
             }
 
-            UpdateSamples(sample, samples.ToArray(), preSamples, finalRegions);
+            UpdateSamples(sample, total, preSamples, finalRegions);
         }
 
         private async void SampleMarker_SamplesCopied(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample + e.SampleCount > sampleViewer.Samples.Length)
+            if (e.FirstSample + e.SampleCount > settings.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
             }
 
-            copiedSamples = sampleViewer.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray();
+            copiedSamples = settings.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
         }
 
         private async void SampleMarker_SamplesCutted(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample + e.SampleCount > sampleViewer.Samples.Length)
+            if (e.FirstSample + e.SampleCount > settings.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
             }
 
-            copiedSamples = sampleViewer.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray();
+            copiedSamples = settings.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
             await DeleteSamples(e);
         }
 
         private async void SampleMarker_SamplesDeleted(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample >= sampleViewer.Samples.Length)
+            if (e.FirstSample >= settings.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
@@ -545,12 +583,23 @@ namespace LogicAnalyzer
             var lastSample = e.FirstSample + e.SampleCount - 1;
             var triggerSample = sampleViewer.PreSamples - 1;
 
-            var preDelete = sampleViewer.Samples.Take(e.FirstSample);
-            var postDelete = sampleViewer.Samples.Skip(e.FirstSample + e.SampleCount + 1);
+            int nCount = settings.TotalSamples - (e.SampleCount + 1); //+1?
 
-            var finalSamples = preDelete.Concat(postDelete).ToArray();
+            for (int chan = 0; chan < settings.CaptureChannels.Length; chan++)
+            {
+                var channel = settings.CaptureChannels[chan];
+                var cSamples = channel.Samples;
 
-            var finalPreSamples = e.FirstSample > triggerSample ? sampleViewer.PreSamples : sampleViewer.PreSamples - e.SampleCount;
+                if (cSamples == null)
+                    continue;
+
+                List<byte> finalSamples = new List<byte>();
+                finalSamples.AddRange(cSamples.Take(e.FirstSample));
+                finalSamples.AddRange(cSamples.Skip(e.FirstSample + e.SampleCount + 1));
+                channel.Samples = finalSamples.ToArray();
+            }
+
+            var finalPreSamples = e.FirstSample > triggerSample ? settings.PreTriggerSamples : settings.PreTriggerSamples - e.SampleCount;
 
             var regions = sampleViewer.Regions;
             List<SampleRegion> finalRegions = new List<SampleRegion>();
@@ -611,21 +660,20 @@ namespace LogicAnalyzer
                 }
             }
 
-            UpdateSamples(e.FirstSample, finalSamples, finalPreSamples, finalRegions);
+            UpdateSamples(e.FirstSample, nCount, finalPreSamples, finalRegions);
         }
 
-        private void UpdateSamples(int firstSample, UInt128[] finalSamples, int finalPreSamples, List<SampleRegion> finalRegions)
+        private void UpdateSamples(int firstSample, int totalSamples, int finalPreSamples, List<SampleRegion> finalRegions)
         {
-
-            clearAnalysis();
+            settings.PreTriggerSamples = finalPreSamples;
+            settings.PostTriggerSamples = totalSamples - finalPreSamples;
 
             sampleViewer.BeginUpdate();
-            sampleViewer.Samples = finalSamples;
             sampleViewer.PreSamples = 0;
             sampleViewer.Bursts = null;
             sampleViewer.EndUpdate();
 
-            samplePreviewer.UpdateSamples(channelViewer.Channels, finalSamples);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, settings.TotalSamples);
             samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
             clearRegions();
@@ -633,17 +681,16 @@ namespace LogicAnalyzer
             if (finalRegions.Count > 0)
                 addRegions(finalRegions);
 
-            settings.PreTriggerSamples = finalPreSamples;
-            settings.PostTriggerSamples = finalSamples.Length - finalPreSamples;
+            
 
-            scrSamplePos.Maximum = finalSamples.Length - 1;
+            scrSamplePos.Maximum = totalSamples - 1;
             updateSamplesInDisplay(firstSample - 1, (int)tkInScreen.Value);
 
         }
 
         private void SampleMarker_UserMarkerSelected(object? sender, UserMarkerEventArgs e)
         {
-            if (e.Position > sampleViewer.Samples.Length)
+            if (e.Position > settings.TotalSamples)
                 return;
 
             updateUserMarkers(e.Position);
@@ -651,16 +698,11 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_MeasureSamples(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample + e.SampleCount > sampleViewer.Samples.Length)
+            if (e.FirstSample + e.SampleCount > settings.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
             }
-
-            List<byte[]> samples = new List<byte[]>();
-
-            for (int buc = 0; buc < (sampleViewer.Channels?.Length ?? 0); buc++)
-                samples.Add(ExtractSamples(buc, sampleViewer.Samples, e.FirstSample, e.SampleCount));
 
             var names = channelViewer.Channels.Select(c => c.ChannelName).ToArray();
 
@@ -669,7 +711,7 @@ namespace LogicAnalyzer
                     names[buc] = (buc + 1).ToString();
 
             MeasureDialog dlg = new MeasureDialog();
-            dlg.SetData(names, samples, settings.Frequency);
+            dlg.SetData(names, settings.CaptureChannels.Select(c => c.Samples), settings.Frequency);
             await dlg.ShowDialog(this);
 
         }
@@ -716,17 +758,12 @@ namespace LogicAnalyzer
 
                     sw.WriteLine(sb.ToString());
 
-                    for (int sample = 0; sample < sampleViewer.Samples.Length; sample++)
+                    for (int sample = 0; sample < settings.TotalSamples; sample++)
                     {
                         sb.Clear();
 
-                        for (int buc = 0; buc < channelViewer.Channels.Length; buc++)
-                        {
-                            if ((sampleViewer.Samples[sample] & ((UInt128)1 << buc)) == 0)
-                                sb.Append("0,");
-                            else
-                                sb.Append("1,");
-                        }
+                        for (int buc = 0; buc < settings.CaptureChannels.Length; buc++)
+                            sb.Append($"{settings.CaptureChannels[buc].Samples[sample]},");
 
                         sb.Remove(sb.Length - 1, 1);
 
@@ -756,12 +793,12 @@ namespace LogicAnalyzer
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 clearRegions();
-                clearAnalysis();
 
-                sampleViewer.BeginUpdate();
-                sampleViewer.Samples = e.Samples;
-                sampleViewer.PreSamples = e.PreSamples;
-                sampleViewer.Channels = settings.CaptureChannels;
+                //NEW SYSTEM
+                foreach(var channel in settings.CaptureChannels)
+                    ExtractSamples(channel, e.Samples);
+
+                updateChannels();
 
                 if (settings.LoopCount > 0)
                 {
@@ -771,18 +808,10 @@ namespace LogicAnalyzer
                 else
                     sampleViewer.Bursts = null;
 
-                sampleViewer.EndUpdate();
-
-                channelViewer.Channels = settings.CaptureChannels;
-
-                samplePreviewer.UpdateSamples(channelViewer.Channels, e.Samples);
-                samplePreviewer.ViewPosition = sampleViewer.FirstSample;
-
                 btnCapture.IsEnabled = true;
                 btnRepeat.IsEnabled = true;
                 btnOpenClose.IsEnabled = true;
                 btnAbort.IsEnabled = false;
-                mnuProtocols.IsEnabled = true;
                 mnuSave.IsEnabled = true;
                 mnuExport.IsEnabled = true;
 
@@ -794,12 +823,6 @@ namespace LogicAnalyzer
                 LoadInfo();
                 GetPowerStatus();
             });
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            LoadAnalyzers();
-            RefreshPorts();
         }
 
         Dictionary<string, List<string>> CategorizeDecoders()
@@ -829,154 +852,12 @@ namespace LogicAnalyzer
             return result.OrderBy(p => p.Key).ToDictionary();
         }
 
-        void LoadAnalyzers()
-        {
-            try 
-            {
-                decoderProvider = new SigrokProvider();
-            }
-            catch (Exception ex)
-            {
-                mnuProtocols.ItemsSource = new MenuItem[] { new MenuItem { Header = "<- None ->" } };
-
-                this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
-                return;
-            }
-
-            sgManager.Initialize(decoderProvider);
-
-            var categories = CategorizeDecoders();
-
-            if (categories.Count == 0)
-                mnuProtocols.ItemsSource = new MenuItem[] { new MenuItem { Header = "<- None ->" } };
-            else
-            {
-                List<MenuItem> finalItems = new List<MenuItem>();
-
-                foreach (var category in categories)
-                {
-                    MenuItem catItem = new MenuItem { Header = category.Key };
-                    List<MenuItem> catItems = new List<MenuItem>();
-
-                    foreach (var protocol in category.Value)
-                    {
-                        MenuItem protItem = new MenuItem { Header = protocol, Tag = protocol };
-                        protItem.Click += ProtocolAnalyzer_Click;
-                        catItems.Add(protItem);
-                    }
-
-                    catItem.ItemsSource = catItems;
-                    finalItems.Add(catItem);
-                }
-
-                mnuRepeatAnalysis = new MenuItem { Header = "R_epeat last analysis" };
-                mnuRepeatAnalysis.IsEnabled = false;
-                mnuRepeatAnalysis.Click += MnuRepeatAnalysis_Click;
-                finalItems.Add(mnuRepeatAnalysis);
-
-                var clearItem = new MenuItem { Header = "C_lear analysis data" };
-                clearItem.Click += ClearItem_Click;
-                finalItems.Add(clearItem);
-
-                mnuProtocols.ItemsSource = finalItems;
-            }
-        }
-
-        private void MnuRepeatAnalysis_Click(object? sender, RoutedEventArgs e)
-        {
-
-            if (analysisSettings == null || analysisSettings.Channels == null || analysisSettings.Analyzer == null || analysisSettings.Settings == null)
-                return;
-
-            var channels = analysisSettings.Channels;
-            var samples = sampleViewer.Samples;
-
-            foreach (var channel in channels)
-                ExtractSamples(channel, samples);
-            
-            var analysisResult = analysisSettings.Analyzer.ExecuteAnalysis(settings.Frequency, settings.PreTriggerSamples - 1, analysisSettings.Settings, channels);
-
-            annotationsViewer.BeginUpdate();
-            annotationsViewer.AddAnnotations(analysisResult);
-            annotationsViewer.IsVisible = true;
-            annotationsViewer.EndUpdate();
-            
-        }
-
-        private void ClearItem_Click(object? sender, RoutedEventArgs e)
-        {
-            clearAnalysis();
-        }
-
-        private async void ProtocolAnalyzer_Click(object? sender, RoutedEventArgs e)
-        {
-            var item = (sender as MenuItem)?.Tag?.ToString();
-
-            if (item == null || decoderProvider == null)
-                return;
-
-            var analyzer = decoderProvider.GetDecoder(item);
-
-            if (analyzer == null)
-                return;
-
-            var dlg = new SigrokOptionsDialog();
-            {
-
-                if (analysisSettings != null && analysisSettings.Analyzer == analyzer)
-                    dlg.InitialSettings = analysisSettings;
-
-                dlg.Decoder = analyzer;
-                dlg.Channels = channelViewer.Channels.Select(c => 
-                {
-                    var ch = new SigrokOptionsDialog.Channel 
-                    { 
-                        ChannelIndex = c.ChannelNumber, 
-                        ChannelName = string.IsNullOrWhiteSpace(c.ChannelName) ? 
-                        $"Channel {c.ChannelNumber + 1}" : 
-                        c.ChannelName 
-                    };
-
-                    return ch; 
-                
-                }).ToArray();
-
-                if (await dlg.ShowDialog<bool>(this) != true)
-                    return;
-
-                if (dlg.SelectedOptions == null)
-                    return;
-
-                var channels = dlg.SelectedChannels;
-                var samples = sampleViewer.Samples;
-
-                foreach (var channel in channels)
-                    ExtractSamples(channel, samples);
-
-                decoderProvider.BeginAnalysisSession();
-
-                
-                var analysisResult = analyzer.ExecuteAnalysis(settings.Frequency, settings.PreTriggerSamples - 1, dlg.SelectedOptions, channels);
-
-                annotationsViewer.BeginUpdate();
-                annotationsViewer.AddAnnotations(analysisResult);
-                annotationsViewer.IsVisible = true;
-                annotationsViewer.EndUpdate();
-                
-
-                analysisSettings = new AnalysisSettings { Analyzer = analyzer, Channels = channels, Settings = dlg.SelectedOptions };
-
-                if(mnuRepeatAnalysis != null)
-                    mnuRepeatAnalysis.IsEnabled = true;
-            }
-        }
-
-        private void ExtractSamples(SigrokSelectedChannel channel, UInt128[]? samples)
+        private void ExtractSamples(CaptureChannel channel, UInt128[]? samples)
         {
             if (channel == null || samples == null)
                 return;
 
-            int idx = channel.ChannelIndex;
+            int idx = channel.ChannelNumber;
             UInt128 mask = (UInt128)1 << idx;
             channel.Samples = samples.Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
         }
@@ -1197,7 +1078,6 @@ namespace LogicAnalyzer
         {
             tmrHideSamples.Change(2000, Timeout.Infinite);
         }
-
         private void ScrSamplePos_PointerEnter(object? sender, Avalonia.Input.PointerEventArgs e)
         {
             tmrHideSamples.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1205,65 +1085,19 @@ namespace LogicAnalyzer
         }
         private void scrSamplePos_ValueChanged(object? sender, ScrollEventArgs e)
         {
-            /*
-            if (sampleViewer.Samples != null)
-            {
-                sampleViewer.BeginUpdate();
-                sampleViewer.FirstSample = (int)scrSamplePos.Value;
-                sampleViewer.EndUpdate();
-                annotationsViewer.BeginUpdate();
-                annotationsViewer.FirstSample = sampleViewer.FirstSample;
-                annotationsViewer.EndUpdate();
-
-                samplePreviewer.ViewPosition = sampleViewer.FirstSample;
-                sampleMarker.FirstSample = sampleViewer.FirstSample;
-            }
-            */
-
             updateSampleDisplays();
         }
 
         private void tkInScreen_ValueChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)
         {
-            /*
-            if (sampleViewer.Samples != null)
-            {
-                sampleViewer.BeginUpdate();
-                sampleViewer.VisibleSamples = (int)tkInScreen.Value;
-                sampleViewer.EndUpdate();
-                sampleMarker.VisibleSamples = sampleViewer.VisibleSamples;
-
-                annotationsViewer.BeginUpdate();
-                annotationsViewer.FirstSample = sampleViewer.FirstSample;
-                annotationsViewer.SamplesInScreen = sampleViewer.VisibleSamples;
-                annotationsViewer.EndUpdate();
-            }
-
-            tbSamples.Text = $"{(int)tkInScreen.Value} samples";
-            */
             updateSampleDisplays();
 
         }
 
-        
-
         private void btnJmpTrigger_Click(object? sender, RoutedEventArgs e)
         {
-            if (sampleViewer.Samples != null && settings != null)
+            if (settings?.CaptureChannels != null && settings != null)
                 updateSamplesInDisplay((int)Math.Max(settings.PreTriggerSamples - (tkInScreen.Value / 10), 0), (int)tkInScreen.Value);
-            /*
-            {
-                sampleViewer.BeginUpdate();
-                sampleViewer.FirstSample = (int)Math.Max(settings.PreTriggerSamples - (tkInScreen.Value / 10), 0);
-                sampleViewer.EndUpdate();
-
-                annotationsViewer.BeginUpdate();
-                annotationsViewer.FirstSample = sampleViewer.FirstSample;
-                annotationsViewer.EndUpdate();
-
-                scrSamplePos.Value = sampleViewer.FirstSample;
-                sampleMarker.FirstSample = sampleViewer.FirstSample;
-            }*/
         }
 
         private async void mnuSave_Click(object? sender, RoutedEventArgs e)
@@ -1282,7 +1116,7 @@ namespace LogicAnalyzer
                     sets.PreTriggerSamples = sampleViewer.PreSamples;
                     sets.LoopCount = sampleViewer.Bursts?.Length ?? 0;
 
-                    ExportedCapture ex = new ExportedCapture { Settings = sets, Samples = sampleViewer.Samples, SelectedRegions = sampleViewer.Regions };
+                    ExportedCapture ex = new ExportedCapture { Settings = sets, SelectedRegions = sampleViewer.Regions };
 
                     File.WriteAllText(file, JsonConvert.SerializeObject(ex, new JsonConverter[] { new SampleRegion.SampleRegionConverter() }));
                 }
@@ -1314,65 +1148,19 @@ namespace LogicAnalyzer
                     catch { }
 
                     if (ex == null)
-                    {
-                        var exEs = JsonConvert.DeserializeObject<OldExportedCapture>(File.ReadAllText(file), new JsonConverter[] { new SampleRegion.SampleRegionConverter() });
-
-                        if (exEs != null)
-                        {
-                            var oldset = exEs.Settings;
-
-                            CaptureChannel[] channels = new CaptureChannel[oldset.CaptureChannels.Length];
-                            for (int buc = 0; buc < channels.Length; buc++)
-                                channels[buc] = new CaptureChannel 
-                                { 
-                                    ChannelName = (oldset.ChannelTexts?.Length ?? 0) > buc ? oldset.ChannelTexts[buc] : "",
-                                    ChannelNumber = (int)oldset.CaptureChannels[buc] 
-                                };
-
-                            var newSettings = new CaptureSettings
-                            {
-                                CaptureChannels = channels,
-                                Frequency = oldset.Frequency,
-                                PostTriggerSamples = oldset.PostTriggerSamples,
-                                PreTriggerSamples = oldset.PreTriggerSamples,
-                                LoopCount = 0,
-                                TriggerBitCount = oldset.TriggerBitCount,
-                                TriggerChannel = oldset.TriggerChannel,
-                                TriggerInverted = oldset.TriggerInverted,
-                                TriggerPattern = oldset.TriggerPattern,
-                                TriggerType = oldset.TriggerType
-                            };
-
-                            ex = new ExportedCapture
-                            {
-                                Samples = exEs.Samples,
-                                Settings = newSettings,
-                                SelectedRegions = exEs.SelectedRegions
-                            };
-                        }
-                    }
-
-                    if (ex == null)
                         return;
 
                     settings = ex.Settings;
 
-                    clearAnalysis();
+                    if (ex.Samples != null)
+                    {
+                        for(int buc = 0; buc < settings.CaptureChannels.Length; buc++)
+                            ExtractSamples(settings.CaptureChannels[buc], ex.Samples);
+                    }
 
-                    sampleViewer.BeginUpdate();
-                    sampleViewer.Samples = ex.Samples;
-                    sampleViewer.PreSamples = ex.Settings.PreTriggerSamples;
-                    sampleViewer.Channels = ex.Settings.CaptureChannels;
-
-                    sampleViewer.EndUpdate();
-
-                    channelViewer.Channels = ex.Settings.CaptureChannels;
-
-                    samplePreviewer.UpdateSamples(channelViewer.Channels, ex.Samples);
-                    samplePreviewer.ViewPosition = sampleViewer.FirstSample;
+                    updateChannels();
 
                     mnuSave.IsEnabled = true;
-                    mnuProtocols.IsEnabled = true;
                     mnuExport.IsEnabled = true;
 
                     driver = new EmulatedAnalizerDriver(5);
@@ -1427,22 +1215,6 @@ namespace LogicAnalyzer
             removeRegion(e.Region);
         }
 
-
-        private void clearAnalysis()
-        {
-            annotationsViewer.BeginUpdate();
-            annotationsViewer.ClearAnnotation();
-            annotationsViewer.EndUpdate();
-            annotationsViewer.IsVisible = false;
-            decoderProvider?.EndAnalysisSession();
-        }
-
-        private void updateSamplesInDisplay(int FirstSample, int VisibleSamples)
-        {
-            scrSamplePos.Value = FirstSample;
-            tkInScreen.Value = VisibleSamples;
-            updateSampleDisplays();
-        }
         private void updateUserMarkers(int? Position)
         {
             foreach (var display in markerDisplays)
@@ -1473,11 +1245,31 @@ namespace LogicAnalyzer
                 display.RemoveRegion(region);
         }
 
+        private void updateSamplesInDisplay(int FirstSample, int VisibleSamples)
+        {
+            scrSamplePos.Value = FirstSample;
+            tkInScreen.Value = VisibleSamples;
+            updateSampleDisplays();
+        }
         private void updateSampleDisplays()
         {
             foreach (var display in sampleDisplays)
                 display.UpdateVisibleSamples((int)scrSamplePos.Value, (int)tkInScreen.Value);
         }
 
+        private void updateChannels()
+        {
+            sampleViewer.BeginUpdate();
+            sampleViewer.PreSamples = settings.PreTriggerSamples;
+            sampleViewer.Channels = settings.CaptureChannels;
+            sampleViewer.EndUpdate();
+
+            samplePreviewer.UpdateSamples(settings.CaptureChannels, settings.TotalSamples);
+            samplePreviewer.ViewPosition = sampleViewer.FirstSample;
+
+            channelViewer.Channels = settings.CaptureChannels;
+
+            sgManager.SetChannels(settings.Frequency, settings.CaptureChannels);
+        }
     }
 }

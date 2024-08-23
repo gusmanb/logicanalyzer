@@ -12,6 +12,7 @@ namespace LogicAnalyzer.Classes
         public int Frequency { get; set; }
         public int PreTriggerSamples { get; set; }
         public int PostTriggerSamples { get; set; }
+        public int TotalSamples { get { return PreTriggerSamples + PostTriggerSamples; } }
         public int LoopCount { get; set; }
         public bool MeasureBursts { get; set; }
         public CaptureChannel[] CaptureChannels { get; set; } = new CaptureChannel[0];
@@ -33,6 +34,12 @@ namespace LogicAnalyzer.Classes
         public int ChannelNumber { get; set; }
         public string ChannelName { get; set; } = "";
         public Color? ChannelColor { get; set; }
+        public byte[]? Samples { get; set; }
+
+        public override string ToString()
+        {
+            return ChannelName ?? TextualChannelNumber;
+        }
     }
 
     public class OldCaptureSettings

@@ -13,7 +13,6 @@ namespace SigrokDecoderBridge
         
         private Dictionary<string, IEnumerable<SigrokOutputValue>> sessionOutputs = new Dictionary<string, IEnumerable<SigrokOutputValue>>();
 
-
         private SigrokDecoderBase[]? decoders;
 
         public SigrokDecoderBase[] Decoders 
@@ -126,7 +125,6 @@ namespace SigrokDecoderBridge
             BeginSession();
         }
 
-
         public void EndAnalysisSession()
         {
             if (!sessionStarted)
@@ -135,7 +133,6 @@ namespace SigrokDecoderBridge
             sessionStarted = false;
             EndSession();
         }
-
 
         protected void BeginSession()
         {
