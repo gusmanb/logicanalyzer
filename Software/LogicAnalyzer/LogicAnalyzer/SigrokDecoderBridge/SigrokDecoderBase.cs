@@ -396,10 +396,14 @@ namespace SigrokDecoderBridge
                                 newSettings[setting.Id] = value.Value.ToString().ToPython();
                                 break;
                             case "int":
-                                newSettings[setting.Id] = int.Parse(value.Value.ToString(), CultureInfo.InvariantCulture).ToPython();
+                                int iVal = setting.OptionType == SigrokOptionType.List ? int.Parse((string)value.Value, CultureInfo.InvariantCulture) : (int)value.Value;
+
+                                newSettings[setting.Id] = iVal.ToPython();
                                 break;
                             case "float":
-                                newSettings[setting.Id] = double.Parse(value.Value.ToString(), CultureInfo.InvariantCulture).ToPython();
+                                double dVal = setting.OptionType == SigrokOptionType.List ? double.Parse((string)value.Value, CultureInfo.InvariantCulture) : (double)value.Value;
+
+                                newSettings[setting.Id] = dVal.ToPython();
                                 break;
                             case "bool":
                                 newSettings[setting.Id] = bool.Parse(value.Value.ToString()).ToPython();
