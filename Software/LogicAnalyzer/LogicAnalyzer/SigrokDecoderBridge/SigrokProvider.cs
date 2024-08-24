@@ -1,5 +1,6 @@
 ﻿using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
+using LogicAnalyzer.SigrokDecoderBridge;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
@@ -14,8 +15,8 @@ namespace SigrokDecoderBridge
 {
     public class SigrokProvider : IDisposable
     {
-        
-        private Dictionary<string, IEnumerable<SigrokOutputValue>> sessionOutputs = new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentInputs; //= new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentOutputs; //= new Dictionary<string, IEnumerable<SigrokOutputValue>>();
 
         private SigrokDecoderBase[]? decoders;
 
@@ -26,36 +27,8 @@ namespace SigrokDecoderBridge
                 if (decoders == null)
                     decoders = GetDecoders();
 
-                return decoders;
+                return decoders.ToArray();
             }
-        }
-
-        Dictionary<string, Dictionary<int, SigrokOptionValue>> decoderOptions = new Dictionary<string, Dictionary<int, SigrokOptionValue>>();
-        Dictionary<string, Dictionary<int, SigrokSelectedChannel>> decoderChannels = new Dictionary<string, Dictionary<int, SigrokSelectedChannel>>();
-
-        List<SigrokDecoderBase> activeDecoders = new List<SigrokDecoderBase>();
-
-        public IEnumerable<SigrokDecoderBase> ActiveDecoders => activeDecoders;
-
-        public void AddDecoder(SigrokDecoderBase Decoder)
-        {
-            activeDecoders.Add(Decoder);
-            decoderOptions[Decoder.Id] = new Dictionary<int, SigrokOptionValue>();
-            decoderChannels[Decoder.Id] = new Dictionary<int, SigrokSelectedChannel>();
-        }
-        public void SetDecoderOptionValue(string DecoderId, SigrokOptionValue Value)
-        {
-            if (!decoderOptions.ContainsKey(DecoderId))
-                return;
-
-            decoderOptions[DecoderId][Value.OptionIndex] = Value;
-        }
-        public void SetDecoderSelectedChannel(string DecoderId, SigrokSelectedChannel Channel)
-        {
-            if (!decoderChannels.ContainsKey(DecoderId))
-                return;
-
-            decoderChannels[DecoderId][Channel.SigrokIndex] = Channel;
         }
 
         private SigrokDecoderBase[] GetDecoders()
@@ -148,79 +121,89 @@ namespace SigrokDecoderBridge
             return Decoders.FirstOrDefault(t => t.DecoderName == DecoderName);
         }
 
-        internal IEnumerable<SigrokOutputValue>? GetInput(string OutputName)
+        internal IEnumerable<SigrokOutputValue>? GetInput(string InputName)
         { 
+
+            if(currentInputs == null || !currentInputs.ContainsKey(InputName))
+                return null;
+
+            return currentInputs[InputName];
+
+            /*
             if(!sessionOutputs.ContainsKey(OutputName))
                 return null;
 
-            return sessionOutputs[OutputName];
+            return sessionOutputs[OutputName];*/
         }
 
         internal void AddOutput(string OutputName, IEnumerable<SigrokOutputValue> Output)
         {
-            sessionOutputs[OutputName] = Output;
+            if (currentOutputs == null)
+                currentOutputs = new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+            
+            currentOutputs[OutputName] = Output;
         }
 
-        public Dictionary<string,SigrokAnnotation[]>? Execute(int SampleRate, CaptureChannel[]? Channels)
+        public Dictionary<string, SigrokAnnotation[]>? Execute(int SampleRate, CaptureChannel[]? Channels, SigrokDecodingTree Tree)
         {
-            if(activeDecoders.Count == 0 || Channels == null)
+
+            if(Channels == null || Tree.Branches.Count == 0)
                 return null;
 
-            Dictionary<string, SigrokAnnotation[]> annotations = new Dictionary<string, SigrokAnnotation[]>();
+            Dictionary<string, IEnumerable<SigrokOutputValue>> voidInputs = new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+            Dictionary<string, SigrokAnnotation[]> result = new Dictionary<string, SigrokAnnotation[]>();
 
-            var sorted = activeDecoders.TSort<SigrokDecoderBase>((a) => FindDependencies(a), true);
-
-            foreach (var decoder in sorted)
+            foreach (var branch in Tree.Branches)
             {
-                var decOpts = decoderOptions.ContainsKey(decoder.Id) ? decoderOptions[decoder.Id].Values.ToArray() : null;
-                var decChans = decoderChannels.ContainsKey(decoder.Id) ? decoderChannels[decoder.Id].Values.ToArray() : null;
-
-                if(decChans == null || decOpts == null)
-                    continue;
-
-                if (!decoder.ValidateOptions(decOpts, decChans, Channels))
-                    continue;
-
-                var result = decoder.ExecuteAnalysis(SampleRate, decOpts, decChans, Channels);
-
-                if (result != null)
-                    annotations[decoder.Id] = result;
+                ExecuteDecodingBranch(branch, SampleRate, Channels, voidInputs, result);
             }
 
-            return annotations;
+            return result;
         }
 
-        public IEnumerable<SigrokDecoderBase> FindDependencies(SigrokDecoderBase source)
+        private void ExecuteDecodingBranch(SigrokDecodingBranch branch, int sampleRate, CaptureChannel[]? channels, Dictionary<string, IEnumerable<SigrokOutputValue>> Inputs, Dictionary<string, SigrokAnnotation[]> Results)
         {
-            List<SigrokDecoderBase> dependencies = new List<SigrokDecoderBase>();
+            if(!branch.Decoder.ValidateOptions(branch.Options, branch.Channels, channels))
+                return;
 
-            foreach (var dep in source.Inputs)
+            currentInputs = Inputs;
+            currentOutputs = null;
+
+            var result = branch.Decoder.ExecuteAnalysis(sampleRate, branch.Options, branch.Channels, channels);
+
+            if(result != null)
+                Results[branch.Name] = result;
+
+            var newOutputs = Inputs;
+
+            if(currentOutputs != null)
+                newOutputs = MergeOutputs(newOutputs, currentOutputs);
+
+            foreach(var child in branch.Children)
             {
-                if (dep == "logic")
-                    continue;
+                ExecuteDecodingBranch(child, sampleRate, channels, newOutputs, Results);
+            }
+        }
 
-                dependencies.AddRange(activeDecoders.Where(t => t.Outputs.Contains(dep)));
+        private Dictionary<string, IEnumerable<SigrokOutputValue>> MergeOutputs(Dictionary<string, IEnumerable<SigrokOutputValue>> OldInputs, Dictionary<string, IEnumerable<SigrokOutputValue>> NewInputs)
+        {
+            if (NewInputs == null)
+                return OldInputs;
+
+            var dict = new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+
+            foreach(var item in NewInputs)
+                dict.Add(item.Key, item.Value);
+
+            foreach (var item in OldInputs)
+            {
+                if (!dict.ContainsKey(item.Key))
+                    dict[item.Key] = item.Value;
             }
 
-            return dependencies;
+            return dict;
         }
-
-        public void BeginSession()
-        {
-            activeDecoders.Clear();
-            sessionOutputs.Clear();
-            decoderOptions.Clear();
-            decoderChannels.Clear();
-        }
-
-        public void EndSession()
-        {
-            activeDecoders.Clear();
-            sessionOutputs.Clear();
-            decoderOptions.Clear();
-            decoderChannels.Clear();
-        }
-
+        
         public void Dispose()
         {
             AppContext.SetSwitch("System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization", true);

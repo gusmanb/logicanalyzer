@@ -42,7 +42,7 @@
         <Button Name="btnAbort" IsEnabled="False" Margin="10,0,0,0">Abort</Button>
       </StackPanel>
     </Grid>
-    <Grid DockPanel.Dock="Top" Height="32" ColumnDefinitions="100,10*,340" Background="#50808080">
+    <Grid DockPanel.Dock="Top" Height="32" ColumnDefinitions="150,10*,340" Background="#50808080">
       <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Foreground="LightGray">
         Channels
       </TextBlock>
@@ -54,7 +54,7 @@
     <controls:SamplePreviewer IsVisible="False" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="144" ZIndex="1000" Name="samplePreviewer" DockPanel.Dock="Bottom" Margin="0,-144,0,0"></controls:SamplePreviewer>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="*,340" DockPanel.Dock="Bottom">
       <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <Grid RowDefinitions="Auto,*" ColumnDefinitions="100,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid RowDefinitions="Auto,*" ColumnDefinitions="150,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <controls:ChannelViewer Grid.Row="1" Name="channelViewer" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
           <controls:SampleViewer Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="sampleViewer" Grid.Column="1"></controls:SampleViewer>
           <controls:AnnotationViewer Name="annotationsViewer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.Row="0"></controls:AnnotationViewer>

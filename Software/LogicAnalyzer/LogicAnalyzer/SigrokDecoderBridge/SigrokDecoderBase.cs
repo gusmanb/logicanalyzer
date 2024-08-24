@@ -49,6 +49,47 @@ namespace SigrokDecoderBridge
             }
         }
 
+        public string DecoderInfo
+        {
+            get
+            {
+
+                string info = decoder.longname;
+
+                if(Inputs.Length > 1 || Inputs[0] != "logic")
+                {
+                    info += "\r\nInputs: " + string.Join(',', Inputs);
+                }
+
+                if(Outputs.Length > 0)
+                {
+                    info += "\r\nOutputs: " + string.Join(',', Outputs);
+                }
+
+                return info;
+            }
+        }
+
+        public string DecoderIcon
+        {
+            get
+            {
+                string icon = "";
+
+                if(Outputs.Length > 0)
+                {
+                    icon += "";
+                }
+
+                if(Inputs.Length > 1 || Inputs[0] != "logic")
+                {
+                    icon += "";
+                }
+
+                return  icon;
+            }
+        }
+
         public string DecoderName
         {
             get
@@ -451,11 +492,11 @@ namespace SigrokDecoderBridge
             if(outputs == null || outputs.Length == 0)
                 return;
             
-            var registeredOutputs = this.registeredOutputs.Where(t => t.OutputType == AnnotationOutputType.OUTPUT_PYTHON).OrderBy(o => o.OutputId).ToArray();
+            var pythonOutputs = registeredOutputs.Where(t => t.OutputType == AnnotationOutputType.OUTPUT_PYTHON).OrderBy(o => o.OutputId).ToArray();
 
-            for (int buc = 0; buc < outputs.Length; buc++)
+            for (int buc = 0; buc < pythonOutputs.Length; buc++)
             {
-                provider.AddOutput(outputs[buc], registeredOutputs[buc].Outputs);
+                provider.AddOutput(outputs[buc], pythonOutputs[buc].Outputs);
             }
         }
 

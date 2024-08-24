@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using LogicAnalyzer.Classes;
+using LogicAnalyzer.SigrokDecoderBridge;
 using SigrokDecoderBridge;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,14 @@ public partial class SigrokDecoderManager : UserControl
 
     public BatchObservableCollection<DecoderCategory> DecoderCategories { get;  } = new BatchObservableCollection<DecoderCategory>();
 
-    Dictionary<string, SigrokDecoderOptions> decoderOptions = new Dictionary<string, SigrokDecoderOptions>();
+    internal ObservableCollection<SigrokDecoderOptions> decoderOptions = new ObservableCollection<SigrokDecoderOptions>();
 
     private CaptureChannel[]? channels;
     private int sampleRate;
 
     public event EventHandler<DecodingEventArgs>? DecodingComplete;
+
+    int optCount = 0;
 
     Timer? decodeTimer;
 
@@ -42,7 +45,7 @@ public partial class SigrokDecoderManager : UserControl
 
     private void UpdateChannels()
     {
-        foreach(var opt in decoderOptions.Values)
+        foreach(var opt in decoderOptions)
         {
             opt.UpdateChannels(channels);
         }
@@ -153,20 +156,13 @@ public partial class SigrokDecoderManager : UserControl
         if (decoder == null || _provider == null)
             return;
 
-        if (decoderOptions.ContainsKey(decoder.Id))
-            return;
-
-        _provider.AddDecoder(decoder);
-
-        SigrokDecoderOptions options = new SigrokDecoderOptions();
+        SigrokDecoderOptions options = new SigrokDecoderOptions(this, AnalyzerColors.AnnColors[optCount++ % 64]);
         options.OptionsUpdated += Options_OptionsUpdated;
         options.RemoveDecoder += Options_RemoveDecoder;
         options.Decoder = decoder;
         options.UpdateChannels(channels);
         pnlControls.Children.Add(options);
-        decoderOptions.Add(decoder.Id, options);
-
-        
+        decoderOptions.Add(options);
     }
 
     private void Options_RemoveDecoder(object? sender, EventArgs e)
@@ -178,10 +174,7 @@ public partial class SigrokDecoderManager : UserControl
 
         pnlControls.Children.Remove(options);
 
-        if (options.Decoder != null)
-        {
-            decoderOptions.Remove(options.Decoder.Id);
-        }
+        decoderOptions.Remove(options);
 
         EnqueueDecoding();
     }
@@ -219,44 +212,81 @@ public partial class SigrokDecoderManager : UserControl
         if (_provider == null)
             return;
 
-        _provider.BeginSession();
+        var tree = GenerateDecodingTree();
 
-        foreach (var options in decoderOptions.Values)
-        {
-            if (options == null || options.Decoder == null)
-                continue;
-
-            
-            _provider.AddDecoder(options.Decoder);
-
-            foreach (var option in options.Values)
-            {
-                _provider.SetDecoderOptionValue(options.Decoder.Id, option);
-            }
-
-            foreach (var channel in options.SelectedChannels)
-            {
-                if (channel.CaptureIndex != -1)
-                    _provider.SetDecoderSelectedChannel(options.Decoder.Id, channel);
-            }
-        }
-
-        var decoding = _provider.Execute(sampleRate, Channels);
-
-        _provider.EndSession();
+        var decoding = _provider.Execute(sampleRate, Channels, tree);
 
         if (DecodingComplete != null)
         {
-            DecodingComplete(this, new DecodingEventArgs() { Annotations = decoding });
+            AnnotationsGroup[]? annotations = null;
+
+            if (decoding != null)
+            {
+                List<AnnotationsGroup> anList = new List<AnnotationsGroup>();
+
+                foreach (var pair in decoding)
+                {
+                    if ((pair.Value?.Length ?? 0) == 0)
+                        continue;
+
+                    var opt = decoderOptions.FirstOrDefault(o => o.OptionsName == pair.Key);
+
+                    if (opt == null)
+                        continue;
+
+                    anList.Add(new AnnotationsGroup() { GroupColor = opt.OptColor, Annotations = pair.Value });
+                }
+
+                if(anList.Count != 0)
+                    annotations = anList.ToArray();
+                else
+                    annotations = null;
+            }
+
+            DecodingComplete(this, new DecodingEventArgs() { Annotations = annotations });
+        }
+    }
+
+    private SigrokDecodingTree GenerateDecodingTree()
+    {
+        var tree = new SigrokDecodingTree();
+
+        var rootItems = decoderOptions.Where(o => o.RequiresInput == false);
+
+        foreach(var opt in rootItems)
+        {
+            if(opt.Decoder == null)
+                continue;
+
+            var branch = new SigrokDecodingBranch() { Name = opt.OptionsName, Decoder = opt.Decoder, Channels = opt.SelectedChannels.Where(c => c.CaptureIndex != -1).ToArray(), Options = opt.Values.ToArray() };
+
+            tree.Branches.Add(branch);
+
+            PopulateBranch(opt, branch);
+        }
+
+        return tree;
+    }
+
+    private void PopulateBranch(SigrokDecoderOptions opt, SigrokDecodingBranch branch)
+    {
+        var children = decoderOptions.Where(o => o.RequiresInput && o.ParentDecoder == opt);
+
+        foreach (var child in children)
+        {
+            if (child.Decoder == null)
+                continue;
+
+            var childBranch = new SigrokDecodingBranch() { Name = child.OptionsName, Decoder = child.Decoder, Channels = child.SelectedChannels.ToArray(), Options = child.Values.ToArray() };
+
+            branch.Children.Add(childBranch);
+
+            PopulateBranch(child, childBranch);
         }
     }
 
     public class DecodingEventArgs : EventArgs
     {
-        public Dictionary<string, SigrokAnnotation[]>? Annotations { get; set; }
-    }
-
-    private void TextBlock_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-    {
+        public IEnumerable<AnnotationsGroup>? Annotations { get; set; }
     }
 }

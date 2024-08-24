@@ -156,12 +156,23 @@ namespace LogicAnalyzer
 
         private void SgManager_DecodingComplete(object? sender, SigrokDecoderManager.DecodingEventArgs e)
         {
+            annotationsViewer.BeginUpdate();
+
             annotationsViewer.ClearAnnotations();
 
-            var anon = e.Annotations?.Values.SelectMany(a => a);
+            if (e.Annotations != null && e.Annotations.Any())
+            {
+                
 
-            if(anon != null && anon.Any())
-                annotationsViewer.AddAnnotations(anon);
+                foreach(var grp in e.Annotations)
+                {
+                    annotationsViewer.AddAnnotationsGroup(grp);
+                }
+
+                
+            }
+
+            annotationsViewer.EndUpdate();
         }
 
         private async void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
@@ -823,33 +834,6 @@ namespace LogicAnalyzer
                 LoadInfo();
                 GetPowerStatus();
             });
-        }
-
-        Dictionary<string, List<string>> CategorizeDecoders()
-        {
-            var result = new Dictionary<string, List<string>>();
-
-            var decoders = decoderProvider?.Decoders;
-
-            if (decoders == null || decoders.Length == 0)
-                return new Dictionary<string, List<string>>();
-
-            result["All"] = new List<string>();
-
-            result["All"].AddRange(decoders.Select(d => d.DecoderName));
-
-            foreach (var decoder in decoders)
-            {
-                foreach (var category in decoder.Categories)
-                {
-                    if (!result.ContainsKey(category))
-                        result[category] = new List<string>();
-
-                    result[category].Add(decoder.DecoderName);
-                }
-            }
-
-            return result.OrderBy(p => p.Key).ToDictionary();
         }
 
         private void ExtractSamples(CaptureChannel channel, UInt128[]? samples)

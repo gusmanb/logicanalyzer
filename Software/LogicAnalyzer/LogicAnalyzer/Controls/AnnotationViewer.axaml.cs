@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Threading;
 using AvaloniaEdit.Document;
+using AvaloniaEdit.Utils;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Interfaces;
 using SigrokDecoderBridge;
@@ -20,11 +21,11 @@ namespace LogicAnalyzer.Controls
     public partial class AnnotationViewer : UserControl, ISampleDisplay, IMarkerDisplay, IRegionDisplay
     {
 
-        List<SigrokAnnotation> annotations = new List<SigrokAnnotation>();
+        List<AnnotationsGroup> annotations = new List<AnnotationsGroup>();
         bool isUpdating = false;
 
         const int ANNOTATION_HEIGHT = 24;
-        const int ANNOTATION_NAME_WIDTH = 100;
+        const int ANNOTATION_NAME_WIDTH = 150;
 
         public int VisibleSamples { get; private set; }
 
@@ -33,14 +34,6 @@ namespace LogicAnalyzer.Controls
         public int? UserMarker { get; private set; }
 
         AnnotationRenderer renderer = new AnnotationRenderer();
-
-        public SigrokAnnotation[] Annotations
-        {
-            get
-            {
-                return annotations.ToArray();
-            }
-        }
 
         List<SampleRegion> regions = new List<SampleRegion>();
 
@@ -74,7 +67,7 @@ namespace LogicAnalyzer.Controls
 
         public override void Render(DrawingContext context)
         {
-            var height = annotations.Count * ANNOTATION_HEIGHT;
+            var height = annotations.Sum(a => a.Annotations.Length) * ANNOTATION_HEIGHT;
 
             if (this.Height != height)
             {
@@ -106,17 +99,21 @@ namespace LogicAnalyzer.Controls
             context.DrawRectangle(null, GraphicObjectsCache.GetPen(Colors.Black, 1), rectContainerData);
 
 
-            for (int buc = 0; buc < annotations.Count; buc++)
+            int annNum = 0;
+
+            foreach (var grp in annotations)
             {
-                var annotation = annotations[buc];
+                for (int buc = 0; buc < grp.Annotations.Length; buc++)
+                {
+                    var annotation = grp.Annotations[buc];
 
-                var y = buc * ANNOTATION_HEIGHT;
+                    var y = annNum++ * ANNOTATION_HEIGHT;
 
-                var rectName = new Rect(1, y + 1, ANNOTATION_NAME_WIDTH - 2, ANNOTATION_HEIGHT - 2);
-                var rectData = new Rect(ANNOTATION_NAME_WIDTH + 1, y + 1, (this.Bounds.Width - ANNOTATION_NAME_WIDTH) - 2, ANNOTATION_HEIGHT - 2);
-                renderer.RenderAnnotation(annotation, FirstSample, VisibleSamples, rectName, rectData, context);
+                    var rectName = new Rect(1, y + 1, ANNOTATION_NAME_WIDTH - 2, ANNOTATION_HEIGHT - 2);
+                    var rectData = new Rect(ANNOTATION_NAME_WIDTH + 1, y + 1, (this.Bounds.Width - ANNOTATION_NAME_WIDTH) - 2, ANNOTATION_HEIGHT - 2);
+                    renderer.RenderAnnotation(grp.GroupColor, annotation, FirstSample, VisibleSamples, rectName, rectData, context);
+                }
             }
-            
             if (UserMarker != null)
             {
                 
@@ -129,22 +126,12 @@ namespace LogicAnalyzer.Controls
             base.Render(context);
         }
 
-        public void AddAnnotation(SigrokAnnotation Annotation)
+        public void AddAnnotationsGroup(AnnotationsGroup Group)
         {
-            annotations.Add(Annotation);
+            annotations.Add(Group);
             Update();
         }
-        public void AddAnnotations(IEnumerable<SigrokAnnotation> Annotations)
-        {
-            annotations.AddRange(Annotations);
-            Update();
-        }
-        public bool RemoveAnnotation(SigrokAnnotation Annotation)
-        {
-            var res = annotations.Remove(Annotation);
-            Update();
-            return res;
-        }
+
         public void ClearAnnotations()
         {
             annotations.Clear();
@@ -200,80 +187,21 @@ namespace LogicAnalyzer.Controls
 
         class AnnotationRenderer
         {
-            static Color[] itemPalette = new Color[]
-            {
-            Color.FromArgb(255, 255, 69, 0),    // OrangeRed
-            Color.FromArgb(255, 50, 205, 50),   // LimeGreen
-            Color.FromArgb(255, 0, 191, 255),   // DeepSkyBlue
-            Color.FromArgb(255, 255, 20, 147),  // DeepPink
-            Color.FromArgb(255, 238, 130, 238), // Violet
-            Color.FromArgb(255, 255, 215, 0),   // Gold
-            Color.FromArgb(255, 72, 61, 139),   // DarkSlateBlue
-            Color.FromArgb(255, 32, 178, 170),  // LightSeaGreen
-            Color.FromArgb(255, 218, 112, 214), // Orchid
-            Color.FromArgb(255, 60, 179, 113),  // MediumSeaGreen
-            Color.FromArgb(255, 240, 128, 128), // LightCoral
-            Color.FromArgb(255, 70, 130, 180),  // SteelBlue
-            Color.FromArgb(255, 123, 104, 238), // MediumSlateBlue
-            Color.FromArgb(255, 199, 21, 133),  // MediumVioletRed
-            Color.FromArgb(255, 144, 238, 144), // LightGreen
-            Color.FromArgb(255, 255, 160, 122), // LightSalmon
-            Color.FromArgb(255, 32, 178, 170),  // LightSeaGreen
-            Color.FromArgb(255, 95, 158, 160),  // CadetBlue
-            Color.FromArgb(255, 255, 69, 0),    // OrangeRed
-            Color.FromArgb(255, 0, 128, 128),   // Teal
-            Color.FromArgb(255, 255, 105, 180), // HotPink
-            Color.FromArgb(255, 0, 206, 209),   // DarkTurquoise
-            Color.FromArgb(255, 46, 139, 87),   // SeaGreen
-            Color.FromArgb(255, 255, 20, 147),  // DeepPink
-            Color.FromArgb(255, 255, 99, 71),   // Tomato
-            Color.FromArgb(255, 0, 255, 127),   // SpringGreen
-            Color.FromArgb(255, 221, 160, 221), // Plum
-            Color.FromArgb(255, 176, 224, 230), // PowderBlue
-            Color.FromArgb(255, 128, 128, 0),   // Olive
-            Color.FromArgb(255, 255, 140, 0),   // DarkOrange
-            Color.FromArgb(255, 139, 69, 19),   // SaddleBrown
-            Color.FromArgb(255, 34, 139, 34),   // ForestGreen
-            Color.FromArgb(255, 255, 165, 0),   // Orange
-            Color.FromArgb(255, 205, 92, 92),   // IndianRed
-            Color.FromArgb(255, 0, 139, 139),   // DarkCyan
-            Color.FromArgb(255, 238, 232, 170), // PaleGoldenrod
-            Color.FromArgb(255, 255, 127, 80),  // Coral
-            Color.FromArgb(255, 186, 85, 211),  // MediumOrchid
-            Color.FromArgb(255, 107, 142, 35),  // OliveDrab
-            Color.FromArgb(255, 147, 112, 219), // MediumPurple
-            Color.FromArgb(255, 188, 143, 143), // RosyBrown
-            Color.FromArgb(255, 240, 230, 140), // Khaki
-            Color.FromArgb(255, 210, 105, 30),  // Chocolate
-            Color.FromArgb(255, 127, 255, 212), // Aquamarine
-            Color.FromArgb(255, 255, 228, 181), // Moccasin
-            Color.FromArgb(255, 154, 205, 50),  // YellowGreen
-            Color.FromArgb(255, 255, 228, 225), // MistyRose
-            Color.FromArgb(255, 255, 239, 213), // PapayaWhip
-            Color.FromArgb(255, 139, 0, 139),   // DarkMagenta
-            Color.FromArgb(255, 245, 222, 179), // Wheat
-            Color.FromArgb(255, 240, 255, 240), // Honeydew
-            Color.FromArgb(255, 255, 248, 220), // Cornsilk
-            Color.FromArgb(255, 218, 165, 32),  // Goldenrod
-            Color.FromArgb(255, 192, 192, 192), // Silver
-            Color.FromArgb(255, 255, 218, 185), // PeachPuff
-            Color.FromArgb(255, 238, 130, 238), // Violet
-            Color.FromArgb(255, 175, 238, 238), // PaleTurquoise
-            Color.FromArgb(255, 72, 61, 139),   // DarkSlateBlue
-            Color.FromArgb(255, 255, 160, 122), // LightSalmon
-            Color.FromArgb(255, 255, 255, 0),   // Yellow
-            Color.FromArgb(255, 189, 183, 107), // DarkKhaki
-            Color.FromArgb(255, 0, 255, 255)    // Cyan
-            };
+            
 
-            internal void RenderAnnotation(SigrokAnnotation annotation, int firstSample, int inScreen, Rect rectName, Rect rectData, DrawingContext context)
+            internal void RenderAnnotation(Color GroupColor, SigrokAnnotation annotation, int firstSample, int inScreen, Rect rectName, Rect rectData, DrawingContext context)
             {
                 var lastSample = firstSample + inScreen - 1;
                 var segments = annotation.Segments.Where(s => s.LastSample >= firstSample && s.FirstSample <= lastSample).ToArray();
 
                 using (context.PushClip(rectName))
                 {
+
+                    context.DrawEllipse(GraphicObjectsCache.GetBrush(GroupColor), GraphicObjectsCache.GetPen(Colors.Black, 1), new Point(rectName.X + 8, rectName.Y + rectName.Height / 2), 8, 8);
+
                     var text = new FormattedText(annotation.AnnotationName, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Brushes.White);
+
+                    rectName = new Rect(rectName.X + 17, rectName.Y, rectName.Width - 17, rectName.Height);
 
                     var x = rectName.X + (rectName.Width - text.Width) / 2;
                     var y = rectName.Y + (rectName.Height - text.Height) / 2;
@@ -313,7 +241,7 @@ namespace LogicAnalyzer.Controls
             internal void RenderSegment(SigrokAnnotationSegment Segment, DrawingContext G, Rect RenderArea)
             {
 
-                var color = itemPalette[Segment.TypeId % 64];
+                var color = AnalyzerColors.AnnColors[Segment.TypeId % 64];
                 var textColor = color.FindContrast();
 
                 double midY = RenderArea.Y + (RenderArea.Height / 2.0);

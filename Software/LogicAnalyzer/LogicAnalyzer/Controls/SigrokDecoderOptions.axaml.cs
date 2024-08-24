@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -30,6 +31,8 @@ public partial class SigrokDecoderOptions : UserControl
         }
     }
 
+    private SigrokDecoderManager? manager;
+
     public event EventHandler? RemoveDecoder;
     public event EventHandler? OptionsUpdated;
 
@@ -42,6 +45,19 @@ public partial class SigrokDecoderOptions : UserControl
     Dictionary<int, SigrokOptionValue> values = new Dictionary<int, SigrokOptionValue>();
     public IEnumerable<SigrokOptionValue> Values { get { return values.Values; } }
 
+    ObservableCollection<CBOption>? sourceOptions;
+    ComboBox? cbInputs;
+
+    public int DecoderIndex { get; private set; }
+
+    public string OptionsName { get; private set; } = "";
+
+    public bool RequiresInput { get; private set; }
+
+    public SigrokDecoderOptions? ParentDecoder { get; private set; }
+
+    public Color OptColor { get; set; } = AnalyzerColors.AnnColors[0];
+
     private void CreateOptions()
     {
         channelSelectors.Clear();
@@ -53,12 +69,93 @@ public partial class SigrokDecoderOptions : UserControl
         if (decoder == null)
             return;
 
-        txtDecoder.Text = $"{decoder.DecoderShortName}";
+        var same = manager?.decoderOptions.Where(o => o.decoder?.Id == decoder.Id).ToArray();
+
+        if(same != null && same.Length > 0)
+            DecoderIndex = same.Select(decoder => decoder.DecoderIndex).Max() + 1;
+        
+        if(DecoderIndex == 0)
+            OptionsName = $"{decoder.DecoderShortName}";
+        else
+            OptionsName = $"{decoder.DecoderShortName} ({DecoderIndex})";
+
+        txtDecoder.Text = OptionsName;
+
+        bool hasContent = false;
 
         var signals = decoder?.Channels;
+        var options = decoder?.Options;
+        var inputs = decoder?.Inputs;
+        var outputs = decoder?.Outputs;
+
+        //For now, assume single input
+        if (inputs != null && inputs.Length > 0 && inputs[0] != "logic")
+        {
+            RequiresInput = true;
+
+            Grid gridInputs = new Grid();
+            gridInputs.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            gridInputs.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top;
+            gridInputs.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            gridInputs.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100, GridUnitType.Pixel) });
+            gridInputs.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+            gridInputs.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            TextBlock txtInputs = new TextBlock();
+            Grid.SetColumnSpan(txtInputs, 2);
+            txtInputs.Text = "Inputs";
+            txtInputs.Margin = new Thickness(0, 0, 0, 10);
+
+            gridInputs.Children.Add(txtInputs);
+
+            gridInputs.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            TextBlock txtInput = new TextBlock();
+            txtInput.Text = inputs[0];
+            txtInput.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
+
+            cbInputs = new ComboBox();
+            cbInputs.SelectedIndex = 0;
+            cbInputs.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            cbInputs.SelectionChanged += (o, e) =>
+                {
+                    var selected = cbInputs.SelectedItem as CBOption;
+
+                    if (selected == null)
+                        ParentDecoder = null;
+                    else
+                        ParentDecoder = selected.Options;
+
+                    OptionsUpdated?.Invoke(this, EventArgs.Empty);
+                };
+
+            cbInputs.Margin = new Thickness(0, 0, 0, 5);
+
+            gridInputs.Children.Add(txtInput);
+            gridInputs.Children.Add(cbInputs);
+
+            Grid.SetRow(txtInput, 1);
+            Grid.SetColumn(txtInput, 0);
+            Grid.SetRow(cbInputs, 1);
+            Grid.SetColumn(cbInputs, 1);
+
+            sourceOptions = new ObservableCollection<CBOption>();
+            cbInputs.ItemsSource = sourceOptions;
+            GenerateSources();
+
+            pnlOptions.Children.Add(gridInputs);
+
+            hasContent = true;
+        }
 
         if (signals != null && signals.Length > 0)
         {
+            if (hasContent)
+            {
+                Separator sep = new Separator();
+                sep.Margin = new Thickness(0, 10, 0, 10);
+                pnlOptions.Children.Add(sep);
+            }
 
             Grid gridChannels = new Grid();
             gridChannels.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
@@ -119,15 +216,20 @@ public partial class SigrokDecoderOptions : UserControl
 
                 row++;
             }
+
             pnlOptions.Children.Add(gridChannels);
+
+            hasContent = true;
         }
 
-        var options = decoder?.Options;
+        
+
+        
 
         if (options != null && options.Length > 0)
         {
 
-            if (signals != null && signals.Length > 0)
+            if (hasContent)
             {
                 Separator sep = new Separator();
                 sep.Margin = new Thickness(0, 10, 0, 10);
@@ -272,14 +374,15 @@ public partial class SigrokDecoderOptions : UserControl
             }
 
             pnlOptions.Children.Add(gridOptions);
+
+            hasContent = true;
         }
 
-        var inputs = decoder?.Inputs;
-        var outputs = decoder?.Outputs;
+        
 
         if ((inputs != null && inputs.Length > 0) || (outputs != null && outputs.Length > 0))
         {
-            if ((options != null && options.Length > 0) || (signals != null && signals.Length > 0))
+            if (hasContent)
             {
                 Separator sep = new Separator();
                 sep.Margin = new Thickness(0, 10, 0, 10);
@@ -345,9 +448,56 @@ public partial class SigrokDecoderOptions : UserControl
             }
 
             pnlOptions.Children.Add(gridInfo);
+
+            hasContent = true;
         }
 
         OptionsUpdated?.Invoke(this, EventArgs.Empty);
+    }
+
+    public SigrokDecoderOptions(SigrokDecoderManager Manager, Color OptionColor) : this()
+    {
+        manager = Manager;
+        manager.decoderOptions.CollectionChanged += DecoderOptions_CollectionChanged;
+        OptColor = OptionColor;
+        elColor.Fill = GraphicObjectsCache.GetBrush(OptionColor);
+    }
+
+    private void DecoderOptions_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        GenerateSources();
+    }
+
+    private void GenerateSources()
+    {
+        if (sourceOptions != null && cbInputs != null)
+        {
+            var selectedItem = cbInputs.SelectedItem as CBOption;
+            var requiredInput = decoder?.Inputs?[0];
+
+            if (requiredInput == null)
+                return;
+
+            sourceOptions.Clear();
+
+            var sources = manager?.decoderOptions.Where(o => o.decoder?.Outputs?.Contains(requiredInput) == true && o != this).ToArray();
+
+            if (sources != null)
+            {
+                foreach (var source in sources)
+                {
+                    sourceOptions.Add(new CBOption { Options = source });
+                }
+
+                if (selectedItem != null)
+                {
+                    var sel = sourceOptions.FirstOrDefault(o => o.Options == selectedItem.Options);
+                    if (sel != null)
+                        cbInputs.SelectedItem = sel;
+                }
+            }
+
+        }
     }
 
     public SigrokDecoderOptions()
@@ -393,5 +543,16 @@ public partial class SigrokDecoderOptions : UserControl
         }
 
         OptionsUpdated?.Invoke(this, EventArgs.Empty);
+    }
+
+
+    class CBOption
+    {
+        public SigrokDecoderOptions Options { get; set; }
+
+        public override string ToString()
+        {
+            return Options?.OptionsName ?? "";
+        }
     }
 }

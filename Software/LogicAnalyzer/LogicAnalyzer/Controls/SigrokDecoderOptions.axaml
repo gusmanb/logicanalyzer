@@ -8,7 +8,8 @@
     <Expander.Header>
       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
         <Button Click="ButtonRemove_Click">-</Button>
-        <TextBlock Name="txtDecoder" Text="Decoder options" VerticalAlignment="Center" Margin="10,0,0,0" />
+        <Ellipse Width="20" Height="20" Fill="AliceBlue" Margin="10" Name="elColor"></Ellipse>
+        <TextBlock Name="txtDecoder" Text="Decoder options" VerticalAlignment="Center" />
       </StackPanel>
     </Expander.Header>
     <StackPanel Name="pnlOptions">
