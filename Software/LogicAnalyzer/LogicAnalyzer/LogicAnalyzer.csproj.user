@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_LastSelectedProfileId>C:\Users\geniw\source\repos\LogicAnalyzer\LogicAnalyzer\Properties\PublishProfiles\Windows.pubxml</_LastSelectedProfileId>
-    <ActiveDebugProfile>LogicAnalyzer</ActiveDebugProfile>
+    <ActiveDebugProfile>WSL</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

@@ -101,7 +101,7 @@ public partial class SigrokDecoderOptions : UserControl
                     if (selectedChannel == null)
                         return;
 
-                    selectedChannels[signal.Index] = new SigrokSelectedChannel { SigrokIndex = signal.Index, CaptureIndex = selectedChannel.ChannelNumber };
+                    selectedChannels[signal.Index] = new SigrokSelectedChannel { SigrokIndex = signal.Index, CaptureIndex = Channels.IndexOf(selectedChannel) - 1 };
 
                     OptionsUpdated?.Invoke(this, EventArgs.Empty);
                 };

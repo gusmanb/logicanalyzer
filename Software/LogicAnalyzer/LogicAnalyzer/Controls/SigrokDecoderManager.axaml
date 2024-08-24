@@ -9,15 +9,12 @@
              x:Class="LogicAnalyzer.Controls.SigrokDecoderManager">
   <Grid RowDefinitions="32,*,4,*">
     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Margin="5" Background="#30ffffff" Name="txtFilter" TextChanged="TxtFilter_TextChanged">
-      <!--
+      
       <TextBox.InnerLeftContent>
-        <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free Solid"></TextBlock>
+        <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free"></TextBlock>
       </TextBox.InnerLeftContent>
       <TextBox.InnerRightContent>
-        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free Solid" PointerPressed="TxtFilter_PointerPressed"></TextBlock>
-      </TextBox.InnerRightContent>-->
-      <TextBox.InnerRightContent>
-        <TextBlock Margin="0,0,10,0" VerticalAlignment="Center" PointerPressed="TxtFilter_PointerPressed">X</TextBlock>
+        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" PointerPressed="TxtFilter_PointerPressed"></TextBlock>
       </TextBox.InnerRightContent>
     </TextBox>
     
