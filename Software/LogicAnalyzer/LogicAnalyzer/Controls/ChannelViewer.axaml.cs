@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
@@ -26,6 +26,7 @@ namespace LogicAnalyzer.Controls
         }
 
         public event EventHandler<ChannelEventArgs> ChannelClick;
+        public event EventHandler ChannelVisibilityChanged;
 
         private void CreateControls()
         {
@@ -59,22 +60,54 @@ namespace LogicAnalyzer.Controls
 
                 ChannelGrid.Children.Add(newChannelGrid);
 
+
+                var headerGrid = new Grid();
+                headerGrid.ColumnDefinitions = new ColumnDefinitions("32,*");
+
+                //Create eye icon
+                var newChannelVisibility = new TextBlock();
+                newChannelVisibility.FontFamily= FontFamily.Parse("avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free");
+                newChannelVisibility.Text = "";
+                newChannelVisibility.Margin = new Thickness(5, 0, 0, 0);
+                newChannelVisibility.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+                newChannelVisibility.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
+                newChannelVisibility.Foreground = GraphicObjectsCache.GetBrush(Colors.White);
+                newChannelVisibility.Tag = channels[buc];
+                newChannelVisibility.PointerPressed += (o, e) =>
+                {
+                    var channel = (o as TextBlock)?.Tag as CaptureChannel;
+
+                    if (channel == null)
+                        return;
+
+                    channel.Hidden = true;
+
+                    if(ChannelVisibilityChanged != null)
+                        ChannelVisibilityChanged(this, EventArgs.Empty);
+                };
+
+                headerGrid.Children.Add(newChannelVisibility);
+
                 //Create label
                 var newChannelLabel = new TextBlock();
 
                 newChannelLabel.SetValue(Grid.RowProperty, 0);
+                newChannelLabel.SetValue(Grid.ColumnProperty, 1);
 
                 newChannelLabel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
-                newChannelLabel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+                newChannelLabel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left;
 
                 newChannelLabel.Text = channels[buc].TextualChannelNumber;
 
-                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(channels[buc].ChannelColor ??  AnalyzerColors.FgChannelColors[buc % 24]);
+                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(channels[buc].ChannelColor ??  AnalyzerColors.GetColor(channels[buc].ChannelNumber));
 
                 newChannelLabel.Tag = channels[buc];
                 newChannelLabel.PointerPressed += NewChannelLabel_PointerPressed;
 
-                newChannelGrid.Children.Add(newChannelLabel);
+                headerGrid.Children.Add(newChannelLabel);
+
+
+                newChannelGrid.Children.Add(headerGrid);
 
                 //Create textbox
                 var newChannelTextbox = new TextBox();
@@ -103,6 +136,27 @@ namespace LogicAnalyzer.Controls
             boxes = newBoxes.ToArray();
 
             //ChannelGrid.EndBatchUpdate();
+        }
+
+        public void UpdateChannelVisibility()
+        {
+            if (channels == null)
+                return;
+            
+            var chan = ChannelGrid.Children.Cast<Grid>().ToArray();
+            var rows = ChannelGrid.RowDefinitions.ToArray();
+
+            if (chan == null || rows == null)
+                return;
+            
+            if(channels.Length != chan.Length || channels.Length != rows.Length)
+                return;
+
+            for (int buc = 0; buc < channels.Length; buc++)
+            {
+                chan[buc].IsVisible = !channels[buc].Hidden;
+                rows[buc].Height = channels[buc].Hidden ? GridLength.Auto : GridLength.Star;
+            }
         }
 
         private void NewChannelLabel_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)

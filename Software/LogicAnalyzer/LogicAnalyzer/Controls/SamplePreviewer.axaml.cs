@@ -46,7 +46,7 @@ namespace LogicAnalyzer.Controls
 
             for (int buc = 0; buc < channelCount; buc++)
             {
-                var avColor = Channels[buc].ChannelColor ?? AnalyzerColors.FgChannelColors[buc];
+                var avColor = Channels[buc].ChannelColor ?? AnalyzerColors.GetColor(Channels[buc].ChannelNumber);
 
                 colors[buc] = new SKPaint
                 {

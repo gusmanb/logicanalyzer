@@ -103,7 +103,7 @@ namespace LogicAnalyzer.Controls
 
             using (var context = renderTarget.CreateDrawingContext())
             {
-                var pen = GraphicObjectsCache.GetPen(AnalyzerColors.FgChannelColors[channel], 1);
+                var pen = GraphicObjectsCache.GetPen(AnalyzerColors.GetColor(channel), 1);
                 for (int buc = 0; buc < samples.Length; buc++)
                 {
                     if (samples[buc] != currentValue)

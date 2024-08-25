@@ -102,7 +102,12 @@ namespace LogicAnalyzer.Controls
             if (Channels == null || Channels.Length == 0 || Channels[0].Samples == null || Channels[0].Samples.Length == 0)
                 return;
 
-            int ChannelCount = Channels?.Length ?? 0;
+            var visibleChannels = Channels.Where(c => !c.Hidden).ToArray();
+
+            int ChannelCount = visibleChannels.Length;
+
+            if(ChannelCount == 0)
+                return;
 
             int minSize = ChannelCount * MIN_CHANNEL_HEIGHT;
 
@@ -125,7 +130,7 @@ namespace LogicAnalyzer.Controls
                 double sampleWidth = thisBounds.Width / (double)VisibleSamples;
                 double margin = channelHeight / 5;
 
-                int lastSample = Math.Min(VisibleSamples + FirstSample, Channels[0].Samples.Length);
+                int lastSample = Math.Min(VisibleSamples + FirstSample, visibleChannels[0].Samples.Length);
 
                 
                 for (int chan = 0; chan < ChannelCount; chan++)
@@ -185,14 +190,14 @@ namespace LogicAnalyzer.Controls
                         {
                             renders[chan].firstSample = curSample;
                             renders[chan].sampleCount = 1;
-                            renders[chan].value = Channels[chan].Samples[curSample];//(sample & ((UInt128)1 << chan)) != 0;
+                            renders[chan].value = visibleChannels[chan].Samples[curSample];//(sample & ((UInt128)1 << chan)) != 0;
                         }
                     }
                     else
                     {
                         for (int chan = 0; chan < ChannelCount; chan++)
                         {
-                            if (renders[chan].value != Channels[chan].Samples[curSample])
+                            if (renders[chan].value != visibleChannels[chan].Samples[curSample])
                             {
                                 double yHi = chan * channelHeight + margin;
                                 double yLo = yHi + channelHeight - margin * 2;
@@ -200,7 +205,7 @@ namespace LogicAnalyzer.Controls
                                 double xStart = (renders[chan].firstSample - FirstSample) * sampleWidth;
                                 double xEnd = renders[chan].sampleCount * sampleWidth + xStart;
 
-                                var pen = GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan % 24], 2);
+                                var pen = GraphicObjectsCache.GetPen(visibleChannels[chan].ChannelColor ?? AnalyzerColors.GetColor(visibleChannels[chan].ChannelNumber), 2);
 
                                 if (renders[chan].value != 0)
                                     context.DrawLine(pen, new Point(xStart, yHi), new Point(xEnd, yHi));
@@ -212,7 +217,7 @@ namespace LogicAnalyzer.Controls
 
                                 renders[chan].firstSample = curSample;
                                 renders[chan].sampleCount = 1;
-                                renders[chan].value = Channels[chan].Samples[curSample];
+                                renders[chan].value = visibleChannels[chan].Samples[curSample];
                             }
                             else
                             {
@@ -230,7 +235,7 @@ namespace LogicAnalyzer.Controls
                     double xStart = (renders[chan].firstSample - FirstSample) * sampleWidth;
                     double xEnd = renders[chan].sampleCount * sampleWidth + xStart;
 
-                    var pen = GraphicObjectsCache.GetPen(Channels?[chan].ChannelColor ?? AnalyzerColors.FgChannelColors[chan % 24], 2);
+                    var pen = GraphicObjectsCache.GetPen(visibleChannels[chan].ChannelColor ?? AnalyzerColors.GetColor(visibleChannels[chan].ChannelNumber), 2);
 
                     if (renders[chan].value != 0)
                         context.DrawLine(pen, new Point(xStart, yHi), new Point(xEnd, yHi));

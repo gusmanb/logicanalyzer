@@ -9,6 +9,22 @@ namespace LogicAnalyzer.Classes
 {
     public static class AnalyzerColors
     {
+
+        public static Color FromHex(string Hex)
+        {
+            if (Hex.StartsWith("#"))
+                Hex = Hex.Substring(1);
+
+            if (Hex.Length != 6)
+                throw new ArgumentException("Hex color must be 6 characters long");
+
+            return Color.FromRgb(
+                Convert.ToByte(Hex.Substring(0, 2), 16),
+                Convert.ToByte(Hex.Substring(2, 2), 16),
+                Convert.ToByte(Hex.Substring(4, 2), 16)
+            );
+        }
+
         public static Color UserLineColor = Colors.Cyan;
 
         public static Color[] BgChannelColors => new Color[]    
@@ -17,40 +33,7 @@ namespace LogicAnalyzer.Classes
             Color.FromRgb(28,28,28),
         };
 
-        public static Color[] FgChannelColors => new Color[]
-        {
-            Color.FromRgb(254, 0, 0),
-            Color.FromRgb(128, 255, 0),
-            Color.FromRgb(1, 255, 255),
-            Color.FromRgb(127, 0, 255),
-
-            Color.FromRgb(255, 64, 1),
-            Color.FromRgb(64, 255, 1),
-            Color.FromRgb(0, 192, 255),
-            Color.FromRgb(191, 0, 254),
-
-            Color.FromRgb(255, 127, 0),
-            Color.FromRgb(0, 255, 1),
-            Color.FromRgb(0, 128, 255),
-            Color.FromRgb(255, 0, 254),
-
-            Color.FromRgb(255, 192, 0),
-            Color.FromRgb(0, 255, 65),
-            Color.FromRgb(0, 65, 255),
-            Color.FromRgb(255, 0, 192),
-
-            Color.FromRgb(255, 255, 1),
-            Color.FromRgb(0, 254, 129),
-            Color.FromRgb(0, 0, 254),
-            Color.FromRgb(255, 0, 128),
-
-            Color.FromRgb(192, 255, 0),
-            Color.FromRgb(1, 255, 193),
-            Color.FromRgb(63, 0, 255),
-            Color.FromRgb(255, 1, 65),
-        };
-
-        public static Color[] AnnColors = new Color[]
+        public static Color[] AnnColors => new Color[]
         {
             Color.FromArgb(255, 255, 69, 0),    // OrangeRed
             Color.FromArgb(255, 50, 205, 50),   // LimeGreen
@@ -116,8 +99,81 @@ namespace LogicAnalyzer.Classes
             Color.FromArgb(255, 0, 255, 255)    // Cyan
         };
 
+        public static Color[] Palette => new Color[]
+        {
+            FromHex("#FF5733"), 
+            FromHex("#33FF57"), 
+            FromHex("#3357FF"), 
+            FromHex("#FF33A1"),
+            FromHex("#FFBD33"), 
+            FromHex("#33FFF6"), 
+            FromHex("#FF5733"), 
+            FromHex("#57FF33"), 
+            FromHex("#5733FF"), 
+            FromHex("#33FFBD"), 
+            FromHex("#FF33BD"),
+            FromHex("#BD33FF"), 
+            FromHex("#BDFF33"), 
+            FromHex("#33FF57"), 
+            FromHex("#FF33F6"), 
+            FromHex("#F6FF33"),
+            FromHex("#33FF73"), 
+            FromHex("#FF7333"), 
+            FromHex("#FF33C1"), 
+            FromHex("#33FF85"),
+            FromHex("#33C1FF"), 
+            FromHex("#C1FF33"), 
+            FromHex("#7333FF"), 
+            FromHex("#FF3385"),
+            FromHex("#3385FF"), 
+            FromHex("#85FF33"), 
+            FromHex("#33FF99"), 
+            FromHex("#9933FF"),
+            FromHex("#99FF33"), 
+            FromHex("#FF3399"), 
+            FromHex("#FF9C33"), 
+            FromHex("#FF33E7"),
+            FromHex("#E733FF"), 
+            FromHex("#33E7FF"), 
+            FromHex("#FF33C7"), 
+            FromHex("#C733FF"),
+            FromHex("#FF338E"), 
+            FromHex("#338EFF"), 
+            FromHex("#8EFF33"), 
+            FromHex("#FF338E"),
+            FromHex("#33FF9C"), 
+            FromHex("#FF9C33"), 
+            FromHex("#339CFF"), 
+            FromHex("#FF339C"),
+            FromHex("#9C33FF"), 
+            FromHex("#FF8E33"), 
+            FromHex("#33E733"), 
+            FromHex("#339CFF"),
+            FromHex("#9CFF33"), 
+            FromHex("#FF339C"), 
+            FromHex("#FF9C33"), 
+            FromHex("#33FF9C"),
+            FromHex("#FF33E7"), 
+            FromHex("#E7FF33"), 
+            FromHex("#33FFC7"), 
+            FromHex("#C7FF33"),
+            FromHex("#33F6FF"), 
+            FromHex("#FF5733"), 
+            FromHex("#FF33F6"), 
+            FromHex("#F6FF33"),
+            FromHex("#5733FF"), 
+            FromHex("#33BDFF"), 
+            FromHex("#BD33FF"), 
+            FromHex("#33FFBD")
+        };
+
         public static Color ErrorColor => Colors.Red;
 
         public static Color TxtColor => Colors.White;
+
+        public static Color GetColor(int Index)
+        {
+            return Palette[Index % Palette.Length];
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace LogicAnalyzer.Classes
         public int ChannelNumber { get; set; }
         public string ChannelName { get; set; } = "";
         public Color? ChannelColor { get; set; }
+        public bool Hidden { get; set; }
         public byte[]? Samples { get; set; }
 
         public override string ToString()

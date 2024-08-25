@@ -43,9 +43,12 @@
       </StackPanel>
     </Grid>
     <Grid DockPanel.Dock="Top" Height="32" ColumnDefinitions="150,10*,340" Background="#50808080">
-      <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Foreground="LightGray">
-        Channels
-      </TextBlock>
+      <Grid ColumnDefinitions="32,*">
+        <TextBlock PointerPressed="Visibility_PointerPressed" Margin="5,0,0,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free"></TextBlock>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Center" Foreground="LightGray">
+          Channels
+        </TextBlock>
+      </Grid>
       <controls:SampleMarker Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" Background="Transparent" Name="sampleMarker"></controls:SampleMarker>
     </Grid>
 

@@ -80,7 +80,7 @@ namespace LogicAnalyzer
             sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
 
             channelViewer.ChannelClick += ChannelViewer_ChannelClick;
-
+            channelViewer.ChannelVisibilityChanged += ChannelViewer_ChannelVisibilityChanged;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
             scrSamplePos.Scroll += scrSamplePos_ValueChanged;
             scrSamplePos.PointerEntered += ScrSamplePos_PointerEnter;
@@ -142,6 +142,28 @@ namespace LogicAnalyzer
             }
         }
 
+        private void ChannelViewer_ChannelVisibilityChanged(object? sender, EventArgs e)
+        {
+            UpdateVisibility();
+        }
+
+        private void Visibility_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if(settings?.CaptureChannels == null)
+                return;
+
+            foreach(var channel in settings.CaptureChannels)
+                channel.Hidden = false;
+
+            UpdateVisibility();
+        }
+
+        private void UpdateVisibility()
+        {
+            channelViewer.UpdateChannelVisibility();
+            sampleViewer.InvalidateVisual();
+        }
+
         private void TkInScreen_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
             if (e.Delta.Y > 0)
@@ -182,7 +204,7 @@ namespace LogicAnalyzer
             if (e.Channel.ChannelColor != null)
                 picker.Color = e.Channel.ChannelColor.Value;
             else
-                picker.Color = AnalyzerColors.FgChannelColors[e.Channel.ChannelNumber];
+                picker.Color = AnalyzerColors.GetColor(e.Channel.ChannelNumber);
 
             var color = await picker.ShowDialog(this);
 
