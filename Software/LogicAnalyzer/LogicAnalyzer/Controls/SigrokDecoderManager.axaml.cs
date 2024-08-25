@@ -156,7 +156,7 @@ public partial class SigrokDecoderManager : UserControl
         if (decoder == null || _provider == null)
             return;
 
-        SigrokDecoderOptions options = new SigrokDecoderOptions(this, AnalyzerColors.AnnColors[optCount++ % 64]);
+        SigrokDecoderOptions options = new SigrokDecoderOptions(this, AnalyzerColors.GetColor(optCount++));
         options.OptionsUpdated += Options_OptionsUpdated;
         options.RemoveDecoder += Options_RemoveDecoder;
         options.Decoder = decoder;

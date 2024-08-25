@@ -56,7 +56,7 @@ public partial class SigrokDecoderOptions : UserControl
 
     public SigrokDecoderOptions? ParentDecoder { get; private set; }
 
-    public Color OptColor { get; set; } = AnalyzerColors.AnnColors[0];
+    public Color OptColor { get; set; } = AnalyzerColors.GetColor(0);
 
     private void CreateOptions()
     {

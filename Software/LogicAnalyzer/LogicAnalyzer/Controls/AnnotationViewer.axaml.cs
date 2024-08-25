@@ -39,6 +39,8 @@ namespace LogicAnalyzer.Controls
 
         List<SampleRegion> regions = new List<SampleRegion>();
 
+        SigrokAnnotationSegment? lastTooltipSegment;
+
         public SampleRegion[] Regions { get { return regions.ToArray(); } }
 
         public AnnotationViewer()
@@ -67,20 +69,21 @@ namespace LogicAnalyzer.Controls
                 if (row < annotations[buc].Annotations.Length)
                 {
                     var annotation = annotations[buc].Annotations[row];
-                    var segment = annotation.Segments.FirstOrDefault(s => (s.FirstSample <= ovrSample && (s.LastSample > ovrSample || s.LastSample == s.FirstSample)));
+                    var segment = annotation.Segments.FirstOrDefault(s => (s.FirstSample <= ovrSample && s.LastSample > ovrSample) || s.FirstSample == ovrSample);
 
                     if (segment != null)
                     {
                         var text = segment.Value[0];
-                        if (ToolTip.GetTip(this)?.ToString() != text)
+                        if (ToolTip.GetTip(this)?.ToString() != text || lastTooltipSegment != segment || !ToolTip.GetIsOpen(this))
                         {
-                            
+
                             ToolTip.SetTip(this, text);
                             ToolTip.SetIsOpen(this, false);
                             ToolTip.SetPlacement(this, PlacementMode.Pointer);
                             ToolTip.SetShowDelay(this, 0);
                             ToolTip.SetIsOpen(this, true);
-                            Debug.WriteLine($"Open: {text}");
+                            lastTooltipSegment = segment;
+                            //Debug.WriteLine($"Open: {text}");
 
                         }
 
@@ -89,7 +92,7 @@ namespace LogicAnalyzer.Controls
                     else
                     {
                         ToolTip.SetIsOpen(this, false);
-                        Debug.WriteLine($"Close");
+                        //Debug.WriteLine($"Close");
                     }
 
                 }
@@ -297,7 +300,7 @@ namespace LogicAnalyzer.Controls
             internal void RenderSegment(SigrokAnnotationSegment Segment, DrawingContext G, Rect RenderArea)
             {
 
-                var color = AnalyzerColors.AnnColors[Segment.TypeId % 64];
+                var color = AnalyzerColors.GetColor(Segment.TypeId % 64);
                 var textColor = color.FindContrast();
 
                 double midY = RenderArea.Y + (RenderArea.Height / 2.0);

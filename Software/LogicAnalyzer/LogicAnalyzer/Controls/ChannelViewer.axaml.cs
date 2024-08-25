@@ -152,10 +152,18 @@ namespace LogicAnalyzer.Controls
             if(channels.Length != chan.Length || channels.Length != rows.Length)
                 return;
 
+            int vis = 0;
+
             for (int buc = 0; buc < channels.Length; buc++)
             {
+                var txt = chan[buc].Children.Where(c => c is TextBox).FirstOrDefault() as TextBox;
+
                 chan[buc].IsVisible = !channels[buc].Hidden;
+                txt.Background = chan[buc].Background = GraphicObjectsCache.GetBrush(AnalyzerColors.BgChannelColors[vis % 2]);
                 rows[buc].Height = channels[buc].Hidden ? GridLength.Auto : GridLength.Star;
+
+                if (!channels[buc].Hidden)
+                    vis++;
             }
         }
 
