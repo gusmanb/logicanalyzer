@@ -805,9 +805,8 @@ namespace LogicAnalyzer
             {
                 clearRegions();
 
-                //NEW SYSTEM
-                foreach(var channel in settings.CaptureChannels)
-                    ExtractSamples(channel, e.Samples);
+                for(int buc = 0; buc < settings.CaptureChannels.Length; buc++)
+                    ExtractSamples(settings.CaptureChannels[buc], buc, e.Samples);
 
                 updateChannels();
 
@@ -836,13 +835,13 @@ namespace LogicAnalyzer
             });
         }
 
-        private void ExtractSamples(CaptureChannel channel, UInt128[]? samples)
+        private void ExtractSamples(CaptureChannel channel, int ChannelIndex, UInt128[]? samples)
         {
             if (channel == null || samples == null)
                 return;
 
-            int idx = channel.ChannelNumber;
-            UInt128 mask = (UInt128)1 << idx;
+            //int idx = channel.ChannelNumber;
+            UInt128 mask = (UInt128)1 << ChannelIndex;
             channel.Samples = samples.Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
         }
 
@@ -1139,7 +1138,7 @@ namespace LogicAnalyzer
                     if (ex.Samples != null)
                     {
                         for(int buc = 0; buc < settings.CaptureChannels.Length; buc++)
-                            ExtractSamples(settings.CaptureChannels[buc], ex.Samples);
+                            ExtractSamples(settings.CaptureChannels[buc], buc, ex.Samples);
                     }
 
                     updateChannels();
@@ -1154,9 +1153,9 @@ namespace LogicAnalyzer
                     if (ex.SelectedRegions != null)
                         addRegions(ex.SelectedRegions);
 
-                    scrSamplePos.Maximum = ex.Samples.Length - 1;
+                    scrSamplePos.Maximum = settings.TotalSamples - 1;
 
-                    updateSamplesInDisplay(Math.Max(ex.Settings.PreTriggerSamples - 10, 0), Math.Min(100, ex.Samples.Length / 10));
+                    updateSamplesInDisplay(Math.Max(settings.PreTriggerSamples - 10, 0), Math.Min(100, settings.TotalSamples / 10));
 
                     LoadInfo();
                 }

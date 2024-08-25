@@ -16,9 +16,18 @@ project(LogicAnalyzer C CXX ASM)
 if((BOARD_TYPE STREQUAL "BOARD_PICO_W") OR (BOARD_TYPE STREQUAL "BOARD_PICO_W_WIFI"))
     message(STATUS "Setting PICO_BOARD to pico_w")
     set(PICO_BOARD pico_w)
+    message(STATUS "Forcing Debug for W build")
+    set(CMAKE_BUILD_TYPE Debug)
 else()
     message(STATUS "Setting PICO_BOARD to pico")
     set(PICO_BOARD pico)
+endif()
+
+if(NOT DEBUG_BUILD)
+    if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO"))
+        message(STATUS "Forcing Release for RAM-only build")
+        set(CMAKE_BUILD_TYPE Release)
+    endif()
 endif()
 
 # Initialise the Raspberry Pi Pico SDK
