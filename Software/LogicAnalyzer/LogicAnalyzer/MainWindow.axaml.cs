@@ -1175,7 +1175,7 @@ namespace LogicAnalyzer
             lblFreq.Text = String.Format("{0:n0}", settings.Frequency) + " Hz";
             lblPreSamples.Text = String.Format("{0:n0}", settings.PreTriggerSamples);
             lblPostSamples.Text = String.Format("{0:n0}", settings.PostTriggerSamples);
-            lblSamples.Text = String.Format("{0:n0}", settings.PostTriggerSamples + settings.PreTriggerSamples);
+            lblSamples.Text = String.Format("{0:n0}", settings.TotalSamples);
             lblChannels.Text = settings.CaptureChannels.Length.ToString();
             lblTrigger.Text = $"{triggerType}, channel {settings.TriggerChannel + 1}";
             lblValue.Text = settings.TriggerType == 0 ? (settings.TriggerInverted ? "Negative" : "Positive") : GenerateStringTrigger(settings.TriggerPattern, settings.TriggerBitCount);

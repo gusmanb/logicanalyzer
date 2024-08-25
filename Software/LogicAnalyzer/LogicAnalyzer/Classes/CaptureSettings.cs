@@ -12,7 +12,13 @@ namespace LogicAnalyzer.Classes
         public int Frequency { get; set; }
         public int PreTriggerSamples { get; set; }
         public int PostTriggerSamples { get; set; }
-        public int TotalSamples { get { return PreTriggerSamples + PostTriggerSamples; } }
+        public int TotalSamples 
+        { 
+            get 
+            {
+                return PostTriggerSamples * (MeasureBursts ? LoopCount + 1 : 1) + PreTriggerSamples;
+            } 
+        }
         public int LoopCount { get; set; }
         public bool MeasureBursts { get; set; }
         public CaptureChannel[] CaptureChannels { get; set; } = new CaptureChannel[0];

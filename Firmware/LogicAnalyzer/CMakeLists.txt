@@ -1,5 +1,8 @@
 # Generated Cmake Pico project file
 
+
+
+
 cmake_minimum_required(VERSION 3.13)
 
 set(CMAKE_C_STANDARD 11)
@@ -9,6 +12,14 @@ set(CMAKE_CXX_STANDARD 17)
 include(pico_sdk_import.cmake)
 include(LogicAnalyzer_Build_Settings.cmake)
 project(LogicAnalyzer C CXX ASM)
+
+if((BOARD_TYPE STREQUAL "BOARD_PICO_W") OR (BOARD_TYPE STREQUAL "BOARD_PICO_W_WIFI"))
+    message(STATUS "Setting PICO_BOARD to pico_w")
+    set(PICO_BOARD pico_w)
+else()
+    message(STATUS "Setting PICO_BOARD to pico")
+    set(PICO_BOARD pico)
+endif()
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
@@ -50,6 +61,7 @@ if(BOARD_TYPE STREQUAL "BOARD_PICO")
 endif()
 if(BOARD_TYPE STREQUAL "BOARD_PICO_W")
     message(STATUS "Configuring for Pico W without WiFi support")
+    set(PICO_BOARD pico_w)
     add_compile_definitions(BUILD_PICO_W)
     set (CYW_LIB pico_cyw43_arch_none)
 endif()

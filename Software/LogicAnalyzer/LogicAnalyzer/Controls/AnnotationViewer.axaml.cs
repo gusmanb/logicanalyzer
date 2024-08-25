@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Platform;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LogicAnalyzer.Controls
 {
@@ -43,6 +45,60 @@ namespace LogicAnalyzer.Controls
         {
             InitializeComponent();
         }
+
+        protected override void OnPointerMoved(PointerEventArgs e)
+        {
+            base.OnPointerMoved(e);
+
+            if (annotations.Count == 0)
+                return;
+
+            double sampleWidth = (this.Bounds.Width - ANNOTATION_NAME_WIDTH) / (float)VisibleSamples;
+            var pos = e.GetCurrentPoint(this);
+
+            int ovrSample = (int)((pos.Position.X - ANNOTATION_NAME_WIDTH) / sampleWidth) + FirstSample;
+
+            int row = (int)(pos.Position.Y / ANNOTATION_HEIGHT);
+
+            Debug.WriteLine($"{ovrSample} - {row}");
+
+            for (int buc = 0; buc < annotations.Count; buc++) 
+            {
+                if (row < annotations[buc].Annotations.Length)
+                {
+                    var annotation = annotations[buc].Annotations[row];
+                    var segment = annotation.Segments.FirstOrDefault(s => (s.FirstSample <= ovrSample && (s.LastSample > ovrSample || s.LastSample == s.FirstSample)));
+
+                    if (segment != null)
+                    {
+                        var text = segment.Value[0];
+                        if (ToolTip.GetTip(this)?.ToString() != text)
+                        {
+                            
+                            ToolTip.SetTip(this, text);
+                            ToolTip.SetIsOpen(this, false);
+                            ToolTip.SetPlacement(this, PlacementMode.Pointer);
+                            ToolTip.SetShowDelay(this, 0);
+                            ToolTip.SetIsOpen(this, true);
+                            Debug.WriteLine($"Open: {text}");
+
+                        }
+
+                        return;
+                    }
+                    else
+                    {
+                        ToolTip.SetIsOpen(this, false);
+                        Debug.WriteLine($"Close");
+                    }
+
+                }
+                else
+                    row -= annotations[buc].Annotations.Length;
+            }
+
+        }
+
         public void BeginUpdate()
         {
             isUpdating = true;
