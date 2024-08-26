@@ -6,6 +6,20 @@ You can find all the compiled projects in the [Releases section](https://github.
 Latest version: Release 5.1.0.0, 05/05/2024
 ----
 
+# Pico 2: a game changer?
+
+I've started checking the Pico 2 and porting the code to it. I must say that it has been one of the easiest transitions that I ever did, just reconfigure the cmake scripts, change a couple of lines, and voi-la! the project runs in the pico 2.
+
+This is the base code, no changes at all, but from here I have multiple improvements to do, starting with the DMA (no mode ping-pong DMAs for the Pico 2, a single DMA can do all the work simplifying the code A LOT) and then upgrading the buffers to three times what are now, I expect to have up to 380k samples :)
+
+Said that, I started checking the limits of the pico 2 and... well, I'm really surprised, with the original pico I only got stable up to 200Mhz, beyond that I had problems with the flash and it got hung, but, oh my gosh, this thing (the pico 2) right now is running at 400Mhz without a single hicup!!
+
+Of course I had to raise the voltage to 1.4v for the core and it gets warmer, but I added a little heatsink to it and it's perfectly fine. Soooo.... I need to test this in deep but this may be a very, very big change, not only three times the samples than the pico, but also twice the speed!
+
+Stay tuned for more news!
+
+----
+
 # Help wanted!
 
 I'm cooking something very special, if you whant to know what it is and help with it, [check this post](https://github.com/gusmanb/logicanalyzer/discussions/127).
