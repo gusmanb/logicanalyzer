@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -20,6 +20,11 @@ namespace LogicAnalyzer.Controls
         public int FirstSample { get; private set; }
 
         public int VisibleSamples { get; private set; }
+
+        public event EventHandler<PinnedEventArgs>? PinnedChanged;
+
+        bool pinned = false;
+        public bool Pinned { get { return pinned; } }
 
         public SamplePreviewer()
         {
@@ -117,6 +122,19 @@ namespace LogicAnalyzer.Controls
             this.FirstSample = FirstSample;
             this.VisibleSamples = VisibleSamples;
             InvalidateVisual();
+        }
+
+        private void TextBlock_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            pinned = !pinned;
+            lblPin.Text = pinned ? "" : "";
+
+            PinnedChanged?.Invoke(this, new PinnedEventArgs { Pinned = pinned });
+        }
+
+        public class PinnedEventArgs : EventArgs
+        {
+            public bool Pinned { get; set; }
         }
     }
 }

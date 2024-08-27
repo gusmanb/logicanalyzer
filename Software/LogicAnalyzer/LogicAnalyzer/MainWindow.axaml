@@ -55,7 +55,8 @@
     
     <ScrollBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Bottom" Name="scrSamplePos" AllowAutoHide="False"></ScrollBar>
     <controls:SamplePreviewer IsVisible="False" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="144" ZIndex="1000" Name="samplePreviewer" DockPanel.Dock="Bottom" Margin="0,-144,0,0"></controls:SamplePreviewer>
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="*,340" DockPanel.Dock="Bottom">
+        
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="*,340" DockPanel.Dock="Bottom" Name="grdContent">
       <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid RowDefinitions="Auto,*" ColumnDefinitions="150,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <controls:ChannelViewer Grid.Row="1" Name="channelViewer" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
@@ -74,10 +75,10 @@
               Samples in screen
             </TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,5,10,0" Name="lblMaxSamples" HorizontalAlignment="Right">
-              4000
+              10000
             </TextBlock>
             <Border Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,0" >
-              <Slider Margin="0,-10,0,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="4000" Value="200" Name="tkInScreen"></Slider>
+              <Slider Margin="0,-10,0,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="10000" Value="200" Name="tkInScreen"></Slider>
             </Border>
           </Grid>
           <StackPanel Margin="5,5,5,0" Background="#80383838">

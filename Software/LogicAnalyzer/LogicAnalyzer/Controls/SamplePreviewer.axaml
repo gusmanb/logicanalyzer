@@ -4,4 +4,5 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LogicAnalyzer.Controls.SamplePreviewer">
+  <TextBlock Name="lblPin" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" PointerPressed="TextBlock_PointerPressed"></TextBlock>
 </UserControl>

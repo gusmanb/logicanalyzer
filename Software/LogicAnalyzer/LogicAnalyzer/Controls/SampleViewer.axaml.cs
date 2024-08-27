@@ -1,13 +1,17 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
+using AvaloniaEdit.Document;
 using LogicAnalyzer.Classes;
+using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace LogicAnalyzer.Controls
@@ -18,8 +22,7 @@ namespace LogicAnalyzer.Controls
 
         public int PreSamples { get; set; }
         public int[]? Bursts { get; set; }
-        public CaptureChannel[]? Channels { get; set; }
-        //public int ChannelCount { get; set; }
+        private CaptureChannel[]? channels;
         public int VisibleSamples { get; private set; }
         public int FirstSample { get; private set; }
         public int? UserMarker { get; private set; }
@@ -27,6 +30,7 @@ namespace LogicAnalyzer.Controls
         bool updating = false;
 
         List<SampleRegion> regions = new List<SampleRegion>();
+        List<interval[]> intervals = new List<interval[]>();
 
         public SampleRegion[] Regions { get { return regions.ToArray(); } }
 
@@ -39,7 +43,123 @@ namespace LogicAnalyzer.Controls
         public SampleViewer()
         {
             InitializeComponent();
-            byte t = 0;
+            this.PointerMoved += SampleViewer_PointerMoved; ; 
+        }
+
+        private void SampleViewer_PointerMoved(object? sender, PointerEventArgs e)
+        {
+            if (intervals.Count == 0 || channels == null)
+                return;
+
+            double sampleWidth = Bounds.Width / (double)VisibleSamples;
+            var curSample = (int)(e.GetPosition(this).X / sampleWidth) + FirstSample;
+            var visibleChannels = channels.Where(c => !c.Hidden).ToArray();
+            var curChan = (int)(e.GetPosition(this).Y / (Bounds.Height / visibleChannels.Length));
+
+            if (curChan >= visibleChannels.Length)
+                return;
+
+            var chan = visibleChannels[curChan];
+            int idx = -1;
+            for (int buc = 0; buc < channels.Length; buc++)
+            {
+                if(channels[buc] == chan)
+                {
+                    idx = buc;
+                    break;
+                }
+            }
+
+            if (idx == -1)
+                return;
+
+            var interval = intervals[idx].FirstOrDefault(i => i.start <= curSample && i.end >curSample);
+
+            if (interval != null)
+            {
+                var text = $"State: {(interval.value ? "High" : "Low")}\nLength: {interval.duration.ToSmallTime()} ({interval.end - interval.start} samples)";
+                if (ToolTip.GetTip(this)?.ToString() != text || !ToolTip.GetIsOpen(this))
+                {
+
+                    ToolTip.SetTip(this, text);
+                    ToolTip.SetIsOpen(this, false);
+                    ToolTip.SetPlacement(this, PlacementMode.Pointer);
+                    ToolTip.SetShowDelay(this, 0);
+                    ToolTip.SetIsOpen(this, true);
+
+                }
+
+                return;
+            }
+            else
+            {
+                ToolTip.SetIsOpen(this, false);
+            }
+
+
+        }
+
+        public void SetChannels(CaptureChannel[]? Channels, int SampleFrequency)
+        {
+            channels = Channels;
+
+            ComputeIntervals(SampleFrequency);
+
+            this.InvalidateVisual();
+        }
+
+        private void ComputeIntervals(int sampleFrequency)
+        {
+            intervals.Clear();
+
+            if (channels == null)
+                return;
+
+            for (int buc = 0; buc < channels.Length; buc++)
+            {
+                List<interval> chanIntervals = new List<interval>();
+
+                CaptureChannel channel = channels[buc];
+
+                if (channel.Samples == null || channel.Samples.Length == 0)
+                    continue;
+
+                byte lastSample = channel.Samples[0];
+                int lastSampleIndex = 0;
+                double lastSampleTime = 0;
+
+                for (int curSample = 1; curSample < channel.Samples.Length; curSample++)
+                {
+                    byte sample = channel.Samples[curSample];
+
+                    if (sample != lastSample)
+                    {
+                        interval newInterval = new interval();
+                        newInterval.start = lastSampleIndex;
+                        newInterval.end = curSample;
+                        newInterval.duration = (curSample - lastSampleIndex) / (double)sampleFrequency;
+                        newInterval.value = lastSample != 0;
+
+                        chanIntervals.Add(newInterval);
+
+                        lastSample = sample;
+                        lastSampleIndex = curSample;
+                        lastSampleTime = curSample / (double)sampleFrequency;
+                    }
+                }
+
+                interval lastInterval = new interval();
+                lastInterval.start = lastSampleIndex;
+                lastInterval.end = channel.Samples.Length;
+                lastInterval.duration = (channel.Samples.Length - lastSampleIndex) / (double)sampleFrequency;
+                lastInterval.value = lastSample != 0;
+
+                chanIntervals.Add(lastInterval);
+
+                intervals.Add(chanIntervals.ToArray());
+
+            }
+
         }
 
         public void BeginUpdate()
@@ -99,10 +219,10 @@ namespace LogicAnalyzer.Controls
         public override void Render(DrawingContext context)
         {
 
-            if (Channels == null || Channels.Length == 0 || Channels[0].Samples == null || Channels[0].Samples.Length == 0)
+            if (channels == null || channels.Length == 0 || channels[0].Samples == null || channels[0].Samples.Length == 0)
                 return;
 
-            var visibleChannels = Channels.Where(c => !c.Hidden).ToArray();
+            var visibleChannels = channels.Where(c => !c.Hidden).ToArray();
 
             int ChannelCount = visibleChannels.Length;
 
@@ -256,6 +376,14 @@ namespace LogicAnalyzer.Controls
             public int firstSample;
             public int sampleCount;
             public byte value;
+        }
+
+        class interval
+        {
+            public bool value;
+            public int start;
+            public int end;
+            public double duration;
         }
         
     }

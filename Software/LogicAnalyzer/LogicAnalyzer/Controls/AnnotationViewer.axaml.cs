@@ -62,7 +62,7 @@ namespace LogicAnalyzer.Controls
 
             int row = (int)(pos.Position.Y / ANNOTATION_HEIGHT);
 
-            Debug.WriteLine($"{ovrSample} - {row}");
+            //Debug.WriteLine($"{ovrSample} - {row}");
 
             for (int buc = 0; buc < annotations.Count; buc++) 
             {

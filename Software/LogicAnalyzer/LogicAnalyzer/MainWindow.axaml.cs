@@ -16,6 +16,7 @@ using LogicAnalyzer.Interfaces;
 using Newtonsoft.Json;
 using SharedDriver;
 using SigrokDecoderBridge;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,6 +80,8 @@ namespace LogicAnalyzer
             sampleMarker.SamplesInserted += SampleMarker_SamplesInserted;
             sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
 
+            samplePreviewer.PinnedChanged += SamplePreviewer_PinnedChanged;
+
             channelViewer.ChannelClick += ChannelViewer_ChannelClick;
             channelViewer.ChannelVisibilityChanged += ChannelViewer_ChannelVisibilityChanged;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
@@ -107,7 +110,8 @@ namespace LogicAnalyzer
             {
                 Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    samplePreviewer.IsVisible = false;
+                    if(!samplePreviewer.Pinned)
+                        samplePreviewer.IsVisible = false;
                 });
             });
 
@@ -139,6 +143,22 @@ namespace LogicAnalyzer
             catch (Exception ex)
             {
                 this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+            }
+        }
+
+        private void SamplePreviewer_PinnedChanged(object? sender, SamplePreviewer.PinnedEventArgs e)
+        {
+            if (e.Pinned)
+            {
+                tmrHideSamples.Change(Timeout.Infinite, Timeout.Infinite);
+                samplePreviewer.IsVisible = true;
+                grdContent.Margin = new Thickness(0, 0, 0, samplePreviewer.Bounds.Height);
+            }
+            else
+            {
+                tmrHideSamples.Change(Timeout.Infinite, Timeout.Infinite);
+                samplePreviewer.IsVisible = false;
+                grdContent.Margin = new Thickness(0);
             }
         }
 
@@ -1266,7 +1286,7 @@ namespace LogicAnalyzer
         {
             sampleViewer.BeginUpdate();
             sampleViewer.PreSamples = settings.PreTriggerSamples;
-            sampleViewer.Channels = settings.CaptureChannels;
+            sampleViewer.SetChannels(settings.CaptureChannels, settings.Frequency);
             sampleViewer.EndUpdate();
 
             samplePreviewer.UpdateSamples(settings.CaptureChannels, settings.TotalSamples);
