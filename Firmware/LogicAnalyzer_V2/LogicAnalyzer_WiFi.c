@@ -39,8 +39,8 @@ void getPowerStatus()
     adc_init();
 
     uint32_t oldInt = save_and_disable_interrupts();
-    uint32_t old_pad = padsbank0_hw->io[29];
-    uint32_t old_ctrl = iobank0_hw->io[29].ctrl;
+    uint32_t old_pad = pads_bank0_hw->io[29];
+    uint32_t old_ctrl = io_bank0_hw->io[29].ctrl;
 
     adc_gpio_init(29);
     adc_select_input(3);
@@ -52,8 +52,8 @@ void getPowerStatus()
 
     gpio_init(29);
 
-    padsbank0_hw->io[29] = old_pad;
-    iobank0_hw->io[29].ctrl = old_ctrl;
+    pads_bank0_hw->io[29] = old_pad;
+    io_bank0_hw->io[29].ctrl = old_ctrl;
     restore_interrupts(oldInt);
 
     status->vbusConnected = cyw43_arch_gpio_get(2);

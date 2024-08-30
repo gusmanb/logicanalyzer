@@ -11,6 +11,9 @@
 #include "pico/multicore.h"
 #include "LogicAnalyzer.pio.h"
 #include "LogicAnalyzer_Structs.h"
+#include "LogicAnalyzer_Capture.h"
+#include "hardware/structs/syscfg.h"
+#include "hardware/structs/systick.h"
 #include "tusb.h"
 
 #ifdef WS2812_LED
@@ -252,11 +255,11 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         #ifdef SUPPORTS_COMPLEX_TRIGGER
 
                             if(req->triggerType == 1) //Start complex trigger capture
-                                started = startCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
+                                started = StartCaptureComplex(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
                             else if(req->triggerType == 2) //start fast trigger capture
-                                started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
+                                started = StartCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
                             else //Start simple trigger capture
-                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, req->measure, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                                started = StartCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, req->measure, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         #else
 
@@ -266,7 +269,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                                 break;
                             }
                             else
-                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, req->measure, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                                started = StartCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, req->measure, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         #endif
 
@@ -502,11 +505,15 @@ bool processCancel()
 /// @return Exit code
 int main()
 {
+    /*
     vreg_disable_voltage_limit();
     vreg_set_voltage(VREG_VOLTAGE_1_40); // VREG_VOLTAGE_1_25
     sleep_ms(1);
     //Overclock Powerrrr!
     set_sys_clock_khz(400000, true);
+    */
+
+   set_sys_clock_khz(200000, true);
 
     systick_hw->csr = 0x05;
 
@@ -546,7 +553,7 @@ int main()
                 uint8_t* buffer = GetBuffer(&length, &first, &mode);
 
                 uint8_t stampsLength;
-                uint32_t* timestamps = GetTimestamps(&stampsLength);
+                volatile uint32_t* timestamps = GetTimestamps(&stampsLength);
 
                 //Send the data to the host
                 uint8_t* lengthPointer = (uint8_t*)&length;
@@ -668,7 +675,7 @@ int main()
                 if(processCancel())
                 {
                     //Stop capture
-                    stopCapture();
+                    StopCapture();
                     capturing = false;
                     LED_ON();
                 }
