@@ -42,7 +42,7 @@ else()
 endif()
 
 if(NOT DEBUG_BUILD)
-    if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO"))
+    if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO") OR (BOARD_TYPE STREQUAL "BOARD_PICO_2"))
         message(STATUS "Forcing Release for RAM-only build")
         set(CMAKE_BUILD_TYPE Release)
     endif()
@@ -70,7 +70,7 @@ endif()
 
 # Enable ram-only build for the base pico and zero, increases timming precission
 if(NOT DEBUG_BUILD)
-    if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO"))
+    if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO") OR (BOARD_TYPE STREQUAL "BOARD_PICO_2"))
         message(STATUS "Setting RAM-only compilation")
         pico_set_binary_type(LogicAnalyzer copy_to_ram)
     endif()

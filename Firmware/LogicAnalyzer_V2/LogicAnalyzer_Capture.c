@@ -913,9 +913,16 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     for(uint8_t i = 0; i < 24; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
+    //TODO: INTENDED FIX FOR PICO 2 (NOT WORKING)
+    for(uint8_t i = 0; i < 24; i++)
+        gpio_set_pulls(pinMap[i], false, false);
+
     //Configure trigger pin
     pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
     pio_gpio_init(capturePIO, triggerPin);
+
+    //TODO: INTENDED FIX FOR PICO 2 (NOT WORKING)
+    gpio_set_pulls(triggerPin, false, false);
 
     //Configure state machines
     pio_sm_config smConfig = measureBursts?

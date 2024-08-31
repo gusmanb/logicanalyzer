@@ -36,10 +36,12 @@
         #define COMPLEX_TRIGGER_OUT_PIN 0
         #define COMPLEX_TRIGGER_IN_PIN 1
         #define GPIO_LED
-        //#define CYGW_LED
-        //#define WS2812_LED
         #define LED_IO 25
-        //#define USE_CYGW_WIFI
+
+        #define MAX_FREQ 100000000
+        #define CAPTURE_BUFFER_SIZE (128 * 1024)
+        #define MAX_CHANNELS 24
+        
     #elif defined (BUILD_PICO_2)
 
         #define BOARD_NAME "PICO_2"
@@ -48,10 +50,7 @@
         #define COMPLEX_TRIGGER_OUT_PIN 0
         #define COMPLEX_TRIGGER_IN_PIN 1
         #define GPIO_LED
-        //#define CYGW_LED
-        //#define WS2812_LED
         #define LED_IO 25
-        //#define USE_CYGW_WIFI
 
     #elif defined (BUILD_PICO_W)
 
@@ -60,11 +59,7 @@
         #define INPUT_PIN_BASE 2
         #define COMPLEX_TRIGGER_OUT_PIN 0
         #define COMPLEX_TRIGGER_IN_PIN 1
-        //#define GPIO_LED
         #define CYGW_LED
-        //#define WS2812_LED
-        //#define LED_IO 25
-        //#define USE_CYGW_WIFI
 
     #elif defined (BUILD_PICO_W_WIFI)
 
@@ -73,10 +68,7 @@
         #define INPUT_PIN_BASE 2
         #define COMPLEX_TRIGGER_OUT_PIN 0
         #define COMPLEX_TRIGGER_IN_PIN 1
-        //#define GPIO_LED
         #define CYGW_LED
-        //#define WS2812_LED
-        //#define LED_IO 25
         #define USE_CYGW_WIFI
 
     #elif defined (BUILD_ZERO)
@@ -86,11 +78,8 @@
         #define INPUT_PIN_BASE 0
         #define COMPLEX_TRIGGER_OUT_PIN 17
         #define COMPLEX_TRIGGER_IN_PIN 18
-        //#define GPIO_LED
-        //#define CYGW_LED
         #define WS2812_LED
         #define LED_IO 16
-        //#define USE_CYGW_WIFI
 
     #endif
 
