@@ -6,6 +6,14 @@ You can find all the compiled projects in the [Releases section](https://github.
 Latest version: Release 5.1.0.0, 05/05/2024
 ----
 
+# Pico 2: born dead.
+
+Ok, this are bad news. The Pico 2 has been released in a basically useless status. It has been detected a bug in the GPIO hardware that locks the pins whenever you input a high level, what is known as "Errata E9".
+According to the official errata the lock only happens when the pull downs are enabled, you input a high level value and then the GPIO starts outputing 2.1v. That doesn't sounds too bad but the reality is very different. I've been testing it and even forcing the pulldowns to be disabled, the PIO triggers the lock.
+In this state, the RP2350 is useless if you need to use the GPIO's to input any data. The only workaround provided is to disable the pins and enable them when you are going to read and disable them after it to reset the pin status, but as you can imagine with the PIO this is impossible, and even if it was possible the capture speed would be reduced so much that the analyzer would be totally useless.
+
+Unfortunatelly I must stop the port to the Pico 2 until this situation is solved.
+
 # Pico 2: a game changer?
 
 I've started checking the Pico 2 and porting the code to it. I must say that it has been one of the easiest transitions that I ever did, just reconfigure the cmake scripts, change a couple of lines, and voi-la! the project runs in the pico 2.
