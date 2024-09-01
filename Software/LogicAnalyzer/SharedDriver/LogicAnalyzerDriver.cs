@@ -10,32 +10,52 @@ using System.Text.RegularExpressions;
 
 namespace SharedDriver
 {
-    public class LogicAnalyzerDriver : IDisposable, IAnalizerDriver
+
+    public class LogicAnalyzerDriver : AnalyzerDriverBase
     {
-        const int MAJOR_VERSION = 5;
-        const int MINOR_VERSION = 2;
+        #region Constants and static vars
 
+        static Regex regAddressPort = new Regex("([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)\\:([0-9]+)");
+        static Regex regChan = new Regex("^CHANNELS:([0-9]+)$");
+        static Regex regBuf = new Regex("^BUFFER:([0-9]+)$");
+        static Regex regFreq = new Regex("^FREQ:([0-9]+)$");
+        #endregion
 
-        Regex regVersion = new Regex(".*?(V([0-9]+)_([0-9]+))$");
-        Regex regAddressPort = new Regex("([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)\\:([0-9]+)");
-        StreamReader readResponse;
-        BinaryReader readData;
-        Stream baseStream;
-        SerialPort sp;
-        TcpClient tcpClient;
-        string devAddr;
+        #region Properties
+        public override bool IsCapturing { get { return capturing; } }
+        public override bool IsNetwork { get { return isNetwork; } }
+        public override string? DeviceVersion { get { return version; } }
+        public override int ChannelCount { get { return channelCount; } }
+        public override int MaxFrequency { get { return maxFrequency; } }
+        public override int BufferSize { get { return bufferSize; } }
+        public override AnalyzerDriverType DriverType
+        {
+            get
+            {
+                return isNetwork ?
+                    AnalyzerDriverType.Network :
+                    AnalyzerDriverType.Serial;
+            }
+        }
+        #endregion
+
+        #region Events
+        public override event EventHandler<CaptureEventArgs>? CaptureCompleted;
+        #endregion
+
+        #region Variables
+        //General data
+        bool capturing = false;
+        bool isNetwork;
+        string? version;
+        int channelCount;
+        int maxFrequency;
+        int bufferSize;
+        string? devAddr;
         ushort devPort;
 
-        public bool IsCapturing { get { return capturing; } }
-        public bool IsNetwork { get { return isNetwork; } }
-
-        public object Tag { get; set; }
-        public string? DeviceVersion { get; private set; }
-        public int Channels { get { return 24; } }
-        public event EventHandler<CaptureEventArgs>? CaptureCompleted;
-
-        bool capturing = false;
-        private int channelCount;
+        //Current capture data
+        private int captureChannels;
         private int triggerChannel;
         private int preSamples;
         private int postSamples;
@@ -43,23 +63,20 @@ namespace SharedDriver
         private bool measure;
         private int frequency;
 
+        //Comms variables
+        StreamReader? readResponse;
+        BinaryReader? readData;
+        Stream? baseStream;
+        SerialPort? sp;
+        TcpClient? tcpClient;
+        
+        //Optional callback
         private Action<CaptureEventArgs>? currentCaptureHandler;
+        #endregion
 
-        bool isNetwork;
-
-        public AnalyzerDriverType DriverType 
-        { 
-            get 
-            { 
-                return isNetwork ? 
-                    AnalyzerDriverType.Network : 
-                    AnalyzerDriverType.Serial; 
-            } 
-        }
-
-        public LogicAnalyzerDriver (string ConnectionString)
+        public LogicAnalyzerDriver(string ConnectionString)
         {
-            if(ConnectionString == null) 
+            if (ConnectionString == null)
                 throw new ArgumentNullException(ConnectionString);
 
             if (ConnectionString.IndexOf(":") != -1)
@@ -67,6 +84,9 @@ namespace SharedDriver
             else
                 InitSerialPort(ConnectionString, 115200);
         }
+
+        #region Initialization code
+
         private void InitSerialPort(string SerialPort, int Bauds)
         {
             sp = new SerialPort(SerialPort, Bauds);
@@ -88,17 +108,38 @@ namespace SharedDriver
             baseStream.Write(pack.Serialize());
 
             baseStream.ReadTimeout = 10000;
-            DeviceVersion = readResponse.ReadLine();
+            version = readResponse.ReadLine();
 
-            if (!ValidateVersion())
+            var devVersion = VersionValidator.GetVersion(version);
+
+            if (!devVersion.IsValid)
             {
                 Dispose();
-                throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
+                throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{VersionValidator.MAJOR_VERSION}_{VersionValidator.MINOR_VERSION}");
+            }
+
+            var freq = readResponse.ReadLine();
+            if (!GetFrequency(freq))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid device frequency response.");
+            }
+
+            var bufString = readResponse.ReadLine();
+            if (!GetBufferSize(bufString))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid device buffer size response.");
+            }
+
+            var chanString = readResponse.ReadLine();
+            if (!GetChannelCount(chanString))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid device channel count response.");
             }
 
             baseStream.ReadTimeout = Timeout.Infinite;
-
-
         }
         private void InitNetwork(string AddressPort)
         {
@@ -110,7 +151,7 @@ namespace SharedDriver
             devAddr = match.Groups[1].Value;
             string port = match.Groups[2].Value;
 
-            if(!ushort.TryParse(port, out devPort))
+            if (!ushort.TryParse(port, out devPort))
                 throw new ArgumentException("Specified address/port is invalid");
 
             tcpClient = new TcpClient();
@@ -127,117 +168,122 @@ namespace SharedDriver
             baseStream.Write(pack.Serialize());
 
             baseStream.ReadTimeout = 10000;
-            DeviceVersion = readResponse.ReadLine();
-            
-            if (!ValidateVersion())
+            version = readResponse.ReadLine();
+
+            var devVersion = VersionValidator.GetVersion(version);
+
+            if (!devVersion.IsValid)
             {
                 Dispose();
-                throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{MAJOR_VERSION}_{MINOR_VERSION}");
+                throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{VersionValidator.MAJOR_VERSION}_{VersionValidator.MINOR_VERSION}");
             }
-            
+
+            var freq = readResponse.ReadLine();
+            if (!GetFrequency(freq))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid device frequency response.");
+            }
+
+            var bufString = readResponse.ReadLine();
+            if (!GetBufferSize(bufString))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid device buffer size response.");
+            }
+
+            var chanString = readResponse.ReadLine();
+            if (!GetChannelCount(chanString))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid device channel count response.");
+            }
+
             baseStream.ReadTimeout = Timeout.Infinite;
-            
+
             isNetwork = true;
         }
-
-        private bool ValidateVersion()
+        private bool GetChannelCount(string? chanString)
         {
-            var verMatch = regVersion.Match(DeviceVersion ?? "");
 
-            if (verMatch == null || !verMatch.Success || !verMatch.Groups[2].Success)
+            var match = regChan.Match(chanString ?? "");
+            if (!match.Success || !match.Groups[1].Success)
                 return false;
 
-            int majorVer = int.Parse(verMatch.Groups[2].Value);
-            int minorVer = int.Parse(verMatch.Groups[3].Value);
-
-            if (majorVer < MAJOR_VERSION)
+            var chanStr = match.Groups[1].Value;
+            if (!int.TryParse(chanStr, out int chanVal))
                 return false;
 
-            if (majorVer == MAJOR_VERSION && minorVer < MINOR_VERSION)
-                return false;
-
+            channelCount = chanVal;
             return true;
-            
         }
-
-        public unsafe bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port)
+        private bool GetBufferSize(string? bufString)
         {
-            if(isNetwork) 
+
+            var match = regBuf.Match(bufString ?? "");
+            if (!match.Success || !match.Groups[1].Success)
                 return false;
 
-            NetConfig request = new NetConfig { Port = Port };
-            byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
-            byte[] pass = Encoding.ASCII.GetBytes(Password);
-            byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
-            
-            Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
-            Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
-            Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
+            var bufStr = match.Groups[1].Value;
+            if (!int.TryParse(bufStr, out int bufVal))
+                return false;
 
-            OutputPacket pack = new OutputPacket();
-            pack.AddByte(2);
-            pack.AddStruct(request);
-
-            baseStream.Write(pack.Serialize());
-            baseStream.Flush();
-
-            baseStream.ReadTimeout = 5000;
-            var result = readResponse.ReadLine();
-            baseStream.ReadTimeout = Timeout.Infinite;
-
-            if (result == "SETTINGS_SAVED")
-                return true;
-
-            return false;
+            bufferSize = bufVal;
+            return true;
         }
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool MeasureBursts, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        private bool GetFrequency(string? freq)
         {
 
-            if (capturing)
-                return CaptureError.Busy;
+            var match = regFreq.Match(freq ?? "");
+            if (!match.Success || !match.Groups[1].Success)
+                return false;
 
-            if (Channels == null || 
-                Channels.Length == 0 || 
-                Channels.Min() < 0 ||
-                Channels.Max() > 23 ||
-                TriggerChannel < 0 ||
-                TriggerChannel > 24 ||
-                PreSamples < 2 || 
-                PostSamples < 512 || 
-                Frequency < 3100 || 
-                Frequency > 100000000 ||
-                LoopCount > 254
-                )
-                return CaptureError.BadParams;
+            var freqStr = match.Groups[1].Value;
+            if (!int.TryParse(freqStr, out int freqVal))
+                return false;
 
-            var captureMode = GetCaptureMode(Channels);
+            maxFrequency = freqVal;
+            return true;
+        }
 
-            int requestedSamples = PreSamples + (PostSamples * ((byte)LoopCount + 1));
+        #endregion
+
+        #region Capture code
+
+        public override CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool MeasureBursts, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        {
 
             try
             {
-                switch (captureMode)
-                {
-                    case 0:
+                if (capturing || baseStream == null || readResponse == null)
+                    return CaptureError.Busy;
 
-                        if (PreSamples > 98303 || PostSamples > 131069 || requestedSamples > 131071)
-                            return CaptureError.BadParams;
-                        break;
+                if (Channels == null || Channels.Length < 0)
+                    return CaptureError.BadParams;
 
-                    case 1:
+                int requestedSamples = PreSamples + (PostSamples * ((byte)LoopCount + 1));
 
-                        if (PreSamples > 49151 || PostSamples > 65533 || requestedSamples > 65535)
-                            return CaptureError.BadParams;
-                        break;
+                var captureLimits = GetLimits(Channels);
+                var captureMode = GetCaptureMode(Channels);
 
-                    case 2:
+                if (
+                Channels.Min() < captureLimits.MinChannel ||
+                Channels.Max() > captureLimits.MaxChannel ||
+                TriggerChannel < 0 ||
+                TriggerChannel > captureLimits.MaxChannel + 1 || //MaxChannel + 1 = ext trigger
+                PreSamples < captureLimits.MinPreSamples ||
+                PostSamples < captureLimits.MinPostSamples ||
+                PreSamples > captureLimits.MaxPreSamples ||
+                PostSamples > captureLimits.MaxPreSamples ||
+                requestedSamples > captureLimits.MaxTotalSamples ||
+                Frequency < captureLimits.MinFrequency ||
+                Frequency > captureLimits.MaxFrequency ||
+                    LoopCount > 254
+                )
+                    return CaptureError.BadParams;
 
-                        if (PreSamples > 24576 || PostSamples > 32765 || requestedSamples > 32767)
-                            return CaptureError.BadParams;
-                        break;
-                }
 
-                channelCount = Channels.Length;
+                captureChannels = Channels.Length;
                 triggerChannel = TriggerChannel;
                 preSamples = PreSamples;
                 postSamples = PostSamples;
@@ -259,7 +305,7 @@ namespace SharedDriver
                     postSamples = (uint)PostSamples,
                     loopCount = (byte)LoopCount,
                     measure = MeasureBursts ? (byte)1 : (byte)0,
-                    captureMode = captureMode
+                    captureMode = (byte)captureMode
                 };
 
                 for (int buc = 0; buc < Channels.Length; buc++)
@@ -286,41 +332,43 @@ namespace SharedDriver
             }
             catch { return CaptureError.UnexpectedError; }
         }
-        public CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public override CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             try
             {
-                if (capturing)
+                if (capturing || baseStream == null || readResponse == null)
                     return CaptureError.Busy;
 
-                if (Channels == null ||
-                Channels.Length == 0 ||
-                Channels.Min() < 0 ||
-                Channels.Max() > 23 ||
+                if (Channels == null || Channels.Length < 0)
+                    return CaptureError.BadParams;
+
+                var captureLimits = GetLimits(Channels);
+                var captureMode = GetCaptureMode(Channels);
+
+                if (
+                Channels.Min() < captureLimits.MinChannel ||
+                Channels.Max() > captureLimits.MaxChannel ||
                 TriggerBitCount < 1 ||
                 TriggerBitCount > 16 ||
                 TriggerChannel < 0 ||
                 TriggerChannel > 15 ||
-                PreSamples < 2 ||
-                PostSamples < 512 ||
-                Frequency < 3100 ||
-                Frequency > 100000000
+                PreSamples < captureLimits.MinPreSamples ||
+                PostSamples < captureLimits.MinPostSamples ||
+                PreSamples > captureLimits.MaxPreSamples ||
+                PostSamples > captureLimits.MaxPreSamples ||
+                PreSamples + PostSamples > captureLimits.MaxTotalSamples ||
+                Frequency < captureLimits.MinFrequency ||
+                Frequency > captureLimits.MaxFrequency
                 )
                     return CaptureError.BadParams;
 
-                var captureMode = GetCaptureMode(Channels);
-                var captureLimits = GetLimits(Channels);
 
-                if (PreSamples > captureLimits.MaxPreSamples ||
-                    PostSamples > captureLimits.MaxPostSamples ||
-                    PreSamples + PostSamples > captureLimits.MinPreSamples + captureLimits.MaxPostSamples)
-                    return CaptureError.BadParams;
 
                 double samplePeriod = 1000000000.0 / Frequency;
                 double delay = Fast ? TriggerDelays.FastTriggerDelay : TriggerDelays.ComplexTriggerDelay;
                 int offset = (int)(Math.Round((delay / samplePeriod) + 0.3, 0));
 
-                channelCount = Channels.Length;
+                captureChannels = Channels.Length;
                 triggerChannel = TriggerChannel;
                 preSamples = PreSamples;
                 currentCaptureHandler = CaptureCompletedHandler;
@@ -338,7 +386,7 @@ namespace SharedDriver
                     frequency = (uint)Frequency,
                     preSamples = (uint)(PreSamples + offset),
                     postSamples = (uint)(PostSamples - offset),
-                    captureMode = captureMode
+                    captureMode = (byte)captureMode
                 };
 
                 for (int buc = 0; buc < Channels.Length; buc++)
@@ -366,15 +414,13 @@ namespace SharedDriver
             catch { return CaptureError.UnexpectedError; }
         }
 
-        private byte GetCaptureMode(int[] Channels)
-        {
-            var maxChannel = Channels.DefaultIfEmpty(0).Max();
-            return(byte)(maxChannel < 8 ? 0 : (maxChannel < 16 ? 1 : 2));
-        }
-        private void ReadCapture(int Samples, byte Mode)
+        private void ReadCapture(int Samples, CaptureMode Mode)
         {
             try
             {
+                if (readData == null)
+                    throw new Exception("No data reader available");
+
                 uint length = readData.ReadUInt32();
                 UInt128[] samples = new UInt128[length];
                 UInt64[] timestamps = new UInt64[loopCount == 0 || !measure ? 0 : loopCount + 2];
@@ -385,7 +431,7 @@ namespace SharedDriver
                     rdData = readData;
                 else
                 {
-                    int bufLen = Samples * (Mode == 0 ? 1 : (Mode == 1 ? 2 : 4));
+                    int bufLen = Samples * (Mode == CaptureMode.Channels_8 ? 1 : (Mode == CaptureMode.Channels_16 ? 2 : 4));
 
                     if (loopCount == 0 || !measure)
                         bufLen += 1;
@@ -408,15 +454,15 @@ namespace SharedDriver
 
                 switch (Mode)
                 {
-                    case 0:
+                    case CaptureMode.Channels_8:
                         for (int buc = 0; buc < length; buc++)
                             samples[buc] = rdData.ReadByte();
                         break;
-                    case 1:
+                    case CaptureMode.Channels_16:
                         for (int buc = 0; buc < length; buc++)
                             samples[buc] = rdData.ReadUInt16();
                         break;
-                    case 2:
+                    case CaptureMode.Channels_24:
                         for (int buc = 0; buc < length; buc++)
                             samples[buc] = rdData.ReadUInt32();
                         break;
@@ -444,7 +490,7 @@ namespace SharedDriver
                         tt = (tt & 0xFF000000) | (0x00FFFFFF - (tt & 0x00FFFFFF));
                         timestamps[buc] = tt;
                     }
-                    
+
                     //Next we calculate the ns per sample and the ns per burst
                     double nsPerSample = 1000000000.0 / frequency;
                     double ticksPerSample = nsPerSample / 5;
@@ -459,14 +505,14 @@ namespace SharedDriver
 
                         //In case of rollback, we need to adjust the timestamps
                         ulong top = timestamps[buc] < timestamps[buc - 1] ? timestamps[buc] + 0xFFFFFFFF : timestamps[buc];
-                        
+
                         //If the difference between the timestamps is less than the ticks per burst, we adjust the timestamps
                         if (top - timestamps[buc - 1] <= ticksPerBurst)
                         {
                             Debug.WriteLine($"Adjusting timestamp {buc}");
                             uint diff = (uint)(ticksPerBurst - (top - timestamps[buc - 1]) + (ticksPerSample * 2));
 
-                            for(int buc2 = buc; buc2 < timestamps.Length; buc2++)
+                            for (int buc2 = buc; buc2 < timestamps.Length; buc2++)
                                 timestamps[buc2] += (uint)diff;
                         }
                     }
@@ -515,9 +561,9 @@ namespace SharedDriver
                 }
 
                 if (currentCaptureHandler != null)
-                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, Bursts = bursts.ToArray() });
+                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, Bursts = bursts.ToArray() });
                 else if (CaptureCompleted != null)
-                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, Bursts = bursts.ToArray() });
+                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, Bursts = bursts.ToArray() });
 
                 if (!isNetwork)
                 {
@@ -540,12 +586,13 @@ namespace SharedDriver
             catch (Exception ex)
             {
                 if (currentCaptureHandler != null)
-                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples });
                 else if (CaptureCompleted != null)
-                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples });
             }
         }
-        public bool StopCapture()
+
+        public override bool StopCapture()
         {
             if (!capturing)
                 return false;
@@ -556,10 +603,10 @@ namespace SharedDriver
             {
                 if (isNetwork)
                 {
-                    baseStream.WriteByte(0xff);
-                    baseStream.Flush();
+                    baseStream?.WriteByte(0xff);
+                    baseStream?.Flush();
                     Thread.Sleep(2000);
-                    tcpClient.Close();
+                    tcpClient?.Close();
                     Thread.Sleep(1);
                     tcpClient = new TcpClient();
                     tcpClient.Connect(devAddr, devPort);
@@ -570,13 +617,13 @@ namespace SharedDriver
                 else
                 {
 
-                    sp.Write(new byte[] { 0xFF }, 0, 1);
-                    sp.BaseStream.Flush();
+                    sp?.Write(new byte[] { 0xFF }, 0, 1);
+                    sp?.BaseStream.Flush();
                     Thread.Sleep(2000);
-                    sp.Close();
+                    sp?.Close();
                     Thread.Sleep(1);
-                    sp.Open();
-                    baseStream = sp.BaseStream;
+                    sp?.Open();
+                    baseStream = sp?.BaseStream;
                     readResponse = new StreamReader(baseStream);
                     readData = new BinaryReader(baseStream);
                 }
@@ -586,16 +633,46 @@ namespace SharedDriver
             return true;
         }
 
-        public CaptureLimits GetLimits(int[] Channels)
-        {
-            var mode = GetCaptureMode(Channels);
-            return CaptureModes.Modes[mode];
-        }
+        #endregion
 
-        public string? GetVoltageStatus() 
+        #region Network-related functions
+        public override unsafe bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port)
+        {
+            if (isNetwork || baseStream == null || readResponse == null)
+                return false;
+
+            NetConfig request = new NetConfig { Port = Port };
+            byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
+            byte[] pass = Encoding.ASCII.GetBytes(Password);
+            byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
+
+            Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
+            Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
+            Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(2);
+            pack.AddStruct(request);
+
+            baseStream.Write(pack.Serialize());
+            baseStream.Flush();
+
+            baseStream.ReadTimeout = 5000;
+            var result = readResponse.ReadLine();
+            baseStream.ReadTimeout = Timeout.Infinite;
+
+            if (result == "SETTINGS_SAVED")
+                return true;
+
+            return false;
+        }
+        public override string? GetVoltageStatus()
         {
             if (!isNetwork)
                 return "UNSUPPORTED";
+
+            if(baseStream == null || readResponse == null)
+                return "DISCONNECTED";
 
             OutputPacket pack = new OutputPacket();
             pack.AddByte(3);
@@ -609,8 +686,10 @@ namespace SharedDriver
 
             return result;
         }
+        #endregion
 
-        public void Dispose()
+        #region IDisposable implementation
+        public override void Dispose()
         {
             try
             {
@@ -624,7 +703,8 @@ namespace SharedDriver
                 tcpClient.Close();
                 tcpClient.Dispose();
 
-            } catch { }
+            }
+            catch { }
 
             try
             {
@@ -654,93 +734,6 @@ namespace SharedDriver
 
             CaptureCompleted = null;
         }
-      
-        class OutputPacket
-        {
-            List<byte> dataBuffer = new List<byte>();
-
-            public void AddByte(byte newByte)
-            {
-                dataBuffer.Add(newByte);
-            }
-
-            public void AddBytes(IEnumerable<byte> newBytes)
-            {
-                dataBuffer.AddRange(newBytes);
-            }
-
-            public void AddString(string newString)
-            {
-                dataBuffer.AddRange(Encoding.ASCII.GetBytes(newString));
-            }
-
-            public void AddStruct(object newStruct)
-            {
-                int rawSize = Marshal.SizeOf(newStruct);
-                IntPtr buffer = Marshal.AllocHGlobal(rawSize);
-                Marshal.StructureToPtr(newStruct, buffer, false);
-                byte[] rawDatas = new byte[rawSize];
-                Marshal.Copy(buffer, rawDatas, 0, rawSize);
-                Marshal.FreeHGlobal(buffer);
-                dataBuffer.AddRange(rawDatas);
-            }
-
-            public void Clear()
-            {
-                dataBuffer.Clear();
-            }
-
-            public byte[] Serialize()
-            {
-                List<byte> finalData = new List<byte>();
-                finalData.Add(0x55);
-                finalData.Add(0xAA);
-
-                for (int buc = 0; buc < dataBuffer.Count; buc++)
-                {
-                    if (dataBuffer[buc] == 0xAA || dataBuffer[buc] == 0x55 || dataBuffer[buc] == 0xF0)
-                    {
-                        finalData.Add(0xF0);
-                        finalData.Add((byte)(dataBuffer[buc] ^ 0xF0));
-                    }
-                    else
-                        finalData.Add(dataBuffer[buc]);
-                }
-
-
-                finalData.Add(0xAA);
-                finalData.Add(0x55);
-
-                return finalData.ToArray();
-
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct CaptureRequest
-        {
-            public byte triggerType;
-            public byte trigger;
-            public byte invertedOrCount;
-            public UInt16 triggerValue;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 24)]
-            public byte[] channels;
-            public byte channelCount;
-            public UInt32 frequency;
-            public UInt32 preSamples;
-            public UInt32 postSamples;
-            public byte loopCount;
-            public byte measure;
-            public byte captureMode;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        unsafe struct NetConfig
-        {
-            public fixed byte AccessPointName[33];
-            public fixed byte Password[64];
-            public fixed byte IPAddress[16];
-            public UInt16 Port;
-        }     
+        #endregion
     }
 }

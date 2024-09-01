@@ -48,7 +48,7 @@ namespace LogicAnalyzer.Dialogs
         {
             driver = Driver;
             SetDriverMode(driver.DriverType);
-            InitializeControlArrays(driver.Channels);
+            InitializeControlArrays(driver.ChannelCount);
             LoadSettings(driver.DriverType);
         }
 

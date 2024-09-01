@@ -36,5 +36,8 @@
     "raspberry-pi-pico.useCmakeTools": false,
     "raspberry-pi-pico.cmakePath": "${HOME}/.pico-sdk/cmake/v3.28.6/bin/cmake",
     "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
-    "raspberry-pi-pico.python3Path": "${HOME}/.pico-sdk/python/3.12.1/python.exe"
+    "raspberry-pi-pico.python3Path": "${HOME}/.pico-sdk/python/3.12.1/python.exe",
+    "files.associations": {
+        "pads_bank0.h": "c"
+    }
 }

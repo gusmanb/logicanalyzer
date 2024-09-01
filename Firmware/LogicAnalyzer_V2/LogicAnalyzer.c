@@ -243,7 +243,18 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         if(bufferPos != 5) //Malformed message?
                             sendResponse("ERR_UNKNOWN_MSG\n", fromWiFi);
                         else
+                        {
                             sendResponse("LOGIC_ANALYZER_"BOARD_NAME"_"FIRMWARE_VERSION"\n", fromWiFi);
+
+                            char msg[64];
+                            
+                            sprintf(msg, "FREQ:%d\n", MAX_FREQ);
+                            sendResponse(msg, fromWiFi);
+                            sprintf(msg, "BUFFER:%d\n", CAPTURE_BUFFER_SIZE);
+                            sendResponse(msg, fromWiFi);
+                            sprintf(msg, "CHANNELS:%d\n", MAX_CHANNELS);
+                            sendResponse(msg, fromWiFi);
+                        }
                         break;
 
                     case 1: //Capture request
@@ -505,16 +516,24 @@ bool processCancel()
 /// @return Exit code
 int main()
 {
-    /*
-    vreg_disable_voltage_limit();
-    vreg_set_voltage(VREG_VOLTAGE_1_40); // VREG_VOLTAGE_1_25
-    sleep_ms(1);
-    //Overclock Powerrrr!
-    set_sys_clock_khz(400000, true);
-    */
 
-   set_sys_clock_khz(200000, true);
+    
+    #if defined (TURBO_MODE)
 
+        vreg_disable_voltage_limit();
+        vreg_set_voltage(VREG_VOLTAGE_1_30);
+        sleep_ms(1);
+        
+        //Overclock Powerrrr!
+        set_sys_clock_khz(400000, true);
+    
+    #else
+
+        set_sys_clock_khz(200000, true);
+
+    #endif
+
+    //Enable systick using CPU clock
     systick_hw->csr = 0x05;
 
     //Initialize USB stdio
