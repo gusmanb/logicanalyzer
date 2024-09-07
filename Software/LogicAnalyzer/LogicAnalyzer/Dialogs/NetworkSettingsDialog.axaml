@@ -21,7 +21,7 @@
       <NumericUpDown Name="nudPort" Grid.Column="1" Grid.Row="3" Height="32" Minimum="1" Maximum="65535" Value="4045"></NumericUpDown>
       <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right">
         <Button Name="btnAccept">Accept</Button>
-        <Button Name="btnCancel">Cancel</Button>
+        <Button Name="btnCancel" Margin="10,0,0,0">Cancel</Button>
       </StackPanel>
     </Grid>
   </Panel>

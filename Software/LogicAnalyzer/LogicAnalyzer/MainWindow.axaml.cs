@@ -66,8 +66,6 @@ namespace LogicAnalyzer
             btnCapture.Click += btnCapture_Click;
             btnAbort.Click += btnAbort_Click;
 
-            tkInScreen.PointerWheelChanged += TkInScreen_PointerWheelChanged;
-
             sampleMarker.RegionCreated += sampleMarker_RegionCreated;
             sampleMarker.RegionDeleted += sampleMarker_RegionDeleted;
             sampleMarker.UserMarkerSelected += SampleMarker_UserMarkerSelected;
@@ -81,6 +79,11 @@ namespace LogicAnalyzer
             sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
 
             samplePreviewer.PinnedChanged += SamplePreviewer_PinnedChanged;
+
+            sampleViewer.PointerWheelChanged += SampleViewer_PointerWheelChanged;
+            tkInScreen.PointerWheelChanged += TkInScreen_PointerWheelChanged;
+            scrSamplePos.PointerWheelChanged += ScrSamplePos_PointerWheelChanged;
+            samplePreviewer.PointerWheelChanged += ScrSamplePos_PointerWheelChanged;
 
             channelViewer.ChannelClick += ChannelViewer_ChannelClick;
             channelViewer.ChannelVisibilityChanged += ChannelViewer_ChannelVisibilityChanged;
@@ -143,6 +146,60 @@ namespace LogicAnalyzer
             catch (Exception ex)
             {
                 this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+            }
+        }
+
+        private void ScrSamplePos_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
+        {
+            if(e.Delta.Y > 0)
+            {
+                var currentVal = scrSamplePos.Value;
+                int newVal = (int)(currentVal - scrSamplePos.Maximum / 20);
+
+                if (newVal < 0)
+                    newVal = 0;
+
+                updateSamplesInDisplay(newVal, (int)tkInScreen.Value);
+            }
+            else if (e.Delta.Y < 0)
+            {
+                var currentVal = scrSamplePos.Value;
+                int newVal = (int)(currentVal + scrSamplePos.Maximum / 20);
+
+                if (newVal > scrSamplePos.Maximum)
+                    newVal = (int)scrSamplePos.Maximum;
+
+                updateSamplesInDisplay(newVal, (int)tkInScreen.Value);
+            }
+        }
+
+        private void SampleViewer_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
+        {
+            if(e.KeyModifiers == KeyModifiers.Shift)
+            {
+                e.Handled = true;
+
+                if (e.Delta.Y > 0)
+                {
+                    var currentVal = tkInScreen.Value;
+                    int newVal = (int)currentVal * 2;
+
+                    if (newVal > tkInScreen.Maximum)
+                        newVal = (int)tkInScreen.Maximum;
+
+
+                    updateSamplesInDisplay((int)scrSamplePos.Value, newVal);
+                }
+                else if (e.Delta.Y < 0)
+                {
+                    var currentVal = tkInScreen.Value;
+                    int newVal = (int)currentVal / 2;
+
+                    if (newVal < tkInScreen.Minimum)
+                        newVal = (int)tkInScreen.Minimum;
+
+                    updateSamplesInDisplay((int)scrSamplePos.Value, newVal);
+                }
             }
         }
 

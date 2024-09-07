@@ -3,8 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:LogicAnalyzer.Controls;assembly=LogicAnalyzer"
-        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="710"
-        MaxWidth="900" MinWidth="900" Width="900" MaxHeight="710" MinHeight="710" Height="710"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="680"
+        MaxWidth="900" MinWidth="900" Width="900" MaxHeight="680" MinHeight="680" Height="680"
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
         Title="Capture settings"
@@ -37,33 +37,33 @@
         <StackPanel Name="pnlAllTriggers" IsVisible="True" Grid.Row="1" Margin="10,10,10,10" Background="#80505050">
           <RadioButton Margin="15,5,0,0" IsChecked="true" Name="rbTriggerTypeEdge">Edge trigger</RadioButton>
           <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030" Name="pnlEdge">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="12,5,0,0">
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;1</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;2</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;3</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;4</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;5</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;6</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;7</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;8</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">0&#10;9</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;0</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;1</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;2</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;3</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;4</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;5</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;6</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;7</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;8</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">1&#10;9</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">2&#10;0</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">2&#10;1</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">2&#10;2</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">2&#10;3</TextBlock>
-              <TextBlock Width="28" xml:space="preserve" Height="32" LineSpacing="-5">2&#10;4</TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="672" Margin="0,5,0,0" >
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20">01</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">02</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">03</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">04</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">05</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">06</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">07</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">08</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">09</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">10</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">11</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">12</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">13</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">14</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">15</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">16</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">17</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">18</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">19</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">20</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">21</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">22</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">23</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">24</TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
               <RadioButton Name="rbTrigger1" IsChecked="True"></RadioButton>
               <RadioButton Name="rbTrigger2"></RadioButton>
               <RadioButton Name="rbTrigger3"></RadioButton>
