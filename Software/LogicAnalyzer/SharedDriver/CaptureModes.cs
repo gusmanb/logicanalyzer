@@ -8,8 +8,8 @@ namespace SharedDriver
 {
     internal static class TriggerDelays
     {
-        public const double ComplexTriggerDelay = 50;
-        public const double FastTriggerDelay = 30;
+        public const double ComplexTriggerDelay = 5;
+        public const double FastTriggerDelay = 3;
     }
 
     public class CaptureLimits

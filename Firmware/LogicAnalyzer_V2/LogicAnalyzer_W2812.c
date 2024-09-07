@@ -5,12 +5,17 @@
     #include "pico/stdlib.h"
     #include "LogicAnalyzer_w2812.h"
 
-    inline void delay_cycles4(uint32_t loops)
+    #define LONG_START 52 * (MAX_FREQ / 100000000)
+    #define SHORT_START 26 * (MAX_FREQ / 100000000)
+    #define LONG_END 52 * (MAX_FREQ / 100000000)
+    #define SHORT_END 25 * (MAX_FREQ / 100000000)
+
+    void __attribute__ ((noinline)) delay_cycles4(uint32_t loops)
     {
         __asm__ __volatile__(
-            "mov r5, %[input_loops]\r\n"
+            "mov r0, %[input_loops]\r\n"
             "1:\r\n"
-            "sub r5, #1\r\n"
+            "sub r0, #1\r\n"
             "bne 1b\r\n"
             :
             : [input_loops] "r" (loops)
@@ -26,7 +31,6 @@
 
     void send_rgb(uint8_t r, uint8_t g, uint8_t b)
     {
-
         uint32_t rgb =  reverse_bits(g) | (reverse_bits(r) << 8) | (reverse_bits(b) << 16);
 
         for(int buc = 0; buc < 24; buc++)
@@ -34,16 +38,16 @@
             if(rgb & (1 << buc))
             {
                 gpio_put(LED_IO, true);
-                delay_cycles4(52);
+                delay_cycles4(LONG_START);
                 gpio_put(LED_IO, false);
-                delay_cycles4(25);
+                delay_cycles4(SHORT_END);
             }
             else
             {
                 gpio_put(LED_IO, true);
-                delay_cycles4(26);
+                delay_cycles4(SHORT_START);
                 gpio_put(LED_IO, false);
-                delay_cycles4(52);
+                delay_cycles4(LONG_END);
             }
         }
 

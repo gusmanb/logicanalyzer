@@ -69,12 +69,6 @@ pico_sdk_init()
 FILE(GLOB CSources *.c)
 ADD_EXECUTABLE(LogicAnalyzer ${CSources})
 
-
-if(NOT BOARD_TYPE)
-    message(WARNING "Board not set, using default pico")
-    set(BOARD_TYPE "BOARD_PICO")
-endif()
-
 # Enable ram-only build for the base pico and zero, increases timming precission
 if(NOT DEBUG_BUILD)
     if((BOARD_TYPE STREQUAL "BOARD_PICO") OR (BOARD_TYPE STREQUAL "BOARD_ZERO") OR (BOARD_TYPE STREQUAL "BOARD_PICO_2"))

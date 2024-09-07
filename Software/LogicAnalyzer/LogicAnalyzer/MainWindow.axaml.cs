@@ -870,7 +870,7 @@ namespace LogicAnalyzer
                 mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
 
                 scrSamplePos.Maximum = e.Samples.Length - 1;
-                updateSamplesInDisplay(Math.Min(100, e.Samples.Length / 10), Math.Max(e.PreSamples - 10, 0));
+                updateSamplesInDisplay(e.PreSamples - 2, Math.Max(e.PreSamples - 10, 0));
 
                 LoadInfo();
                 GetPowerStatus();

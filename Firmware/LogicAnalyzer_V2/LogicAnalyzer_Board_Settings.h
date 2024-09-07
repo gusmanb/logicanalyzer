@@ -106,7 +106,7 @@
         #else
             #define MAX_FREQ 100000000
         #endif
-        #define CAPTURE_BUFFER_SIZE (128 * 3 * 1024)
+        #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 24
 
     #endif

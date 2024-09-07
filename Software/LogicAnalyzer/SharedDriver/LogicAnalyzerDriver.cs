@@ -382,7 +382,8 @@ namespace SharedDriver
 
                 double samplePeriod = 1000000000.0 / Frequency;
                 double delay = Fast ? TriggerDelays.FastTriggerDelay : TriggerDelays.ComplexTriggerDelay;
-                int offset = (int)(Math.Round((delay / samplePeriod) + 0.3, 0));
+                double delayPeriod = (1.0 / MaxFrequency) * 1000000000.0 * delay;
+                int offset = (int)(Math.Round((delayPeriod / samplePeriod) + 0.3, 0));
 
                 captureChannels = Channels.Length;
                 triggerChannel = TriggerChannel;

@@ -248,7 +248,6 @@ void __not_in_flash_func(dma_handler)()
 
 void abort_DMAs()
 {
-    //Disable channels, to avoid bug in RP2350
     hw_clear_bits(&dma_hw->ch[dmaPingPong0].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
     hw_clear_bits(&dma_hw->ch[dmaPingPong1].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
 
@@ -435,13 +434,14 @@ void configureCaptureDMAs(CHANNEL_MODE channelMode)
     channel_config_set_transfer_data_size(&dmaPingPong1Config, transferSize); //Transfer size is based on capture mode
     channel_config_set_chain_to(&dmaPingPong1Config, dmaPingPong0); //Chain to the first dma channel
     channel_config_set_dreq(&dmaPingPong1Config, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
-    channel_config_set_enable(&dmaPingPong0Config, true); //Enable the channel
+    channel_config_set_enable(&dmaPingPong1Config, true); //Enable the channel
 
     dma_channel_set_irq0_enabled(dmaPingPong1, true); //Enable IRQ 0
 
     //Set interrupt handler and enable it
     irq_set_exclusive_handler(DMA_IRQ_0, dma_handler);
     irq_set_enabled(DMA_IRQ_0, true);
+    irq_set_priority(DMA_IRQ_0, 0);
 
     dma_channel_configure(dmaPingPong1, &dmaPingPong1Config, captureBuffer, &capturePIO->rxf[sm_Capture], transferCount, false); //Configure the channel but don't trigger it
     dma_channel_configure(dmaPingPong0, &dmaPingPong0Config, captureBuffer, &capturePIO->rxf[sm_Capture], transferCount, true); //Configure the and trigger it
@@ -452,6 +452,10 @@ void StopCapture()
 {
     if(!captureFinished)
     {
+        //Ensure the DMA channels are stopped, else they will overrun the buffer when the interrupts are disabled
+        hw_clear_bits(&dma_hw->ch[dmaPingPong0].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
+        hw_clear_bits(&dma_hw->ch[dmaPingPong1].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
+
         uint32_t int_status = save_and_disable_interrupts();
 
         #ifdef SUPPORTS_COMPLEX_TRIGGER
@@ -499,13 +503,13 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     switch(captureMode)
     {
         case MODE_8_CHANNEL:
-            maxSamples = 131072;
+            maxSamples = CAPTURE_BUFFER_SIZE;
             break;
         case MODE_16_CHANNEL:
-            maxSamples = 65536;
+            maxSamples = CAPTURE_BUFFER_SIZE / 2;
             break;
         case MODE_24_CHANNEL:
-            maxSamples = 32768;
+            maxSamples = CAPTURE_BUFFER_SIZE / 4;
             break;
     }
 
@@ -514,11 +518,11 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
         return false;
 
     //Frequency too high?
-    if(freq > 100000000)
+    if(freq > MAX_FREQ)
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > 24)
+    if(capturePinCount < 0 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Bad trigger?
