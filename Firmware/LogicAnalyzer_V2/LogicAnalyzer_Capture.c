@@ -668,13 +668,13 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     switch(captureMode)
     {
         case MODE_8_CHANNEL:
-            maxSamples = 131072;
+            maxSamples = CAPTURE_BUFFER_SIZE;
             break;
         case MODE_16_CHANNEL:
-            maxSamples = 65536;
+            maxSamples = CAPTURE_BUFFER_SIZE / 2;
             break;
         case MODE_24_CHANNEL:
-            maxSamples = 32768;
+            maxSamples = CAPTURE_BUFFER_SIZE / 4;
             break;
     }
 
@@ -683,11 +683,11 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
         return false;
 
     //Frequency too high?
-    if(freq > 100000000)
+    if(freq > MAX_FREQ)
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > 24)
+    if(capturePinCount < 0 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Bad trigger?
@@ -831,13 +831,13 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     switch(captureMode)
     {
         case MODE_8_CHANNEL:
-            maxSamples = 131072;
+            maxSamples = CAPTURE_BUFFER_SIZE;
             break;
         case MODE_16_CHANNEL:
-            maxSamples = 65536;
+            maxSamples = CAPTURE_BUFFER_SIZE / 2;
             break;
         case MODE_24_CHANNEL:
-            maxSamples = 32768;
+            maxSamples = CAPTURE_BUFFER_SIZE / 4;
             break;
     }
 
@@ -846,15 +846,15 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
         return false;
 
     //Frequency too high?
-    if(freq > 100000000)
+    if(freq > MAX_FREQ)
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > 24)
+    if(capturePinCount < 1 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Incorrect trigger pin?
-    if(triggerPin < 0 || triggerPin > 24)
+    if(triggerPin < 0 || triggerPin > MAX_CHANNELS)
         return false;
 
     //Clear capture buffer (to avoid sending bad data if the trigger happens before the presamples are filled)

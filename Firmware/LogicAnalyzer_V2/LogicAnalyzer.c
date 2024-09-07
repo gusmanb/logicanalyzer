@@ -516,8 +516,6 @@ bool processCancel()
 /// @return Exit code
 int main()
 {
-
-    
     #if defined (TURBO_MODE)
 
         vreg_disable_voltage_limit();

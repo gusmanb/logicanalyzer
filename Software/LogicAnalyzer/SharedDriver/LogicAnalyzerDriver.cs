@@ -266,6 +266,7 @@ namespace SharedDriver
                 var captureLimits = GetLimits(Channels);
                 var captureMode = GetCaptureMode(Channels);
 
+                /*
                 if (
                 Channels.Min() < captureLimits.MinChannel ||
                 Channels.Max() > captureLimits.MaxChannel ||
@@ -281,7 +282,22 @@ namespace SharedDriver
                     LoopCount > 254
                 )
                     return CaptureError.BadParams;
-
+                */
+                if (
+                Channels.Min() < 0 ||
+                Channels.Max() > ChannelCount - 1 ||
+                TriggerChannel < 0 ||
+                TriggerChannel > ChannelCount || //MaxChannel + 1 = ext trigger
+                PreSamples < captureLimits.MinPreSamples ||
+                PostSamples < captureLimits.MinPostSamples ||
+                PreSamples > captureLimits.MaxPreSamples ||
+                PostSamples > captureLimits.MaxPreSamples ||
+                requestedSamples > captureLimits.MaxTotalSamples ||
+                Frequency < MinFrequency ||
+                Frequency > MaxFrequency ||
+                    LoopCount > 254
+                )
+                    return CaptureError.BadParams;
 
                 captureChannels = Channels.Length;
                 triggerChannel = TriggerChannel;
@@ -346,8 +362,8 @@ namespace SharedDriver
                 var captureMode = GetCaptureMode(Channels);
 
                 if (
-                Channels.Min() < captureLimits.MinChannel ||
-                Channels.Max() > captureLimits.MaxChannel ||
+                Channels.Min() < 0 ||
+                Channels.Max() > ChannelCount - 1 ||
                 TriggerBitCount < 1 ||
                 TriggerBitCount > 16 ||
                 TriggerChannel < 0 ||
@@ -357,8 +373,8 @@ namespace SharedDriver
                 PreSamples > captureLimits.MaxPreSamples ||
                 PostSamples > captureLimits.MaxPreSamples ||
                 PreSamples + PostSamples > captureLimits.MaxTotalSamples ||
-                Frequency < captureLimits.MinFrequency ||
-                Frequency > captureLimits.MaxFrequency
+                Frequency < MinFrequency ||
+                Frequency > MaxFrequency
                 )
                     return CaptureError.BadParams;
 

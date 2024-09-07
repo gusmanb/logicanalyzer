@@ -24,8 +24,7 @@ include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
 
 # ====================================================================================
 if(NOT BOARD_TYPE)
-    message(WARNING "Board not set, using default pico")
-    set(BOARD_TYPE "BOARD_PICO")
+    message(FATAL_ERROR "Board not set, configure the build on LogicAnalyzer_Build_Settings.cmake")
 endif()
 
 if((BOARD_TYPE STREQUAL "BOARD_PICO_W") OR (BOARD_TYPE STREQUAL "BOARD_PICO_W_WIFI"))

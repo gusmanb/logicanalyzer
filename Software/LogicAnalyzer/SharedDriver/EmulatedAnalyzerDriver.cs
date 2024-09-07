@@ -85,11 +85,12 @@ namespace SharedDriver
                 MaxPreSamples = limits.Min(l => l.MaxPreSamples),
                 MinPostSamples = limits.Max(l => l.MinPostSamples),
                 MaxPostSamples = limits.Min(l => l.MaxPostSamples),
+                /*
                 MinFrequency = limits.Max(l => l.MinFrequency),
                 MaxFrequency = limits.Min(l => l.MaxFrequency),
                 MinChannel = 0,
                 MaxChannel = limits.First().MaxChannel,
-                MaxChannelCount = limits.First().MaxChannelCount
+                MaxChannelCount = limits.First().MaxChannelCount*/
             };
 
             return minimalLimits;

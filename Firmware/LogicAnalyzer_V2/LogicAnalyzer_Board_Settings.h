@@ -75,7 +75,7 @@
 
         #define MAX_FREQ 100000000
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
-        #define MAX_CHANNELS 16
+        #define MAX_CHANNELS 24
 
     #elif defined (BUILD_PICO_W_WIFI)
 
@@ -89,7 +89,7 @@
 
         #define MAX_FREQ 100000000
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
-        #define MAX_CHANNELS 16
+        #define MAX_CHANNELS 24
 
     #elif defined (BUILD_ZERO)
 

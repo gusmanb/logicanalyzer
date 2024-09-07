@@ -36,7 +36,7 @@ namespace LogicAnalyzer
 {
     public partial class MainWindow : PersistableWindowBase
     {
-        IAnalizerDriver? driver;
+        AnalyzerDriverBase? driver;
         CaptureSettings settings;
 
         SigrokProvider? decoderProvider;
@@ -458,7 +458,7 @@ namespace LogicAnalyzer
         private async void MnuNew_Click(object? sender, RoutedEventArgs e)
         {
             var dlg = new CaptureDialog();
-            var drv = new EmulatedAnalizerDriver(5);
+            var drv = new EmulatedAnalyzerDriver(5);
             dlg.Initialize(drv);
 
             if(await dlg.ShowDialog<bool>(this))
@@ -912,7 +912,7 @@ namespace LogicAnalyzer
                         if (!await dlg.ShowDialog<bool>(this))
                             return;
 
-                        driver = new MultiAnalizerDriver(dlg.ConnectionStrings);
+                        driver = new MultiAnalyzerDriver(dlg.ConnectionStrings);
                     }
                     else if (ddPorts.SelectedItem?.ToString() == "Network")
                     {
@@ -1188,7 +1188,7 @@ namespace LogicAnalyzer
                     mnuSave.IsEnabled = true;
                     mnuExport.IsEnabled = true;
 
-                    driver = new EmulatedAnalizerDriver(5);
+                    driver = new EmulatedAnalyzerDriver(5);
 
                     clearRegions();
 

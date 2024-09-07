@@ -12,6 +12,7 @@ namespace SharedDriver
         #region Public Properties
         public abstract string? DeviceVersion { get; }
         public abstract int MaxFrequency { get; }
+        public virtual int MinFrequency { get { return (MaxFrequency * 2) / 65535; } }
         public abstract int ChannelCount { get; }
         public abstract int BufferSize { get; }
         public abstract AnalyzerDriverType DriverType { get; }
@@ -45,15 +46,17 @@ namespace SharedDriver
                 MaxPreSamples = totalSamples / 10,
                 MinPostSamples = 2,
                 MaxPostSamples = totalSamples - 2,
+                /*
                 MinFrequency = MaxFrequency / 65535,
                 MaxFrequency = MaxFrequency,
                 MinChannel = 0,
                 MaxChannel = ChannelCount - 1,
-                MaxChannelCount = ChannelCount
+                MaxChannelCount = ChannelCount*/
             };
 
             return limits;
         }
+
         #endregion
 
         #region Network Methods

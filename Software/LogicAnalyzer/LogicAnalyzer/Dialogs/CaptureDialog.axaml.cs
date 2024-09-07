@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
@@ -21,7 +22,11 @@ namespace LogicAnalyzer.Dialogs
         ChannelSelector[] captureChannels;
         RadioButton[] triggerChannels;
         CaptureLimits limits;
-        IAnalizerDriver driver;
+        AnalyzerDriverBase driver;
+
+        Color lowJitter = new Color(255, 27, 128, 5);
+        Color mediumJitter = new Color(255, 163, 81, 10);
+        Color highJitter = new Color(255, 184, 0, 0);
         public CaptureSettings SelectedSettings { get; private set; }
 
         string settingsFile;
@@ -42,14 +47,56 @@ namespace LogicAnalyzer.Dialogs
             InitializeComponent();
             btnAccept.Click += btnAccept_Click;
             btnCancel.Click += btnCancel_Click;
+            nudFrequency.ValueChanged += NudFrequency_ValueChanged;
         }
 
-        public void Initialize(IAnalizerDriver Driver)
+        private void NudFrequency_ValueChanged(object? sender, NumericUpDownValueChangedEventArgs e)
+        {
+            ComputeJitter();
+        }
+
+        private void ComputeJitter()
+        {
+            double selFreq = (double)(nudFrequency.Value ?? 0);
+
+            if(selFreq == 0)
+                return;
+
+            double div = (int)(driver.MaxFrequency / (double)(nudFrequency.Value ?? 0));
+            double intFreq = driver.MaxFrequency / div;
+            double diff = intFreq - selFreq;
+            
+            double pct = (diff * 100.0) / selFreq;
+
+            string text = $"Jitter: {pct:F3}%";
+            lblJitter.Text = text;
+            
+            if(pct < 1)
+                brdJitter.Background = GraphicObjectsCache.GetBrush(lowJitter);
+            else if (pct < 10)
+                brdJitter.Background = GraphicObjectsCache.GetBrush(mediumJitter);
+            else
+                brdJitter.Background = GraphicObjectsCache.GetBrush(highJitter);
+
+        }
+
+        public void Initialize(AnalyzerDriverBase Driver)
         {
             driver = Driver;
             SetDriverMode(driver.DriverType);
             InitializeControlArrays(driver.ChannelCount);
             LoadSettings(driver.DriverType);
+            InitializeParameters();
+        }
+
+        private void InitializeParameters()
+        {
+            nudFrequency.Minimum = driver.MinFrequency;
+            nudFrequency.Maximum = driver.MaxFrequency;
+
+            nudFrequency.Value = Math.Min(Math.Max(nudFrequency.Minimum, nudFrequency.Value ?? 0), nudFrequency.Maximum);
+
+            CheckMode();
         }
 
         private void SetDriverMode(AnalyzerDriverType DriverType)
@@ -236,7 +283,7 @@ namespace LogicAnalyzer.Dialogs
             int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
             int loops = (int)((ckBurst.IsChecked ?? false) ? nudBurstCount.Value - 1 : 0);
-            bool measure = (ckBurst.IsChecked ?? false) ? (ckMeasure.IsChecked ?? false) : false;
+            bool measure = (ckBurst.IsChecked ?? false) && (ckMeasure.IsChecked ?? false);
 
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
             {

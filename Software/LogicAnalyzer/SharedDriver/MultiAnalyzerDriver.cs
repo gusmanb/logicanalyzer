@@ -21,6 +21,7 @@ namespace SharedDriver
         public override string? DeviceVersion { get { return version; } }
         public override int ChannelCount { get { return connectedDevices.Min(d => d.ChannelCount) * connectedDevices.Length; } }
         public override int MaxFrequency { get { return connectedDevices.Min(d => d.MaxFrequency); } }
+        public override int MinFrequency { get { return connectedDevices.Max(d => d.MinFrequency); } }
         public override int BufferSize { get { return connectedDevices.Min(d => d.BufferSize); } }
         public override AnalyzerDriverType DriverType
         {
@@ -139,8 +140,8 @@ namespace SharedDriver
                 var captureMode = GetCaptureMode(Channels);
 
                 if (
-                Channels.Min() < captureLimits.MinChannel ||
-                Channels.Max() > captureLimits.MaxChannel ||
+                Channels.Min() < 0 ||
+                Channels.Max() > ChannelCount - 1 ||
                 TriggerBitCount < 1 ||
                 TriggerBitCount > 16 ||
                 TriggerChannel < 0 ||
@@ -150,8 +151,8 @@ namespace SharedDriver
                 PreSamples > captureLimits.MaxPreSamples ||
                 PostSamples > captureLimits.MaxPreSamples ||
                 PreSamples + PostSamples > captureLimits.MaxTotalSamples ||
-                Frequency < captureLimits.MinFrequency ||
-                Frequency > captureLimits.MaxFrequency
+                Frequency < MinFrequency ||
+                Frequency > MaxFrequency
                 )
                     return CaptureError.BadParams;
 
@@ -310,11 +311,12 @@ namespace SharedDriver
                 MaxPreSamples = limits.Min(l => l.MaxPreSamples),
                 MinPostSamples = limits.Max(l => l.MinPostSamples),
                 MaxPostSamples = limits.Min(l => l.MaxPostSamples),
+                /*
                 MinFrequency = limits.Max(l => l.MinFrequency),
                 MaxFrequency = limits.Min(l => l.MaxFrequency),
                 MinChannel = 0,
                 MaxChannel = limits.Min(l => l.MaxChannelCount) * connectedDevices.Length - 1,
-                MaxChannelCount = limits.Min(l => l.MaxChannelCount) * connectedDevices.Length
+                MaxChannelCount = limits.Min(l => l.MaxChannelCount) * connectedDevices.Length */
             };
 
             return minimalLimits;
