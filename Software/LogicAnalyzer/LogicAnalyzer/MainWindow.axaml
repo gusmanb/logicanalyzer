@@ -35,6 +35,7 @@
         <Button Name="btnOpenClose">Open device</Button>
         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Current device:</TextBlock>
         <TextBlock VerticalAlignment="Center" Name="lblConnectedDevice">&lt; None &gt;</TextBlock>
+        <TextBlock Name="lblInfo" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Margin="10,0,0,0"></TextBlock>
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0">
         <Button Name="btnRepeat" IsEnabled="False" Margin="10,0,10,0">Repeat last capture</Button>

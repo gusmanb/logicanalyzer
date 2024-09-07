@@ -19,12 +19,5 @@ namespace SharedDriver
         public int MinPostSamples { get; set; }
         public int MaxPostSamples { get; set; }
         public int MaxTotalSamples { get { return MinPreSamples + MaxPostSamples; } }
-        /*
-        public int MinFrequency { get; set; }
-        public int MaxFrequency { get; set; }
-        public int MinChannel { get; set; }
-        public int MaxChannel { get; set; }
-        public int MaxChannelCount { get; set; }
-        */
     }
 }

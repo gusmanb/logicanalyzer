@@ -85,6 +85,8 @@ namespace LogicAnalyzer
             scrSamplePos.PointerWheelChanged += ScrSamplePos_PointerWheelChanged;
             samplePreviewer.PointerWheelChanged += ScrSamplePos_PointerWheelChanged;
 
+            lblInfo.PointerPressed += LblInfo_PointerPressed;
+
             channelViewer.ChannelClick += ChannelViewer_ChannelClick;
             channelViewer.ChannelVisibilityChanged += ChannelViewer_ChannelVisibilityChanged;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
@@ -146,6 +148,16 @@ namespace LogicAnalyzer
             catch (Exception ex)
             {
                 this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+            }
+        }
+
+        private void LblInfo_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if(driver != null)
+            {
+                var dlg = new AnalyzerInfoDialog();
+                dlg.Initialize(driver);
+                dlg.ShowDialog(this);
             }
         }
 

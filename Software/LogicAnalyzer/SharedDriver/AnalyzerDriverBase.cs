@@ -29,6 +29,9 @@ namespace SharedDriver
         public abstract CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool Measure, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public abstract CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public abstract bool StopCapture();
+        #endregion
+
+        #region Device info
         public virtual CaptureMode GetCaptureMode(int[] Channels)
         {
             var maxChannel = Channels.DefaultIfEmpty(0).Max();
@@ -46,15 +49,27 @@ namespace SharedDriver
                 MaxPreSamples = totalSamples / 10,
                 MinPostSamples = 2,
                 MaxPostSamples = totalSamples - 2,
-                /*
-                MinFrequency = MaxFrequency / 65535,
-                MaxFrequency = MaxFrequency,
-                MinChannel = 0,
-                MaxChannel = ChannelCount - 1,
-                MaxChannelCount = ChannelCount*/
             };
 
             return limits;
+        }
+
+        public virtual AnalyzerDeviceInfo GetDeviceInfo()
+        {
+            List<CaptureLimits> limits = new List<CaptureLimits>();
+
+            limits.Add(GetLimits(Enumerable.Range(0,7).ToArray()));
+            limits.Add(GetLimits(Enumerable.Range(0, 15).ToArray()));
+            limits.Add(GetLimits(Enumerable.Range(0, 23).ToArray()));
+
+            return new AnalyzerDeviceInfo
+            {
+                Name = DeviceVersion ?? "Unknown",
+                MaxFrequency = MaxFrequency,
+                Channels = ChannelCount,
+                BufferSize = BufferSize,
+                ModeLimits = limits.ToArray()
+            };
         }
 
         #endregion
@@ -167,6 +182,14 @@ namespace SharedDriver
         #endregion
     }
 
+    public class AnalyzerDeviceInfo
+    {
+        public required string Name { get; set; }
+        public int MaxFrequency { get; set; }
+        public int Channels { get; set; }
+        public int BufferSize { get; set; }
+        public required CaptureLimits[] ModeLimits { get; set; }
+    }
     public enum CaptureMode
     {
         Channels_8 = 0,

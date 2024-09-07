@@ -291,7 +291,7 @@ namespace SharedDriver
                 PreSamples < captureLimits.MinPreSamples ||
                 PostSamples < captureLimits.MinPostSamples ||
                 PreSamples > captureLimits.MaxPreSamples ||
-                PostSamples > captureLimits.MaxPreSamples ||
+                PostSamples > captureLimits.MaxPostSamples ||
                 requestedSamples > captureLimits.MaxTotalSamples ||
                 Frequency < MinFrequency ||
                 Frequency > MaxFrequency ||
@@ -371,7 +371,7 @@ namespace SharedDriver
                 PreSamples < captureLimits.MinPreSamples ||
                 PostSamples < captureLimits.MinPostSamples ||
                 PreSamples > captureLimits.MaxPreSamples ||
-                PostSamples > captureLimits.MaxPreSamples ||
+                PostSamples > captureLimits.MaxPostSamples ||
                 PreSamples + PostSamples > captureLimits.MaxTotalSamples ||
                 Frequency < MinFrequency ||
                 Frequency > MaxFrequency

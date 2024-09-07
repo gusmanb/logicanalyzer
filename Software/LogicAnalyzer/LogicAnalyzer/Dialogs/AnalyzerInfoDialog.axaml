@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="520"
+        MaxWidth="500" MinWidth="500" Width="500"
+        MaxHeight="520" MinHeight="520" Height="520"
+        CanResize="False" WindowStartupLocation="CenterOwner"
+        x:Class="LogicAnalyzer.AnalyzerInfoDialog"
+        Title="Device information">
+  <Grid RowDefinitions="*,2,*,*,*,2,*,2,*,*,*,2,*,2,*,*,*,2,*,2,*,*,*" ColumnDefinitions="2*,*,2*,*">
+    <TextBlock Grid.ColumnSpan="4" FontSize="18" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Basic information</TextBlock>
+    <Separator Grid.Row="1" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Analyzer type:</TextBlock>
+    <TextBlock Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum sample rate:</TextBlock>
+    <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Buffer size:</TextBlock>
+    <TextBlock Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Total channels:</TextBlock>
+    
+    <TextBlock Grid.Row="2" Name="lblType" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">LOGIC_ANALYZER_PICO_WIFI_V60</TextBlock>
+    <TextBlock Grid.Row="3" Name="lblFreq" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">100,000,000</TextBlock>
+    <TextBlock Grid.Row="4" Name="lblBuf" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,072</TextBlock>
+    <TextBlock Grid.Row="4" Name="lblChan" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">24</TextBlock>
+    
+    <Separator Grid.Row="5" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="6" Grid.ColumnSpan="4" FontSize="18" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Eight channel mode limits</TextBlock>
+    <Separator Grid.Row="7" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Minimum Pre Samples:</TextBlock>
+    <TextBlock Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Minimum Post Samples:</TextBlock>
+    <TextBlock Grid.Row="8" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum Pre Samples:</TextBlock>
+    <TextBlock Grid.Row="9" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum Post Samples:</TextBlock>
+    <TextBlock Grid.Row="10" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum total samples:</TextBlock>
+    
+    <TextBlock Grid.Row="8" Name="lblMinPreEight" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">2</TextBlock>
+    <TextBlock Grid.Row="9" Name="lblMinPostEight" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">2</TextBlock>
+    <TextBlock Grid.Row="8" Name="lblMaxPreEight" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">13,107</TextBlock>
+    <TextBlock Grid.Row="9" Name="lblMaxPostEight" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,070</TextBlock>
+    <TextBlock Grid.Row="10" Name="lblMaxTotalEight" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,072</TextBlock>
+    
+    <Separator Grid.Row="11" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="12" Grid.ColumnSpan="4" FontSize="18" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Sixteen channel mode limits</TextBlock>
+    <Separator Grid.Row="13" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Minimum Pre Samples:</TextBlock>
+    <TextBlock Grid.Row="15" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Minimum Post Samples:</TextBlock>
+    <TextBlock Grid.Row="14" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum Pre Samples:</TextBlock>
+    <TextBlock Grid.Row="15" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum Post Samples:</TextBlock>
+    <TextBlock Grid.Row="16" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum total samples:</TextBlock>
+    
+    <TextBlock Grid.Row="14" Name="lblMinPreSixteen" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">2</TextBlock>
+    <TextBlock Grid.Row="15" Name="lblMinPostSixteen" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">2</TextBlock>
+    <TextBlock Grid.Row="14" Name="lblMaxPreSixteen" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">13,107</TextBlock>
+    <TextBlock Grid.Row="15" Name="lblMaxPostSixteen" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,070</TextBlock>
+    <TextBlock Grid.Row="16" Name="lblMaxTotalSixteen" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,072</TextBlock>
+    
+    <Separator Grid.Row="17" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="18" Grid.ColumnSpan="4" FontSize="18" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Twenty-four channel mode limits</TextBlock>
+    <Separator Grid.Row="19" Grid.ColumnSpan="4"></Separator>
+    <TextBlock Grid.Row="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Minimum Pre Samples:</TextBlock>
+    <TextBlock Grid.Row="21" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Minimum Post Samples:</TextBlock>
+    <TextBlock Grid.Row="20" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum Pre Samples:</TextBlock>
+    <TextBlock Grid.Row="21" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum Post Samples:</TextBlock>
+    <TextBlock Grid.Row="22" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum total samples:</TextBlock>
+    
+    <TextBlock Grid.Row="20" Name="lblMinPreTwentyFour"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">2</TextBlock>
+    <TextBlock Grid.Row="21" Name="lblMinPostTwentyFour" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">2</TextBlock>
+    <TextBlock Grid.Row="20" Name="lblMaxPreTwentyFour"  Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">13,107</TextBlock>
+    <TextBlock Grid.Row="21" Name="lblMaxPostTwentyFour" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,070</TextBlock>
+    <TextBlock Grid.Row="22" Name="lblMaxTotalTwentyFour" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,072</TextBlock>
+    
+  </Grid>
+</Window>
