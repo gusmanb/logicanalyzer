@@ -171,7 +171,7 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port/address {opts.AddressPort}");
+    Console.WriteLine($"Connected to device {driver.DeviceVersion} in port/address {opts.AddressPort}");
 
     captureCompletedTask = new TaskCompletionSource<CaptureEventArgs>();
 
@@ -252,7 +252,7 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    Console.WriteLine("Capture complete, writting output file...");
+    Console.WriteLine("Capture complete, writing output file...");
 
     var file = File.Create(opts.OutputFile);
     StreamWriter sw = new StreamWriter(file);
@@ -334,7 +334,7 @@ int Configure(CLNetworkOptions opts)
         return -1;
     }
 
-    Console.WriteLine($"Conneced to device {driver.DeviceVersion} in port {opts.SerialPort}");
+    Console.WriteLine($"Connected to device {driver.DeviceVersion} in port {opts.SerialPort}");
 
     if (driver.DeviceVersion == null || !driver.DeviceVersion.Contains("WIFI"))
     {
