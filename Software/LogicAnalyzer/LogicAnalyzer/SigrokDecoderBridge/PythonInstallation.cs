@@ -173,7 +173,7 @@ print(list(filter(op.exists, fpaths))[0])";
 
         private static void Log(string interpreter, string message)
         {
-            File.AppendAllText("PythonInitLog.txt", $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToShortDateString()} -> Target Interpreter: {interpreter},  {message}" + Environment.NewLine);
+            File.AppendAllText("PythonInitLog.txt", $"{DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()} -> Target Interpreter: {interpreter},  {message}" + Environment.NewLine);
         }
 
     }

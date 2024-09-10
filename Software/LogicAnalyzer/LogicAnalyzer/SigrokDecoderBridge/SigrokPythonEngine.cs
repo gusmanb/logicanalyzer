@@ -120,7 +120,7 @@ namespace SigrokDecoderBridge
 
         private static void Log(string message)
         {
-            File.AppendAllText("PythonInitLog.txt", $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToShortDateString()} -> {message}" + Environment.NewLine);
+            File.AppendAllText("PythonInitLog.txt", $"{DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()} -> {message}" + Environment.NewLine);
         }
 
         public static void EnsureDestroyed()
