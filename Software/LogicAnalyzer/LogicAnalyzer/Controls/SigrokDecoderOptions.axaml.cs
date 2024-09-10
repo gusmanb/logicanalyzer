@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using MsBox.Avalonia.Base;
+using SharedDriver;
 using SigrokDecoderBridge;
 using System;
 using System.Collections;
@@ -36,7 +37,7 @@ public partial class SigrokDecoderOptions : UserControl
     public event EventHandler? RemoveDecoder;
     public event EventHandler? OptionsUpdated;
 
-    public ObservableCollection<CaptureChannel> Channels { get; } = new ObservableCollection<CaptureChannel>();
+    public ObservableCollection<AnalyzerChannel> Channels { get; } = new ObservableCollection<AnalyzerChannel>();
     List<ComboBox> channelSelectors = new List<ComboBox>();
 
     Dictionary<int, SigrokSelectedChannel> selectedChannels = new Dictionary<int, SigrokSelectedChannel>();
@@ -194,7 +195,7 @@ public partial class SigrokDecoderOptions : UserControl
                 cbChannel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
                 cbChannel.SelectionChanged += (o, e) =>
                 {
-                    var selectedChannel = cbChannel.SelectedItem as CaptureChannel;
+                    var selectedChannel = cbChannel.SelectedItem as AnalyzerChannel;
                     if (selectedChannel == null)
                         return;
 
@@ -504,7 +505,7 @@ public partial class SigrokDecoderOptions : UserControl
     {
         InitializeComponent();
         DataContext = this;
-        Channels.Add(new CaptureChannel { ChannelNumber = -1, ChannelName = "<- None ->" });
+        Channels.Add(new AnalyzerChannel { ChannelNumber = -1, ChannelName = "<- None ->" });
     }
     
     private void ButtonRemove_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -515,10 +516,10 @@ public partial class SigrokDecoderOptions : UserControl
         }
     }
 
-    public void UpdateChannels(IEnumerable<CaptureChannel>? Channels)
+    public void UpdateChannels(IEnumerable<AnalyzerChannel>? Channels)
     {
         this.Channels.Clear();
-        this.Channels.Add(new CaptureChannel { ChannelNumber = -1, ChannelName = "<- None ->" });
+        this.Channels.Add(new AnalyzerChannel { ChannelNumber = -1, ChannelName = "<- None ->" });
 
         var selected = selectedChannels.Values.ToArray();
         selectedChannels.Clear();

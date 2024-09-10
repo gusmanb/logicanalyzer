@@ -26,8 +26,7 @@ namespace SharedDriver
         #endregion
 
         #region Capture Methods
-        public abstract CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool Measure, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
-        public abstract CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
+        public abstract CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null);
         public abstract bool StopCapture();
         #endregion
 
@@ -198,13 +197,9 @@ namespace SharedDriver
     }
     public class CaptureEventArgs : EventArgs
     {
-        public AnalyzerDriverType SourceType { get; set; }
-        public int TriggerChannel { get; set; }
-        public int ChannelCount { get; set; }
-        public int PreSamples { get; set; }
-        public UInt128[]? Samples { get; set; }
-        public int LoopCount { get; set; }
-        public BurstInfo[]? Bursts { get; set; }
+
+        public bool Success { get; set; }
+        public required CaptureSession Session { get; set; }
     }
     public enum AnalyzerDriverType
     {

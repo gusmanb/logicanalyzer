@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using AvaloniaColorPicker;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace LogicAnalyzer.Dialogs
 {
@@ -27,7 +29,7 @@ namespace LogicAnalyzer.Dialogs
         Color lowJitter = new Color(255, 27, 128, 5);
         Color mediumJitter = new Color(255, 163, 81, 10);
         Color highJitter = new Color(255, 184, 0, 0);
-        public CaptureSettings SelectedSettings { get; private set; }
+        public CaptureSession SelectedSettings { get; private set; }
 
         string settingsFile;
 
@@ -47,6 +49,7 @@ namespace LogicAnalyzer.Dialogs
             InitializeComponent();
             btnAccept.Click += btnAccept_Click;
             btnCancel.Click += btnCancel_Click;
+            btnReset.Click += btnReset_Click;
             nudFrequency.ValueChanged += NudFrequency_ValueChanged;
         }
 
@@ -149,6 +152,7 @@ namespace LogicAnalyzer.Dialogs
                 currentPanel.Children.Add(channel);
                 channel.Selected += Channel_Selected;
                 channel.Deselected += Channel_Deselected;
+                channel.ChangeColor += Channel_ChangeColor;
                 channels.Add(channel);
                 triggers.Add(this.FindControl<RadioButton>($"rbTrigger{buc + 1}"));
                 pannelChannel++;
@@ -156,6 +160,29 @@ namespace LogicAnalyzer.Dialogs
 
             captureChannels = channels.ToArray();
             triggerChannels = triggers.ToArray();
+        }
+
+        private async void Channel_ChangeColor(object? sender, EventArgs e)
+        {
+
+            var chan = sender as ChannelSelector;
+
+            if (chan == null)
+                return;
+
+            var picker = new ColorPickerWindow();
+
+            if (chan.ChannelColor != null)
+                picker.Color = Color.FromUInt32(chan.ChannelColor.Value);
+            else
+                picker.Color = AnalyzerColors.GetColor(chan.ChannelNumber);
+
+            var color = await picker.ShowDialog(this);
+
+            if (color == null)
+                return;
+
+            chan.ChannelColor = color.Value.ToUInt32();
         }
 
         private void Channel_Deselected(object? sender, EventArgs e)
@@ -189,7 +216,7 @@ namespace LogicAnalyzer.Dialogs
         private void LoadSettings(AnalyzerDriverType DriverType)
         {
             settingsFile = $"cpSettings{DriverType}.json";
-            CaptureSettings? settings = AppSettingsManager.GetSettings<CaptureSettings>(settingsFile);
+            CaptureSession? settings = AppSettingsManager.GetSettings<CaptureSession>(settingsFile);
 
             if (settings != null)
             {
@@ -204,13 +231,14 @@ namespace LogicAnalyzer.Dialogs
 
                     captureChannels[channel.ChannelNumber].Enabled = true;
                     captureChannels[channel.ChannelNumber].ChannelName = channel.ChannelName;
+                    captureChannels[channel.ChannelNumber].ChannelColor = channel.ChannelColor;
                 }
 
                 if (DriverType != AnalyzerDriverType.Emulated)
                 {
                     switch (settings.TriggerType)
                     {
-                        case 0:
+                        case TriggerType.Edge:
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
 
@@ -226,7 +254,7 @@ namespace LogicAnalyzer.Dialogs
 
                             break;
 
-                        case 1:
+                        case TriggerType.Complex:
                             {
                                 rbTriggerTypePattern.IsChecked = true;
                                 rbTriggerTypeEdge.IsChecked = false;
@@ -243,7 +271,7 @@ namespace LogicAnalyzer.Dialogs
                             }
                             break;
 
-                        case 2:
+                        case TriggerType.Fast:
                             {
                                 rbTriggerTypePattern.IsChecked = true;
                                 rbTriggerTypeEdge.IsChecked = false;
@@ -266,12 +294,12 @@ namespace LogicAnalyzer.Dialogs
 
         private async void btnAccept_Click(object? sender, RoutedEventArgs e)
         {
-            List<CaptureChannel> channelsToCapture = new List<CaptureChannel>();
+            List<AnalyzerChannel> channelsToCapture = new List<AnalyzerChannel>();
 
             for (int buc = 0; buc < captureChannels.Length; buc++)
             {
                 if (captureChannels[buc].Enabled == true)
-                    channelsToCapture.Add(new CaptureChannel { ChannelName = captureChannels[buc].ChannelName, ChannelNumber = buc });
+                    channelsToCapture.Add(new AnalyzerChannel { ChannelName = captureChannels[buc].ChannelName, ChannelNumber = buc, ChannelColor = captureChannels[buc].ChannelColor });
             }
 
             if (channelsToCapture.Count == 0)
@@ -291,7 +319,7 @@ namespace LogicAnalyzer.Dialogs
                 return;
             }
 
-            CaptureSettings settings = new CaptureSettings();
+            CaptureSession settings = new CaptureSession();
 
             if (driver.DriverType != AnalyzerDriverType.Emulated)
             {
@@ -376,13 +404,13 @@ namespace LogicAnalyzer.Dialogs
             switch (driver.DriverType)
             {
                 case AnalyzerDriverType.Emulated:
-                    settings.TriggerType = 0;
+                    settings.TriggerType = TriggerType.Edge;
                     break;
                 case AnalyzerDriverType.Multi:
-                    settings.TriggerType = ckFastTrigger.IsChecked == true ? 2 : 1;
+                    settings.TriggerType = ckFastTrigger.IsChecked == true ? TriggerType.Fast : TriggerType.Complex;
                     break;
                 default:
-                    settings.TriggerType = rbTriggerTypePattern.IsChecked == true ? (ckFastTrigger.IsChecked == true ? 2 : 1) : 0;
+                    settings.TriggerType = rbTriggerTypePattern.IsChecked == true ? (ckFastTrigger.IsChecked == true ? TriggerType.Fast : TriggerType.Complex) : TriggerType.Edge;
                     break;
             }
             
@@ -403,6 +431,27 @@ namespace LogicAnalyzer.Dialogs
         private void btnCancel_Click(object? sender, EventArgs e)
         {
             this.Close(false);
+        }
+
+        private void btnReset_Click(object? sender, EventArgs e)
+        {
+            nudFrequency.Value = 100000000;
+            nudPreSamples.Value = 512;
+            nudPostSamples.Value = 1024;
+            ckBurst.IsChecked = false;
+            rbTrigger1.IsChecked = true;
+            ckNegativeTrigger.IsChecked = false;
+            ckMeasure.IsChecked = false;
+            txtPattern.Text = "";
+            ckFastTrigger.IsChecked = false;
+            rbTriggerTypeEdge.IsChecked = true;
+
+            foreach (var channel in captureChannels)
+            {
+                channel.Enabled = false;
+                channel.ChannelName = "";
+                channel.ChannelColor = null;
+            }
         }
 
         private void rbTriggerTypeEdge_CheckedChanged(object sender, EventArgs e)

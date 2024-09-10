@@ -36,13 +36,7 @@ namespace SharedDriver
             version = $"EMULATED_ANALIZER_{DeviceCount}_DEVICES";
         }
 
-
-        public override CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool Measure, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
-        {
-            return CaptureError.HardwareError;
-        }
-
-        public override CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, ushort TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public override CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null)
         {
             return CaptureError.HardwareError;
         }
@@ -84,13 +78,7 @@ namespace SharedDriver
                 MinPreSamples = limits.Max(l => l.MinPreSamples),
                 MaxPreSamples = limits.Min(l => l.MaxPreSamples),
                 MinPostSamples = limits.Max(l => l.MinPostSamples),
-                MaxPostSamples = limits.Min(l => l.MaxPostSamples),
-                /*
-                MinFrequency = limits.Max(l => l.MinFrequency),
-                MaxFrequency = limits.Min(l => l.MaxFrequency),
-                MinChannel = 0,
-                MaxChannel = limits.First().MaxChannel,
-                MaxChannelCount = limits.First().MaxChannelCount*/
+                MaxPostSamples = limits.Min(l => l.MaxPostSamples)
             };
 
             return minimalLimits;

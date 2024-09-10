@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Interfaces;
+using SharedDriver;
 using SkiaSharp;
 using System;
 
@@ -31,7 +32,7 @@ namespace LogicAnalyzer.Controls
             InitializeComponent();
         }
 
-        public void UpdateSamples(CaptureChannel[] Channels, int SampleCount)
+        public void UpdateSamples(AnalyzerChannel[] Channels, int SampleCount)
         {
             int channelCount = Channels.Length;
 
@@ -51,7 +52,7 @@ namespace LogicAnalyzer.Controls
 
             for (int buc = 0; buc < channelCount; buc++)
             {
-                var avColor = Channels[buc].ChannelColor ?? AnalyzerColors.GetColor(Channels[buc].ChannelNumber);
+                var avColor = AnalyzerColors.GetChannelColor(Channels[buc]);
 
                 colors[buc] = new SKPaint
                 {

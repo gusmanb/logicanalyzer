@@ -111,10 +111,13 @@
 
         </StackPanel>
       </Grid>
-      <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="2">
-        <Button Name="btnAccept">Accept</Button>
-        <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
-      </StackPanel>
+      <Grid ColumnDefinitions="*,*" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="2">
+        <Button Name="btnReset" HorizontalAlignment="Left" Margin="10,0,0,0">Reset</Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+          <Button Name="btnAccept">Accept</Button>
+          <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
+        </StackPanel>
+      </Grid>
     </Grid>
   </Panel>
 </Window>

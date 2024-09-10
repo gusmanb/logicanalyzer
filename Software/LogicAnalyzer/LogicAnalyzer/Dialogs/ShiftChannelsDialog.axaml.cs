@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.VisualTree;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Extensions;
+using SharedDriver;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace LogicAnalyzer.Dialogs
         public int ShiftAmmount { get; private set; }
         public ShiftDirection ShiftDirection { get; private set; }
         public ShiftMode ShiftMode { get; private set; }
-        public CaptureChannel[] ShiftedChannels { get; set; }
+        public AnalyzerChannel[] ShiftedChannels { get; set; }
         public ShiftChannelsDialog()
         {
             InitializeComponent();
@@ -38,7 +39,7 @@ namespace LogicAnalyzer.Dialogs
 
         private async void BtnAccept_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            var selected = lstChannels.SelectedItems.Cast<CaptureChannel>().ToArray();
+            var selected = lstChannels.SelectedItems.Cast<AnalyzerChannel>().ToArray();
 
             if (selected == null || selected.Length == 0)
             {
@@ -64,7 +65,7 @@ namespace LogicAnalyzer.Dialogs
             this.Close(true);
         }
 
-        public void Initialize(IEnumerable<CaptureChannel> Channels, int MaxShift)
+        public void Initialize(IEnumerable<AnalyzerChannel> Channels, int MaxShift)
         {
             lstChannels.ItemsSource = Channels;
             nudShift.Maximum = MaxShift;

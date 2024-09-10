@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.SigrokDecoderBridge;
+using SharedDriver;
 using SigrokDecoderBridge;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ public partial class SigrokDecoderManager : UserControl
 
     internal ObservableCollection<SigrokDecoderOptions> decoderOptions = new ObservableCollection<SigrokDecoderOptions>();
 
-    private CaptureChannel[]? channels;
+    private AnalyzerChannel[]? channels;
     private int sampleRate;
 
     public event EventHandler<DecodingEventArgs>? DecodingComplete;
@@ -31,12 +32,12 @@ public partial class SigrokDecoderManager : UserControl
 
     Timer? decodeTimer;
 
-    public CaptureChannel[]? Channels
+    public AnalyzerChannel[]? Channels
     {
         get { return channels; }
     }
 
-    public void SetChannels(int SampleRate, CaptureChannel[]? Channels)
+    public void SetChannels(int SampleRate, AnalyzerChannel[]? Channels)
     {
         channels = Channels;
         sampleRate = SampleRate;

@@ -14,8 +14,8 @@ namespace LogicAnalyzer.Controls
     {
         TextBox[] boxes;
 
-        CaptureChannel[] channels;
-        public CaptureChannel[] Channels
+        AnalyzerChannel[] channels;
+        public AnalyzerChannel[] Channels
         {
             get { return channels; }
             set 
@@ -75,7 +75,7 @@ namespace LogicAnalyzer.Controls
                 newChannelVisibility.Tag = channels[buc];
                 newChannelVisibility.PointerPressed += (o, e) =>
                 {
-                    var channel = (o as TextBlock)?.Tag as CaptureChannel;
+                    var channel = (o as TextBlock)?.Tag as AnalyzerChannel;
 
                     if (channel == null)
                         return;
@@ -99,7 +99,7 @@ namespace LogicAnalyzer.Controls
 
                 newChannelLabel.Text = channels[buc].TextualChannelNumber;
 
-                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(channels[buc].ChannelColor ??  AnalyzerColors.GetColor(channels[buc].ChannelNumber));
+                newChannelLabel.Foreground = GraphicObjectsCache.GetBrush(AnalyzerColors.GetChannelColor(channels[buc]));
 
                 newChannelLabel.Tag = channels[buc];
                 newChannelLabel.PointerPressed += NewChannelLabel_PointerPressed;
@@ -174,7 +174,7 @@ namespace LogicAnalyzer.Controls
             if (label == null)
                 return;
 
-            var channel = label.Tag as CaptureChannel;
+            var channel = label.Tag as AnalyzerChannel;
 
             if(channel == null) 
                 return;
@@ -187,7 +187,7 @@ namespace LogicAnalyzer.Controls
 
         void NewChannelTextbox_TextChanged(AvaloniaPropertyChangedEventArgs e)
         {
-            ((e.Sender as TextBox).Tag as CaptureChannel).ChannelName = e.NewValue?.ToString();
+            ((e.Sender as TextBox).Tag as AnalyzerChannel).ChannelName = e.NewValue?.ToString();
         }
 
         public ChannelViewer()
@@ -198,7 +198,7 @@ namespace LogicAnalyzer.Controls
 
     public class ChannelEventArgs : EventArgs
     {
-        public required CaptureChannel Channel { get; set; }
+        public required AnalyzerChannel Channel { get; set; }
     }
 
     public class RegionEventArgs : EventArgs

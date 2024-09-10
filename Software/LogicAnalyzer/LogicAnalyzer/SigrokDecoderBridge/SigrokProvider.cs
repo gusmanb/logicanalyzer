@@ -3,6 +3,7 @@ using LogicAnalyzer.Controls;
 using LogicAnalyzer.SigrokDecoderBridge;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -144,7 +145,7 @@ namespace SigrokDecoderBridge
             currentOutputs[OutputName] = Output;
         }
 
-        public Dictionary<string, SigrokAnnotation[]>? Execute(int SampleRate, CaptureChannel[]? Channels, SigrokDecodingTree Tree)
+        public Dictionary<string, SigrokAnnotation[]>? Execute(int SampleRate, AnalyzerChannel[]? Channels, SigrokDecodingTree Tree)
         {
 
             if(Channels == null || Tree.Branches.Count == 0)
@@ -161,7 +162,7 @@ namespace SigrokDecoderBridge
             return result;
         }
 
-        private void ExecuteDecodingBranch(SigrokDecodingBranch branch, int sampleRate, CaptureChannel[]? channels, Dictionary<string, IEnumerable<SigrokOutputValue>> Inputs, Dictionary<string, SigrokAnnotation[]> Results)
+        private void ExecuteDecodingBranch(SigrokDecodingBranch branch, int sampleRate, AnalyzerChannel[]? channels, Dictionary<string, IEnumerable<SigrokOutputValue>> Inputs, Dictionary<string, SigrokAnnotation[]> Results)
         {
             if(!branch.Decoder.ValidateOptions(branch.Options, branch.Channels, channels))
                 return;

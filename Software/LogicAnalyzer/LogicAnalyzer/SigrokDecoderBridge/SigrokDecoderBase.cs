@@ -1,5 +1,6 @@
 ﻿using LogicAnalyzer.Classes;
 using Python.Runtime;
+using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,7 +38,7 @@ namespace SigrokDecoderBridge
 
         Dictionary<int, int> currentState = new Dictionary<int, int>();
         Dictionary<int, int> lastState = new Dictionary<int, int>();
-        CaptureChannel[] captures;
+        AnalyzerChannel[] captures;
 
         protected abstract string decoderName { get; }
 
@@ -318,7 +319,7 @@ namespace SigrokDecoderBridge
             }
         }
 
-        public bool ValidateOptions(SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels, CaptureChannel[] Captures)
+        public bool ValidateOptions(SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels, AnalyzerChannel[] Captures)
         {
 
             if (SelectedSettings == null || SelectedChannels == null || Captures == null)
@@ -378,7 +379,7 @@ namespace SigrokDecoderBridge
             return true;
         }
 
-        public SigrokAnnotation[] ExecuteAnalysis(int SamplingRate, SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels, CaptureChannel[] Captures)
+        public SigrokAnnotation[] ExecuteAnalysis(int SamplingRate, SigrokOptionValue[] SelectedSettings, SigrokSelectedChannel[] SelectedChannels, AnalyzerChannel[] Captures)
         {
             using (Py.GIL())
             {

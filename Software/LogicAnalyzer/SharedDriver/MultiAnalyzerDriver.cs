@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace SharedDriver
@@ -40,22 +41,17 @@ namespace SharedDriver
 
         //Multidevice variables
         LogicAnalyzerDriver[] connectedDevices;
-        UInt128[][]? tempCapture;
-        bool[]? captureFinished;
-        int[][]? tempChannels;
+        deviceCapture[]? tempCapture;
+        CaptureSession? sourceSession;
+
         object locker = new object();
 
         //General data
         bool capturing = false;
         string? version;
-        int channelCount;
-
-        //Current capture data
-        private int triggerChannel;
-        private int preSamples;
 
         //Optional callback
-        private Action<CaptureEventArgs>? currentCaptureHandler;
+        private Action<bool, CaptureSession>? currentCaptureHandler;
         #endregion
 
         public MultiAnalyzerDriver(string[] ConnectionStrings) //First connection string must belong to the master device
@@ -121,73 +117,94 @@ namespace SharedDriver
 
         #region Capture code
 
-        public override CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool MeasureBursts, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public override CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null)
         {
+            if (Session.TriggerType == TriggerType.Edge)
+                return CaptureError.BadParams;
 
-            return CaptureError.HardwareError;
-        }
-        public override CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
-        {
             try
             {
                 if (capturing)
                     return CaptureError.Busy;
 
-                if (Channels == null || Channels.Length < 0)
+                if (Session.CaptureChannels == null || Session.CaptureChannels.Length < 0)
                     return CaptureError.BadParams;
 
-                var captureLimits = GetLimits(Channels);
-                var captureMode = GetCaptureMode(Channels);
+                var numChan = Session.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
+
+                var captureLimits = GetLimits(numChan);
+                var captureMode = GetCaptureMode(numChan);
 
                 if (
-                Channels.Min() < 0 ||
-                Channels.Max() > ChannelCount - 1 ||
-                TriggerBitCount < 1 ||
-                TriggerBitCount > 16 ||
-                TriggerChannel < 0 ||
-                TriggerChannel > 15 ||
-                PreSamples < captureLimits.MinPreSamples ||
-                PostSamples < captureLimits.MinPostSamples ||
-                PreSamples > captureLimits.MaxPreSamples ||
-                PostSamples > captureLimits.MaxPostSamples ||
-                PreSamples + PostSamples > captureLimits.MaxTotalSamples ||
-                Frequency < MinFrequency ||
-                Frequency > MaxFrequency
+                numChan.Min() < 0 ||
+                numChan.Max() > ChannelCount - 1 ||
+                Session.TriggerBitCount < 1 ||
+                Session.TriggerBitCount > 16 ||
+                Session.TriggerChannel < 0 ||
+                Session.TriggerChannel > 15 ||
+                Session.PreTriggerSamples < captureLimits.MinPreSamples ||
+                Session.PostTriggerSamples < captureLimits.MinPostSamples ||
+                Session.PreTriggerSamples > captureLimits.MaxPreSamples ||
+                Session.PostTriggerSamples > captureLimits.MaxPostSamples ||
+                Session.PreTriggerSamples + Session.PostTriggerSamples > captureLimits.MaxTotalSamples ||
+                Session.Frequency < MinFrequency ||
+                Session.Frequency > MaxFrequency
                 )
                     return CaptureError.BadParams;
 
 
-                int[][] channelsPerDevice = SplitChannelsPerDevice(Channels);
+                int[][] channelsPerDevice = SplitChannelsPerDevice(numChan);
 
-                if (channelsPerDevice.Length > Channels.Length)
+                if (channelsPerDevice.Length > numChan.Length)
                     return CaptureError.BadParams;
 
                 if (channelsPerDevice[0].Length < 1)
                     return CaptureError.BadParams;
 
-                double samplePeriod = 1000000000.0 / Frequency;
-                double delay = Fast ? TriggerDelays.FastTriggerDelay : TriggerDelays.ComplexTriggerDelay;
+                double samplePeriod = 1000000000.0 / Session.Frequency;
+                double delay = Session.TriggerType == TriggerType.Fast ? TriggerDelays.FastTriggerDelay : TriggerDelays.ComplexTriggerDelay;
                 int offset = (int)(Math.Round((delay / samplePeriod) + 0.3, 0));
 
-                channelCount = Channels.Length;
-                triggerChannel = TriggerChannel;
-                preSamples = PreSamples;
+                tempCapture = new deviceCapture[connectedDevices.Length];
+
+                for (int bc = 0; bc < tempCapture.Length; bc++)
+                    tempCapture[bc] = new deviceCapture();
+
                 currentCaptureHandler = CaptureCompletedHandler;
+                sourceSession = Session;
 
                 capturing = true;
 
                 int channelsCapturing = 1;
-
+                
                 //Start capturing on all devices except master, master will be the last one to start
                 for (int buc = 1; buc < channelsPerDevice.Length; buc++)
                 {
                     var chan = channelsPerDevice[buc];
 
                     if (chan.Length == 0)
+                    {
+                        tempCapture[buc].Completed = true;
                         continue;
+                    }
+
+                    var devSes = Session.Clone();
+
+                    devSes.CaptureChannels = new AnalyzerChannel[chan.Length];
+
+                    for(int bChan = 0; bChan < chan.Length; bChan++)
+                        devSes.CaptureChannels[bChan] = new AnalyzerChannel { ChannelNumber = chan[bChan] };
+
+                    devSes.TriggerChannel = 24;
+                    devSes.TriggerType = TriggerType.Edge;
+                    devSes.PreTriggerSamples = Session.PreTriggerSamples + offset;
+                    devSes.PostTriggerSamples = Session.PostTriggerSamples - offset;
+                    devSes.LoopCount = 0;
+                    devSes.MeasureBursts = false;
+                    devSes.TriggerInverted = false;
 
                     connectedDevices[buc].Tag = channelsCapturing;
-                    var err = connectedDevices[buc].StartCapture(Frequency, PreSamples + offset, PostSamples - offset, 0, false, chan, 24, false);
+                    var err = connectedDevices[buc].StartCapture(devSes);
 
                     if (err != CaptureError.None)
                     {
@@ -199,13 +216,16 @@ namespace SharedDriver
                 }
 
                 connectedDevices[0].Tag = 0;
-                tempCapture = new UInt128[channelsCapturing][];
-                captureFinished = new bool[channelsCapturing];
-                tempChannels = channelsPerDevice.Where(c => c.Length > 0).ToArray();
-
+                
                 var chanMaster = channelsPerDevice[0];
 
-                var errMaster = connectedDevices[0].StartPatternCapture(Frequency, PreSamples, PostSamples, chanMaster, TriggerChannel, TriggerBitCount, TriggerPattern, Fast);
+                var masterSes = Session.Clone();
+                masterSes.CaptureChannels = new AnalyzerChannel[chanMaster.Length];
+
+                for (int bChan = 0; bChan < chanMaster.Length; bChan++)
+                    masterSes.CaptureChannels[bChan] = new AnalyzerChannel { ChannelNumber = chanMaster[bChan] };
+
+                var errMaster = connectedDevices[0].StartCapture(masterSes);
 
                 if (errMaster != CaptureError.None)
                 {
@@ -235,36 +255,49 @@ namespace SharedDriver
         {
             lock (locker)
             {
+                if (!capturing)
+                    return;
+
+                if(!e.Success)
+                {
+                    StopCapture();
+
+                    tempCapture = null;
+
+                    if (currentCaptureHandler != null)
+                        currentCaptureHandler(false, sourceSession);
+                    else if (CaptureCompleted != null)
+                        CaptureCompleted(this, new CaptureEventArgs { Success = false, Session = sourceSession });
+
+                    return;
+                }
+
                 int idx = (int)((sender as LogicAnalyzerDriver).Tag);
 
-                tempCapture[idx] = e.Samples;
-                captureFinished[idx] = true;
+                tempCapture[idx].Session = e.Session;
+                tempCapture[idx].Completed = true;
 
-                if (captureFinished.All(c => c))
+                if (tempCapture.All(c => c.Completed))
                 {
-                    UInt128[] finalSamples = new UInt128[tempCapture[idx].Length];
+                    var maxChanPerDev = connectedDevices.Min(c => c.ChannelCount);
 
-                    for (int buc = 0; buc < finalSamples.Length; buc++)
+                    for (int buc = 0; buc < tempCapture.Length; buc++)
                     {
-                        int bitPos = 0;
-
-                        for (int devNum = 0; devNum < tempCapture.Length; devNum++)
+                        if (tempCapture[buc].Session != null)
                         {
-                            int len = tempChannels[idx].Length;
+                            foreach(var chan in tempCapture[buc].Session.CaptureChannels)
+                            {
+                                var destChan = sourceSession.CaptureChannels.First(c => c.ChannelNumber == chan.ChannelNumber + buc * maxChanPerDev);
 
-                            UInt128 devMask = ((UInt128)1 << len) - 1;
-
-                            UInt128 devSample = tempCapture[devNum][buc] & devMask;
-
-                            finalSamples[buc] |= devSample << bitPos;
-                            bitPos += len;
+                                destChan.Samples = chan.Samples;
+                            }
                         }
                     }
 
                     if (currentCaptureHandler != null)
-                        currentCaptureHandler(new CaptureEventArgs { Samples = finalSamples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                        currentCaptureHandler(true, sourceSession);
                     else if (CaptureCompleted != null)
-                        CaptureCompleted(this, new CaptureEventArgs { Samples = finalSamples, ChannelCount = channelCount, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                        CaptureCompleted(this, new CaptureEventArgs { Success = true, Session = sourceSession });
 
                     capturing = false;
                 }
@@ -311,12 +344,6 @@ namespace SharedDriver
                 MaxPreSamples = limits.Min(l => l.MaxPreSamples),
                 MinPostSamples = limits.Max(l => l.MinPostSamples),
                 MaxPostSamples = limits.Min(l => l.MaxPostSamples),
-                /*
-                MinFrequency = limits.Max(l => l.MinFrequency),
-                MaxFrequency = limits.Min(l => l.MaxFrequency),
-                MinChannel = 0,
-                MaxChannel = limits.Min(l => l.MaxChannelCount) * connectedDevices.Length - 1,
-                MaxChannelCount = limits.Min(l => l.MaxChannelCount) * connectedDevices.Length */
             };
 
             return minimalLimits;
@@ -341,5 +368,11 @@ namespace SharedDriver
                 dev.Dispose();
         }
         #endregion
+
+        class deviceCapture
+        {
+            public bool Completed { get; set; }
+            public CaptureSession? Session { get; set; }
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 
 namespace SharedDriver
 {
@@ -54,24 +55,13 @@ namespace SharedDriver
         string? devAddr;
         ushort devPort;
 
-        //Current capture data
-        private int captureChannels;
-        private int triggerChannel;
-        private int preSamples;
-        private int postSamples;
-        private int loopCount;
-        private bool measure;
-        private int frequency;
-
         //Comms variables
         StreamReader? readResponse;
         BinaryReader? readData;
         Stream? baseStream;
         SerialPort? sp;
         TcpClient? tcpClient;
-        
-        //Optional callback
-        private Action<CaptureEventArgs>? currentCaptureHandler;
+
         #endregion
 
         public LogicAnalyzerDriver(string ConnectionString)
@@ -250,188 +240,45 @@ namespace SharedDriver
 
         #region Capture code
 
-        public override CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool MeasureBursts, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+
+        public override CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null)
         {
+            if (capturing || baseStream == null || readResponse == null)
+                return CaptureError.Busy;
 
-            try
+            if (Session.CaptureChannels == null || Session.CaptureChannels.Length < 0)
+                return CaptureError.BadParams;
+
+            int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((byte)Session.LoopCount + 1));
+
+            if(!ValidateSettings(Session, requestedSamples))
+                return CaptureError.BadParams;
+
+            var mode = GetCaptureMode(Session.CaptureChannels.Select(c => c.ChannelNumber).ToArray());
+
+            var request = ComposeRequest(Session, requestedSamples, mode);
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(1);
+            pack.AddStruct(request);
+
+            baseStream.Write(pack.Serialize());
+            baseStream.Flush();
+
+            baseStream.ReadTimeout = 10000;
+            var result = readResponse.ReadLine();
+            baseStream.ReadTimeout = Timeout.Infinite;
+
+            if (result == "CAPTURE_STARTED")
             {
-                if (capturing || baseStream == null || readResponse == null)
-                    return CaptureError.Busy;
-
-                if (Channels == null || Channels.Length < 0)
-                    return CaptureError.BadParams;
-
-                int requestedSamples = PreSamples + (PostSamples * ((byte)LoopCount + 1));
-
-                var captureLimits = GetLimits(Channels);
-                var captureMode = GetCaptureMode(Channels);
-
-                /*
-                if (
-                Channels.Min() < captureLimits.MinChannel ||
-                Channels.Max() > captureLimits.MaxChannel ||
-                TriggerChannel < 0 ||
-                TriggerChannel > captureLimits.MaxChannel + 1 || //MaxChannel + 1 = ext trigger
-                PreSamples < captureLimits.MinPreSamples ||
-                PostSamples < captureLimits.MinPostSamples ||
-                PreSamples > captureLimits.MaxPreSamples ||
-                PostSamples > captureLimits.MaxPreSamples ||
-                requestedSamples > captureLimits.MaxTotalSamples ||
-                Frequency < captureLimits.MinFrequency ||
-                Frequency > captureLimits.MaxFrequency ||
-                    LoopCount > 254
-                )
-                    return CaptureError.BadParams;
-                */
-                if (
-                Channels.Min() < 0 ||
-                Channels.Max() > ChannelCount - 1 ||
-                TriggerChannel < 0 ||
-                TriggerChannel > ChannelCount || //MaxChannel + 1 = ext trigger
-                PreSamples < captureLimits.MinPreSamples ||
-                PostSamples < captureLimits.MinPostSamples ||
-                PreSamples > captureLimits.MaxPreSamples ||
-                PostSamples > captureLimits.MaxPostSamples ||
-                requestedSamples > captureLimits.MaxTotalSamples ||
-                Frequency < MinFrequency ||
-                Frequency > MaxFrequency ||
-                    LoopCount > 254
-                )
-                    return CaptureError.BadParams;
-
-                captureChannels = Channels.Length;
-                triggerChannel = TriggerChannel;
-                preSamples = PreSamples;
-                postSamples = PostSamples;
-                loopCount = LoopCount;
-                measure = MeasureBursts;
-                frequency = Frequency;
-
-                currentCaptureHandler = CaptureCompletedHandler;
-
-                CaptureRequest request = new CaptureRequest
-                {
-                    triggerType = 0,
-                    trigger = (byte)TriggerChannel,
-                    invertedOrCount = TriggerInverted ? (byte)1 : (byte)0,
-                    channels = new byte[32],
-                    channelCount = (byte)Channels.Length,
-                    frequency = (uint)Frequency,
-                    preSamples = (uint)PreSamples,
-                    postSamples = (uint)PostSamples,
-                    loopCount = (byte)LoopCount,
-                    measure = MeasureBursts ? (byte)1 : (byte)0,
-                    captureMode = (byte)captureMode
-                };
-
-                for (int buc = 0; buc < Channels.Length; buc++)
-                    request.channels[buc] = (byte)Channels[buc];
-
-                OutputPacket pack = new OutputPacket();
-                pack.AddByte(1);
-                pack.AddStruct(request);
-
-                baseStream.Write(pack.Serialize());
-                baseStream.Flush();
-
-                baseStream.ReadTimeout = 10000;
-                var result = readResponse.ReadLine();
-                baseStream.ReadTimeout = Timeout.Infinite;
-
-                if (result == "CAPTURE_STARTED")
-                {
-                    capturing = true;
-                    Task.Run(() => ReadCapture(requestedSamples, captureMode));
-                    return CaptureError.None;
-                }
-                return CaptureError.HardwareError;
+                capturing = true;
+                Task.Run(() => ReadCapture(Session, requestedSamples, mode, CaptureCompletedHandler));
+                return CaptureError.None;
             }
-            catch { return CaptureError.UnexpectedError; }
-        }
-        public override CaptureError StartPatternCapture(int Frequency, int PreSamples, int PostSamples, int[] Channels, int TriggerChannel, int TriggerBitCount, UInt16 TriggerPattern, bool Fast, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
-        {
-            try
-            {
-                if (capturing || baseStream == null || readResponse == null)
-                    return CaptureError.Busy;
-
-                if (Channels == null || Channels.Length < 0)
-                    return CaptureError.BadParams;
-
-                var captureLimits = GetLimits(Channels);
-                var captureMode = GetCaptureMode(Channels);
-
-                if (
-                Channels.Min() < 0 ||
-                Channels.Max() > ChannelCount - 1 ||
-                TriggerBitCount < 1 ||
-                TriggerBitCount > 16 ||
-                TriggerChannel < 0 ||
-                TriggerChannel > 15 ||
-                PreSamples < captureLimits.MinPreSamples ||
-                PostSamples < captureLimits.MinPostSamples ||
-                PreSamples > captureLimits.MaxPreSamples ||
-                PostSamples > captureLimits.MaxPostSamples ||
-                PreSamples + PostSamples > captureLimits.MaxTotalSamples ||
-                Frequency < MinFrequency ||
-                Frequency > MaxFrequency
-                )
-                    return CaptureError.BadParams;
-
-
-
-                double samplePeriod = 1000000000.0 / Frequency;
-                double delay = Fast ? TriggerDelays.FastTriggerDelay : TriggerDelays.ComplexTriggerDelay;
-                double delayPeriod = (1.0 / MaxFrequency) * 1000000000.0 * delay;
-                int offset = (int)(Math.Round((delayPeriod / samplePeriod) + 0.3, 0));
-
-                captureChannels = Channels.Length;
-                triggerChannel = TriggerChannel;
-                preSamples = PreSamples;
-                currentCaptureHandler = CaptureCompletedHandler;
-                loopCount = 0;
-                measure = false;
-
-                CaptureRequest request = new CaptureRequest
-                {
-                    triggerType = (byte)(Fast ? 2 : 1),
-                    trigger = (byte)TriggerChannel,
-                    invertedOrCount = (byte)TriggerBitCount,
-                    triggerValue = (UInt16)TriggerPattern,
-                    channels = new byte[32],
-                    channelCount = (byte)Channels.Length,
-                    frequency = (uint)Frequency,
-                    preSamples = (uint)(PreSamples + offset),
-                    postSamples = (uint)(PostSamples - offset),
-                    captureMode = (byte)captureMode
-                };
-
-                for (int buc = 0; buc < Channels.Length; buc++)
-                    request.channels[buc] = (byte)Channels[buc];
-
-                OutputPacket pack = new OutputPacket();
-                pack.AddByte(1);
-                pack.AddStruct(request);
-
-                baseStream.Write(pack.Serialize());
-                baseStream.Flush();
-
-                baseStream.ReadTimeout = 10000;
-                var result = readResponse.ReadLine();
-                baseStream.ReadTimeout = Timeout.Infinite;
-
-                if (result == "CAPTURE_STARTED")
-                {
-                    capturing = true;
-                    Task.Run(() => ReadCapture(PreSamples + PostSamples, captureMode));
-                    return CaptureError.None;
-                }
-                return CaptureError.HardwareError;
-            }
-            catch { return CaptureError.UnexpectedError; }
+            return CaptureError.HardwareError;
         }
 
-        private void ReadCapture(int Samples, CaptureMode Mode)
+        private void ReadCapture(CaptureSession Session, int Samples, CaptureMode Mode, Action<bool, CaptureSession>? CaptureCompletedHandler)
         {
             try
             {
@@ -440,7 +287,7 @@ namespace SharedDriver
 
                 uint length = readData.ReadUInt32();
                 UInt128[] samples = new UInt128[length];
-                UInt64[] timestamps = new UInt64[loopCount == 0 || !measure ? 0 : loopCount + 2];
+                UInt64[] timestamps = new UInt64[Session.LoopCount == 0 || !Session.MeasureBursts ? 0 : Session.LoopCount + 2];
 
                 BinaryReader rdData;
 
@@ -450,10 +297,10 @@ namespace SharedDriver
                 {
                     int bufLen = Samples * (Mode == CaptureMode.Channels_8 ? 1 : (Mode == CaptureMode.Channels_16 ? 2 : 4));
 
-                    if (loopCount == 0 || !measure)
+                    if (Session.LoopCount == 0 || !Session.MeasureBursts)
                         bufLen += 1;
                     else
-                        bufLen += 1 + (loopCount + 2) * 4;
+                        bufLen += 1 + (Session.LoopCount + 2) * 4;
 
                     byte[] readBuffer = new byte[bufLen];
                     int left = readBuffer.Length;
@@ -489,7 +336,7 @@ namespace SharedDriver
 
                 if (stampLength > 0)
                 {
-                    for (int buc = 0; buc < loopCount + 2; buc++)
+                    for (int buc = 0; buc < Session.LoopCount + 2; buc++)
                         timestamps[buc] = rdData.ReadUInt32();
                 }
 
@@ -509,9 +356,9 @@ namespace SharedDriver
                     }
 
                     //Next we calculate the ns per sample and the ns per burst
-                    double nsPerSample = 1000000000.0 / frequency;
+                    double nsPerSample = 1000000000.0 / Session.Frequency;
                     double ticksPerSample = nsPerSample / 5;
-                    double nsPerBurst = nsPerSample * postSamples;
+                    double nsPerBurst = nsPerSample * Session.PostTriggerSamples;
 
                     //We calculate the ticks per burst, as we know the device's CPU runs at 200Mhz we know that each
                     //tick is 5ns, so we can determine how many ticks happen per burst
@@ -553,8 +400,8 @@ namespace SharedDriver
                         {
                             BurstInfo burst = new BurstInfo
                             {
-                                BurstSampleStart = preSamples,
-                                BurstSampleEnd = preSamples + postSamples,
+                                BurstSampleStart = Session.PreTriggerSamples,
+                                BurstSampleEnd = Session.PreTriggerSamples + Session.PostTriggerSamples,
                                 BurstSampleGap = 0,
                                 BurstTimeGap = 0
                             };
@@ -565,8 +412,8 @@ namespace SharedDriver
                         {
                             BurstInfo burst = new BurstInfo
                             {
-                                BurstSampleStart = preSamples + (postSamples * (buc - 1)),
-                                BurstSampleEnd = preSamples + (postSamples * buc),
+                                BurstSampleStart = Session.PreTriggerSamples + (Session.PostTriggerSamples * (buc - 1)),
+                                BurstSampleEnd = Session.PreTriggerSamples + (Session.PostTriggerSamples * buc),
                                 BurstSampleGap = (ulong)(delays[buc - 2] / nsPerSample),
                                 BurstTimeGap = (ulong)(delays[buc - 2])
                             };
@@ -577,10 +424,16 @@ namespace SharedDriver
                     //timestamps = delays;
                 }
 
-                if (currentCaptureHandler != null)
-                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, Bursts = bursts.ToArray() });
+
+                Session.Bursts = bursts.ToArray();
+
+                for (int buc = 0; buc < Session.CaptureChannels.Length; buc++)
+                    ExtractSamples(Session.CaptureChannels[buc], buc, samples);
+
+                if (CaptureCompletedHandler != null)
+                    CaptureCompletedHandler(true, Session);
                 else if (CaptureCompleted != null)
-                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = samples, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples, LoopCount = loopCount, Bursts = bursts.ToArray() });
+                    CaptureCompleted(this, new CaptureEventArgs { Success = true, Session = Session });
 
                 if (!isNetwork)
                 {
@@ -602,11 +455,119 @@ namespace SharedDriver
             }
             catch (Exception ex)
             {
-                if (currentCaptureHandler != null)
-                    currentCaptureHandler(new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                if (CaptureCompletedHandler != null)
+                    CaptureCompletedHandler(false, Session);
                 else if (CaptureCompleted != null)
-                    CaptureCompleted(this, new CaptureEventArgs { SourceType = isNetwork ? AnalyzerDriverType.Network : AnalyzerDriverType.Serial, Samples = null, ChannelCount = captureChannels, TriggerChannel = triggerChannel, PreSamples = preSamples });
+                    CaptureCompleted(this, new CaptureEventArgs { Success = false, Session = Session });
             }
+        }
+
+        private void ExtractSamples(AnalyzerChannel channel, int ChannelIndex, UInt128[]? samples)
+        {
+            if (channel == null || samples == null)
+                return;
+
+            //int idx = channel.ChannelNumber;
+            UInt128 mask = (UInt128)1 << ChannelIndex;
+            channel.Samples = samples.Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
+        }
+
+        private CaptureRequest ComposeRequest(CaptureSession session, int requestedSamples, CaptureMode mode)
+        {
+            if (session.TriggerType == TriggerType.Edge)
+            {
+                CaptureRequest request = new CaptureRequest
+                {
+                    triggerType = 0,
+                    trigger = (byte)session.TriggerChannel,
+                    invertedOrCount = session.TriggerInverted ? (byte)1 : (byte)0,
+                    channels = new byte[32],
+                    channelCount = (byte)session.CaptureChannels.Length,
+                    frequency = (uint)session.Frequency,
+                    preSamples = (uint)session.PreTriggerSamples,
+                    postSamples = (uint)session.PostTriggerSamples,
+                    loopCount = (byte)session.LoopCount,
+                    measure = session.MeasureBursts ? (byte)1 : (byte)0,
+                    captureMode = (byte)mode
+                };
+
+                for (int buc = 0; buc < session.CaptureChannels.Length; buc++)
+                    request.channels[buc] = (byte)session.CaptureChannels[buc].ChannelNumber;
+
+                return request;
+            }
+            else
+            {
+                double samplePeriod = 1000000000.0 / session.Frequency;
+                double delay = session.TriggerType == TriggerType.Fast ? TriggerDelays.FastTriggerDelay : TriggerDelays.ComplexTriggerDelay;
+                double delayPeriod = (1.0 / MaxFrequency) * 1000000000.0 * delay;
+                int offset = (int)(Math.Round((delayPeriod / samplePeriod) + 0.3, 0));
+
+                CaptureRequest request = new CaptureRequest
+                {
+                    triggerType = (byte)(session.TriggerType),
+                    trigger = (byte)session.TriggerChannel,
+                    invertedOrCount = (byte)session.TriggerBitCount,
+                    triggerValue = (UInt16)session.TriggerPattern,
+                    channels = new byte[32],
+                    channelCount = (byte)session.CaptureChannels.Length,
+                    frequency = (uint)session.Frequency,
+                    preSamples = (uint)(session.PreTriggerSamples + offset),
+                    postSamples = (uint)(session.PostTriggerSamples - offset),
+                    captureMode = (byte)mode
+                };
+
+                for (int buc = 0; buc < session.CaptureChannels.Length; buc++)
+                    request.channels[buc] = (byte)session.CaptureChannels[buc].ChannelNumber;
+
+                return request;
+            }
+        }
+
+        private bool ValidateSettings(CaptureSession session, int requestedSamples)
+        {
+            int[] numChan = session.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
+            var captureLimits = GetLimits(numChan);
+
+            if (session.TriggerType == TriggerType.Edge)
+            {
+                if (
+                    numChan.Min() < 0 ||
+                    numChan.Max() > ChannelCount - 1 ||
+                    session.TriggerChannel < 0 ||
+                    session.TriggerChannel > ChannelCount || //MaxChannel + 1 = ext trigger
+                    session.PreTriggerSamples < captureLimits.MinPreSamples ||
+                    session.PostTriggerSamples < captureLimits.MinPostSamples ||
+                    session.PreTriggerSamples > captureLimits.MaxPreSamples ||
+                    session.PostTriggerSamples > captureLimits.MaxPostSamples ||
+                    requestedSamples > captureLimits.MaxTotalSamples ||
+                    session.Frequency < MinFrequency ||
+                    session.Frequency > MaxFrequency ||
+                        session.LoopCount > 254
+                    )
+                    return false;
+            }
+            else
+            {
+                if (
+                    numChan.Min() < 0 ||
+                    numChan.Max() > ChannelCount - 1 ||
+                    session.TriggerBitCount < 1 ||
+                    session.TriggerBitCount > (session.TriggerType == TriggerType.Complex ? 16 : 5) ||
+                    session.TriggerChannel < 0 ||
+                    session.TriggerChannel > 15 ||
+                    session.PreTriggerSamples < captureLimits.MinPreSamples ||
+                    session.PostTriggerSamples < captureLimits.MinPostSamples ||
+                    session.PreTriggerSamples > captureLimits.MaxPreSamples ||
+                    session.PostTriggerSamples > captureLimits.MaxPostSamples ||
+                    requestedSamples > captureLimits.MaxTotalSamples ||
+                    session.Frequency < MinFrequency ||
+                    session.Frequency > MaxFrequency
+                    )
+                    return false;
+            }
+
+            return true;
         }
 
         public override bool StopCapture()

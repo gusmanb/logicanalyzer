@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -37,7 +38,7 @@ namespace LogicAnalyzer
     public partial class MainWindow : PersistableWindowBase
     {
         AnalyzerDriverBase? driver;
-        CaptureSettings settings;
+        CaptureSession session;
 
         SigrokProvider? decoderProvider;
         public static MainWindow? Instance { get; private set; }
@@ -238,10 +239,10 @@ namespace LogicAnalyzer
 
         private void Visibility_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if(settings?.CaptureChannels == null)
+            if(session?.CaptureChannels == null)
                 return;
 
-            foreach(var channel in settings.CaptureChannels)
+            foreach(var channel in session.CaptureChannels)
                 channel.Hidden = false;
 
             UpdateVisibility();
@@ -291,7 +292,7 @@ namespace LogicAnalyzer
             var picker = new ColorPickerWindow();
 
             if (e.Channel.ChannelColor != null)
-                picker.Color = e.Channel.ChannelColor.Value;
+                picker.Color = Color.FromUInt32(e.Channel.ChannelColor.Value);
             else
                 picker.Color = AnalyzerColors.GetColor(e.Channel.ChannelNumber);
 
@@ -300,9 +301,9 @@ namespace LogicAnalyzer
             if (color == null)
                 return;
 
-            e.Channel.ChannelColor = color;
+            e.Channel.ChannelColor = color.Value.ToUInt32();
             (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
-            samplePreviewer.UpdateSamples(channelViewer.Channels, settings.TotalSamples);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
             sampleViewer.InvalidateVisual();
         }
 
@@ -444,7 +445,7 @@ namespace LogicAnalyzer
         private async void SampleMarker_ShiftSamples(object? sender, EventArgs e)
         {
             var dlg = new ShiftChannelsDialog();
-            dlg.Initialize(channelViewer.Channels, settings.TotalSamples - 1);
+            dlg.Initialize(channelViewer.Channels, session.TotalSamples - 1);
 
             if (await dlg.ShowDialog<bool>(this))
             {
@@ -487,7 +488,7 @@ namespace LogicAnalyzer
 
                 sampleViewer.BeginUpdate();
                 sampleViewer.EndUpdate();
-                samplePreviewer.UpdateSamples(channelViewer.Channels, settings.TotalSamples);
+                samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
                 samplePreviewer.ViewPosition = sampleViewer.FirstSample;
             }
         }
@@ -550,7 +551,7 @@ namespace LogicAnalyzer
                 if (samples == null)
                     return;
 
-                settings = stn;
+                session = stn;
                 driver = drv;
                 
                 for (int chan = 0; chan < stn.CaptureChannels.Length; chan++)
@@ -566,7 +567,7 @@ namespace LogicAnalyzer
 
                 clearRegions();
 
-                updateSamplesInDisplay(Math.Max(settings.PreTriggerSamples - 10, 0), Math.Min(100, samples.Length / 10));
+                updateSamplesInDisplay(Math.Max(session.PreTriggerSamples - 10, 0), Math.Min(100, samples.Length / 10));
 
                 LoadInfo();
             }
@@ -574,7 +575,7 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_SamplesPasted(object? sender, SampleEventArgs e)
         {
-            if (e.Sample > settings.TotalSamples)
+            if (e.Sample > session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Cannot paste samples beyond the end of the sample range.");
                 return;
@@ -586,21 +587,21 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_SamplesInserted(object? sender, SampleEventArgs e)
         {
-            if (e.Sample > settings.TotalSamples)
+            if (e.Sample > session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Cannot insert samples beyond the end of the sample range.");
                 return;
             }
 
-            var channels = settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
-            var names = settings.CaptureChannels.Select(c => c.ChannelName).ToArray();
+            var channels = session.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
+            var names = session.CaptureChannels.Select(c => c.ChannelName).ToArray();
 
             var dlgCreate = new CreateSamplesDialog();
             dlgCreate.InsertMode = true;
             dlgCreate.Initialize(
                 channels,
                 names,
-                driver.GetLimits(channels).MaxTotalSamples - settings.TotalSamples,
+                driver.GetLimits(channels).MaxTotalSamples - session.TotalSamples,
                 10);
 
             var samples = await dlgCreate.ShowDialog<IEnumerable<byte[]>?>(this);
@@ -614,22 +615,22 @@ namespace LogicAnalyzer
 
         private async Task InsertSamples(int sample, IEnumerable<byte[]> newSamples)
         {
-            var chans = settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
+            var chans = session.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
             var maxSamples = driver.GetLimits(chans).MaxTotalSamples;
 
             int nCount = newSamples.First().Count();
 
-            int total = settings.TotalSamples + nCount;
+            int total = session.TotalSamples + nCount;
 
-            if (settings.TotalSamples + newSamples.First().Length > maxSamples)
+            if (session.TotalSamples + newSamples.First().Length > maxSamples)
             {
                 await this.ShowError("Error", $"Total samples exceed the maximum permitted for this mode ({maxSamples}).");
                 return;
             }
 
-            for(int chan = 0; chan < settings.CaptureChannels.Length; chan++)
+            for(int chan = 0; chan < session.CaptureChannels.Length; chan++)
             {
-                var channel = settings.CaptureChannels[chan];
+                var channel = session.CaptureChannels[chan];
                 var cSamples = channel.Samples;
 
                 if (cSamples == null)
@@ -645,7 +646,7 @@ namespace LogicAnalyzer
             var regions = sampleViewer.Regions;
             List<SampleRegion> finalRegions = new List<SampleRegion>();
 
-            int preSamples = sample <= settings.PreTriggerSamples ? settings.PreTriggerSamples + nCount : settings.PreTriggerSamples;
+            int preSamples = sample <= session.PreTriggerSamples ? session.PreTriggerSamples + nCount : session.PreTriggerSamples;
 
             foreach (var region in regions)
             {
@@ -668,30 +669,30 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_SamplesCopied(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample + e.SampleCount > settings.TotalSamples)
+            if (e.FirstSample + e.SampleCount > session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
             }
 
-            copiedSamples = settings.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
+            copiedSamples = session.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
         }
 
         private async void SampleMarker_SamplesCutted(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample + e.SampleCount > settings.TotalSamples)
+            if (e.FirstSample + e.SampleCount > session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
             }
 
-            copiedSamples = settings.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
+            copiedSamples = session.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
             await DeleteSamples(e);
         }
 
         private async void SampleMarker_SamplesDeleted(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample >= settings.TotalSamples)
+            if (e.FirstSample >= session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
@@ -705,11 +706,11 @@ namespace LogicAnalyzer
             var lastSample = e.FirstSample + e.SampleCount - 1;
             var triggerSample = sampleViewer.PreSamples - 1;
 
-            int nCount = settings.TotalSamples - (e.SampleCount + 1); //+1?
+            int nCount = session.TotalSamples - (e.SampleCount + 1); //+1?
 
-            for (int chan = 0; chan < settings.CaptureChannels.Length; chan++)
+            for (int chan = 0; chan < session.CaptureChannels.Length; chan++)
             {
-                var channel = settings.CaptureChannels[chan];
+                var channel = session.CaptureChannels[chan];
                 var cSamples = channel.Samples;
 
                 if (cSamples == null)
@@ -721,7 +722,7 @@ namespace LogicAnalyzer
                 channel.Samples = finalSamples.ToArray();
             }
 
-            var finalPreSamples = e.FirstSample > triggerSample ? settings.PreTriggerSamples : settings.PreTriggerSamples - e.SampleCount;
+            var finalPreSamples = e.FirstSample > triggerSample ? session.PreTriggerSamples : session.PreTriggerSamples - e.SampleCount;
 
             var regions = sampleViewer.Regions;
             List<SampleRegion> finalRegions = new List<SampleRegion>();
@@ -787,15 +788,15 @@ namespace LogicAnalyzer
 
         private void UpdateSamples(int firstSample, int totalSamples, int finalPreSamples, List<SampleRegion> finalRegions)
         {
-            settings.PreTriggerSamples = finalPreSamples;
-            settings.PostTriggerSamples = totalSamples - finalPreSamples;
+            session.PreTriggerSamples = finalPreSamples;
+            session.PostTriggerSamples = totalSamples - finalPreSamples;
 
             sampleViewer.BeginUpdate();
             sampleViewer.PreSamples = 0;
             sampleViewer.Bursts = null;
             sampleViewer.EndUpdate();
 
-            samplePreviewer.UpdateSamples(channelViewer.Channels, settings.TotalSamples);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
             samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
             clearRegions();
@@ -812,7 +813,7 @@ namespace LogicAnalyzer
 
         private void SampleMarker_UserMarkerSelected(object? sender, UserMarkerEventArgs e)
         {
-            if (e.Position > settings.TotalSamples)
+            if (e.Position > session.TotalSamples)
                 return;
 
             updateUserMarkers(e.Position);
@@ -820,7 +821,7 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_MeasureSamples(object? sender, SamplesEventArgs e)
         {
-            if (e.FirstSample + e.SampleCount > settings.TotalSamples)
+            if (e.FirstSample + e.SampleCount > session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Selected range outside of the sample bounds.");
                 return;
@@ -833,7 +834,7 @@ namespace LogicAnalyzer
                     names[buc] = (buc + 1).ToString();
 
             MeasureDialog dlg = new MeasureDialog();
-            dlg.SetData(names, settings.CaptureChannels.Select(c => c.Samples), settings.Frequency);
+            dlg.SetData(names, session.CaptureChannels.Select(c => c.Samples), session.Frequency);
             await dlg.ShowDialog(this);
 
         }
@@ -880,12 +881,12 @@ namespace LogicAnalyzer
 
                     sw.WriteLine(sb.ToString());
 
-                    for (int sample = 0; sample < settings.TotalSamples; sample++)
+                    for (int sample = 0; sample < session.TotalSamples; sample++)
                     {
                         sb.Clear();
 
-                        for (int buc = 0; buc < settings.CaptureChannels.Length; buc++)
-                            sb.Append($"{settings.CaptureChannels[buc].Samples[sample]},");
+                        for (int buc = 0; buc < session.CaptureChannels.Length; buc++)
+                            sb.Append($"{session.CaptureChannels[buc].Samples[sample]},");
 
                         sb.Remove(sb.Length - 1, 1);
 
@@ -909,25 +910,19 @@ namespace LogicAnalyzer
 
         private void Driver_CaptureCompleted(object? sender, CaptureEventArgs e)
         {
-            if (e.Samples == null)
-                return;
-
-            Dispatcher.UIThread.InvokeAsync(() =>
+            Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 clearRegions();
 
-                for(int buc = 0; buc < settings.CaptureChannels.Length; buc++)
-                    ExtractSamples(settings.CaptureChannels[buc], buc, e.Samples);
+                if (!e.Success)
+                {
+                    await this.ShowError("Error", "Error capturing samples, try again and if the error persist restart the application and the device.");
+                }
 
                 updateChannels();
 
-                if (settings.LoopCount > 0)
-                {
-                    sampleViewer.Bursts = e.Bursts?.Select(b => b.BurstSampleStart).ToArray();
-                    sampleMarker.Bursts = e.Bursts;
-                }
-                else
-                    sampleViewer.Bursts = null;
+                sampleViewer.Bursts = session.Bursts?.Select(b => b.BurstSampleStart).ToArray();
+                sampleMarker.Bursts = session.Bursts;
 
                 btnCapture.IsEnabled = true;
                 btnRepeat.IsEnabled = true;
@@ -938,15 +933,15 @@ namespace LogicAnalyzer
 
                 mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
 
-                scrSamplePos.Maximum = e.Samples.Length - 1;
-                updateSamplesInDisplay(e.PreSamples - 2, Math.Max(e.PreSamples - 10, 0));
+                scrSamplePos.Maximum = session.TotalSamples - 1;
+                updateSamplesInDisplay(session.PreTriggerSamples - 2, Math.Max(session.PreTriggerSamples - 10, 0));
 
                 LoadInfo();
                 GetPowerStatus();
             });
         }
 
-        private void ExtractSamples(CaptureChannel channel, int ChannelIndex, UInt128[]? samples)
+        private void ExtractSamples(AnalyzerChannel channel, int ChannelIndex, UInt128[]? samples)
         {
             if (channel == null || samples == null)
                 return;
@@ -1077,7 +1072,7 @@ namespace LogicAnalyzer
 
         private async void btnRepeat_Click(object? sender, RoutedEventArgs e)
         {
-            if (settings == null)
+            if (session == null)
             {
                 await this.ShowError("Error", "No capture to repeat");
                 return;
@@ -1093,7 +1088,7 @@ namespace LogicAnalyzer
             if (!await dialog.ShowDialog<bool>(this))
                 return;
 
-            settings = dialog.SelectedSettings;
+            session = dialog.SelectedSettings;
             //preserveSamples = false;
             
             tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1103,6 +1098,11 @@ namespace LogicAnalyzer
                 BeginCapture();
 
                 var settingsFile = $"cpSettings{driver.DriverType}.json";
+                var settings = session.Clone();
+                
+                foreach(var channel in settings.CaptureChannels)
+                    channel.Samples = null;
+
                 AppSettingsManager.PersistSettings(settingsFile, settings);
 
             }
@@ -1125,23 +1125,10 @@ namespace LogicAnalyzer
         private async void BeginCapture()
         {
 
-            if (settings.TriggerType != 0)
-            {
-                var error = driver.StartPatternCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray(), settings.TriggerChannel, settings.TriggerBitCount, settings.TriggerPattern, settings.TriggerType == 2 ? true : false);
+            var error = driver.StartCapture(session);
 
-                if(error != CaptureError.None)
-                    await ShowError(error);
-            }
-            else
-            {
-                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.LoopCount, settings.MeasureBursts, settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray(), settings.TriggerChannel, settings.TriggerInverted);
-
-                if (error != CaptureError.None)
-                {
-                    await ShowError(error);
-                    return;
-                }
-            }
+            if (error != CaptureError.None)
+                await ShowError(error);
 
             btnCapture.IsEnabled = false;
             btnRepeat.IsEnabled = false;
@@ -1190,8 +1177,8 @@ namespace LogicAnalyzer
 
         private void btnJmpTrigger_Click(object? sender, RoutedEventArgs e)
         {
-            if (settings?.CaptureChannels != null && settings != null)
-                updateSamplesInDisplay((int)Math.Max(settings.PreTriggerSamples - (tkInScreen.Value / 10), 0), (int)tkInScreen.Value);
+            if (session?.CaptureChannels != null && session != null)
+                updateSamplesInDisplay((int)Math.Max(session.PreTriggerSamples - (tkInScreen.Value / 10), 0), (int)tkInScreen.Value);
         }
 
         private async void mnuSave_Click(object? sender, RoutedEventArgs e)
@@ -1206,7 +1193,7 @@ namespace LogicAnalyzer
                     if (string.IsNullOrWhiteSpace(file))
                         return;
 
-                    var sets = settings.Clone();
+                    var sets = session.Clone();
                     sets.PreTriggerSamples = sampleViewer.PreSamples;
                     sets.LoopCount = sampleViewer.Bursts?.Length ?? 0;
 
@@ -1244,12 +1231,12 @@ namespace LogicAnalyzer
                     if (ex == null)
                         return;
 
-                    settings = ex.Settings;
+                    session = ex.Settings;
 
                     if (ex.Samples != null)
                     {
-                        for(int buc = 0; buc < settings.CaptureChannels.Length; buc++)
-                            ExtractSamples(settings.CaptureChannels[buc], buc, ex.Samples);
+                        for(int buc = 0; buc < session.CaptureChannels.Length; buc++)
+                            ExtractSamples(session.CaptureChannels[buc], buc, ex.Samples);
                     }
 
                     updateChannels();
@@ -1264,9 +1251,9 @@ namespace LogicAnalyzer
                     if (ex.SelectedRegions != null)
                         addRegions(ex.SelectedRegions);
 
-                    scrSamplePos.Maximum = settings.TotalSamples - 1;
+                    scrSamplePos.Maximum = session.TotalSamples - 1;
 
-                    updateSamplesInDisplay(Math.Max(settings.PreTriggerSamples - 10, 0), Math.Min(100, settings.TotalSamples / 10));
+                    updateSamplesInDisplay(Math.Max(session.PreTriggerSamples - 10, 0), Math.Min(100, session.TotalSamples / 10));
 
                     LoadInfo();
                 }
@@ -1280,15 +1267,15 @@ namespace LogicAnalyzer
         void LoadInfo()
         {
 
-            string triggerType = settings.TriggerType == 0 ? "Edge" : (settings.TriggerType == 1 ? "Complex" : "Fast");
+            string triggerType = session.TriggerType.ToString();
 
-            lblFreq.Text = String.Format("{0:n0}", settings.Frequency) + " Hz";
-            lblPreSamples.Text = String.Format("{0:n0}", settings.PreTriggerSamples);
-            lblPostSamples.Text = String.Format("{0:n0}", settings.PostTriggerSamples);
-            lblSamples.Text = String.Format("{0:n0}", settings.TotalSamples);
-            lblChannels.Text = settings.CaptureChannels.Length.ToString();
-            lblTrigger.Text = $"{triggerType}, channel {settings.TriggerChannel + 1}";
-            lblValue.Text = settings.TriggerType == 0 ? (settings.TriggerInverted ? "Negative" : "Positive") : GenerateStringTrigger(settings.TriggerPattern, settings.TriggerBitCount);
+            lblFreq.Text = String.Format("{0:n0}", session.Frequency) + " Hz";
+            lblPreSamples.Text = String.Format("{0:n0}", session.PreTriggerSamples);
+            lblPostSamples.Text = String.Format("{0:n0}", session.PostTriggerSamples);
+            lblSamples.Text = String.Format("{0:n0}", session.TotalSamples);
+            lblChannels.Text = session.CaptureChannels.Length.ToString();
+            lblTrigger.Text = $"{triggerType}, channel {session.TriggerChannel + 1}";
+            lblValue.Text = session.TriggerType == 0 ? (session.TriggerInverted ? "Negative" : "Positive") : GenerateStringTrigger(session.TriggerPattern, session.TriggerBitCount);
         }
 
         private string GenerateStringTrigger(ushort triggerPattern, int bitCount)
@@ -1354,16 +1341,16 @@ namespace LogicAnalyzer
         private void updateChannels()
         {
             sampleViewer.BeginUpdate();
-            sampleViewer.PreSamples = settings.PreTriggerSamples;
-            sampleViewer.SetChannels(settings.CaptureChannels, settings.Frequency);
+            sampleViewer.PreSamples = session.PreTriggerSamples;
+            sampleViewer.SetChannels(session.CaptureChannels, session.Frequency);
             sampleViewer.EndUpdate();
 
-            samplePreviewer.UpdateSamples(settings.CaptureChannels, settings.TotalSamples);
+            samplePreviewer.UpdateSamples(session.CaptureChannels, session.TotalSamples);
             samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
-            channelViewer.Channels = settings.CaptureChannels;
+            channelViewer.Channels = session.CaptureChannels;
 
-            sgManager.SetChannels(settings.Frequency, settings.CaptureChannels);
+            sgManager.SetChannels(session.Frequency, session.CaptureChannels);
         }
     }
 }

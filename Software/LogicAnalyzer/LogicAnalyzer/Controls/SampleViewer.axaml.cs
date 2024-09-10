@@ -9,6 +9,7 @@ using AvaloniaEdit.Document;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Interfaces;
+using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace LogicAnalyzer.Controls
 
         public int PreSamples { get; set; }
         public int[]? Bursts { get; set; }
-        private CaptureChannel[]? channels;
+        private AnalyzerChannel[]? channels;
         public int VisibleSamples { get; private set; }
         public int FirstSample { get; private set; }
         public int? UserMarker { get; private set; }
@@ -99,7 +100,7 @@ namespace LogicAnalyzer.Controls
 
         }
 
-        public void SetChannels(CaptureChannel[]? Channels, int SampleFrequency)
+        public void SetChannels(AnalyzerChannel[]? Channels, int SampleFrequency)
         {
             channels = Channels;
 
@@ -119,7 +120,7 @@ namespace LogicAnalyzer.Controls
             {
                 List<interval> chanIntervals = new List<interval>();
 
-                CaptureChannel channel = channels[buc];
+                AnalyzerChannel channel = channels[buc];
 
                 if (channel.Samples == null || channel.Samples.Length == 0)
                     continue;
@@ -325,7 +326,7 @@ namespace LogicAnalyzer.Controls
                                 double xStart = (renders[chan].firstSample - FirstSample) * sampleWidth;
                                 double xEnd = renders[chan].sampleCount * sampleWidth + xStart;
 
-                                var pen = GraphicObjectsCache.GetPen(visibleChannels[chan].ChannelColor ?? AnalyzerColors.GetColor(visibleChannels[chan].ChannelNumber), 2);
+                                var pen = GraphicObjectsCache.GetPen(AnalyzerColors.GetChannelColor(visibleChannels[chan]), 2);
 
                                 if (renders[chan].value != 0)
                                     context.DrawLine(pen, new Point(xStart, yHi), new Point(xEnd, yHi));
@@ -355,7 +356,7 @@ namespace LogicAnalyzer.Controls
                     double xStart = (renders[chan].firstSample - FirstSample) * sampleWidth;
                     double xEnd = renders[chan].sampleCount * sampleWidth + xStart;
 
-                    var pen = GraphicObjectsCache.GetPen(visibleChannels[chan].ChannelColor ?? AnalyzerColors.GetColor(visibleChannels[chan].ChannelNumber), 2);
+                    var pen = GraphicObjectsCache.GetPen(AnalyzerColors.GetChannelColor(visibleChannels[chan]), 2);
 
                     if (renders[chan].value != 0)
                         context.DrawLine(pen, new Point(xStart, yHi), new Point(xEnd, yHi));
