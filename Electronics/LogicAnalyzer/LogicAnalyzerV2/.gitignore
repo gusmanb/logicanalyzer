@@ -1,0 +1,10 @@
+/jitx-design
+/pending.*dat
+
+# Data Cache - Files that don't need to be version controlled.
+designs/**/cache/
+designs/**/design-info/stable.design.backup*
+designs/**/design-info/physical-layout.design~
+
+#
+.slm

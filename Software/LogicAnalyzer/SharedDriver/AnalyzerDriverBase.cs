@@ -26,7 +26,7 @@ namespace SharedDriver
         #endregion
 
         #region Capture Methods
-        public abstract CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null);
+        public abstract CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public abstract bool StopCapture();
         #endregion
 
@@ -197,7 +197,6 @@ namespace SharedDriver
     }
     public class CaptureEventArgs : EventArgs
     {
-
         public bool Success { get; set; }
         public required CaptureSession Session { get; set; }
     }

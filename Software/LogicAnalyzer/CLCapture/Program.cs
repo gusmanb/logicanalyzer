@@ -1,11 +1,14 @@
 ﻿using CLCapture;
 using CommandLine;
+using Newtonsoft.Json;
 using SharedDriver;
 using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 
 Regex regAddressPort = new Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\\:[0-9]+");
 Regex regAddress = new Regex("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+");
@@ -33,9 +36,17 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    if (opts.SamplingFrequency > 100000000 || opts.SamplingFrequency < 3100)
+    if(string.IsNullOrWhiteSpace(opts.OutputFile))
     {
-        Console.WriteLine("Requested sampling frequency out of range (3100-100000000).");
+        Console.WriteLine("Output file not specified.");
+        return -1;
+    }
+
+    string ext = Path.GetExtension(opts.OutputFile).ToLower();
+
+    if (ext != ".csv" || ext != ".lac")
+    {
+        Console.WriteLine("Unsupported output file type. Must be .csv or .lac.");
         return -1;
     }
 
@@ -44,8 +55,14 @@ async Task<int> Capture(CLCaptureOptions opts)
     try
     {
 
-        //int[]? channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => int.Parse(c)).ToArray();
         channels = opts.Channels?.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(c => new CLChannel(c)).ToArray();
+
+        if (channels == null || channels.Any(c => c.ChannelNumber < 1 || c.ChannelNumber > 24))
+        {
+            Console.WriteLine("Specified capture channels out of range.");
+            return -1;
+        }
+
     }
     catch (Exception ex)
     {
@@ -53,70 +70,15 @@ async Task<int> Capture(CLCaptureOptions opts)
         return -1;
     }
 
-    if (channels == null || channels.Any(c => c.ChannelNumber < 1 || c.ChannelNumber > 24))
-    {
-        Console.WriteLine("Specified capture channels out of range.");
-        return -1;
-    }
-
-    int maxChannel = channels.Max(c => c.ChannelNumber);
-    int channelMode = maxChannel <= 8 ? 0 : (maxChannel <= 16 ? 1 : 2);
-
-    int channelCount = maxChannel <= 8 ? 8 : (maxChannel <= 16 ? 16 : 24);
-
-    int minPreSamples = 2;
-    int maxPreSamples = channelMode == 0 ? 98303 : (channelMode == 1 ? 49151 : 24576);
-
-    int minPostSamples = 512;
-    int maxPostSamples = channelMode == 0 ? 131069 : (channelMode == 1 ? 65533 : 32765);
-
-    int maxTotalSamples = channelMode == 0 ? 131071 : (channelMode == 1 ? 65535 : 32767);
-
-    if (opts.PreSamples + opts.PostSamples > maxTotalSamples)
-    {
-        Console.WriteLine($"Total samples exceed the supported maximum ({maxTotalSamples} for the {channelCount} channel mode).");
-        return -1;
-    }
-
-    if (opts.PreSamples < minPreSamples)
-    {
-        Console.WriteLine($"Pre-samples cannot be less than {minPreSamples}.");
-        return -1;
-    }
-
-    if (opts.PreSamples > maxPreSamples)
-    {
-        Console.WriteLine($"Pre-samples cannot be more than {maxPreSamples} for the {channelCount} channel mode.");
-        return -1;
-    }
-
-    if (opts.PostSamples < minPostSamples)
-    {
-        Console.WriteLine($"Post-samples cannot be less than {minPostSamples}.");
-        return -1;
-    }
-
-    if (opts.PostSamples > maxPostSamples)
-    {
-        Console.WriteLine($"Post-samples cannot be more than {maxPostSamples} for the {channelCount} channel mode.");
-        return -1;
-    }
-
-    if (opts.Trigger == null)
+    if(opts.Trigger == null || opts.Trigger.Value == null)
     {
         Console.WriteLine("Invalid trigger definition.");
         return -1;
     }
 
-    if (opts.Trigger.Value == null)
-    {
-        Console.WriteLine("Invalid trigger value.");
-        return -1;
-    }
-
     switch (opts.Trigger.TriggerType)
     {
-        case CLTriggerType.Edge:
+        case TriggerType.Edge:
 
             if (opts.Trigger.Channel < 1 || opts.Trigger.Channel > 24)
             {
@@ -126,7 +88,7 @@ async Task<int> Capture(CLCaptureOptions opts)
 
             break;
 
-        case CLTriggerType.Fast:
+        case TriggerType.Fast:
 
             if (opts.Trigger.Value.Length > 5)
             {
@@ -142,7 +104,7 @@ async Task<int> Capture(CLCaptureOptions opts)
 
             break;
 
-        case CLTriggerType.Complex:
+        case TriggerType.Complex:
 
             if (opts.Trigger.Value.Length > 16)
             {
@@ -159,6 +121,32 @@ async Task<int> Capture(CLCaptureOptions opts)
             break;
     }
 
+    CaptureSession session = new CaptureSession();
+    session.Frequency = opts.SamplingFrequency;
+    session.PreTriggerSamples = opts.PreSamples;
+    session.PostTriggerSamples = opts.PostSamples;
+    session.CaptureChannels = channels.OrderBy(c => c.ChannelNumber).Select(c => new AnalyzerChannel { ChannelNumber = c.ChannelNumber - 1, ChannelName = c.ChannelName }).ToArray();
+    session.LoopCount = opts.BurstCount > 1 ? opts.BurstCount - 1 : 0;
+    session.MeasureBursts = opts.MeasureBurst;
+    session.TriggerType = opts.Trigger.TriggerType;
+    session.TriggerChannel = opts.Trigger.Channel - 1;
+
+    if (session.TriggerType == TriggerType.Edge)
+    {
+        session.TriggerInverted = opts.Trigger.Value == "0";
+    }
+    else
+    {
+        session.TriggerBitCount = opts.Trigger.Value.Length;
+        session.TriggerPattern = 0;
+
+        for (int buc = 0; buc < opts.Trigger.Value.Length; buc++)
+        {
+            if (opts.Trigger.Value[buc] == '1')
+                session.TriggerPattern |= (UInt16)(1 << buc);
+        }
+    }
+
     Console.WriteLine($"Opening logic analyzer in {opts.AddressPort}...");
 
     try
@@ -172,108 +160,125 @@ async Task<int> Capture(CLCaptureOptions opts)
     }
 
     Console.WriteLine($"Connected to device {driver.DeviceVersion} in port/address {opts.AddressPort}");
+    Console.WriteLine($"Device max. frequency: {driver.MaxFrequency}");
+    Console.WriteLine($"Device max. channels: {driver.ChannelCount}");
+    Console.WriteLine($"Device buffer size: {driver.BufferSize}");
+
+    if (opts.SamplingFrequency > driver.MaxFrequency || opts.SamplingFrequency < driver.MinFrequency)
+    {
+        driver.Dispose();
+        Console.WriteLine($"Requested sampling frequency out of device's capabilities ({driver.MinFrequency}-{driver.MaxFrequency}).");
+        return -1;
+    }
+
+    var limits = driver.GetLimits(session.CaptureChannels.Select(c => c.ChannelNumber).ToArray());
+
+    if(session.PreTriggerSamples > limits.MaxPreSamples || session.PreTriggerSamples < limits.MinPreSamples)
+    {
+        driver.Dispose();
+        Console.WriteLine($"Requested pre-trigger samples out of device's capabilities ({limits.MinPreSamples}-{limits.MaxPreSamples}).");
+        return -1;
+    }
+
+    if (session.PostTriggerSamples > limits.MaxPostSamples || session.PostTriggerSamples < limits.MinPostSamples)
+    {
+        driver.Dispose();
+        Console.WriteLine($"Requested post-trigger samples out of device's capabilities ({limits.MinPostSamples}-{limits.MaxPostSamples}).");
+        return -1;
+    }
+
+    if(session.TotalSamples > limits.MaxTotalSamples)
+    {
+        driver.Dispose();
+        Console.WriteLine($"Requested total samples exceed device's capabilities ({limits.MaxTotalSamples}).");
+        return -1;
+    }
 
     captureCompletedTask = new TaskCompletionSource<CaptureEventArgs>();
 
-    int[] nChannels = channels.Select(c => c.ChannelNumber - 1).ToArray();
+    Console.WriteLine("Starting capture...");
+    var resStart = driver.StartCapture(session, CaptureFinished);
 
-    if (opts.Trigger.TriggerType == CLTriggerType.Edge)
+    if (resStart != CaptureError.None)
     {
-        Console.WriteLine("Starting edge triggered capture...");
-        var resStart = driver.StartCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples, opts.BurstCount < 2 ? 0 : opts.BurstCount - 1, opts.MeasureBurst, nChannels, opts.Trigger.Channel - 1, opts.Trigger.Value == "0", CaptureFinished);
-
-        if (resStart != CaptureError.None)
+        switch (resStart)
         {
-            switch (resStart)
-            {
-                case CaptureError.Busy:
-                    Console.WriteLine("Device is busy, stop the capture before starting a new one.");
-                    return -1;
-                case CaptureError.BadParams:
-                    Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
-                    return -1;
-                case CaptureError.HardwareError:
-                    Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
-                    return -1;
-                case CaptureError.UnexpectedError:
-                    Console.WriteLine("Unexpected error. Restart the device and try again.");
-                    return -1;
-            }
+            case CaptureError.Busy:
+                Console.WriteLine("Device is busy, stop the capture before starting a new one.");
+                return -1;
+            case CaptureError.BadParams:
+                Console.WriteLine("Specified parameters are incorrect.\r\n\r\n    -Frequency must be between 3.1Khz and 100Mhz\r\n    -PreSamples must be between 2 and 31743\r\n    -PostSamples must be between 512 and 32767\r\n    -Total samples cannot exceed 32767");
+                return -1;
+            case CaptureError.HardwareError:
+                Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
+                return -1;
+            case CaptureError.UnexpectedError:
+                Console.WriteLine("Unexpected error. Restart the device and try again.");
+                return -1;
         }
-
-        Console.WriteLine("Capture running...");
-    }
-    else
-    {
-        if (opts.Trigger.TriggerType == CLTriggerType.Fast)
-            Console.WriteLine("Starting fast pattern triggered capture");
-        else
-            Console.WriteLine("Starting complex pattern triggered capture");
-
-        int bitCount = opts.Trigger.Value.Length;
-        ushort triggerPattern = 0;
-
-        for (int buc = 0; buc < opts.Trigger.Value.Length; buc++)
-        {
-            if (opts.Trigger.Value[buc] == '1')
-                triggerPattern |= (UInt16)(1 << buc);
-        }
-
-        var resStart = driver.StartPatternCapture(opts.SamplingFrequency, opts.PreSamples, opts.PostSamples,
-            nChannels, opts.Trigger.Channel - 1, bitCount, triggerPattern, opts.Trigger.TriggerType == CLTriggerType.Fast, CaptureFinished);
-
-        if (resStart != CaptureError.None)
-        {
-            switch (resStart)
-            {
-                case CaptureError.Busy:
-                    Console.WriteLine("Device is busy, stop the capture before starting a new one.");
-                    return -1;
-                case CaptureError.BadParams:
-                    Console.WriteLine("Specified parameters are incorrect. Check the documentation in the repository to validate them.");
-                    return -1;
-                case CaptureError.HardwareError:
-                    Console.WriteLine("Device reported error starting capture. Restart the device and try again.");
-                    return -1;
-                case CaptureError.UnexpectedError:
-                    Console.WriteLine("Unexpected error. Restart the device and try again.");
-                    return -1;
-            }
-        }
-
-        Console.WriteLine("Capture running...");
     }
 
     var result = await captureCompletedTask.Task;
 
-    if (result.Samples == null)
+    if (!result.Success)
     {
-        Console.WriteLine("Capture aborted.");
+        Console.WriteLine("Error capturing data.");
         return -1;
     }
 
-    Console.WriteLine("Capture complete, writing output file...");
+    driver.Dispose();
 
-    var file = File.Create(opts.OutputFile);
+    Console.WriteLine("Capture complete, writing output file(s)...");
+
+    await WriteOutput(session, opts.OutputFile);
+
+    Console.WriteLine("Done.");
+
+    return 1;
+}
+
+async Task WriteOutput(CaptureSession session, string outputFile)
+{
+    string ext = Path.GetExtension(outputFile).ToLower();
+
+    if (ext == ".csv")
+    {
+        await WriteCSV(session, outputFile);
+    }
+    else if (ext == ".lac")
+    {
+        await WriteLAC(session, outputFile);
+    }
+}
+
+async Task WriteLAC(CaptureSession session, string outputFile)
+{
+    var content = JsonConvert.SerializeObject(new ExportedCapture { Settings = session });
+    await File.WriteAllTextAsync(outputFile, content);
+}
+
+async Task WriteCSV(CaptureSession session, string outputFile)
+{
+    var file = File.Create(outputFile);
     StreamWriter sw = new StreamWriter(file);
 
-    sw.WriteLine(String.Join(',', channels.Select(c => c.ChannelName).ToArray()));
+    sw.WriteLine(String.Join(',', session.CaptureChannels.Select(c => c.ChannelName).ToArray()));
 
     StringBuilder sb = new StringBuilder();
 
-    for (int sample = 0; sample < result.Samples.Length; sample++)
+    for (int sample = 0; sample < session.TotalSamples; sample++)
     {
         sb.Clear();
 
-        for (int buc = 0; buc < nChannels.Length; buc++)
+        for (int buc = 0; buc < session.CaptureChannels.Length; buc++)
         {
-            if ((result.Samples[sample] & ((UInt128)1 << nChannels[buc])) == 0)
-                sb.Append("0,");
-            else
+            if (session.CaptureChannels[buc].Samples?[sample] == 1)
                 sb.Append("1,");
+            else
+                sb.Append("0,");
         }
         sb.Remove(sb.Length - 1, 1);
-        sw.WriteLine(sb.ToString());
+        await sw.WriteLineAsync(sb.ToString());
     }
 
     sw.Close();
@@ -281,19 +286,18 @@ async Task<int> Capture(CLCaptureOptions opts)
     file.Close();
     file.Dispose();
 
-    if (result.Bursts != null && result.Bursts.Length > 0)
+    if (session.Bursts != null && session.Bursts.Length > 0)
     {
-
-        var outBursts = Path.Combine(Path.GetDirectoryName(opts.OutputFile) ?? "", Path.GetFileNameWithoutExtension(opts.OutputFile) + "_bursts.csv");
+        var outBursts = Path.Combine(Path.GetDirectoryName(outputFile) ?? "", Path.GetFileNameWithoutExtension(outputFile) + "_bursts.csv");
         file = File.Create(outBursts);
 
         sw = new StreamWriter(file);
 
         sw.WriteLine("Start,End,SampleGap,TimeGap");
 
-        foreach (var burst in result.Bursts)
+        foreach (var burst in session.Bursts)
         {
-            sw.WriteLine($"{burst.BurstSampleStart},{burst.BurstSampleEnd},{burst.BurstSampleGap},{burst.BurstTimeGap}");
+            await sw.WriteLineAsync($"{burst.BurstSampleStart},{burst.BurstSampleEnd},{burst.BurstSampleGap},{burst.BurstTimeGap}");
         }
 
         sw.Close();
@@ -302,9 +306,6 @@ async Task<int> Capture(CLCaptureOptions opts)
         file.Dispose();
     }
 
-    Console.WriteLine("Done.");
-
-    return 1;
 }
 
 int Configure(CLNetworkOptions opts)
@@ -396,4 +397,9 @@ void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
         catch { }
         driver = null;
     }
+}
+
+class ExportedCapture
+{
+    public required CaptureSession Settings { get; set; }
 }

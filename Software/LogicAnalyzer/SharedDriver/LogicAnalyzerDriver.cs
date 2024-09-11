@@ -241,7 +241,7 @@ namespace SharedDriver
         #region Capture code
 
 
-        public override CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null)
+        public override CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             if (capturing || baseStream == null || readResponse == null)
                 return CaptureError.Busy;
@@ -278,7 +278,7 @@ namespace SharedDriver
             return CaptureError.HardwareError;
         }
 
-        private void ReadCapture(CaptureSession Session, int Samples, CaptureMode Mode, Action<bool, CaptureSession>? CaptureCompletedHandler)
+        private void ReadCapture(CaptureSession Session, int Samples, CaptureMode Mode, Action<CaptureEventArgs>? CaptureCompletedHandler)
         {
             try
             {
@@ -431,7 +431,7 @@ namespace SharedDriver
                     ExtractSamples(Session.CaptureChannels[buc], buc, samples);
 
                 if (CaptureCompletedHandler != null)
-                    CaptureCompletedHandler(true, Session);
+                    CaptureCompletedHandler(new CaptureEventArgs { Success = true, Session = Session });
                 else if (CaptureCompleted != null)
                     CaptureCompleted(this, new CaptureEventArgs { Success = true, Session = Session });
 
@@ -456,7 +456,7 @@ namespace SharedDriver
             catch (Exception ex)
             {
                 if (CaptureCompletedHandler != null)
-                    CaptureCompletedHandler(false, Session);
+                    CaptureCompletedHandler(new CaptureEventArgs { Success = false, Session = Session });
                 else if (CaptureCompleted != null)
                     CaptureCompleted(this, new CaptureEventArgs { Success = false, Session = Session });
             }
@@ -556,6 +556,7 @@ namespace SharedDriver
                     session.TriggerBitCount > (session.TriggerType == TriggerType.Complex ? 16 : 5) ||
                     session.TriggerChannel < 0 ||
                     session.TriggerChannel > 15 ||
+                    session.TriggerChannel + session.TriggerBitCount > (session.TriggerType == TriggerType.Complex ? 16 : 5) ||
                     session.PreTriggerSamples < captureLimits.MinPreSamples ||
                     session.PostTriggerSamples < captureLimits.MinPostSamples ||
                     session.PreTriggerSamples > captureLimits.MaxPreSamples ||

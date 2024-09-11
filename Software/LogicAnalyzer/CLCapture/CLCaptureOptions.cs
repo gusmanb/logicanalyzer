@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using CommandLine;
+using SharedDriver;
 
 namespace CLCapture
 {
@@ -57,8 +58,8 @@ namespace CLCapture
                 {
                     case "triggertype":
 
-                        CLTriggerType type;
-                        var typeParsed = Enum.TryParse<CLTriggerType>(components[1], true, out type);
+                        TriggerType type;
+                        var typeParsed = Enum.TryParse<TriggerType>(components[1], true, out type);
 
                         if (!typeParsed)
                             throw new ArgumentException($"Unknown trigger type: {type}.");
@@ -90,15 +91,8 @@ namespace CLCapture
                 }
             }
         }
-        public CLTriggerType TriggerType { get; set; }
+        public TriggerType TriggerType { get; set; }
         public int Channel { get; set; }
-        public string Value { get; set; }
-    }
-
-    public enum CLTriggerType
-    {
-        Edge,
-        Fast,
-        Complex
+        public string? Value { get; set; }
     }
 }

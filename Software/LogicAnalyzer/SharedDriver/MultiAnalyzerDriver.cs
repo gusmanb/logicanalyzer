@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace SharedDriver
 {
@@ -51,7 +52,7 @@ namespace SharedDriver
         string? version;
 
         //Optional callback
-        private Action<bool, CaptureSession>? currentCaptureHandler;
+        private Action<CaptureEventArgs>? currentCaptureHandler;
         #endregion
 
         public MultiAnalyzerDriver(string[] ConnectionStrings) //First connection string must belong to the master device
@@ -117,7 +118,7 @@ namespace SharedDriver
 
         #region Capture code
 
-        public override CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null)
+        public override CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             if (Session.TriggerType == TriggerType.Edge)
                 return CaptureError.BadParams;
@@ -142,6 +143,7 @@ namespace SharedDriver
                 Session.TriggerBitCount > 16 ||
                 Session.TriggerChannel < 0 ||
                 Session.TriggerChannel > 15 ||
+                Session.TriggerChannel + Session.TriggerBitCount > (Session.TriggerType == TriggerType.Complex ? 16 : 5) ||
                 Session.PreTriggerSamples < captureLimits.MinPreSamples ||
                 Session.PostTriggerSamples < captureLimits.MinPostSamples ||
                 Session.PreTriggerSamples > captureLimits.MaxPreSamples ||
@@ -265,7 +267,7 @@ namespace SharedDriver
                     tempCapture = null;
 
                     if (currentCaptureHandler != null)
-                        currentCaptureHandler(false, sourceSession);
+                        currentCaptureHandler(new CaptureEventArgs { Success = false, Session = sourceSession });
                     else if (CaptureCompleted != null)
                         CaptureCompleted(this, new CaptureEventArgs { Success = false, Session = sourceSession });
 
@@ -295,7 +297,7 @@ namespace SharedDriver
                     }
 
                     if (currentCaptureHandler != null)
-                        currentCaptureHandler(true, sourceSession);
+                        currentCaptureHandler(new CaptureEventArgs { Success = true, Session = sourceSession });
                     else if (CaptureCompleted != null)
                         CaptureCompleted(this, new CaptureEventArgs { Success = true, Session = sourceSession });
 

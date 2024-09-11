@@ -36,7 +36,7 @@ namespace SharedDriver
             version = $"EMULATED_ANALIZER_{DeviceCount}_DEVICES";
         }
 
-        public override CaptureError StartCapture(CaptureSession Session, Action<bool, CaptureSession>? CaptureCompletedHandler = null)
+        public override CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             return CaptureError.HardwareError;
         }

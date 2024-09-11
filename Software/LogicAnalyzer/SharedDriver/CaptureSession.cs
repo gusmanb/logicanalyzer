@@ -16,7 +16,7 @@ namespace SharedDriver
         {
             get
             {
-                return PostTriggerSamples * (MeasureBursts ? LoopCount + 1 : 1) + PreTriggerSamples;
+                return PostTriggerSamples * (LoopCount + 1) + PreTriggerSamples;
             }
         }
         public int LoopCount { get; set; }
