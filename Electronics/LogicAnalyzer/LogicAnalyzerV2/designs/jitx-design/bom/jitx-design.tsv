@@ -1,0 +1,11 @@
+Comment	Designator	LCSC Part Number
+75V 500mW 1V@10mA 4ns 200mA LL-34  Switching Diode ROHS	D1	LL4148
+2.54mm Plugin 3A 3P -40℃~+105℃ Shrouded 1x3P side 8.5mm Square Holes Push-Pull,P=2.54mm  Female Headers ROHS	J1	PM254-1-03-W-8.5
+3A Shrouded Square Pins 2.54mm 3P 6mm 2.54mm Plugin 1x3P Push-Pull,P=2.54mm  Pin Headers ROHS	J3	DZ254W-11-03-65
+-  Raspberry Pi ROHS	U7	PICO
+Lying 1A 单刀三掷 24V Black 10000次 Plugin  Slide Switches ROHS	S1	SK-13D01-G030
+16V 100nF X5R ±20% 0402  Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS	C9 C4 C11 C3 C8 C1 C12 C6 C7 C2 C10 C5	 
+1.08V~5.5V 4 200Mbps 1.08V~5.5V TSSOP-14  Translators / Level Shifters ROHS	U2 U5 U4 U3 U6 U1	 
+Gold 3A Shrouded Square Pins 2.54mm 32P 6mm -55℃~+105℃ 2.54mm 双排 Black Brass 2x16P 2.54mm Push-Pull,P=2.54mm  Pin Headers ROHS	J2	 
+RES SMD 100K OHM 1% 1/16W 0402	R1	 
+RESISTOR AEC -Q200	R2	 

@@ -1,0 +1,60 @@
+{  
+  "version": 2,
+  "assignments": [
+  ],
+  "id-mapping": {  
+    "boxes": [  
+      [{"id":"5BXK3T2kWGhXnX8qZfcE2j","unit-id":0},6],
+      [{"id":"7czA3v4JVjykr5u7jU3ETd","unit-id":0},13]
+    ],
+    "inst-boxes": [  
+      [{"id":"3ZKU1zHZ1ayqCRmHBFspxT","unit-id":0},14]
+    ],
+    "nets": [
+    ],
+    "ports": [  
+      ["1111111111112ZRvgQ",0],
+      ["1111111111198tAYu",1],
+      ["11111111111EWSXJ8",2],
+      ["11111111111MHXekf",3],
+      ["11111111111TfMoP3",4],
+      ["11111111111afBuT1",5],
+      ["3EEw1eyAgLfqw4BeCwx7NT",7],
+      ["4HN3RihNC9ZErcv5JnFEzh",8],
+      ["8gqvihzSfBF8KfUoWvrigC",9],
+      ["52Tqyafuik5skE19o71JK2",10],
+      ["EgLV5fr5RddmDp4PtTJiBd",11],
+      ["2WEu2NWS6nNWT2QxBwfDzq",12]
+    ]
+  },
+  "design": {  
+    "input": {  
+      "paper-size": {  
+        "x": 145,
+        "y": 72
+      },
+      "label-style": {  
+        "type": "monospace-label-style",
+        "height-in-grid-units": 0.8,
+        "char-width-relative-to-height": 0.6
+      },
+      "boxes": [  
+        {"id":6,"sw":{"x":-10,"y":-8},"ne":{"x":10,"y":8},"ports":[{"id":0,"pt":{"x":-10,"y":1},"dir":"Left","tag":"AnyTag"},{"id":1,"pt":{"x":-10,"y":-1},"dir":"Left","tag":"AnyTag"},{"id":2,"pt":{"x":10,"y":1},"dir":"Right","tag":"AnyTag"},{"id":3,"pt":{"x":10,"y":-1},"dir":"Right","tag":"AnyTag"},{"id":4,"pt":{"x":0,"y":8},"dir":"Up","tag":"AnyTag"},{"id":5,"pt":{"x":0,"y":-8},"dir":"Down","tag":"AnyTag"}],"orientation":{"type":"prefer-rotation","rotations":[0]}},
+        {"id":13,"sw":{"x":-10,"y":-8},"ne":{"x":10,"y":8},"ports":[{"id":7,"pt":{"x":-10,"y":1},"dir":"Left","tag":"AnyTag"},{"id":8,"pt":{"x":-10,"y":-1},"dir":"Left","tag":"AnyTag"},{"id":9,"pt":{"x":10,"y":1},"dir":"Right","tag":"AnyTag"},{"id":10,"pt":{"x":10,"y":-1},"dir":"Right","tag":"AnyTag"},{"id":11,"pt":{"x":0,"y":8},"dir":"Up","tag":"AnyTag"},{"id":12,"pt":{"x":0,"y":-8},"dir":"Down","tag":"AnyTag"}],"orientation":{"type":"prefer-rotation","rotations":[0]}}
+      ],
+      "insts": [  
+        {"id":14,"box":13,"group":null}
+      ],
+      "nets": [
+      ],
+      "shorts": [
+      ],
+      "schematic-group-order": [
+      ]
+    },
+    "sheets": [  
+      {"id":16,"title":null,"groups":[{"id":15,"groups":[null],"border":{"sw":{"x":60,"y":26},"ne":{"x":84,"y":46}},"insts":[{"inst":14,"pose":{"center":{"x":72,"y":36},"angle":0,"flip-x?":false}}],"children":[]}],"nets":[]}
+    ],
+    "hierarchical-diagram": null
+  }
+}

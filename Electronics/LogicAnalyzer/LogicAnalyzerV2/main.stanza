@@ -8,45 +8,165 @@ defpackage main :
   import helpers
 
 ; Define the shape/size of the board
-val board-shape = RoundedRectangle(150.0, 100.0, 0.25)
+val board-shape = RoundedRectangle(55.5, 65.0, 0.25)
+
+pcb-routing-structure data-line :
+  name = "Capture data line"
+  layer-constraints(Top) :
+    trace-width = 0.13      ; mm
+    clearance = 0.1         ; mm
+    velocity = 0.19e12      ; mm/s
+    insertion-loss = 0.008  ; db/mm @ 1GHz 
+
+  layer-constraints(Bottom) :
+    trace-width = 0.13      ; mm
+    clearance = 0.1         ; mm
+    velocity = 0.19e12      ; mm/s
+    insertion-loss = 0.008  ; db/mm @ 1GHz 
 
 ; Module to run as a design
 pcb-module logic-analyzer :
-  ; define some pins/ports
-  port DA : pin[ [1,3,5,7,9,11,13,15,17,19,21,23] ]
-  port DB : pin[ [2,4,6,8,10,12,14,16,18,20,22,24] ]
-  port gnd
-  port power-5v
+
+  node gnd:pin
 
   ; Level shifters
-  inst U1 : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
-  inst U2 : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
-  inst U3 : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
-  inst U4 : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
-  inst U5 : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
-  inst U6 : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
+  var shifters = Array<?>(6)
+  var shifterInputPins = Array<?>(24)
+  var shifterOutputPins = Array<?>(24)
+  var shifterRefAPins = Array<?>(6)
+  var shifterRefBPins = Array<?>(6)
 
-  ; Decoupling caps
-  bypass-cap-strap(U1.VCCA, gnd, 100.0e-9)
-  bypass-cap-strap(U2.VCCA, gnd, 100.0e-9)
-  bypass-cap-strap(U3.VCCA, gnd, 100.0e-9)
-  bypass-cap-strap(U4.VCCA, gnd, 100.0e-9)
-  bypass-cap-strap(U5.VCCA, gnd, 100.0e-9)
-  bypass-cap-strap(U6.VCCA, gnd, 100.0e-9)
+  for i in 0 to 6 :
+    println("Instantiating shifter %_" % [i])
+    inst shifter : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
+    net (shifter.GND, gnd)
+    shifters[i] = shifter
+    val offset = i * 4
+    shifterInputPins[offset] = shifter.A1
+    shifterInputPins[offset + 1] = shifter.A2
+    shifterInputPins[offset + 2] = shifter.A3
+    shifterInputPins[offset + 3] = shifter.A4
+    shifterOutputPins[offset] = shifter.B1Y
+    shifterOutputPins[offset + 1] = shifter.B2Y
+    shifterOutputPins[offset + 2] = shifter.B3Y
+    shifterOutputPins[offset + 3] = shifter.B4Y
+    shifterRefAPins[i] = shifter.VCCA
+    shifterRefBPins[i] = shifter.VCCB
 
-  bypass-cap-strap(U1.VCCB, gnd, 100.0e-9)
-  bypass-cap-strap(U2.VCCB, gnd, 100.0e-9)
-  bypass-cap-strap(U3.VCCB, gnd, 100.0e-9)
-  bypass-cap-strap(U4.VCCB, gnd, 100.0e-9)
-  bypass-cap-strap(U5.VCCB, gnd, 100.0e-9)
-  bypass-cap-strap(U6.VCCB, gnd, 100.0e-9)
-
+  ;Pico module
   inst U7 : database-part(["mpn" => "PICO", "manufacturer" => "Raspberry Pi"])
 
-  inst J1 : database-part(["mpn" => "C65114", "manufacturer" => "BOOMELE"])
-  ; Write the board version on silkscreen
-  inst version-label  : ocdb/artwork/board-text/version-silkscreen("Version 0.0")
-  place(version-label) at loc(0.0, height(board-shape) / 2.0 - 1.0) on Bottom
+  ;Pin headers
+  inst J1 : database-part(["mpn" => "SK-13D01-G030", "manufacturer" => "G-Switch"])
+  inst J2 : database-part(["mpn" => "C97095", "manufacturer" => "BOOMELE"]);database-part(["mpn" => "S108500004", "manufacturer" => "Ckmtw(Shenzhen Cankemeng)"])
+  inst J3 : database-part(["mpn" => "PM254-1-03-W-8.5", "manufacturer" => "HCTL"])
+  inst J4 : database-part(["mpn" => "DZ254W-11-03-65", "manufacturer" => "DEALON"])
+
+  ;Diodes
+  inst D1 : database-part(["mpn" => "LL4148", "manufacturer" => "MDD（Microdiode Electronics）"])
+
+  ;Resistors
+  inst r1 : chip-resistor(8.2e3)
+  inst r2 : chip-resistor(100.0e3)
+
+  ;VREF nets
+  net VREF (shifters[0].VCCA, shifters[1].VCCA, shifters[2].VCCA, shifters[3].VCCA, shifters[4].VCCA, shifters[5].VCCA, J1.p[2])
+  net EXT_VREF (J1.p[1], J2.p[3])
+
+  property(VREF.voltage) = tol%(5.0, 5.0)
+  property(EXT_VREF.voltage) = tol%(5.0, 5.0)
+
+  ;Power nets
+  net POWER_3v3 (shifters[0].VCCB , shifters[1].VCCB , shifters[2].VCCB , shifters[3].VCCB , shifters[4].VCCB , shifters[5].VCCB , J1.p[3] , J2.p[7] , J2.p[8] , U7.P_3V3_OUT) ; 3v3
+  net POWER_5v (J1.p[4] , U7.VBUS , J2.p[5] , J2.p[6]) ; 5v
+  net GND (U7.GND0 , U7.GND1 , U7.GND2 , U7.GND3 , U7.GND4 , U7.GND6 , U7.GND6 , U7.GND7 , J2.p[1] , J2.p[2] , J3.p[3] , J4.p[3] , r1.p[2] , r2.p[2] , gnd) ; gnd
+
+  property(POWER_3v3.voltage) = tol%(3.3, 5.0)
+  property(POWER_5v.voltage) = tol%(5.0, 5.0)
+  property(GND.voltage) = typ(0.0)
+
+  ;Trigger nets
+  net EXT_CHAIN (D1.A, U7.GP0, U7.GP1, J3.p[1], J4.p[1], r1.p[1])
+  net EXT_TRIG (D1.C, J2.p[4], r2.p[1])
+
+  property(EXT_CHAIN.voltage) = tol%(3.3, 5.0)
+  property(EXT_TRIG.voltage) = tol%(3.3, 5.0)
+
+  ; Decoupling caps
+  for i in 0 to 6 :
+    println("Creating decoupling caps for shifter %_" % [i])
+    bypass-cap-strap(shifters[i].VCCA, gnd, 100.0e-9)
+    bypass-cap-strap(shifters[i].VCCB, gnd, 100.0e-9)  
+
+
+  val signal-skew = TimingDifferenceConstraint(0.0 +/- 50.0e-12) ;50 picosec
+
+  ;Shifter input nets
+  for i in 0 to 24 :
+
+    var pinNum
+    var netName
+
+    if i < 12 :
+      pinNum = 31 - (i * 2)
+      netName = to-symbol("DIN%_" % [i + 1])
+    else :
+      pinNum = 32 - ((i - 12) * 2)
+      netName = to-symbol("DIN%_" % [24 - (i - 12)])
+
+    println("Mapping shifter input pin %_ to connector pin %_" % [i, pinNum])
+    ;val netName = to-symbol("DIN%_" % [i + 1])
+
+    
+
+    make-net(netName, [shifterInputPins[i], J2.p[pinNum]])
+    
+    println("Creating topology from shifterInputPins[%_] to J2.p[%_]" % [i, pinNum])
+    topology-segment(shifterInputPins[i], J2.p[pinNum])
+    structure(shifterInputPins[i] => J2.p[pinNum]) = data-line
+    
+    if i < 23 :
+
+      println("Creating timming constraing for shifterInputPins[%_] => J2.p[%_], shifterInputPins[23] => J2.p[10]" % [ i, pinNum ])
+      timing-difference(
+        shifterInputPins[i] => J2.p[pinNum],
+        shifterInputPins[23] => J2.p[10],
+      ) = signal-skew
+
+    var gpNum
+    var o
+
+    if i < 21 :
+      gpNum = i + 2
+    else :
+      gpNum = i + 5
+
+    if i < 12 :
+      o = i
+    else :
+      o = 11 + (24 - i)
+
+    println("Mapping shifter output pin %_ to gpio %_" % [o, gpNum])
+    val outNetName = to-symbol("DOUT%_" % [i + 1])
+    make-net(outNetName, [shifterOutputPins[o], U7.(to-symbol("GP%_" % [gpNum]))])
+    
+    println("Creating topology from shifterOutputPins[%_] to U7.GP%_" % [o, gpNum])
+    topology-segment(shifterOutputPins[o], U7.(to-symbol("GP%_" % [gpNum])))
+    structure(shifterOutputPins[o] => U7.(to-symbol("GP%_" % [gpNum]))) = data-line
+
+    if o < 23 :
+
+      println("Creating timming constraing for shifterOutputPins[%_] => U7.GP%_, shifterOutputPins[23] => U7.GP14" % [ i, gpNum ])
+      timing-difference(
+        shifterOutputPins[o] => U7.(to-symbol("GP%_" % [gpNum])),
+        shifterOutputPins[23] => U7.GP14,
+      ) = signal-skew
+
+  geom(GND) :
+    copper-pour(LayerIndex(0), isolate = 0.1) = RoundedRectangle(57.0, 65.0, 0.25)
+    copper-pour(LayerIndex(3), isolate = 0.1) = RoundedRectangle(57.0, 65.0, 0.25)
+
+  ocdb/utils/checks/check-design(self)
 
 ; Set the design name     - a directory with this name will be generated under the "designs" directory
 ;     the board           - a Board object
@@ -64,8 +184,21 @@ set-paper(ANSI-A)
 ; Set the top level module (the module to be compile into a schematic and PCB)
 set-main-module(logic-analyzer)
 
+
 ; Use any helper function from helpers.stanza here
 ; run-check-on-design(my-design)
+
+set-bom-vendors(["JLCPCB"])
+set-bom-design-quantity(10)
+set-bom-columns([
+  BOMColumn(BOMFieldDescription, "Comment", 20.0)
+  BOMColumn(BOMFieldInsts, "Designator", 30.0)
+  BOMColumn(BOMFieldSKU, "LCSC Part Number", 20.0)
+])
+
+set-export-backend(`kicad)
+export-cad()
+export-bom()
 
 ; View the results
 view-design-explorer()

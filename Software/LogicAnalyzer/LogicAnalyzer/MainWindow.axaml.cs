@@ -188,7 +188,7 @@ namespace LogicAnalyzer
 
         private void SampleViewer_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
-            if(e.KeyModifiers == KeyModifiers.Shift)
+            if (e.KeyModifiers == KeyModifiers.Shift)
             {
                 e.Handled = true;
 
@@ -212,6 +212,33 @@ namespace LogicAnalyzer
                         newVal = (int)tkInScreen.Minimum;
 
                     updateSamplesInDisplay((int)scrSamplePos.Value, newVal);
+                }
+            }
+            else if (e.KeyModifiers == KeyModifiers.Control)
+            {
+                e.Handled = true;
+
+                if (e.Delta.Y > 0)
+                {
+                    var increment = tkInScreen.Value / 4.0;
+                    var currentValue = scrSamplePos.Value;
+                    currentValue += (int)increment;
+
+                    if(currentValue > scrSamplePos.Maximum)
+                        currentValue = (int)scrSamplePos.Maximum;
+
+                    updateSamplesInDisplay((int)currentValue, (int)tkInScreen.Value);
+                }
+                else if (e.Delta.Y < 0)
+                {
+                    var increment = tkInScreen.Value / 4.0;
+                    var currentValue = scrSamplePos.Value;
+                    currentValue -= (int)increment;
+
+                    if (currentValue < 0)
+                        currentValue = 0;
+
+                    updateSamplesInDisplay((int)currentValue, (int)tkInScreen.Value);
                 }
             }
         }
