@@ -7799,7 +7799,7 @@
 		)
 		(pad "trace" smd custom
 			(at 0 0)
-			(size 0.01 0.01)
+			(size 0 0)
 			(layers "F.Cu")
 			(net 7 "EXT_TRIG")
 			(zone_connect 2)
@@ -7886,7 +7886,7 @@
 		)
 		(pad "trace" smd custom
 			(at 0 0)
-			(size 0.01 0.01)
+			(size 0 0)
 			(layers "B.Cu")
 			(net 19 "EXT_VREF")
 			(zone_connect 2)

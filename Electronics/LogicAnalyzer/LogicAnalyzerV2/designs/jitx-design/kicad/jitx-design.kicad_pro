@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.762,
-          "height": 1.524,
-          "width": 1.524
+          "drill": 0.0,
+          "height": 0.0,
+          "width": 0.0
         },
         "silk_line_width": 0.12,
         "silk_text_italic": false,
@@ -695,7 +695,7 @@
       "idf": "",
       "netlist": "",
       "plot": "output/",
-      "pos_files": "",
+      "pos_files": "output/",
       "specctra_dsn": "",
       "step": "",
       "svg": "",

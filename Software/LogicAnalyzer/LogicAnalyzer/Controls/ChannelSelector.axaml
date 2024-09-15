@@ -8,7 +8,7 @@
              BorderBrush="White" BorderThickness="1" MinWidth="107" MaxWidth="107" MinHeight="95" MaxHeight="95">
   <StackPanel Margin="3">
     <Grid ColumnDefinitions="*,Auto" HorizontalAlignment="Stretch">
-      <CheckBox Name="ckEnable" HorizontalAlignment="Center">Enable</CheckBox>
+      <CheckBox Name="ckEnable" HorizontalAlignment="Center" FontSize="12">Enable</CheckBox>
       <TextBlock Name="lblColor" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" PointerPressed="LblColor_PointerPressed" Margin="5"></TextBlock>
     </Grid>
     <TextBlock HorizontalAlignment="Center" Margin="2" Name="tbChannel">No channel</TextBlock>

@@ -17,11 +17,17 @@ ver = str(sys.version_info.major) + str(sys.version_info.minor);
 path = sys.exec_prefix;
 print(op.join(path, 'Python' + ver + '.dll'));";
 
-        const string macLinuxPyScript = @"from distutils import sysconfig;
+        const string linuxPyScript = @"from distutils import sysconfig;
 import os.path as op;
 v = sysconfig.get_config_vars();
 fpaths = [op.join(v[pv], v['LDLIBRARY']) for pv in ('LIBDIR', 'LIBPL')]; 
 print(list(filter(op.exists, fpaths))[0])";
+
+        const string macPyScript = @"import sys;
+import os.path as op;
+ver = str(sys.version_info.major) + '.' + str(sys.version_info.minor);
+path = sys.exec_prefix;
+print(op.join(path, 'lib/libpython' + ver + '.dylib'));";
 
         public string InterpreterName { get; }
         public string? Version { get; }
@@ -126,12 +132,31 @@ print(list(filter(op.exists, fpaths))[0])";
 
         private static string? GetPythonPath(string PythonExecutable)
         {
-            if (System.OperatingSystem.IsMacOS() || System.OperatingSystem.IsLinux())
+            if (System.OperatingSystem.IsLinux())
             {
                 Log(PythonExecutable, "PythonExecutable, Finding python library on Mac/Linux...");
-                var res = RunPythonScript(PythonExecutable, macLinuxPyScript);
+                var res = RunPythonScript(PythonExecutable, linuxPyScript);
 
                 Log(PythonExecutable, $"PythonExecutable, Script output: {res}");
+
+                if (res == null)
+                {
+                    Log(PythonExecutable, "Python library not found, aborting.");
+                    return null;
+                }
+
+                var path = res.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+
+                Log(PythonExecutable, $"Final python path: {path}");
+
+                return path;
+            }
+            else if (System.OperatingSystem.IsMacOS())
+            {
+                Log(PythonExecutable, "Finding python library on Mac...");
+                var res = RunPythonScript(PythonExecutable, macPyScript);
+
+                Log(PythonExecutable, $"Script output: {res}");
 
                 if (res == null)
                 {
