@@ -9,7 +9,7 @@
   <StackPanel Margin="3">
     <Grid ColumnDefinitions="*,Auto" HorizontalAlignment="Stretch">
       <CheckBox Name="ckEnable" HorizontalAlignment="Center" FontSize="12">Enable</CheckBox>
-      <TextBlock Name="lblColor" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" PointerPressed="LblColor_PointerPressed" Margin="5"></TextBlock>
+      <TextBlock Name="lblColor" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Margin="5"></TextBlock>
     </Grid>
     <TextBlock HorizontalAlignment="Center" Margin="2" Name="tbChannel">No channel</TextBlock>
     <TextBox Margin="2" Name="txtName" MinHeight="16" FontSize="10" IsEnabled="false"></TextBox>

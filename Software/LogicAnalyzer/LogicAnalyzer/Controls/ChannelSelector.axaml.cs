@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using AvaloniaColorPicker;
 using LogicAnalyzer.Classes;
 using System;
 
@@ -64,6 +63,7 @@ namespace LogicAnalyzer.Controls
             InitializeComponent();
             ckEnable.Checked += CkEnable_Checked;
             ckEnable.Unchecked += CkEnable_Unchecked;
+            lblColor.PointerPressed += LblColor_PointerPressed;
         }
 
         private void CkEnable_Unchecked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -96,6 +96,8 @@ namespace LogicAnalyzer.Controls
 
         private void LblColor_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
         {
+            e.Handled = true;
+
             if (ChangeColor != null)
                 ChangeColor(this, EventArgs.Empty);
         }

@@ -7,8 +7,6 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
-using AvaloniaColorPicker;
-using AvaloniaEdit.Utils;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Dialogs;
@@ -314,24 +312,37 @@ namespace LogicAnalyzer
             annotationsViewer.EndUpdate();
         }
 
-        private async void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
+        private void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
         {
-            var picker = new ColorPickerWindow();
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(150);
 
-            if (e.Channel.ChannelColor != null)
-                picker.Color = Color.FromUInt32(e.Channel.ChannelColor.Value);
-            else
-                picker.Color = AnalyzerColors.GetColor(e.Channel.ChannelNumber);
+                await Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var chan = e.Channel;
 
-            var color = await picker.ShowDialog(this);
+                    if (chan == null)
+                        return;
 
-            if (color == null)
-                return;
+                    var picker = new ColorPickerDialog();
 
-            e.Channel.ChannelColor = color.Value.ToUInt32();
-            (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
-            samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
-            sampleViewer.InvalidateVisual();
+                    if (chan.ChannelColor != null)
+                        picker.PickerColor = Color.FromUInt32(chan.ChannelColor.Value);
+                    else
+                        picker.PickerColor = AnalyzerColors.GetColor(chan.ChannelNumber);
+
+                    var color = await picker.ShowDialog<Color?>(this);
+
+                    if (color == null)
+                        return;
+
+                    chan.ChannelColor = color.Value.ToUInt32();
+                    (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
+                    samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
+                    sampleViewer.InvalidateVisual();
+                });
+            });
         }
 
         private async void MnuAbout_Click(object? sender, RoutedEventArgs e)

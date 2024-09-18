@@ -4,6 +4,7 @@
               RequestedThemeVariant="Dark">
     <Application.Styles>
       <FluentTheme />
+      <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
       <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
     </Application.Styles>
 </Application>

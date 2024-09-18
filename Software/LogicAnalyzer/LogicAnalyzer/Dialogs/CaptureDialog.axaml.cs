@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using AvaloniaColorPicker;
+using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
@@ -162,27 +162,34 @@ namespace LogicAnalyzer.Dialogs
             triggerChannels = triggers.ToArray();
         }
 
-        private async void Channel_ChangeColor(object? sender, EventArgs e)
+        private void Channel_ChangeColor(object? sender, EventArgs e)
         {
+            _ = Task.Run(async () => 
+            {
+                await Task.Delay(150);
 
-            var chan = sender as ChannelSelector;
+                await Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var chan = sender as ChannelSelector;
 
-            if (chan == null)
-                return;
+                    if (chan == null)
+                        return;
 
-            var picker = new ColorPickerWindow();
+                    var picker = new ColorPickerDialog(); //ColorPickerWindow();
 
-            if (chan.ChannelColor != null)
-                picker.Color = Color.FromUInt32(chan.ChannelColor.Value);
-            else
-                picker.Color = AnalyzerColors.GetColor(chan.ChannelNumber);
+                    if (chan.ChannelColor != null)
+                        picker.PickerColor = Color.FromUInt32(chan.ChannelColor.Value);
+                    else
+                        picker.PickerColor = AnalyzerColors.GetColor(chan.ChannelNumber);
 
-            var color = await picker.ShowDialog(this);
+                    var color = await picker.ShowDialog<Color?>(this);
 
-            if (color == null)
-                return;
+                    if (color == null)
+                        return;
 
-            chan.ChannelColor = color.Value.ToUInt32();
+                    chan.ChannelColor = color.Value.ToUInt32();
+                });
+            });
         }
 
         private void Channel_Deselected(object? sender, EventArgs e)
