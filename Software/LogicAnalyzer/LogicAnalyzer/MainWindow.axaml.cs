@@ -150,13 +150,16 @@ namespace LogicAnalyzer
             }
         }
 
-        private void LblInfo_PointerPressed(object? sender, PointerPressedEventArgs e)
+        private async void LblInfo_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if(driver != null)
             {
                 var dlg = new AnalyzerInfoDialog();
                 dlg.Initialize(driver);
-                dlg.ShowDialog(this);
+                await dlg.ShowDialog(this);
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    e.Pointer.Capture(null);
             }
         }
 
@@ -312,37 +315,29 @@ namespace LogicAnalyzer
             annotationsViewer.EndUpdate();
         }
 
-        private void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
+        private async void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
         {
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(150);
+            var chan = e.Channel;
 
-                await Dispatcher.UIThread.InvokeAsync(async () =>
-                {
-                    var chan = e.Channel;
+            if (chan == null)
+                return;
 
-                    if (chan == null)
-                        return;
+            var picker = new ColorPickerDialog();
 
-                    var picker = new ColorPickerDialog();
+            if (chan.ChannelColor != null)
+                picker.PickerColor = Color.FromUInt32(chan.ChannelColor.Value);
+            else
+                picker.PickerColor = AnalyzerColors.GetColor(chan.ChannelNumber);
 
-                    if (chan.ChannelColor != null)
-                        picker.PickerColor = Color.FromUInt32(chan.ChannelColor.Value);
-                    else
-                        picker.PickerColor = AnalyzerColors.GetColor(chan.ChannelNumber);
+            var color = await picker.ShowDialog<Color?>(this);
 
-                    var color = await picker.ShowDialog<Color?>(this);
+            if (color == null)
+                return;
 
-                    if (color == null)
-                        return;
-
-                    chan.ChannelColor = color.Value.ToUInt32();
-                    (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
-                    samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
-                    sampleViewer.InvalidateVisual();
-                });
-            });
+            chan.ChannelColor = color.Value.ToUInt32();
+            (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
+            samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
+            sampleViewer.InvalidateVisual();
         }
 
         private async void MnuAbout_Click(object? sender, RoutedEventArgs e)
@@ -546,6 +541,7 @@ namespace LogicAnalyzer
                 Samples[buc] = newSample;
             }
         }
+        
         private bool[] ExtractChannelSamples(int ChannelIndex, UInt128[] Samples)
         {
             UInt128 mask = ((UInt128)1) << ChannelIndex;
@@ -1097,6 +1093,7 @@ namespace LogicAnalyzer
             }
                     
         }
+        
         private void btnRefresh_Click(object? sender, RoutedEventArgs e)
         {
             RefreshPorts();

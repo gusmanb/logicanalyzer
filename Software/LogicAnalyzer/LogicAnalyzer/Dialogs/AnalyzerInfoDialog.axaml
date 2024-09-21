@@ -12,12 +12,14 @@
     <TextBlock Grid.ColumnSpan="4" FontSize="18" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Basic information</TextBlock>
     <Separator Grid.Row="1" Grid.ColumnSpan="4"></Separator>
     <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Analyzer type:</TextBlock>
-    <TextBlock Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Maximum sample rate:</TextBlock>
+    <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Max. std rate:</TextBlock>
+    <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Max. blast rate:</TextBlock>
     <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Buffer size:</TextBlock>
     <TextBlock Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Total channels:</TextBlock>
     
     <TextBlock Grid.Row="2" Name="lblType" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">LOGIC_ANALYZER_PICO_WIFI_V60</TextBlock>
-    <TextBlock Grid.Row="3" Name="lblFreq" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">100,000,000</TextBlock>
+    <TextBlock Grid.Row="3" Name="lblFreq" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">100Mhz</TextBlock>
+    <TextBlock Grid.Row="3" Name="lblBlast" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">200Mhz</TextBlock>
     <TextBlock Grid.Row="4" Name="lblBuf" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">131,072</TextBlock>
     <TextBlock Grid.Row="4" Name="lblChan" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">24</TextBlock>
     

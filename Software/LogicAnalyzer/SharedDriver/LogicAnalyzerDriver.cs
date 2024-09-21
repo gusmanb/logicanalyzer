@@ -20,6 +20,7 @@ namespace SharedDriver
         static Regex regChan = new Regex("^CHANNELS:([0-9]+)$");
         static Regex regBuf = new Regex("^BUFFER:([0-9]+)$");
         static Regex regFreq = new Regex("^FREQ:([0-9]+)$");
+        static Regex regBlast = new Regex("^BLASTFREQ:([0-9]+)$");
         #endregion
 
         #region Properties
@@ -28,6 +29,7 @@ namespace SharedDriver
         public override string? DeviceVersion { get { return version; } }
         public override int ChannelCount { get { return channelCount; } }
         public override int MaxFrequency { get { return maxFrequency; } }
+        public override int BlastFrequency { get { return blastFrequency; } }
         public override int BufferSize { get { return bufferSize; } }
         public override AnalyzerDriverType DriverType
         {
@@ -51,6 +53,7 @@ namespace SharedDriver
         string? version;
         int channelCount;
         int maxFrequency;
+        int blastFrequency;
         int bufferSize;
         string? devAddr;
         ushort devPort;
@@ -115,6 +118,13 @@ namespace SharedDriver
                 throw new DeviceConnectionException("Invalid device frequency response.");
             }
 
+            var blast = readResponse.ReadLine();
+            if(!GetBlastFrequency(blast))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid blast frequency response.");
+            }
+
             var bufString = readResponse.ReadLine();
             if (!GetBufferSize(bufString))
             {
@@ -131,6 +141,7 @@ namespace SharedDriver
 
             baseStream.ReadTimeout = Timeout.Infinite;
         }
+
         private void InitNetwork(string AddressPort)
         {
             var match = regAddressPort.Match(AddressPort);
@@ -235,7 +246,19 @@ namespace SharedDriver
             maxFrequency = freqVal;
             return true;
         }
+        private bool GetBlastFrequency(string? blast)
+        {
+            var match = regBlast.Match(blast ?? "");
+            if (!match.Success || !match.Groups[1].Success)
+                return false;
 
+            var freqStr = match.Groups[1].Value;
+            if (!int.TryParse(freqStr, out int freqVal))
+                return false;
+
+            blastFrequency = freqVal;
+            return true;
+        }
         #endregion
 
         #region Capture code
@@ -243,39 +266,43 @@ namespace SharedDriver
 
         public override CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
-            if (capturing || baseStream == null || readResponse == null)
-                return CaptureError.Busy;
-
-            if (Session.CaptureChannels == null || Session.CaptureChannels.Length < 0)
-                return CaptureError.BadParams;
-
-            int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((byte)Session.LoopCount + 1));
-
-            if(!ValidateSettings(Session, requestedSamples))
-                return CaptureError.BadParams;
-
-            var mode = GetCaptureMode(Session.CaptureChannels.Select(c => c.ChannelNumber).ToArray());
-
-            var request = ComposeRequest(Session, requestedSamples, mode);
-
-            OutputPacket pack = new OutputPacket();
-            pack.AddByte(1);
-            pack.AddStruct(request);
-
-            baseStream.Write(pack.Serialize());
-            baseStream.Flush();
-
-            baseStream.ReadTimeout = 10000;
-            var result = readResponse.ReadLine();
-            baseStream.ReadTimeout = Timeout.Infinite;
-
-            if (result == "CAPTURE_STARTED")
+            try
             {
-                capturing = true;
-                Task.Run(() => ReadCapture(Session, requestedSamples, mode, CaptureCompletedHandler));
-                return CaptureError.None;
+                if (capturing || baseStream == null || readResponse == null)
+                    return CaptureError.Busy;
+
+                if (Session.CaptureChannels == null || Session.CaptureChannels.Length < 0)
+                    return CaptureError.BadParams;
+
+                int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((byte)Session.LoopCount + 1));
+
+                if (!ValidateSettings(Session, requestedSamples))
+                    return CaptureError.BadParams;
+
+                var mode = GetCaptureMode(Session.CaptureChannels.Select(c => c.ChannelNumber).ToArray());
+
+                var request = ComposeRequest(Session, requestedSamples, mode);
+
+                OutputPacket pack = new OutputPacket();
+                pack.AddByte(1);
+                pack.AddStruct(request);
+
+                baseStream.Write(pack.Serialize());
+                baseStream.Flush();
+
+                baseStream.ReadTimeout = 10000;
+                var result = readResponse.ReadLine();
+                baseStream.ReadTimeout = Timeout.Infinite;
+
+                if (result == "CAPTURE_STARTED")
+                {
+                    capturing = true;
+                    Task.Run(() => ReadCapture(Session, requestedSamples, mode, CaptureCompletedHandler));
+                    return CaptureError.None;
+                }
+                return CaptureError.HardwareError;
             }
-            return CaptureError.HardwareError;
+            catch { return CaptureError.HardwareError; }
         }
 
         private void ReadCapture(CaptureSession Session, int Samples, CaptureMode Mode, Action<CaptureEventArgs>? CaptureCompletedHandler)
@@ -455,6 +482,9 @@ namespace SharedDriver
             }
             catch (Exception ex)
             {
+                if (!capturing)
+                    return;
+
                 if (CaptureCompletedHandler != null)
                     CaptureCompletedHandler(new CaptureEventArgs { Success = false, Session = Session });
                 else if (CaptureCompleted != null)
@@ -474,11 +504,11 @@ namespace SharedDriver
 
         private CaptureRequest ComposeRequest(CaptureSession session, int requestedSamples, CaptureMode mode)
         {
-            if (session.TriggerType == TriggerType.Edge)
+            if (session.TriggerType == TriggerType.Edge || session.TriggerType == TriggerType.Blast)
             {
                 CaptureRequest request = new CaptureRequest
                 {
-                    triggerType = 0,
+                    triggerType = (byte)(session.TriggerType),
                     trigger = (byte)session.TriggerChannel,
                     invertedOrCount = session.TriggerInverted ? (byte)1 : (byte)0,
                     channels = new byte[32],
@@ -544,6 +574,24 @@ namespace SharedDriver
                     session.Frequency < MinFrequency ||
                     session.Frequency > MaxFrequency ||
                         session.LoopCount > 254
+                    )
+                    return false;
+            }
+            else if (session.TriggerType == TriggerType.Blast)
+            {
+                if (
+                    numChan.Min() < 0 ||
+                    numChan.Max() > ChannelCount - 1 ||
+                    session.TriggerChannel < 0 ||
+                    session.TriggerChannel > ChannelCount || //MaxChannel + 1 = ext trigger
+                    session.PreTriggerSamples < 0 ||
+                    session.PostTriggerSamples < captureLimits.MinPostSamples ||
+                    session.PreTriggerSamples > 0 ||
+                    session.PostTriggerSamples > captureLimits.MaxTotalSamples ||
+                    requestedSamples > captureLimits.MaxTotalSamples ||
+                    session.Frequency < BlastFrequency ||
+                    session.Frequency > BlastFrequency ||
+                        session.LoopCount != 0
                     )
                     return false;
             }

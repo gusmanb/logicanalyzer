@@ -9,6 +9,7 @@
 #include "hardware/exception.h"
 #include "hardware/structs/syscfg.h"
 #include "hardware/structs/systick.h"
+#include "hardware/structs/bus_ctrl.h"
 #include "LogicAnalyzer.pio.h"
 
 //Static variables for the PIO programs
@@ -25,8 +26,6 @@ static uint triggerOffset;
 static uint32_t dmaPingPong0;
 static uint32_t dmaPingPong1;
 static uint32_t transferCount;
-//static uint32_t dmaPingPong2;
-//static uint32_t dmaPingPong3;
 
 //Static information of the last capture
 static uint8_t lastCapturePins[24];         //List of captured pins
@@ -76,6 +75,7 @@ static uint8_t captureBuffer[CAPTURE_BUFFER_SIZE] __attribute__((aligned(4)));
 #define CAPTURE_TYPE_SIMPLE 0
 #define CAPTURE_TYPE_COMPLEX 1
 #define CAPTURE_TYPE_FAST 2
+#define CAPTURE_TYPE_BLAST 3
 
 //-----------------------------------------------------------------------------
 //--------------Complex trigger PIO program------------------------------------
@@ -204,7 +204,7 @@ uint32_t find_capture_tail()
     if(transferPos == 0xFFFFFFFF) 
         return 0xFFFFFFFF;
     
-    //Ok, now we need to know at which transfer the DMA is. The value equals to MAX_TRANSFERS - TRANSFERS_LEFT - 1 (DMA channel decrements transfer_count when it starts :/).
+    //Ok, now we need to know at which transfer the DMA is. The value equals to (MAX_TRANSFERS - TRANSFERS_LEFT) - 1 (DMA channel decrements transfer_count when it starts :/).
     uint32_t transfer = (transferCount - transferPos) - 1; //TODO: CHECK
 
     //Our capture absolute last position
@@ -221,6 +221,9 @@ void disable_gpios()
 
     for(uint8_t i = 0; i < lastCapturePinCount; i++)
         gpio_deinit(lastCapturePins[i]);
+
+
+    gpio_set_inover(lastTriggerPin, 0);
 }
 
 
@@ -275,9 +278,6 @@ void fast_capture_completed()
     //Disable the GPIO's
     disable_gpios();
 
-    //Mark the capture as finished
-    captureFinished = true;
-
     lastTail = find_capture_tail();
 
     //Abort DMA channels
@@ -298,6 +298,9 @@ void fast_capture_completed()
     pio_sm_unclaim(triggerPIO, sm_Trigger);
     
     pio_remove_program(triggerPIO, &FAST_TRIGGER_program, triggerOffset);
+
+    //Mark the capture as finished
+    captureFinished = true;
 }
 
 //Check if the capture has finished, this is done because the W messes the PIO interrupts
@@ -312,9 +315,6 @@ void complex_capture_completed()
 {
     //Disable the GPIO's
     disable_gpios();
-
-    //Mark the capture as finished
-    captureFinished = true;
 
     lastTail = find_capture_tail();
 
@@ -339,18 +339,51 @@ void complex_capture_completed()
     
     pio_remove_program(capturePIO, &COMPLEX_TRIGGER_program, triggerOffset);
     
+    //Mark the capture as finished
+    captureFinished = true;
 }
 
 #endif
+
+
+//Triggered when a blast capture ends
+void blast_capture_completed()
+{
+    //Clear the irq
+    dma_channel_acknowledge_irq0(dmaPingPong0);
+
+    //Not needed, left for sanity
+    hw_clear_bits(&dma_hw->ch[dmaPingPong0].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
+
+    //Disable IRQ0
+    dma_channel_set_irq0_enabled(dmaPingPong0, false); //Enable IRQ 0
+    irq_set_enabled(DMA_IRQ_0, false);
+    irq_remove_handler (DMA_IRQ_0, blast_capture_completed);
+
+    //Unclaim the channels
+    dma_channel_unclaim(dmaPingPong0);
+
+    //Restore DMA priority to normal
+    bus_ctrl_hw->priority = 0;
+
+    lastTail = lastPostSize; //TODO: CHECK
+
+    //Stop PIO program and clear
+    pio_sm_set_enabled(capturePIO, sm_Capture, false);
+    pio_sm_unclaim(capturePIO, sm_Capture);
+    
+    pio_remove_program(capturePIO, &BLAST_CAPTURE_program, captureOffset);
+
+    //Mark the capture as finished
+    captureFinished = true;
+}
+
 
 //Triggered when a simple capture ends
 void simple_capture_completed() 
 {
     //Disable the GPIO's
     disable_gpios();
-
-    //Mark the capture as finished
-    captureFinished = true;
 
     lastTail = find_capture_tail();
 
@@ -387,9 +420,55 @@ void simple_capture_completed()
     else
         pio_remove_program(capturePIO, &NEGATIVE_CAPTURE_program, captureOffset);
 
+    //Mark the capture as finished
+    captureFinished = true;
+
 }
 
-//Configure the four DMA channels
+//TODO: HERE
+void configureBlastDMA(CHANNEL_MODE channelMode, uint32_t length)
+{
+    enum dma_channel_transfer_size transferSize;
+    dma_channel_config dmaConfig;
+
+    switch(channelMode)
+    {
+        case MODE_8_CHANNEL:
+            transferSize = DMA_SIZE_8;
+            break;
+        case MODE_16_CHANNEL:
+            transferSize = DMA_SIZE_16;
+            break;
+        case MODE_24_CHANNEL:
+            transferSize = DMA_SIZE_32;
+            break;
+    }
+
+    dmaPingPong0 = dma_claim_unused_channel(true);
+
+    //Configure first capture DMA
+    dmaConfig = dma_channel_get_default_config(dmaPingPong0);
+    channel_config_set_read_increment(&dmaConfig, false); //Do not increment read address
+    channel_config_set_write_increment(&dmaConfig, true); //Increment write address
+    channel_config_set_transfer_data_size(&dmaConfig, transferSize); //Transfer size is based on capture mode
+    channel_config_set_dreq(&dmaConfig, pio_get_dreq(capturePIO, sm_Capture, false)); //Set DREQ as RX FIFO
+    channel_config_set_enable(&dmaConfig, true); //Enable the channel
+
+    dma_channel_set_irq0_enabled(dmaPingPong0, true); //Enable IRQ 0
+
+    //Set interrupt handler and enable it
+    irq_set_exclusive_handler(DMA_IRQ_0, blast_capture_completed);
+    irq_set_enabled(DMA_IRQ_0, true);
+    irq_set_priority(DMA_IRQ_0, 0);
+
+    //Full priority to the DMA
+    bus_ctrl_hw->priority = BUSCTRL_BUS_PRIORITY_DMA_W_BITS | BUSCTRL_BUS_PRIORITY_DMA_R_BITS;
+
+    dma_channel_configure(dmaPingPong0, &dmaConfig, captureBuffer, &capturePIO->rxf[sm_Capture], length, true); //Configure the channel and trigger it
+   
+}
+
+//Configure the two DMA channels
 void configureCaptureDMAs(CHANNEL_MODE channelMode)
 {
 
@@ -466,10 +545,15 @@ void StopCapture()
             complex_capture_completed();
         else if(lastCaptureType == CAPTURE_TYPE_FAST)
             fast_capture_completed();
+        else if(lastCaptureType == CAPTURE_TYPE_BLAST)
+            blast_capture_completed();
 
         #else
 
-        simple_capture_completed();
+        if(lastCaptureType == CAPTURE_TYPE_SIMPLE)
+            simple_capture_completed();
+        else if(lastCaptureType == CAPTURE_TYPE_BLAST)
+            blast_capture_completed();
 
         #endif
 
@@ -828,6 +912,125 @@ void __not_in_flash_func(loopEndHandler)()
     capturePIO->irq = (1u << 1);
 }
 
+bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
+{
+    int maxSamples;
+
+    switch(captureMode)
+    {
+        case MODE_8_CHANNEL:
+            maxSamples = CAPTURE_BUFFER_SIZE;
+            break;
+        case MODE_16_CHANNEL:
+            maxSamples = CAPTURE_BUFFER_SIZE / 2;
+            break;
+        case MODE_24_CHANNEL:
+            maxSamples = CAPTURE_BUFFER_SIZE / 4;
+            break;
+    }
+
+    //Too many samples requested?
+    if(length >= maxSamples)
+        return false;
+
+    //Frequency too high?
+    if(freq > MAX_BLAST_FREQ)
+        return false;
+
+    //Incorrect pin count?
+    if(capturePinCount < 1 || capturePinCount > MAX_CHANNELS)
+        return false;
+
+    //Incorrect trigger pin?
+    if(triggerPin < 0 || triggerPin > MAX_CHANNELS)
+        return false;
+
+    //Clear capture buffer (to avoid sending bad data if the trigger happens before the presamples are filled)
+    memset(captureBuffer, 0, sizeof(captureBuffer));
+
+    //Store info about the capture
+    lastPreSize = 0;
+    lastPostSize = length;
+    lastLoopCount = 0;
+    lastCapturePinCount = capturePinCount;
+    lastTriggerInverted = invertTrigger;
+    lastCaptureComplexFast = false;
+    lastCaptureMode = captureMode;
+
+    //Map channels to pins
+    for(uint8_t i = 0; i < capturePinCount; i++)
+        lastCapturePins[i] = pinMap[capturePins[i]];
+
+    //Store trigger info
+    triggerPin = pinMap[triggerPin];
+    lastTriggerPin = triggerPin;
+
+    //Calculate clock divider based on frequency, in blast mode it is a 1:1 clock
+    float clockDiv = (float)clock_get_hz(clk_sys) / (float)(freq);
+    
+    //Store the PIO unit and clear program memory
+    capturePIO = pio0;
+    pio_clear_instruction_memory(capturePIO);
+
+    //Configure capture SM
+    sm_Capture = pio_claim_unused_sm(capturePIO, true);
+    pio_sm_clear_fifos(capturePIO, sm_Capture);
+    pio_sm_restart(capturePIO, sm_Capture);
+
+    //Load program
+    captureOffset = pio_add_program(capturePIO, &BLAST_CAPTURE_program);
+
+    //Configure capture pins
+    for(int i = 0; i < 24; i++)
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+
+    for(uint8_t i = 0; i < 24; i++)
+        pio_gpio_init(capturePIO, pinMap[i]);
+    
+    //Configure trigger pin
+    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    pio_gpio_init(capturePIO, triggerPin);
+
+    if(!invertTrigger)
+        gpio_set_inover(triggerPin, 1);
+
+    //Configure state machines
+    pio_sm_config smConfig = BLAST_CAPTURE_program_get_default_config(captureOffset);
+
+    //Input starts at pin INPUT_PIN_BASE
+    sm_config_set_in_pins(&smConfig, INPUT_PIN_BASE);
+
+    //Set clock to required frequency
+    sm_config_set_clkdiv(&smConfig, clockDiv);
+
+    //Autopush per dword
+    sm_config_set_in_shift(&smConfig, true, true, 0);
+
+    //Configure trigger pin as JMP pin.
+    sm_config_set_jmp_pin(&smConfig, triggerPin);
+
+    //Disable state machine
+    pio_sm_set_enabled(capturePIO, sm_Capture, false);
+
+    //Initialize state machine
+    pio_sm_init(capturePIO, sm_Capture, captureOffset, &smConfig);
+
+    //Configure DMA's
+    configureBlastDMA(captureMode, length);
+
+    //Enable state machine
+    pio_sm_set_enabled(capturePIO, sm_Capture, true);
+    
+
+    //Finally clear capture status, process flags and capture type
+    captureFinished = false;
+    captureProcessed = false;
+    lastCaptureType = CAPTURE_TYPE_BLAST;
+
+    //We're done
+    return true;
+}
+
 bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
 {
     int maxSamples;
@@ -1049,6 +1252,11 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                     uint32_t newValue;
                     uint32_t* buffer = (uint32_t*)captureBuffer;
                     uint8_t lastPin = 0;
+                    uint32_t blastMask = 0;
+
+                    //If the capture was in blast mode and the trigger edge was positive, invert the value
+                    if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
+                        blastMask = 1 << (lastTriggerPin - INPUT_PIN_BASE);
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
@@ -1057,6 +1265,10 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
                         
+                        //If the capture was in blast mode and the trigger edge was positive, invert the value
+                        if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
+                            oldValue ^= blastMask;
+
                         for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...
                         {
                             lastPin = lastCapturePins[pin] - INPUT_PIN_BASE;
@@ -1077,6 +1289,11 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                     uint16_t newValue;
                     uint16_t* buffer = (uint16_t*)captureBuffer;
                     uint8_t lastPin = 0;
+                    uint16_t blastMask = 0;
+
+                    //If the capture was in blast mode and the trigger edge was positive, invert the value
+                    if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
+                        blastMask = 1 << (lastTriggerPin - INPUT_PIN_BASE);
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
@@ -1085,6 +1302,10 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
                         
+                        //If the capture was in blast mode and the trigger edge was positive, invert the value
+                        if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
+                            oldValue ^= blastMask;
+
                         for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...
                         {
                             lastPin = lastCapturePins[pin] - INPUT_PIN_BASE;
@@ -1105,12 +1326,22 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                     uint8_t newValue;
                     uint8_t* buffer = (uint8_t*)captureBuffer;
                     uint8_t lastPin = 0;
+                    uint8_t blastMask = 0;
+
+                    //If the capture was in blast mode and the trigger edge was positive, invert the value
+                    if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
+                        blastMask = 1 << (lastTriggerPin - INPUT_PIN_BASE);
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
                     for(int buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
+
+                        //If the capture was in blast mode and the trigger edge was positive, invert the value
+                        if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
+                            oldValue ^= blastMask;
+
                         newValue = 0; //New value
 
                         for(int pin = 0; pin < lastCapturePinCount; pin++) //For each captured channel...

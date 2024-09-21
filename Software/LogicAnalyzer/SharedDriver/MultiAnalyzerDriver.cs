@@ -25,6 +25,13 @@ namespace SharedDriver
         public override int MaxFrequency { get { return connectedDevices.Min(d => d.MaxFrequency); } }
         public override int MinFrequency { get { return connectedDevices.Max(d => d.MinFrequency); } }
         public override int BufferSize { get { return connectedDevices.Min(d => d.BufferSize); } }
+        public override int BlastFrequency
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
         public override AnalyzerDriverType DriverType
         {
             get

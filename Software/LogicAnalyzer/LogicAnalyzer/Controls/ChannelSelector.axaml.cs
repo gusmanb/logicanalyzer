@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using LogicAnalyzer.Classes;
 using System;
+using System.Runtime.InteropServices;
 
 namespace LogicAnalyzer.Controls
 {
@@ -100,6 +101,9 @@ namespace LogicAnalyzer.Controls
 
             if (ChangeColor != null)
                 ChangeColor(this, EventArgs.Empty);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                e.Pointer.Capture(null);
         }
     }
 }

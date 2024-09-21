@@ -11,6 +11,7 @@ namespace SharedDriver
     {
         #region Public Properties
         public abstract string? DeviceVersion { get; }
+        public abstract int BlastFrequency { get; }
         public abstract int MaxFrequency { get; }
         public virtual int MinFrequency { get { return (MaxFrequency * 2) / 65535; } }
         public abstract int ChannelCount { get; }
@@ -65,6 +66,7 @@ namespace SharedDriver
             {
                 Name = DeviceVersion ?? "Unknown",
                 MaxFrequency = MaxFrequency,
+                BlastFrequency = BlastFrequency,
                 Channels = ChannelCount,
                 BufferSize = BufferSize,
                 ModeLimits = limits.ToArray()
@@ -185,6 +187,7 @@ namespace SharedDriver
     {
         public required string Name { get; set; }
         public int MaxFrequency { get; set; }
+        public int BlastFrequency { get; set; }
         public int Channels { get; set; }
         public int BufferSize { get; set; }
         public required CaptureLimits[] ModeLimits { get; set; }

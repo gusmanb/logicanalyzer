@@ -7,6 +7,7 @@ using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace LogicAnalyzer.Controls
 {
@@ -84,6 +85,9 @@ namespace LogicAnalyzer.Controls
 
                     if(ChannelVisibilityChanged != null)
                         ChannelVisibilityChanged(this, EventArgs.Empty);
+
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                        e.Pointer.Capture(null);
                 };
 
                 headerGrid.Children.Add(newChannelVisibility);
@@ -183,6 +187,9 @@ namespace LogicAnalyzer.Controls
                 return;
 
             ChannelClick(sender , new ChannelEventArgs { Channel = channel });
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                e.Pointer.Capture(null);
         }
 
         void NewChannelTextbox_TextChanged(AvaloniaPropertyChangedEventArgs e)

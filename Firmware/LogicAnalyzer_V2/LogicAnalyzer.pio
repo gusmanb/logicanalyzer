@@ -1,4 +1,17 @@
 ;--------------------------------------------------------------------------------------------
+.program BLAST_CAPTURE
+
+LOOP:
+
+    jmp pin LOOP                ;wait for trigger
+
+.wrap_target
+
+    in pins 32                  ;capture
+
+.wrap
+
+;--------------------------------------------------------------------------------------------
 .program POSITIVE_CAPTURE
 
     pull

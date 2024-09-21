@@ -17,6 +17,14 @@ namespace SharedDriver
 
         public override int BufferSize { get { return 1024 * 1024; } }
 
+        public override int BlastFrequency
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public override AnalyzerDriverType DriverType { get { return AnalyzerDriverType.Emulated; } }
 
         public override bool IsNetwork { get { return false; } }

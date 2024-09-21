@@ -50,7 +50,9 @@ namespace LogicAnalyzer.Dialogs
             btnAccept.Click += btnAccept_Click;
             btnCancel.Click += btnCancel_Click;
             btnReset.Click += btnReset_Click;
+            rbTriggerTypeEdge.IsCheckedChanged += rbTriggerTypeEdge_CheckedChanged;
             nudFrequency.ValueChanged += NudFrequency_ValueChanged;
+            ckBlast.IsCheckedChanged += ckBlast_CheckedChanged;
         }
 
         private void NudFrequency_ValueChanged(object? sender, NumericUpDownValueChangedEventArgs e)
@@ -88,8 +90,9 @@ namespace LogicAnalyzer.Dialogs
             driver = Driver;
             SetDriverMode(driver.DriverType);
             InitializeControlArrays(driver.ChannelCount);
-            LoadSettings(driver.DriverType);
             InitializeParameters();
+            LoadSettings(driver.DriverType);
+            CheckMode();
         }
 
         private void InitializeParameters()
@@ -98,8 +101,6 @@ namespace LogicAnalyzer.Dialogs
             nudFrequency.Maximum = driver.MaxFrequency;
 
             nudFrequency.Value = Math.Min(Math.Max(nudFrequency.Minimum, nudFrequency.Value ?? 0), nudFrequency.Maximum);
-
-            CheckMode();
         }
 
         private void SetDriverMode(AnalyzerDriverType DriverType)
@@ -207,17 +208,21 @@ namespace LogicAnalyzer.Dialogs
             var enabledChannels = captureChannels.Where(c => c.Enabled).Select(c => (int)c.ChannelNumber).ToArray();
             limits = driver.GetLimits(enabledChannels);
 
-            nudPreSamples.Minimum = limits.MinPreSamples;
-            nudPreSamples.Maximum = limits.MaxPreSamples;
+            if (!ckBlast.IsChecked ?? false)
+            {
+                nudPreSamples.Minimum = limits.MinPreSamples;
+                nudPreSamples.Maximum = limits.MaxPreSamples;
+
+                if (nudPreSamples.Value > limits.MaxPreSamples)
+                    nudPreSamples.Value = limits.MaxPreSamples;
+            }
+
             nudPostSamples.Minimum = limits.MinPostSamples;
             nudPostSamples.Maximum = limits.MaxPostSamples;
 
-            if (nudPreSamples.Value > limits.MaxPreSamples)
-                nudPreSamples.Value = limits.MaxPreSamples;
-
             if (nudPostSamples.Value > limits.MaxPostSamples)
                 nudPostSamples.Value = limits.MaxPostSamples;
-
+            
         }
 
         private void LoadSettings(AnalyzerDriverType DriverType)
@@ -227,10 +232,6 @@ namespace LogicAnalyzer.Dialogs
 
             if (settings != null)
             {
-                nudFrequency.Value = settings.Frequency;
-                nudPreSamples.Value = settings.PreTriggerSamples;
-                nudPostSamples.Value = settings.PostTriggerSamples;
-
                 foreach (var channel in settings.CaptureChannels)
                 {
                     if (channel.ChannelNumber >= captureChannels.Length)
@@ -241,14 +242,28 @@ namespace LogicAnalyzer.Dialogs
                     captureChannels[channel.ChannelNumber].ChannelColor = channel.ChannelColor;
                 }
 
+                if (settings.TriggerType == TriggerType.Blast)
+                {
+                    SetBlastMode(true);
+                    ckBlast.IsChecked = true;
+                }
+                else
+                {
+                    nudFrequency.Value = settings.Frequency;
+                    nudPreSamples.Value = settings.PreTriggerSamples;
+                    nudPostSamples.Value = settings.PostTriggerSamples;
+                    ckBlast.IsChecked = false;
+                }
+
                 if (DriverType != AnalyzerDriverType.Emulated)
                 {
                     switch (settings.TriggerType)
                     {
                         case TriggerType.Edge:
+                        case TriggerType.Blast:
+
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
-
                             triggerChannels[settings.TriggerChannel].IsChecked = true;
                             ckNegativeTrigger.IsChecked = settings.TriggerInverted;
                             ckBurst.IsChecked = settings.LoopCount > 0;
@@ -256,7 +271,8 @@ namespace LogicAnalyzer.Dialogs
                             ckMeasure.IsChecked = settings.LoopCount > 0 ? settings.MeasureBursts : false;
                             rbTriggerTypePattern.IsChecked = false;
                             rbTriggerTypeEdge.IsChecked = true;
-
+                            pnlEdge.IsEnabled = true;
+                            pnlPatternTrigger.IsEnabled = false;
                             ckFastTrigger.IsChecked = false;
 
                             break;
@@ -275,6 +291,8 @@ namespace LogicAnalyzer.Dialogs
                                 txtPattern.Text = pattern;
 
                                 ckFastTrigger.IsChecked = false;
+                                pnlEdge.IsEnabled = false;
+                                pnlPatternTrigger.IsEnabled = true;
                             }
                             break;
 
@@ -292,6 +310,8 @@ namespace LogicAnalyzer.Dialogs
                                 txtPattern.Text = pattern;
 
                                 ckFastTrigger.IsChecked = true;
+                                pnlEdge.IsEnabled = false;
+                                pnlPatternTrigger.IsEnabled = true;
                             }
                             break;
                     }
@@ -417,7 +437,7 @@ namespace LogicAnalyzer.Dialogs
                     settings.TriggerType = ckFastTrigger.IsChecked == true ? TriggerType.Fast : TriggerType.Complex;
                     break;
                 default:
-                    settings.TriggerType = rbTriggerTypePattern.IsChecked == true ? (ckFastTrigger.IsChecked == true ? TriggerType.Fast : TriggerType.Complex) : TriggerType.Edge;
+                    settings.TriggerType = rbTriggerTypePattern.IsChecked == true ? (ckFastTrigger.IsChecked == true ? TriggerType.Fast : TriggerType.Complex) : (ckBlast.IsChecked == true ? TriggerType.Blast : TriggerType.Edge);
                     break;
             }
             
@@ -442,6 +462,7 @@ namespace LogicAnalyzer.Dialogs
 
         private void btnReset_Click(object? sender, EventArgs e)
         {
+            SetBlastMode(false);
             nudFrequency.Value = 100000000;
             nudPreSamples.Value = 512;
             nudPostSamples.Value = 1024;
@@ -472,6 +493,8 @@ namespace LogicAnalyzer.Dialogs
             {
                 pnlEdge.IsEnabled = false;
                 pnlPatternTrigger.IsEnabled = true;
+                ckBlast.IsChecked = false;
+                SetBlastMode(false);
             }
         }
 
@@ -481,6 +504,76 @@ namespace LogicAnalyzer.Dialogs
                 txtPattern.MaxLength = 5;
             else
                 txtPattern.MaxLength = 16;
+        }
+
+        private void ckBlast_CheckedChanged(object sender, EventArgs e)
+        {
+            SetBlastMode(ckBlast.IsChecked ?? false);
+        }
+
+        private void SetBlastMode(bool Enabled)
+        {
+            if (Enabled)
+            {
+                nudFrequency.Minimum = driver.BlastFrequency;
+                nudFrequency.Maximum = driver.BlastFrequency;
+                nudFrequency.Value = driver.BlastFrequency;
+                nudFrequency.IsEnabled = false;
+
+                nudPreSamples.Minimum = 0;
+                nudPreSamples.Maximum = 0;
+                nudPreSamples.Value = 0;
+                nudPreSamples.IsEnabled = false;
+
+                var enabledChannels = captureChannels.Where(c => c.Enabled).Select(c => (int)c.ChannelNumber).ToArray();
+                var limits = driver.GetLimits(enabledChannels);
+
+                nudPostSamples.Minimum = limits.MinPostSamples;
+                nudPostSamples.Maximum = limits.MaxPostSamples;
+
+                if (nudPostSamples.Value > limits.MaxPostSamples)
+                    nudPostSamples.Value = limits.MaxPostSamples;
+
+                ckBurst.IsChecked = false;
+                ckBurst.IsEnabled = false;
+                ckMeasure.IsChecked = false;
+                ckMeasure.IsEnabled = false;
+                nudBurstCount.IsEnabled = false;
+
+                lblJitter.Text = "Jitter: 0.000%";
+                brdJitter.Background = GraphicObjectsCache.GetBrush(lowJitter);
+            }
+            else
+            {
+                nudFrequency.Minimum = driver.MinFrequency;
+                nudFrequency.Maximum = driver.MaxFrequency;
+
+                if(nudFrequency.Value > driver.MaxFrequency)
+                    nudFrequency.Value = driver.MaxFrequency;
+
+                nudFrequency.IsEnabled = true;
+
+                nudPreSamples.Minimum = limits.MinPreSamples;
+                nudPreSamples.Maximum = limits.MaxPreSamples;
+                
+                if (nudPreSamples.Value > limits.MaxPreSamples)
+                    nudPreSamples.Value = limits.MaxPreSamples;
+
+                if (nudPreSamples.Value < limits.MinPreSamples)
+                    nudPreSamples.Value = limits.MinPreSamples;
+
+                nudPreSamples.IsEnabled = true;
+
+                nudPostSamples.Minimum = limits.MinPostSamples;
+                nudPostSamples.Maximum = limits.MaxPostSamples;
+
+                if (nudPostSamples.Value > limits.MaxPostSamples)
+                    nudPostSamples.Value = limits.MaxPostSamples;
+
+                nudPostSamples.IsEnabled = true;
+
+                ckBurst.IsEnabled = true;
+            }
         }
     }
 }

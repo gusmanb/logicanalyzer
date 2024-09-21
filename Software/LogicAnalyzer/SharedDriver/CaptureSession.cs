@@ -44,6 +44,7 @@ namespace SharedDriver
     {
         Edge,
         Complex,
-        Fast
+        Fast,
+        Blast
     }
 }

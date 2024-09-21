@@ -40,8 +40,10 @@
 
         #ifdef TURBO_MODE
             #define MAX_FREQ 200000000
+            #define MAX_BLAST_FREQ 400000000
         #else
             #define MAX_FREQ 100000000
+            #define MAX_BLAST_FREQ 200000000
         #endif
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 24
@@ -58,8 +60,10 @@
 
         #ifdef TURBO_MODE
             #define MAX_FREQ 200000000
+            #define MAX_BLAST_FREQ 400000000
         #else
             #define MAX_FREQ 100000000
+            #define MAX_BLAST_FREQ 200000000
         #endif
         #define CAPTURE_BUFFER_SIZE (128 * 3 * 1024)
         #define MAX_CHANNELS 24
@@ -74,6 +78,7 @@
         #define CYGW_LED
 
         #define MAX_FREQ 100000000
+        #define MAX_BLAST_FREQ 200000000
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 24
 
@@ -88,6 +93,7 @@
         #define USE_CYGW_WIFI
 
         #define MAX_FREQ 100000000
+        #define MAX_BLAST_FREQ 200000000
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 24
 
@@ -103,8 +109,10 @@
 
         #ifdef TURBO_MODE
             #define MAX_FREQ 200000000
+            #define MAX_BLAST_FREQ 400000000
         #else
             #define MAX_FREQ 100000000
+            #define MAX_BLAST_FREQ 200000000
         #endif
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 24

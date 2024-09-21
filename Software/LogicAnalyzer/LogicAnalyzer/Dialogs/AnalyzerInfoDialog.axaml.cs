@@ -17,7 +17,8 @@ public partial class AnalyzerInfoDialog : Window
         var info = Driver.GetDeviceInfo();
         lblType.Text = info.Name.ToString();
         lblChan.Text = info.Channels.ToString();
-        lblFreq.Text = info.MaxFrequency.ToString("#,##0");
+        lblFreq.Text = FrequencyValue(info.MaxFrequency);
+        lblBlast.Text = FrequencyValue(info.BlastFrequency);
         lblBuf.Text = info.BufferSize.ToString("#,##0");
         lblMinPreEight.Text = info.ModeLimits[0].MinPreSamples.ToString("#,##0");
         lblMaxPreEight.Text = info.ModeLimits[0].MaxPreSamples.ToString("#,##0");
@@ -34,5 +35,15 @@ public partial class AnalyzerInfoDialog : Window
         lblMinPostTwentyFour.Text = info.ModeLimits[2].MinPostSamples.ToString("#,##0");
         lblMaxPostTwentyFour.Text = info.ModeLimits[2].MaxPostSamples.ToString("#,##0");
         lblMaxTotalTwentyFour.Text = info.ModeLimits[2].MaxTotalSamples.ToString("#,##0");
+    }
+
+    private string FrequencyValue(int Value)
+    {
+        if(Value < 1000)
+            return Value.ToString("#,##0") + "Hz";
+        else if (Value < 1000000)
+            return (Value / 1000).ToString("#,##0") + "KHz";
+        else
+            return (Value / 1000000).ToString("#,##0") + "MHz";
     }
 }
