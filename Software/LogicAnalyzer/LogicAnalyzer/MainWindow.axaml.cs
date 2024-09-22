@@ -526,39 +526,6 @@ namespace LogicAnalyzer
             }
         }
 
-        private void RecomposeChannelSamples(int ChannelIndex, UInt128[] Samples, bool[] NewValues)
-        {
-            UInt128 clearMask = ~(((UInt128)1) << ChannelIndex);
-            UInt128 trueValue = ((UInt128)1) << ChannelIndex;
-
-            for (int buc = 0; buc < Samples.Length; buc++)
-            {
-                UInt128 newSample = Samples[buc] & clearMask;
-                
-                if (NewValues[buc])
-                    newSample |= trueValue;
-
-                Samples[buc] = newSample;
-            }
-        }
-        
-        private bool[] ExtractChannelSamples(int ChannelIndex, UInt128[] Samples)
-        {
-            UInt128 mask = ((UInt128)1) << ChannelIndex;
-
-            List<bool> values = new List<bool>();
-
-            for(int buc = 0; buc < Samples.Length; buc++) 
-            {
-                if ((Samples[buc] & mask) != 0)
-                    values.Add(true);
-                else
-                    values.Add(false);
-            }
-
-            return values.ToArray();
-        }
-
         private async void MnuNew_Click(object? sender, RoutedEventArgs e)
         {
             var dlg = new CaptureDialog();
@@ -580,7 +547,7 @@ namespace LogicAnalyzer
                     stn.PreTriggerSamples + stn.PostTriggerSamples,
                     stn.PreTriggerSamples + stn.PostTriggerSamples);
                 
-                var samples = await dlgCreate.ShowDialog<UInt128[]?>(this);
+                var samples = await dlgCreate.ShowDialog<byte[][]?>(this);
 
                 if (samples == null)
                     return;
@@ -589,7 +556,7 @@ namespace LogicAnalyzer
                 driver = drv;
                 
                 for (int chan = 0; chan < stn.CaptureChannels.Length; chan++)
-                    ExtractChannelSamples(stn.CaptureChannels[chan].ChannelNumber, samples);
+                    stn.CaptureChannels[chan].Samples = samples[chan];
 
                 updateChannels();
 
@@ -638,7 +605,7 @@ namespace LogicAnalyzer
                 driver.GetLimits(channels).MaxTotalSamples - session.TotalSamples,
                 10);
 
-            var samples = await dlgCreate.ShowDialog<IEnumerable<byte[]>?>(this);
+            var samples = await dlgCreate.ShowDialog<byte[][]?>(this);
 
             if (samples == null)
                 return;
@@ -980,15 +947,8 @@ namespace LogicAnalyzer
             if (channel == null || samples == null)
                 return;
 
-            //int idx = channel.ChannelNumber;
             UInt128 mask = (UInt128)1 << ChannelIndex;
             channel.Samples = samples.Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
-        }
-
-        private byte[] ExtractSamples(int channel, UInt128[] samples, int firstSample, int count)
-        {
-            UInt128 mask = (UInt128)1 << channel;
-            return samples.Skip(firstSample).Take(count).Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
         }
 
         private async void btnOpenClose_Click(object? sender, EventArgs e)

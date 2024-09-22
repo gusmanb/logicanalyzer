@@ -313,7 +313,7 @@ namespace SharedDriver
                     throw new Exception("No data reader available");
 
                 uint length = readData.ReadUInt32();
-                UInt128[] samples = new UInt128[length];
+                UInt32[] samples = new UInt32[length];
                 UInt64[] timestamps = new UInt64[Session.LoopCount == 0 || !Session.MeasureBursts ? 0 : Session.LoopCount + 2];
 
                 BinaryReader rdData;
@@ -492,13 +492,13 @@ namespace SharedDriver
             }
         }
 
-        private void ExtractSamples(AnalyzerChannel channel, int ChannelIndex, UInt128[]? samples)
+        private void ExtractSamples(AnalyzerChannel channel, int ChannelIndex, UInt32[]? samples)
         {
             if (channel == null || samples == null)
                 return;
 
             //int idx = channel.ChannelNumber;
-            UInt128 mask = (UInt128)1 << ChannelIndex;
+            UInt32 mask = (UInt32)1 << ChannelIndex;
             channel.Samples = samples.Select(s => (s & mask) != 0 ? (byte)1 : (byte)0).ToArray();
         }
 

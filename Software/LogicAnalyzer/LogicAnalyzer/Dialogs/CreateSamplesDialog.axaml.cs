@@ -60,10 +60,12 @@ namespace LogicAnalyzer.Dialogs
 
         private async void BtnAccept_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            UInt128[] samples = new UInt128[(int)nudSamples.Value];
+            byte[][] samples = new byte[(int)nudSamples.Value][];
 
             for(int cNum = 0; cNum < channels.Count; cNum++)
             {
+                samples[cNum] = new byte[samples.Length];
+
                 var channel = channels[cNum];
                 var channelSamples = channel.Samples;
 
@@ -80,10 +82,10 @@ namespace LogicAnalyzer.Dialogs
                         return;
                     }
 
-                    for(int buc = 0; buc < samples.Length; buc++) 
+                    for(int buc = 0; buc < channelSamples.Length; buc++) 
                     {
                         if (channelSamples[buc])
-                            samples[buc] |= (UInt128)1 << cNum;
+                            samples[cNum][buc] = 1;
                     }
                 }
             }

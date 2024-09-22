@@ -274,10 +274,6 @@ namespace LogicAnalyzer.Controls
 
                 for (int curSample = FirstSample; curSample < lastSample; curSample++)
                 {
-
-                    //UInt128 sample = Samples[buc];
-                    //UInt128 prevSample = buc == 0 ? 0 : Samples[buc - 1];
-
                     double lineX = (curSample - FirstSample) * sampleWidth;
 
                     if (VisibleSamples < 201)
@@ -311,7 +307,7 @@ namespace LogicAnalyzer.Controls
                         {
                             renders[chan].firstSample = curSample;
                             renders[chan].sampleCount = 1;
-                            renders[chan].value = visibleChannels[chan].Samples[curSample];//(sample & ((UInt128)1 << chan)) != 0;
+                            renders[chan].value = visibleChannels[chan].Samples[curSample];
                         }
                     }
                     else
