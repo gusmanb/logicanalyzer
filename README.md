@@ -4,7 +4,29 @@
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
 Latest version: Release 5.1.0.0, 05/05/2024
+
 ----
+
+# Good news
+
+![pcb2](https://github.com/user-attachments/assets/91730e9f-7fae-47fc-8f6a-6f84f22fba8e)
+
+One of the goals of the new design was to overcome the problems that the Pico 2 have. And at least, the most harmful one seems to be solved.
+With the regular design the fast/complex trigger sometimes got stuck and the chaining didn't worked, with the new one the triggers seem work properly.
+
+I need to conduct more tests as I have seen some response variations at high frequencies but I'm not sure if its caused by the pico2 itself or the transceivers as the analyzer is pushing them to its maximum limits.
+
+I'm testing the devices with signals at 200Mhz, with the base pico all seems to work properly but with the pico2 I have seen changes on the signals, but, the TXU are rated up to 200Mhz and I'm sampling at 400Ms/s (yes, that's right, the new firmware can sample up to 400Ms/s in blast mode, I will add more info very soon as R6.0 is very close to its release 😄) so what I'm seeing is captures that have skewed samples. 
+The signals that I use are basically square clocks, so I inject a 100Mhz clock what becomes two phases at 200Mhz, and with the pico2 at 400Ms/s I see that sometimes there are three samples of one phase and one sample of the other, and as far as I have seen is always the high phase the one that contains the three samples. This could be caused by the transceivers, they are at its maximum limits, but it can be also caused by the pico2, I suspect that even with the drainig of the GPIOs the signal remains high for some nanoseconds, enough to create these erroneous readings.
+
+In any case, at least this only happens at extreme speeds and for regular use cases it should not affect the readings, and having three times more samples really expands the possibilities.
+
+I will add more info next week after performing more extensive tests.
+
+Stay tuned!
+
+----
+
 # New PCB design
 
 ![pcb](https://github.com/user-attachments/assets/cbf87396-40b4-49de-9542-2da3587a47cd)
