@@ -27,7 +27,7 @@
 						"ref":	"D1",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	66,
+							"line":	65,
 							"column":	2
 						}
 					}],
@@ -55,7 +55,7 @@
 						"ref":	"J1",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	62,
+							"line":	61,
 							"column":	2
 						}
 					}],
@@ -83,7 +83,7 @@
 						"ref":	"J3",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	63,
+							"line":	62,
 							"column":	2
 						}
 					}],
@@ -111,7 +111,7 @@
 						"ref":	"U7",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	57,
+							"line":	56,
 							"column":	2
 						}
 					}],
@@ -139,7 +139,7 @@
 						"ref":	"S1",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	60,
+							"line":	59,
 							"column":	2
 						}
 					}],
@@ -302,7 +302,7 @@
 						"ref":	"U2",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
+							"line":	40,
 							"column":	4
 						}
 					}, {
@@ -312,7 +312,7 @@
 						"ref":	"U5",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
+							"line":	40,
 							"column":	4
 						}
 					}, {
@@ -322,7 +322,7 @@
 						"ref":	"U4",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
+							"line":	40,
 							"column":	4
 						}
 					}, {
@@ -332,7 +332,7 @@
 						"ref":	"U3",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
+							"line":	40,
 							"column":	4
 						}
 					}, {
@@ -342,7 +342,7 @@
 						"ref":	"U6",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
+							"line":	40,
 							"column":	4
 						}
 					}, {
@@ -352,7 +352,7 @@
 						"ref":	"U1",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
+							"line":	40,
 							"column":	4
 						}
 					}],
@@ -377,7 +377,7 @@
 						"ref":	"J2",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	61,
+							"line":	60,
 							"column":	2
 						}
 					}],
@@ -402,7 +402,7 @@
 						"ref":	"R1",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	70,
+							"line":	69,
 							"column":	2
 						}
 					}],
@@ -427,7 +427,7 @@
 						"ref":	"R2",
 						"fileinfo":	{
 							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	69,
+							"line":	68,
 							"column":	2
 						}
 					}],
@@ -474,454 +474,5 @@
 			"value":	"$6.12"
 		}],
 	"is_update":	false,
-	"old_bom":	{
-		"rows":	[{
-				"status":	{
-					"code":	1,
-					"name":	"Auto Selected"
-				},
-				"description":	"75V 500mW 1V@10mA 4ns 200mA LL-34  Switching Diode ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"D1"
-						},
-						"ref":	"D1",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	66,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://datasheet.lcsc.com/lcsc/2308231036_MDD-Microdiode-Electronics--LL4148_C435829.pdf",
-				"manufacturer":	"MDD（Microdiode Electronics）",
-				"mpn":	"LL4148",
-				"vendor":	"JLCPCB",
-				"sku":	"LL4148",
-				"price":	0.0062,
-				"preferred":	false,
-				"query_properties":	{
-					"manufacturer":	"MDD（Microdiode Electronics）",
-					"mpn":	"LL4148"
-				}
-			}, {
-				"status":	{
-					"code":	1,
-					"name":	"Auto Selected"
-				},
-				"description":	"2.54mm Plugin 3A 3P -40℃~+105℃ Shrouded 1x3P side 8.5mm Square Holes Push-Pull,P=2.54mm  Female Headers ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"J3"
-						},
-						"ref":	"J1",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	62,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://datasheet.lcsc.com/lcsc/2306091006_HCTL-PM254-1-03-W-8-5_C2897385.pdf",
-				"manufacturer":	"HCTL",
-				"mpn":	"PM254-1-03-W-8.5",
-				"vendor":	"JLCPCB",
-				"sku":	"PM254-1-03-W-8.5",
-				"price":	0.068428571,
-				"preferred":	false,
-				"query_properties":	{
-					"manufacturer":	"HCTL",
-					"mpn":	"PM254-1-03-W-8.5"
-				}
-			}, {
-				"status":	{
-					"code":	1,
-					"name":	"Auto Selected"
-				},
-				"description":	"3A Shrouded Square Pins 2.54mm 3P 6mm 2.54mm Plugin 1x3P Push-Pull,P=2.54mm  Pin Headers ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"J4"
-						},
-						"ref":	"J3",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	63,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://datasheet.lcsc.com/lcsc/2201121730_DEALON-DZ254W-11-03-65_C2935928.pdf",
-				"manufacturer":	"DEALON",
-				"mpn":	"DZ254W-11-03-65",
-				"vendor":	"JLCPCB",
-				"sku":	"DZ254W-11-03-65",
-				"price":	0.014014286,
-				"preferred":	false,
-				"query_properties":	{
-					"manufacturer":	"DEALON",
-					"mpn":	"DZ254W-11-03-65"
-				}
-			}, {
-				"status":	{
-					"code":	1,
-					"name":	"Auto Selected"
-				},
-				"description":	"-  Raspberry Pi ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"U7"
-						},
-						"ref":	"U7",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	57,
-							"column":	2
-						}
-					}],
-				"datasheet":	"",
-				"manufacturer":	"Raspberry Pi",
-				"mpn":	"PICO",
-				"vendor":	"JLCPCB",
-				"sku":	"PICO",
-				"price":	5.951428571,
-				"preferred":	false,
-				"query_properties":	{
-					"manufacturer":	"Raspberry Pi",
-					"mpn":	"PICO"
-				}
-			}, {
-				"status":	{
-					"code":	1,
-					"name":	"Auto Selected"
-				},
-				"description":	"Lying 1A 单刀三掷 24V Black 10000次 Plugin  Slide Switches ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"J1"
-						},
-						"ref":	"S1",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	60,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://datasheet.lcsc.com/lcsc/2108142330_G-Switch-SK-13D01-G030_C2848875.pdf",
-				"manufacturer":	"G-Switch",
-				"mpn":	"SK-13D01-G030",
-				"vendor":	"JLCPCB",
-				"sku":	"SK-13D01-G030",
-				"price":	0.080285714,
-				"preferred":	false,
-				"query_properties":	{
-					"manufacturer":	"G-Switch",
-					"mpn":	"SK-13D01-G030"
-				}
-			}, {
-				"status":	{
-					"code":	5,
-					"name":	"Potential Alternate Vendors"
-				},
-				"description":	"16V 100nF X5R ±20% 0402  Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C9",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C4",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C11",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C3",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C8",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C1",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C12",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C6",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C7",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C2",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C10",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"cap"
-						},
-						"ref":	"C5",
-						"fileinfo":	{
-							"filename":	"F:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2\\.slm\\deps\\ocdb\\utils\\generic-components.stanza",
-							"line":	718,
-							"column":	4
-						}
-					}],
-				"datasheet":	"http://www.passivecomponent.com/wp-content/uploads/datasheet/WTC_MLCC_General_Purpose.pdf",
-				"manufacturer":	"WALSIN",
-				"mpn":	"0402X104M160CT",
-				"vendor":	null,
-				"sku":	null,
-				"price":	null,
-				"preferred":	false,
-				"query_properties":	null
-			}, {
-				"status":	{
-					"code":	5,
-					"name":	"Potential Alternate Vendors"
-				},
-				"description":	"1.08V~5.5V 4 200Mbps 1.08V~5.5V TSSOP-14  Translators / Level Shifters ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"shifter"
-						},
-						"ref":	"U2",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"shifter"
-						},
-						"ref":	"U5",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"shifter"
-						},
-						"ref":	"U4",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"shifter"
-						},
-						"ref":	"U3",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"shifter"
-						},
-						"ref":	"U6",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
-							"column":	4
-						}
-					}, {
-						"inst":	{
-							"name":	"shifter"
-						},
-						"ref":	"U1",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	41,
-							"column":	4
-						}
-					}],
-				"datasheet":	"https://www.ti.com/cn/lit/gpn/txu0104",
-				"manufacturer":	"Texas Instruments",
-				"mpn":	"TXU0104PWR",
-				"vendor":	null,
-				"sku":	null,
-				"price":	null,
-				"preferred":	false,
-				"query_properties":	null
-			}, {
-				"status":	{
-					"code":	5,
-					"name":	"Potential Alternate Vendors"
-				},
-				"description":	"Gold 3A Shrouded Square Pins 2.54mm 32P 6mm -55℃~+105℃ 2.54mm 双排 Black Brass 2x16P 2.54mm Push-Pull,P=2.54mm  Pin Headers ROHS",
-				"insts":	[{
-						"inst":	{
-							"name":	"J2"
-						},
-						"ref":	"J2",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	61,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://datasheet.lcsc.com/lcsc/1912111436_BOOMELE-Boom-Precision-Elec-C97095_C97095.pdf",
-				"manufacturer":	"BOOMELE",
-				"mpn":	"C97095",
-				"vendor":	null,
-				"sku":	null,
-				"price":	null,
-				"preferred":	false,
-				"query_properties":	null
-			}, {
-				"status":	{
-					"code":	5,
-					"name":	"Potential Alternate Vendors"
-				},
-				"description":	"RES SMD 100K OHM 1% 1/16W 0402",
-				"insts":	[{
-						"inst":	{
-							"name":	"r2"
-						},
-						"ref":	"R1",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	70,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://www.vishay.com/docs/20035/dcrcwe3.pdf",
-				"manufacturer":	"VISHAY",
-				"mpn":	"CRCW0402100KFKEE",
-				"vendor":	null,
-				"sku":	null,
-				"price":	null,
-				"preferred":	false,
-				"query_properties":	null
-			}, {
-				"status":	{
-					"code":	4,
-					"name":	"Not Enough Stock"
-				},
-				"description":	"RESISTOR AEC -Q200",
-				"insts":	[{
-						"inst":	{
-							"name":	"r1"
-						},
-						"ref":	"R2",
-						"fileinfo":	{
-							"filename":	"f:\\\\\\\\LogicAnalyzerRepo\\\\\\\\Electronics\\\\\\\\LogicAnalyzer\\\\\\\\LogicAnalyzerV2\\\\\\\\main.stanza",
-							"line":	69,
-							"column":	2
-						}
-					}],
-				"datasheet":	"https://www.bourns.com/docs/product-datasheets/crxxxxa.pdf",
-				"manufacturer":	"BOURNS",
-				"mpn":	"CR0402AJW-822GLF",
-				"vendor":	null,
-				"sku":	null,
-				"price":	null,
-				"preferred":	false,
-				"query_properties":	{
-					"case":	["0402", "1005m", "0505", "1414m", "0508", "1220m", "Wide 0805", "0603", "1608m", "0612", "1632m", "Wide 1206", "0805", "2012m", "1111", "2828m", "1206", "3216m", "1210", "3225m", "1218", "3246m", "Wide 1812", "1225", "3263m", "Wide 2512", "1530", "3876m", "Wide 3015", "1808", "4520m", "1812", "4532m", "1825", "4564m", "1835", "4589", "Wide 3518", "5020m", "2010", "5025m", "2043", "Wide 4320", "2220", "5750m", "2225", "5763m", "2312", "6032m", "2512", "6331m", "2725", "7142m", "2728", "7142m", "Wide 2827", "2816", "2817", "7142m", "2953", "Wide 5929", "3920", "1052m"],
-					"_sellers":	["DigiKey", "Mouser"],
-					"min-rated-temperature.max":	25,
-					"max-rated-temperature.min":	0,
-					"_stock":	100,
-					"mounting":	"smd",
-					"resistance":	8200,
-					"min-stock":	500,
-					"_sort":	["area"],
-					"category":	"resistor"
-				}
-			}],
-		"entries":	[{
-			}, {
-			}, {
-			}, {
-			}, {
-			}, {
-			}, {
-			}, {
-			}, {
-			}, {
-			}]
-	}
+	"old_bom":	false
 }

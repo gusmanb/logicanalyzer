@@ -463,7 +463,7 @@ namespace LogicAnalyzer.Dialogs
         private void btnReset_Click(object? sender, EventArgs e)
         {
             SetBlastMode(false);
-            nudFrequency.Value = 100000000;
+            nudFrequency.Value = driver.MaxFrequency;
             nudPreSamples.Value = 512;
             nudPostSamples.Value = 1024;
             ckBurst.IsChecked = false;

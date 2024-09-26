@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 0.0,
-          "width": 0.0
+          "drill": 0.762,
+          "height": 1.524,
+          "width": 1.524
         },
         "silk_line_width": 0.12,
         "silk_text_italic": false,
@@ -221,217 +221,6 @@
   "cvpcb": {
     "equivalence_files": []
   },
-  "erc": {
-    "erc_exclusions": [],
-    "meta": {
-      "version": 0
-    },
-    "pin_map": [
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        2
-      ],
-      [
-        0,
-        2,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        2,
-        2,
-        2,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        2
-      ],
-      [
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        2,
-        1,
-        1,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2
-      ],
-      [
-        1,
-        1,
-        1,
-        1,
-        1,
-        0,
-        1,
-        1,
-        1,
-        1,
-        1,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        2
-      ],
-      [
-        0,
-        2,
-        1,
-        2,
-        0,
-        0,
-        1,
-        0,
-        2,
-        2,
-        2,
-        2
-      ],
-      [
-        0,
-        2,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        2,
-        0,
-        0,
-        2
-      ],
-      [
-        0,
-        2,
-        1,
-        1,
-        0,
-        0,
-        1,
-        0,
-        2,
-        0,
-        0,
-        2
-      ],
-      [
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2
-      ]
-    ],
-    "rule_severities": {
-      "bus_definition_conflict": "error",
-      "bus_entry_needed": "error",
-      "bus_to_bus_conflict": "error",
-      "bus_to_net_conflict": "error",
-      "conflicting_netclasses": "error",
-      "different_unit_footprint": "error",
-      "different_unit_net": "error",
-      "duplicate_reference": "error",
-      "duplicate_sheet_names": "error",
-      "endpoint_off_grid": "warning",
-      "extra_units": "error",
-      "global_label_dangling": "warning",
-      "hier_label_mismatch": "error",
-      "label_dangling": "error",
-      "lib_symbol_issues": "warning",
-      "missing_bidi_pin": "warning",
-      "missing_input_pin": "warning",
-      "missing_power_pin": "error",
-      "missing_unit": "warning",
-      "multiple_net_names": "warning",
-      "net_not_bus_member": "warning",
-      "no_connect_connected": "warning",
-      "no_connect_dangling": "warning",
-      "pin_not_connected": "error",
-      "pin_not_driven": "error",
-      "pin_to_pin": "warning",
-      "power_pin_not_driven": "error",
-      "similar_labels": "warning",
-      "simulation_model_issue": "ignore",
-      "unannotated": "error",
-      "unit_value_mismatch": "error",
-      "unresolved_variable": "error",
-      "wire_dangling": "error"
-    }
-  },
   "libraries": {
     "pinned_footprint_libs": [],
     "pinned_symbol_libs": []
@@ -469,7 +258,75 @@
     "netclass_patterns": [
       {
         "netclass": "Default",
-        "pattern": "DIN3"
+        "pattern": "POWER_3v3"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT12"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN17"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT6"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN24"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT20"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN7"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT13"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN16"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT7"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "EXT_TRIG"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT21"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN8"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN23"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN15"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT8"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DOUT14"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN1"
       },
       {
         "netclass": "Default",
@@ -481,7 +338,7 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT24"
+        "pattern": "DOUT22"
       },
       {
         "netclass": "Default",
@@ -493,7 +350,7 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT3"
+        "pattern": "DOUT1"
       },
       {
         "netclass": "Default",
@@ -502,6 +359,10 @@
       {
         "netclass": "Default",
         "pattern": "DIN21"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "DIN14"
       },
       {
         "netclass": "Default",
@@ -517,6 +378,10 @@
       },
       {
         "netclass": "Default",
+        "pattern": "DIN2"
+      },
+      {
+        "netclass": "Default",
         "pattern": "DOUT4"
       },
       {
@@ -529,11 +394,11 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DIN16"
+        "pattern": "DOUT23"
       },
       {
         "netclass": "Default",
-        "pattern": "DIN5"
+        "pattern": "VREF"
       },
       {
         "netclass": "Default",
@@ -545,11 +410,11 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT21"
+        "pattern": "DOUT2"
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT5"
+        "pattern": "DIN5"
       },
       {
         "netclass": "Default",
@@ -561,11 +426,11 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DIN15"
+        "pattern": "DIN13"
       },
       {
         "netclass": "Default",
-        "pattern": "VREF"
+        "pattern": "DOUT5"
       },
       {
         "netclass": "Default",
@@ -577,11 +442,11 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DIN1"
+        "pattern": "DIN3"
       },
       {
         "netclass": "Default",
-        "pattern": "DIN6"
+        "pattern": "EXT_VREF"
       },
       {
         "netclass": "Default",
@@ -593,11 +458,11 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT22"
+        "pattern": "DOUT24"
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT6"
+        "pattern": "DIN6"
       },
       {
         "netclass": "Default",
@@ -609,83 +474,7 @@
       },
       {
         "netclass": "Default",
-        "pattern": "DOUT1"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "EXT_VREF"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT12"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN17"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN14"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN7"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN24"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT20"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN2"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "POWER_3v3"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT13"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT23"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT7"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "EXT_TRIG"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT2"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN8"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN23"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DIN13"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT8"
-      },
-      {
-        "netclass": "Default",
-        "pattern": "DOUT14"
+        "pattern": "DOUT3"
       }
     ]
   },
@@ -694,8 +483,8 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "output/",
-      "pos_files": "output/",
+      "plot": "",
+      "pos_files": "",
       "specctra_dsn": "",
       "step": "",
       "svg": "",
@@ -705,70 +494,9 @@
   },
   "schematic": {
     "annotate_start_num": 0,
-    "bom_export_filename": "",
-    "bom_fmt_presets": [],
-    "bom_fmt_settings": {
-      "field_delimiter": ",",
-      "keep_line_breaks": false,
-      "keep_tabs": false,
-      "name": "CSV",
-      "ref_delimiter": ",",
-      "ref_range_delimiter": "",
-      "string_delimiter": "\""
-    },
-    "bom_presets": [],
-    "bom_settings": {
-      "exclude_dnp": false,
-      "fields_ordered": [
-        {
-          "group_by": false,
-          "label": "Reference",
-          "name": "Reference",
-          "show": true
-        },
-        {
-          "group_by": true,
-          "label": "Value",
-          "name": "Value",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "Datasheet",
-          "name": "Datasheet",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "Footprint",
-          "name": "Footprint",
-          "show": true
-        },
-        {
-          "group_by": false,
-          "label": "Qty",
-          "name": "${QUANTITY}",
-          "show": true
-        },
-        {
-          "group_by": true,
-          "label": "DNP",
-          "name": "${DNP}",
-          "show": true
-        }
-      ],
-      "filter_string": "",
-      "group_symbols": true,
-      "name": "Grouped By Value",
-      "sort_asc": true,
-      "sort_field": "Referencia"
-    },
-    "connection_grid_size": 50.0,
     "drawing": {
-      "dashed_lines_dash_length_ratio": 12.0,
-      "dashed_lines_gap_length_ratio": 3.0,
-      "default_line_thickness": 6.0,
-      "default_text_size": 50.0,
+      "default_line_thickness": 6,
+      "default_text_size": 50,
       "field_names": [],
       "intersheets_ref_own_page": false,
       "intersheets_ref_prefix": "",
@@ -777,12 +505,7 @@
       "intersheets_ref_suffix": "",
       "junction_size_choice": 3,
       "label_size_ratio": 0.25,
-      "operating_point_overlay_i_precision": 3,
-      "operating_point_overlay_i_range": "~A",
-      "operating_point_overlay_v_precision": 3,
-      "operating_point_overlay_v_range": "~V",
-      "overbar_offset_ratio": 1.23,
-      "pin_symbol_size": 0.0,
+      "pin_symbol_size": 0,
       "text_offset_ratio": 0.08
     },
     "legacy_lib_dir": "",
@@ -803,20 +526,10 @@
     "page_layout_descr_file": "",
     "plot_directory": "",
     "spice_adjust_passive_values": false,
-    "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
-    "spice_model_current_sheet_as_root": true,
-    "spice_save_all_currents": false,
-    "spice_save_all_dissipations": false,
-    "spice_save_all_voltages": false,
     "subpart_first_id": 65,
     "subpart_id_separator": 0
   },
-  "sheets": [
-    [
-      "219df102-d28d-b743-245e-efc9439ef913",
-      "Raíz"
-    ]
-  ],
+  "sheets": [],
   "text_variables": {}
 }

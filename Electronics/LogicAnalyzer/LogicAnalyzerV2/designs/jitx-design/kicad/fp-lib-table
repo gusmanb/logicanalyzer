@@ -1,5 +1,4 @@
 (fp_lib_table
   (version 7)
-  (lib (name "jitx-design")(type "KiCad")(uri "$(KIPRJMOD)/jitx-design.pretty")(options "")(descr ""))
-  (lib (name "Logo")(type "KiCad")(uri "${KIPRJMOD}/custom/Logo.pretty")(options "")(descr ""))
+  (lib (name jitx-design)(type KiCad)(uri "$(KIPRJMOD)/jitx-design.pretty")(options "")(descr ""))
 )

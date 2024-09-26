@@ -35,7 +35,6 @@ pcb-module logic-analyzer :
   var shifterOutputPins = Array<?>(24)
   var shifterRefAPins = Array<?>(6)
   var shifterRefBPins = Array<?>(6)
-
   for i in 0 to 6 :
     println("Instantiating shifter %_" % [i])
     inst shifter : database-part(["mpn" => "TXU0104PWR", "manufacturer" => "Texas Instruments"])
@@ -77,7 +76,7 @@ pcb-module logic-analyzer :
   property(EXT_VREF.voltage) = tol%(5.0, 5.0)
 
   ;Power nets
-  net POWER_3v3 (shifters[0].VCCB , shifters[1].VCCB , shifters[2].VCCB , shifters[3].VCCB , shifters[4].VCCB , shifters[5].VCCB , J1.p[3] , J2.p[7] , J2.p[8] , U7.P_3V3_OUT) ; 3v3
+  net POWER_3v3 (shifters[0].OE, shifters[1].OE, shifters[2].OE, shifters[3].OE, shifters[4].OE, shifters[5].OE, shifters[0].VCCB, shifters[1].VCCB , shifters[2].VCCB , shifters[3].VCCB , shifters[4].VCCB , shifters[5].VCCB , J1.p[3] , J2.p[7] , J2.p[8] , U7.P_3V3_OUT) ; 3v3
   net POWER_5v (J1.p[4] , U7.VBUS , J2.p[5] , J2.p[6]) ; 5v
   net GND (U7.GND0 , U7.GND1 , U7.GND2 , U7.GND3 , U7.GND4 , U7.GND6 , U7.GND6 , U7.GND7 , J2.p[1] , J2.p[2] , J3.p[3] , J4.p[3] , r1.p[2] , r2.p[2] , gnd) ; gnd
 
@@ -163,8 +162,8 @@ pcb-module logic-analyzer :
       ) = signal-skew
 
   geom(GND) :
-    copper-pour(LayerIndex(0), isolate = 0.1) = RoundedRectangle(57.0, 65.0, 0.25)
-    copper-pour(LayerIndex(3), isolate = 0.1) = RoundedRectangle(57.0, 65.0, 0.25)
+     copper-pour(LayerIndex(0), isolate = 0.1) = RoundedRectangle(57.0, 65.0, 0.25)
+     copper-pour(LayerIndex(3), isolate = 0.1) = RoundedRectangle(57.0, 65.0, 0.25)
 
   ocdb/utils/checks/check-design(self)
 
@@ -188,20 +187,20 @@ set-main-module(logic-analyzer)
 ; Use any helper function from helpers.stanza here
 ; run-check-on-design(my-design)
 
-set-bom-vendors(["JLCPCB"])
-set-bom-design-quantity(10)
-set-bom-columns([
-  BOMColumn(BOMFieldDescription, "Comment", 20.0)
-  BOMColumn(BOMFieldInsts, "Designator", 30.0)
-  BOMColumn(BOMFieldSKU, "LCSC Part Number", 20.0)
-])
+ set-bom-vendors(["JLCPCB"])
+ set-bom-design-quantity(10)
+ set-bom-columns([
+   BOMColumn(BOMFieldDescription, "Comment", 20.0)
+   BOMColumn(BOMFieldInsts, "Designator", 30.0)
+   BOMColumn(BOMFieldSKU, "LCSC Part Number", 20.0)
+ ])
 
-set-export-backend(`kicad)
-export-cad()
-export-bom()
+ set-export-backend(`kicad)
+ export-cad()
+ export-bom()
 
 ; View the results
 view-design-explorer()
-view-bom(BOM-STD)
+; view-bom(BOM-STD)
 view-board()
 view-schematic()

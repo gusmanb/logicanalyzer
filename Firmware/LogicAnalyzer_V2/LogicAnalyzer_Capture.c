@@ -1222,18 +1222,18 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
     //If we don't have processed the buffer...
     if(!captureProcessed)
     {
-        int maxSize;
+        uint32_t maxSize;
 
         switch(lastCaptureMode)
         {
             case MODE_8_CHANNEL:
-                maxSize = 131072;
+                maxSize = CAPTURE_BUFFER_SIZE;
                 break;
             case MODE_16_CHANNEL:
-                maxSize = 65536;
+                maxSize = CAPTURE_BUFFER_SIZE / 2;
                 break;
             case MODE_24_CHANNEL:
-                maxSize = 32768;
+                maxSize = CAPTURE_BUFFER_SIZE / 4;
                 break;
         }
         //Calculate start position
@@ -1260,7 +1260,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
-                    for(int buc = 0; buc < totalSamples; buc++)
+                    for(uint32_t buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
@@ -1297,7 +1297,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
-                    for(int buc = 0; buc < totalSamples; buc++)
+                    for(uint32_t buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
                         newValue = 0; //New value
@@ -1334,7 +1334,7 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
-                    for(int buc = 0; buc < totalSamples; buc++)
+                    for(uint32_t buc = 0; buc < totalSamples; buc++)
                     {
                         oldValue = buffer[currentPos]; //Store current value
 

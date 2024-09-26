@@ -4,9 +4,6 @@
 
 #if defined(BUILD_PICO_2)
 #include <RP2350.h>
-#define CAPTURE_BUFFER_SIZE (128 * 1024)
-#else
-#define CAPTURE_BUFFER_SIZE (128 * 1024)
 #endif
 
 typedef enum
