@@ -5,6 +5,17 @@ You can find all the compiled projects in the [Releases section](https://github.
 
 Latest version: Release 5.1.0.0, 05/05/2024
 ----
+# New PCB design
+
+![pcb](https://github.com/user-attachments/assets/cbf87396-40b4-49de-9542-2da3587a47cd)
+
+I have created a new dessign for version 6.0 and is under testing right now.
+It replaces the headers that were difficult to find, uses 0402 type components so is not intended for manual assembly and also include a VREF switch that allows to change between 3.3v/5v/ext vref.
+
+Once testing is completed I will publish the dessign, I might have some spare  boards with all the components already assembled except for the pico, so if you are interested in one of these leave a message un the discussion sections (if I see that there is enough demand I might even think on making a batch of these).
+
+
+----
 
 # Pico 2: born dead.
 
