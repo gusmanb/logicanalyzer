@@ -337,7 +337,7 @@ namespace LogicAnalyzer.Dialogs
 
             int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
-            int loops = (int)((ckBurst.IsChecked ?? false) ? nudBurstCount.Value - 1 : 0);
+            int loops = (int)((ckBurst.IsChecked ?? false) ? (nudBurstCount.Value ?? 1) - 1 : 0);
             bool measure = (ckBurst.IsChecked ?? false) && (ckMeasure.IsChecked ?? false);
 
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
@@ -374,7 +374,7 @@ namespace LogicAnalyzer.Dialogs
                 }
                 else
                 {
-                    trigger = (int)nudTriggerBase.Value - 1;
+                    trigger = (int)(nudTriggerBase.Value ?? 1) - 1;
 
                     if (string.IsNullOrWhiteSpace(txtPattern.Text))
                     {
@@ -442,9 +442,9 @@ namespace LogicAnalyzer.Dialogs
             }
             
 
-            settings.Frequency = (int)nudFrequency.Value;
-            settings.PreTriggerSamples = (int)nudPreSamples.Value;
-            settings.PostTriggerSamples = (int)nudPostSamples.Value;
+            settings.Frequency = (int)(nudFrequency.Value ?? 0);
+            settings.PreTriggerSamples = (int)(nudPreSamples.Value ?? 0);
+            settings.PostTriggerSamples = (int)(nudPostSamples.Value ?? 0);
             settings.LoopCount = loops;
             settings.MeasureBursts = measure;
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;

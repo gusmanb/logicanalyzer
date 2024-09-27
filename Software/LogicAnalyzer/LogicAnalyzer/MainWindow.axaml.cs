@@ -144,9 +144,9 @@ namespace LogicAnalyzer
                 sgManager.Initialize(decoderProvider);
                 sgManager.DecodingComplete += SgManager_DecodingComplete;
             }
-            catch (Exception ex)
+            catch
             {
-                this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+                _ = this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
             }
         }
 
@@ -317,6 +317,12 @@ namespace LogicAnalyzer
 
         private async void ChannelViewer_ChannelClick(object? sender, ChannelEventArgs e)
         {
+
+            var txt = sender as TextBlock;
+
+            if (txt == null)
+                return;
+
             var chan = e.Channel;
 
             if (chan == null)
@@ -335,7 +341,7 @@ namespace LogicAnalyzer
                 return;
 
             chan.ChannelColor = color.Value.ToUInt32();
-            (sender as TextBlock).Foreground = GraphicObjectsCache.GetBrush(color.Value);
+            txt.Foreground = GraphicObjectsCache.GetBrush(color.Value);
             samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
             sampleViewer.InvalidateVisual();
         }
@@ -588,6 +594,10 @@ namespace LogicAnalyzer
 
         private async void SampleMarker_SamplesInserted(object? sender, SampleEventArgs e)
         {
+
+            if (driver == null)
+                return;
+
             if (e.Sample > session.TotalSamples)
             {
                 await this.ShowError("Out of range", "Cannot insert samples beyond the end of the sample range.");
@@ -616,6 +626,10 @@ namespace LogicAnalyzer
 
         private async Task InsertSamples(int sample, IEnumerable<byte[]> newSamples)
         {
+
+            if (driver == null)
+                return;
+
             var chans = session.CaptureChannels.Select(c => c.ChannelNumber).ToArray();
             var maxSamples = driver.GetLimits(chans).MaxTotalSamples;
 
@@ -688,7 +702,7 @@ namespace LogicAnalyzer
             }
 
             copiedSamples = session.CaptureChannels.Select(c => c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray());
-            await DeleteSamples(e);
+            DeleteSamples(e);
         }
 
         private async void SampleMarker_SamplesDeleted(object? sender, SamplesEventArgs e)
@@ -699,10 +713,10 @@ namespace LogicAnalyzer
                 return;
             }
 
-            await DeleteSamples(e);
+            DeleteSamples(e);
         }
 
-        async Task DeleteSamples(SamplesEventArgs e)
+        void DeleteSamples(SamplesEventArgs e)
         {
             var lastSample = e.FirstSample + e.SampleCount - 1;
             var triggerSample = sampleViewer.PreSamples - 1;
@@ -835,13 +849,17 @@ namespace LogicAnalyzer
                     names[buc] = (buc + 1).ToString();
 
             MeasureDialog dlg = new MeasureDialog();
-            dlg.SetData(names, session.CaptureChannels.Select(c => c.Samples), session.Frequency);
+            dlg.SetData(names, session.CaptureChannels.Select(c => c.Samples ?? new byte[0]), session.Frequency);
             await dlg.ShowDialog(this);
 
         }
 
         private async void MnuNetSettings_Click(object? sender, RoutedEventArgs e)
         {
+
+            if (driver == null)
+                return;
+
             var dlg = new NetworkSettingsDialog();
 
             if (await dlg.ShowDialog<bool>(this))
@@ -932,7 +950,7 @@ namespace LogicAnalyzer
                 mnuSave.IsEnabled = true;
                 mnuExport.IsEnabled = true;
 
-                mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+                mnuSettings.IsEnabled = driver?.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
 
                 scrSamplePos.Maximum = session.TotalSamples - 1;
                 updateSamplesInDisplay(session.PreTriggerSamples - 2, Math.Max(session.PreTriggerSamples - 10, 0));
@@ -967,7 +985,7 @@ namespace LogicAnalyzer
                     {
                         MultiConnectDialog dlg = new MultiConnectDialog();
 
-                        if (!await dlg.ShowDialog<bool>(this))
+                        if (!await dlg.ShowDialog<bool>(this) || dlg.ConnectionStrings == null)
                             return;
 
                         driver = new MultiAnalyzerDriver(dlg.ConnectionStrings);
@@ -1073,13 +1091,18 @@ namespace LogicAnalyzer
                 return;
             }
             //preserveSamples = true;
-            BeginCapture();
+            await BeginCapture();
         }
 
         private async void btnCapture_Click(object? sender, RoutedEventArgs e)
         {
+            if (driver == null)
+                return;
+
             var dialog = new CaptureDialog();
+            
             dialog.Initialize(driver);
+
             if (!await dialog.ShowDialog<bool>(this))
                 return;
 
@@ -1090,7 +1113,8 @@ namespace LogicAnalyzer
 
             try
             {
-                BeginCapture();
+                if(!await BeginCapture())
+                    return;
 
                 var settingsFile = $"cpSettings{driver.DriverType}.json";
                 var settings = session.Clone();
@@ -1110,26 +1134,32 @@ namespace LogicAnalyzer
 
         private void btnAbort_Click(object? sender, RoutedEventArgs e)
         {
-            driver.StopCapture();
+            driver?.StopCapture();
             btnCapture.IsEnabled = true;
             btnRepeat.IsEnabled = true;
             btnOpenClose.IsEnabled = true;
             btnAbort.IsEnabled = false;
         }
 
-        private async void BeginCapture()
+        private async Task<bool> BeginCapture()
         {
+            if (driver == null)
+                return false;
 
             var error = driver.StartCapture(session);
 
             if (error != CaptureError.None)
+            {
                 await ShowError(error);
+                return false;
+            }
 
             btnCapture.IsEnabled = false;
             btnRepeat.IsEnabled = false;
             btnOpenClose.IsEnabled = false;
             btnAbort.IsEnabled = true;
             mnuSettings.IsEnabled = false;
+            return true;
         }
 
         private async Task ShowError(CaptureError error)
@@ -1283,11 +1313,17 @@ namespace LogicAnalyzer
 
         private void sampleMarker_RegionCreated(object? sender, RegionEventArgs e)
         {
+            if (e.Region == null)
+                return;
+
             addRegion(e.Region);
         }
 
         private void sampleMarker_RegionDeleted(object? sender, RegionEventArgs e)
         {
+            if (e.Region == null)
+                return;
+
             removeRegion(e.Region);
         }
 

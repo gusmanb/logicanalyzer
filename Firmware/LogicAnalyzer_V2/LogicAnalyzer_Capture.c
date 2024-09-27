@@ -598,7 +598,7 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     }
 
     //Too many samples requested?
-    if(preLength + postLength >= maxSamples)
+    if(preLength + postLength > maxSamples)
         return false;
 
     //Frequency too high?
@@ -767,7 +767,7 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     }
 
     //Too many samples requested?
-    if(preLength + postLength >= maxSamples)
+    if(preLength + postLength > maxSamples)
         return false;
 
     //Frequency too high?
@@ -930,7 +930,7 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     }
 
     //Too many samples requested?
-    if(length >= maxSamples)
+    if(length > maxSamples)
         return false;
 
     //Frequency too high?
@@ -1049,7 +1049,7 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     }
 
     //Too many samples requested?
-    if(preLength + (postLength * (loopCount + 1)) >= maxSamples)
+    if(preLength + (postLength * (loopCount + 1)) > maxSamples)
         return false;
 
     //Frequency too high?
