@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "MultiOscParts")(type "KiCad")(uri "F:/KiCad/Proyectos/MultiOsc/MultiOsc/MultiOscParts.kicad_sym")(options "")(descr ""))
+  (lib (name "MCU_RaspberryPi_and_Boards")(type "KiCad")(uri "${KIPRJMOD}/MCU_RaspberryPi_and_Boards.kicad_sym")(options "")(descr ""))
+)
