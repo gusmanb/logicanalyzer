@@ -32,8 +32,16 @@ namespace CLCapture
 
         [Value(6, Required = true, HelpText = "Trigger definition in the form of \"TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string containing 1's and 0's indicating each trigger chanel state)\".")]
         public CLTrigger? Trigger { get; set; }
+
         [Value(7, Required = true, HelpText = "Name of the output file.")]
         public string? OutputFile { get; set; }
+
+        [Value(8, Required = false, HelpText = "Format of the output file. Can be csv|vcd or csv:vcd to export both")]
+        public string? OutputFileFormat { get; set; }
+
+        public bool ExportVCD => OutputFileFormat?.Contains("vcd") ?? false;
+
+        public bool ExportCSV => string.IsNullOrEmpty(OutputFileFormat) || OutputFileFormat.Contains("csv");
     }
 
     public class CLTrigger
