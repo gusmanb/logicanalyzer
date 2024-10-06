@@ -1,4 +1,0 @@
-(sym_lib_table
-  (version 7)
-  (lib (name project_symbols)(type Legacy)(uri "$(KIPRJMOD)/project_symbols.lib")(options "")(descr ""))
-)
