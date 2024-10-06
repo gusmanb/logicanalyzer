@@ -38,6 +38,9 @@
     "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
     "raspberry-pi-pico.python3Path": "${HOME}/.pico-sdk/python/3.12.1/python.exe",
     "files.associations": {
-        "pads_bank0.h": "c"
+        "pads_bank0.h": "c",
+        "stdlib.h": "c",
+        "logicanalyzer_wifi.h": "c",
+        "logicanalyzer_board_settings.h": "c"
     }
 }
