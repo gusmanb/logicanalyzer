@@ -62,4 +62,10 @@
   <ItemGroup>
     <EmbeddedResource Include="SigrokDecoderBridge\sigrokdecode.py" />
   </ItemGroup>
+  <Target Name="CopyDecoders" AfterTargets="Publish">
+    <ItemGroup>
+      <Decoders Include="..\..\decoders\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Decoders)" DestinationFolder="$(PublishDir)decoders\%(RecursiveDir)" />
+  </Target>
 </Project>

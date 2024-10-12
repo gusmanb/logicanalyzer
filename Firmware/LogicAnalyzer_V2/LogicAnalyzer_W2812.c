@@ -5,10 +5,10 @@
     #include "pico/stdlib.h"
     #include "LogicAnalyzer_w2812.h"
 
-    #define LONG_START 52 * (MAX_FREQ / 100000000)
-    #define SHORT_START 26 * (MAX_FREQ / 100000000)
-    #define LONG_END 52 * (MAX_FREQ / 100000000)
-    #define SHORT_END 25 * (MAX_FREQ / 100000000)
+    #define LONG_START 52.0 * (MAX_FREQ / 100000000.0)
+    #define SHORT_START 26.0 * (MAX_FREQ / 100000000.0)
+    #define LONG_END 52.0 * (MAX_FREQ / 100000000.0)
+    #define SHORT_END 25.0 * (MAX_FREQ / 100000000.0)
 
     void __attribute__ ((noinline)) delay_cycles4(uint32_t loops)
     {

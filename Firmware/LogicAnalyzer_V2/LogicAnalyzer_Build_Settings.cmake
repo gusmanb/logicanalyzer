@@ -1,11 +1,8 @@
-# This file controls the build settings, uncomment your board version
-# set(BOARD_TYPE "BOARD_PICO")
-# set(BOARD_TYPE "BOARD_PICO_W")
-# set(BOARD_TYPE "BOARD_PICO_W_WIFI")
-# set(BOARD_TYPE "BOARD_ZERO")
+# This file controls the build settings, set your board version
+# Current versions: "BOARD_PICO", "BOARD_PICO_W", "BOARD_PICO_W_WIFI", "BOARD_ZERO", "BOARD_PICO_2"
 set(BOARD_TYPE "BOARD_PICO_2")
 
-# Uncomment to enable 200Mhz mode (warning! extreme overclock and overvoltage!)
+# Set to 1 to enable 200Mhz mode (warning! extreme overclock and overvoltage!)
 # Not available for the Pico W
 set(TURBO_MODE 1)
 
