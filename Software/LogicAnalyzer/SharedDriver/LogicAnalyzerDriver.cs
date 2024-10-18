@@ -186,6 +186,13 @@ namespace SharedDriver
                 throw new DeviceConnectionException("Invalid device frequency response.");
             }
 
+            var blast = readResponse.ReadLine();
+            if (!GetBlastFrequency(blast))
+            {
+                Dispose();
+                throw new DeviceConnectionException("Invalid blast frequency response.");
+            }
+
             var bufString = readResponse.ReadLine();
             if (!GetBufferSize(bufString))
             {

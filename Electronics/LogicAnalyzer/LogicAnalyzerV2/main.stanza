@@ -56,7 +56,7 @@ pcb-module logic-analyzer :
   inst U7 : database-part(["mpn" => "PICO", "manufacturer" => "Raspberry Pi"])
 
   ;Pin headers
-  inst J1 : database-part(["mpn" => "SK-13D01-G030", "manufacturer" => "G-Switch"])
+  inst J1 : database-part(["mpn" => "SK13D07VG5", "manufacturer" => "SHOU HAN"]);database-part(["mpn" => "SK-13D01-G030", "manufacturer" => "G-Switch"])
   inst J2 : database-part(["mpn" => "C97095", "manufacturer" => "BOOMELE"]);database-part(["mpn" => "S108500004", "manufacturer" => "Ckmtw(Shenzhen Cankemeng)"])
   inst J3 : database-part(["mpn" => "PM254-1-03-W-8.5", "manufacturer" => "HCTL"])
   inst J4 : database-part(["mpn" => "DZ254W-11-03-65", "manufacturer" => "DEALON"])
@@ -196,8 +196,8 @@ set-main-module(logic-analyzer)
  ])
 
  set-export-backend(`kicad)
- export-cad()
- export-bom()
+ ;export-cad()
+ ;export-bom()
 
 ; View the results
 view-design-explorer()
