@@ -849,7 +849,7 @@ namespace LogicAnalyzer
                     names[buc] = (buc + 1).ToString();
 
             MeasureDialog dlg = new MeasureDialog();
-            dlg.SetData(names, session.CaptureChannels.Select(c => c.Samples ?? new byte[0]), session.Frequency);
+            dlg.SetData(names, session.CaptureChannels.Select(c => c.Samples != null ? c.Samples.Skip(e.FirstSample).Take(e.SampleCount).ToArray() : new byte[0]), session.Frequency);
             await dlg.ShowDialog(this);
 
         }
