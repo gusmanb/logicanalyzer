@@ -7,6 +7,16 @@ Latest version: Release 5.1.0.0, 05/05/2024
 
 ----
 
+# Back!
+
+Hi. I was in a business trip past weeks and got back today, so I have a ton of emails and messages regarding the project unanswered.
+
+I will answer all the emails and requests this weekend/next Monday.
+
+Sorry! :)
+
+----
+
 # Branches
 
 **Please, do not try to build V6_0 by yourself**
