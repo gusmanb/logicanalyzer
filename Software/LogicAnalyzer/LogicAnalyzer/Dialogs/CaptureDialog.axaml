@@ -3,8 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:LogicAnalyzer.Controls;assembly=LogicAnalyzer"
-        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="680"
-        MaxWidth="900" MinWidth="900" Width="900" MaxHeight="680" MinHeight="680" Height="680"
+        mc:Ignorable="d" d:DesignWidth="930" d:DesignHeight="680"
+        MaxWidth="930" MinWidth="930" Width="930" MaxHeight="680" MinHeight="680" Height="680"
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
         Title="Capture settings"
@@ -94,23 +94,24 @@
               <CheckBox Name="ckBlast" Margin="20,0,0,10"  VerticalAlignment="Center">Blast mode</CheckBox>
               <CheckBox Name="ckBurst" Margin="20,0,0,10"  VerticalAlignment="Center">Burst mode</CheckBox>
               <TextBlock Margin="20,0,0,10" VerticalAlignment="Center">Burst count:</TextBlock>
-              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="254" Value="2" Name="nudBurstCount"></NumericUpDown>
+              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="254" Value="2" Name="nudBurstCount" FormatString="#"></NumericUpDown>
               <CheckBox IsEnabled="{Binding #ckBurst.IsChecked}" Name="ckMeasure" Margin="20,0,0,10">Measure delays</CheckBox>
             </StackPanel>
           </StackPanel>
           <RadioButton Margin="15,0,0,0" Name="rbTriggerTypePattern">Pattern trigger</RadioButton>
           <StackPanel Name="pnlPatternTrigger" IsEnabled="False" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030">
             <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">First channel:</TextBlock>
-            <NumericUpDown Margin="5,15,0,15" Value="1" Minimum="1" Maximum="16" Width="110" Name="nudTriggerBase"></NumericUpDown>
+            <NumericUpDown Margin="5,15,0,15" Value="1" Minimum="1" Maximum="16" Width="110" Name="nudTriggerBase" FormatString="#"></NumericUpDown>
             <TextBlock Margin="15,0,10,0" VerticalAlignment="Center">Pattern:</TextBlock>
             <TextBox VerticalAlignment="Center" Width="160" Name="txtPattern"></TextBox>
             <CheckBox Margin="15,0,10,0" Name="ckFastTrigger">Fast pattern matching (max. 5 bits)</CheckBox>
           </StackPanel>
         </StackPanel>
+        <!--
         <StackPanel Grid.Row="1" Margin="10,10,10,10" Background="#80505050" Name="pnlSingleTrigger" IsVisible="False">
           <Separator Height="20"></Separator>
 
-        </StackPanel>
+        </StackPanel>-->
       </Grid>
       <Grid ColumnDefinitions="*,*" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="2">
         <Button Name="btnReset" HorizontalAlignment="Left" Margin="10,0,0,0">Reset</Button>

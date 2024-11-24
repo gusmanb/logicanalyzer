@@ -1,9 +1,11 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
+using AvaloniaEdit.Document;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Controls;
 using LogicAnalyzer.Extensions;
@@ -16,6 +18,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LogicAnalyzer.Dialogs
 {
@@ -53,6 +56,43 @@ namespace LogicAnalyzer.Dialogs
             rbTriggerTypeEdge.IsCheckedChanged += rbTriggerTypeEdge_CheckedChanged;
             nudFrequency.ValueChanged += NudFrequency_ValueChanged;
             ckBlast.IsCheckedChanged += ckBlast_CheckedChanged;
+            
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
+            {
+                nudPreSamples.Increment = 512;
+                nudPostSamples.Increment = 512;
+                nudFrequency.Increment = 1000000;
+            }
+            else
+            {
+                nudPreSamples.Increment = 1;
+                nudPostSamples.Increment = 1;
+                nudFrequency.Increment = 1;
+            }
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+
+            if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
+            {
+                nudPreSamples.Increment = 512;
+                nudPostSamples.Increment = 512;
+                nudFrequency.Increment = 1000000;
+            }
+            else
+            {
+                nudPreSamples.Increment = 1;
+                nudPostSamples.Increment = 1;
+                nudFrequency.Increment = 1;
+            }
         }
 
         private void NudFrequency_ValueChanged(object? sender, NumericUpDownValueChangedEventArgs e)
@@ -88,11 +128,36 @@ namespace LogicAnalyzer.Dialogs
         public void Initialize(AnalyzerDriverBase Driver)
         {
             driver = Driver;
-            SetDriverMode(driver.DriverType);
             InitializeControlArrays(driver.ChannelCount);
             InitializeParameters();
             LoadSettings(driver.DriverType);
             CheckMode();
+            SetDriverMode(driver.DriverType);
+            InitializeTooltips();
+        }
+
+        private void InitializeTooltips()
+        {
+            nudPreSamples.PointerEntered += (s, e) => 
+            {
+                
+                var limits = driver.GetLimits(captureChannels.Where(c => c.Enabled).Select(c => (int)c.ChannelNumber).ToArray());
+                var tooltip = $"Min: {limits.MinPreSamples.ToString("#,##0")}\r\nMax.: {limits.MaxPreSamples.ToString("#,##0")}";
+                ToolTip.SetTip(nudPreSamples, tooltip);
+                ToolTip.SetIsOpen(nudPreSamples, false);
+                ToolTip.SetShowDelay(nudPreSamples, 0);
+                ToolTip.SetIsOpen(nudPreSamples, true);
+            };
+
+            nudPostSamples.PointerEntered += (s, e) =>
+            {
+                var limits = driver.GetLimits(captureChannels.Where(c => c.Enabled).Select(c => (int)c.ChannelNumber).ToArray());
+                var tooltip = $"Min: {limits.MinPostSamples.ToString("#,##0")}\r\nMax.: {limits.MaxPostSamples.ToString("#,##0")}";
+                ToolTip.SetTip(nudPostSamples, tooltip);
+                ToolTip.SetIsOpen(nudPostSamples, false);
+                ToolTip.SetShowDelay(nudPostSamples, 0);
+                ToolTip.SetIsOpen(nudPostSamples, true);
+            };
         }
 
         private void InitializeParameters()
@@ -107,11 +172,15 @@ namespace LogicAnalyzer.Dialogs
         {
             if (DriverType == AnalyzerDriverType.Multi)
             {
-                pnlAllTriggers.Children.Remove(pnlPatternTrigger);
-                pnlSingleTrigger.Children.Add(pnlPatternTrigger);
-                pnlAllTriggers.IsVisible = false;
-                pnlSingleTrigger.IsVisible = true;
-                grdMainContainer.RowDefinitions = new RowDefinitions("4*,*");
+                //pnlAllTriggers.Children.Remove(pnlPatternTrigger);
+                //pnlSingleTrigger.Children.Add(pnlPatternTrigger);
+                //pnlAllTriggers.IsVisible = false;
+                //pnlSingleTrigger.IsVisible = true;
+                grdMainContainer.RowDefinitions = new RowDefinitions("3.7*,*");
+                rbTriggerTypeEdge.IsVisible = false;
+                pnlEdge.IsVisible = false;
+                rbTriggerTypePattern.IsChecked = true;
+                rbTriggerTypePattern.IsEnabled = false;
             }
             else if (DriverType == AnalyzerDriverType.Emulated)
             {
@@ -128,39 +197,88 @@ namespace LogicAnalyzer.Dialogs
             this.FixStartupPosition();
         }
 
-        private void InitializeControlArrays(int ChannelCount)
+        private StackPanel CreateChannelRow(int FirstChannel, List<ChannelSelector> Selectors)
         {
-            List<ChannelSelector> channels = new List<ChannelSelector>();
-            List<RadioButton> triggers = new List<RadioButton>();
+            StackPanel panel = new StackPanel();
+            panel.Orientation = Avalonia.Layout.Orientation.Horizontal;
+            panel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
 
-            StackPanel currentPanel = new StackPanel();
-            currentPanel.Orientation = Avalonia.Layout.Orientation.Horizontal;
-            currentPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-            int pannelChannel = 0;
-            pnlChannels.Children.Add(currentPanel);
-            for (int buc = 0; buc < ChannelCount; buc++)
+            Grid grdSel = new Grid();
+            grdSel.RowDefinitions = new RowDefinitions("*,*,*");
+
+            var font = FontFamily.Parse("avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free");
+
+            Button btnSelAll = new Button { FontFamily = font, Content = "", FontSize = 16 };
+            btnSelAll.SetValue(Grid.RowProperty, 0);
+            btnSelAll.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = true; };
+            btnSelAll.Margin = new Thickness(0, 0, 0, 0);
+            btnSelAll.Padding = new Thickness(0, 0, 0, 0);
+            btnSelAll.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+            btnSelAll.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            btnSelAll.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            btnSelAll.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+
+            Button btnSelNone = new Button { FontFamily = font, Content = "", FontSize = 16 };
+            btnSelNone.SetValue(Grid.RowProperty, 1);
+            btnSelNone.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = false; };
+            btnSelNone.Margin = new Thickness(0, 0, 0, 0);
+            btnSelNone.Padding = new Thickness(5, 0, 5, 0);
+            btnSelNone.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+            btnSelNone.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            btnSelNone.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            btnSelNone.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+
+            Button btnSelInv = new Button { FontFamily = font, Content = "", FontSize = 16 };
+            btnSelInv.SetValue(Grid.RowProperty, 2);
+            btnSelInv.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = !ch.Enabled; };
+            btnSelInv.Margin = new Thickness(0, 0, 0, 0);
+            btnSelInv.Padding = new Thickness(0, 0, 0, 0);
+            btnSelInv.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+            btnSelInv.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            btnSelInv.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
+            btnSelInv.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
+
+            grdSel.Children.Add(btnSelAll);
+            grdSel.Children.Add(btnSelNone);
+            grdSel.Children.Add(btnSelInv);
+
+            Border brdSel = new Border();
+            brdSel.BorderThickness = new Thickness(1);
+            brdSel.BorderBrush = GraphicObjectsCache.GetBrush(Colors.White);
+            brdSel.Margin = new Thickness(0);
+            brdSel.Padding = new Thickness(0);
+            brdSel.CornerRadius = new CornerRadius(0);
+            brdSel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+            brdSel.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
+
+            brdSel.Child = grdSel;
+
+            panel.Children.Add(brdSel);
+
+            for (int buc = 0; buc < 8; buc++)
             {
-                if (pannelChannel == 8)
-                {
-                    pannelChannel = 0;
-                    currentPanel = new StackPanel();
-                    currentPanel.Orientation = Avalonia.Layout.Orientation.Horizontal;
-                    currentPanel.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-                    pnlChannels.Children.Add(currentPanel);
-                }
-
-                var channel = new ChannelSelector { ChannelNumber = (byte)buc };
-                currentPanel.Children.Add(channel);
+                var channel = new ChannelSelector { ChannelNumber = (byte)(FirstChannel + buc) };
+                panel.Children.Add(channel);
                 channel.Selected += Channel_Selected;
                 channel.Deselected += Channel_Deselected;
                 channel.ChangeColor += Channel_ChangeColor;
-                channels.Add(channel);
-                triggers.Add(this.FindControl<RadioButton>($"rbTrigger{buc + 1}"));
-                pannelChannel++;
+                Selectors.Add(channel);
             }
 
+            return panel;
+        }
+
+        private void InitializeControlArrays(int ChannelCount)
+        {
+            List<ChannelSelector> channels = new List<ChannelSelector>();
+
+            for (int firstChan = 0; firstChan < ChannelCount; firstChan += 8)
+                pnlChannels.Children.Add(CreateChannelRow(firstChan, channels));
+
+            int maxTrigger = Math.Min(24, ChannelCount);
+
             captureChannels = channels.ToArray();
-            triggerChannels = triggers.ToArray();
+            triggerChannels = Enumerable.Range(0, maxTrigger).Select(i => this.FindControl<RadioButton>($"rbTrigger{i + 1}")).ToArray()!;
         }
 
         private void Channel_ChangeColor(object? sender, EventArgs e)
@@ -337,7 +455,7 @@ namespace LogicAnalyzer.Dialogs
 
             int max = driver.GetLimits(channelsToCapture.Select(c => c.ChannelNumber).ToArray()).MaxTotalSamples;
 
-            int loops = (int)((ckBurst.IsChecked ?? false) ? (nudBurstCount.Value ?? 1) - 1 : 0);
+            int loops = (int)(((ckBurst.IsChecked ?? false) && (rbTriggerTypeEdge.IsChecked ?? false)) ? (nudBurstCount.Value ?? 1) - 1 : 0);
             bool measure = (ckBurst.IsChecked ?? false) && (ckMeasure.IsChecked ?? false);
 
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
@@ -419,7 +537,7 @@ namespace LogicAnalyzer.Dialogs
 
                 if (trigger == -1)
                 {
-                    await this.ShowError("Error", "You must select a trigger channel. How the heck did you managed to deselect all? ��");
+                    await this.ShowError("Error", "You must select a trigger channel. How the heck did you managed to deselect all? ¬¬");
                     return;
                 }
 

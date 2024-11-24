@@ -41,6 +41,9 @@
         "pads_bank0.h": "c",
         "stdlib.h": "c",
         "logicanalyzer_wifi.h": "c",
-        "logicanalyzer_board_settings.h": "c"
+        "logicanalyzer_board_settings.h": "c",
+        "string.h": "c",
+        "stdio.h": "c",
+        "dma.h": "c"
     }
 }

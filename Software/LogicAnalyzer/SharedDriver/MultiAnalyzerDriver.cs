@@ -29,7 +29,7 @@ namespace SharedDriver
         {
             get
             {
-                throw new NotImplementedException();
+                return 0;
             }
         }
         public override AnalyzerDriverType DriverType
