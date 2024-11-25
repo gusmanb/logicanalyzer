@@ -117,7 +117,7 @@ namespace SharedDriver
         {
             throw new NotSupportedException();
         }
-        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
+        public CaptureError StartCapture(int Frequency, int PreSamples, int PostSamples, int LoopCount, bool MeasureBursts, int[] Channels, int TriggerChannel, bool TriggerInverted, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             throw new NotSupportedException();
         }
@@ -184,7 +184,7 @@ namespace SharedDriver
                         continue;
 
                     connectedDevices[buc].Tag = channelsCapturing;
-                    var err = connectedDevices[buc].StartCapture(Frequency, PreSamples + offset, PostSamples - offset, 0, chan, 24, false);
+                    var err = connectedDevices[buc].StartCapture(Frequency, PreSamples + offset, PostSamples - offset, 0, false, chan, 24, false);
 
                     if (err != CaptureError.None)
                     {
