@@ -270,7 +270,6 @@ namespace SharedDriver
 
         #region Capture code
 
-
         public override CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
             try
@@ -667,6 +666,28 @@ namespace SharedDriver
             return true;
         }
 
+        #endregion
+
+        #region Bootloader-related functions
+        public override bool EnterBootloader()
+        {
+            try
+            {
+                if (capturing || baseStream == null || readResponse == null)
+                    return false;
+
+                OutputPacket pack = new OutputPacket();
+                pack.AddByte(4);
+                baseStream.Write(pack.Serialize());
+                baseStream.Flush();
+
+                baseStream.ReadTimeout = 10000;
+                var result = readResponse.ReadLine();
+
+                return result == "RESTARTING_BOOTLOADER";
+            }
+            catch { return false; }
+        }
         #endregion
 
         #region Network-related functions

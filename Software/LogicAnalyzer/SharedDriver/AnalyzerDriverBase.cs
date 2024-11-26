@@ -29,6 +29,7 @@ namespace SharedDriver
         #region Capture Methods
         public abstract CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null);
         public abstract bool StopCapture();
+        public abstract bool EnterBootloader();
         #endregion
 
         #region Device info

@@ -85,7 +85,7 @@ namespace LogicAnalyzer
             samplePreviewer.PointerWheelChanged += ScrSamplePos_PointerWheelChanged;
 
             lblInfo.PointerPressed += LblInfo_PointerPressed;
-
+            lblBootloader.PointerPressed += LblBootloader_PointerPressed;
             channelViewer.ChannelClick += ChannelViewer_ChannelClick;
             channelViewer.ChannelVisibilityChanged += ChannelViewer_ChannelVisibilityChanged;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
@@ -147,6 +147,37 @@ namespace LogicAnalyzer
             catch
             {
                 _ = this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+            }
+        }
+
+        private async void LblBootloader_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if (driver != null && !driver.IsCapturing)
+            {
+
+                if (await this.ShowConfirm("Bootloader", "Are you sure you want to put the device in bootloader mode?"))
+                {
+
+                    if (driver.EnterBootloader())
+                    {
+                        driver.Dispose();
+                        driver = null;
+                        lblConnectedDevice.Text = "< None >";
+                        ddPorts.IsEnabled = true;
+                        btnRefresh.IsEnabled = true;
+                        btnOpenClose.Content = "Open device";
+                        RefreshPorts();
+                        btnCapture.IsEnabled = false;
+                        btnRepeat.IsEnabled = false;
+                        mnuSettings.IsEnabled = false;
+                        tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
+                        await this.ShowInfo("Bootloader", "Device entered bootloader mode.");
+                    }
+                    else
+                    {
+                        await this.ShowError("Bootloader", "Error entering bootloader mode. Device may need to be disconnected.");
+                    }
+                }
             }
         }
 

@@ -15,6 +15,8 @@
 #include "hardware/structs/syscfg.h"
 #include "hardware/structs/systick.h"
 #include "tusb.h"
+#include "pico/unique_id.h"
+#include "pico/bootrom.h"
 
 #ifdef WS2812_LED
     #include "LogicAnalyzer_W2812.h"
@@ -359,6 +361,13 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
 
                     #endif
 
+                    case 4:
+
+                        sendResponse("RESTARTING_BOOTLOADER\n", fromWiFi);
+                        sleep_ms(1000);
+                        reset_usb_boot(0, 0);
+                        break;
+
                     default:
 
                         sendResponse("ERR_UNKNOWN_MSG\n", fromWiFi); //Unknown message
@@ -539,6 +548,18 @@ int main()
 
     //Enable systick using CPU clock
     systick_hw->csr = 0x05;
+
+    pico_unique_board_id_t id;
+    pico_get_unique_board_id(&id);
+
+    uint16_t delay = 0;
+
+    for(int buc = 0; buc < PICO_UNIQUE_BOARD_ID_SIZE_BYTES; buc++)
+        delay += id.id[buc];
+
+    delay = (delay & 0x3ff) + ((delay & 0xFC00) >> 6);
+
+    sleep_ms(delay);
 
     //Initialize USB stdio
     stdio_init_all();

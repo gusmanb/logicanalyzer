@@ -54,7 +54,10 @@ namespace SharedDriver
             return false;
         }
 
-
+        public override bool EnterBootloader()
+        {
+            return false;
+        }
         public override CaptureMode GetCaptureMode(int[] Channels)
         {
             var split = SplitChannelsPerDevice(Channels);

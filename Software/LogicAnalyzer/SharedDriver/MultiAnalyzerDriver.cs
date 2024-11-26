@@ -315,6 +315,20 @@ namespace SharedDriver
 
         #endregion
 
+        #region Bootloader-related functions
+        public override bool EnterBootloader()
+        {
+            try
+            {
+                if (capturing)
+                    return false;
+
+                return connectedDevices.All(d => d.EnterBootloader());
+            }
+            catch { return false; }
+        }
+        #endregion
+
         #region Device information functions
         public override CaptureMode GetCaptureMode(int[] Channels)
         {

@@ -1,4 +1,5 @@
 param (
+    [Parameter(Mandatory=$true)]
     [string]$packageName
 )
 
