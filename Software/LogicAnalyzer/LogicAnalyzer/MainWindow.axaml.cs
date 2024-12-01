@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -1110,8 +1110,29 @@ namespace LogicAnalyzer
 
         void RefreshPorts()
         {
+
+            var devices = DeviceDetector.Detect();
+            var ports = SerialPort.GetPortNames().ToList();
+
+            List<PortItem> portItems = new List<PortItem>();
+
+            foreach (var port in ports)
+            {
+                var device = devices.FirstOrDefault(d => d.PortName.ToLower() == port.ToLower());
+
+                if (device != null)
+                    portItems.Add(new PortItem { Port = port, SerialNumber = device.SerialNumber, Icon = "" });
+                else
+                    portItems.Add(new PortItem { Port = port, Icon = "" });
+            }
+
+            portItems.Add(new PortItem { Port = "Network", Icon = "" });
+            portItems.Add(new PortItem { Port = "Multidevice", Icon = "" });
+
             ddPorts.ItemsSource = null;
-            ddPorts.ItemsSource = SerialPort.GetPortNames().Concat(new string[] { "Network", "Multidevice" }).ToArray();
+            ddPorts.ItemsSource = portItems.ToArray();
+
+            
         }
 
         private async void btnRepeat_Click(object? sender, RoutedEventArgs e)
@@ -1413,6 +1434,13 @@ namespace LogicAnalyzer
             channelViewer.Channels = session.CaptureChannels;
 
             sgManager.SetChannels(session.Frequency, session.CaptureChannels);
+        }
+
+        class PortItem
+        {
+            public string? Icon { get; set; }
+            public required string Port { get; set; }
+            public string? SerialNumber { get; set; }
         }
     }
 }

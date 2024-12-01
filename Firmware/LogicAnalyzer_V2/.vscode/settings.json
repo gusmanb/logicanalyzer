@@ -44,6 +44,7 @@
         "logicanalyzer_board_settings.h": "c",
         "string.h": "c",
         "stdio.h": "c",
-        "dma.h": "c"
+        "dma.h": "c",
+        "cstdlib": "c"
     }
 }

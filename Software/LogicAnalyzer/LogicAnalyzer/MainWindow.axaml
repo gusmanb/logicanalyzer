@@ -31,6 +31,15 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Column="0" Margin="10,0,0,0">
         <Button Name="btnRefresh">Refresh</Button>
         <ComboBox VerticalAlignment="Center" Margin="10,0,10,0" Name="ddPorts">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Width="24" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Text="{Binding Icon}" />
+                <TextBlock Text="{Binding Port}" Margin="5,0,5,0" />
+                <TextBlock Text="{Binding SerialNumber}" />
+              </StackPanel>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
         </ComboBox>
         <Button Name="btnOpenClose">Open device</Button>
         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Current device:</TextBlock>

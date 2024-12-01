@@ -17,6 +17,16 @@ namespace SharedDriver
     public class MultiAnalyzerDriver : AnalyzerDriverBase
     {
 
+        /*
+         
+        VID/PID: 1902/3020
+        Windows: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\usbser\Enum
+                 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_1209&PID_3020&MI_00
+
+        Linux:   /sys/bus/usb/devices/x-y
+                 /sys/bus/usb/devices/x-y:1-0/tty
+         */
+
         #region Properties
         public override bool IsCapturing { get { return capturing; } }
         public override bool IsNetwork { get { return false; } }
