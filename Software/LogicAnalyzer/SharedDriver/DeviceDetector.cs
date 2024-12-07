@@ -12,9 +12,6 @@ namespace SharedDriver
 {
     public static class DeviceDetector
     {
-        const string vid = "1209";
-        const string pid = "3020";
-
         /*
          
         VID/PID: 1902/3020
@@ -29,6 +26,9 @@ namespace SharedDriver
                                                     
          */
 
+        const string vid = "1209";
+        const string pid = "3020";
+
         public static DetectedDevice[] Detect()
         { 
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -41,15 +41,6 @@ namespace SharedDriver
             }
 
             return new DetectedDevice[0];
-
-            //else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            //{
-            //    return DetectMac();
-            //}
-            //else
-            //{
-            //    return DetectMac();
-            //}
         }
 
         private static string[] DetectMac()
@@ -203,6 +194,7 @@ namespace SharedDriver
         public string DevicePath { get; set; }
         public string PortName { get; set; }
         public string SerialNumber { get; set; }
+        public int AssignedIndex { get; set; }
     }
 
 }

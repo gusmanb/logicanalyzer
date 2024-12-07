@@ -55,6 +55,9 @@ namespace LogicAnalyzer
         List<IRegionDisplay> regionDisplays = new List<IRegionDisplay>();
         List<IMarkerDisplay> markerDisplays = new List<IMarkerDisplay>();
 
+        List<KnownDevice> knownDevices = new List<KnownDevice>();
+        KnownDevice? currentKnownDevice = null;
+
         public MainWindow()
         {
             Instance = this;
@@ -86,6 +89,8 @@ namespace LogicAnalyzer
 
             lblInfo.PointerPressed += LblInfo_PointerPressed;
             lblBootloader.PointerPressed += LblBootloader_PointerPressed;
+            lblForget.PointerPressed += LblForget_PointerPressed;
+
             channelViewer.ChannelClick += ChannelViewer_ChannelClick;
             channelViewer.ChannelVisibilityChanged += ChannelViewer_ChannelVisibilityChanged;
             tkInScreen.PropertyChanged += tkInScreen_ValueChanged;
@@ -137,6 +142,8 @@ namespace LogicAnalyzer
             regionDisplays.Add(sampleMarker);
             regionDisplays.Add(annotationsViewer);
 
+             Task.Run(() => LoadKnownDevices());
+
             RefreshPorts();
             try
             {
@@ -148,6 +155,33 @@ namespace LogicAnalyzer
             {
                 _ = this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
             }
+        }
+
+        private async void LblForget_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if(currentKnownDevice != null)
+            {
+
+                if (await this.ShowConfirm("Forget device", "Are you sure you want to forget this device?"))
+                {
+
+                    knownDevices.Remove(currentKnownDevice);
+                    currentKnownDevice = null;
+                    AppSettingsManager.PersistSettings("knownDevices.json", knownDevices);
+                    lblForget.IsVisible = false;
+
+                    if (driver != null)
+                        btnOpenClose_Click(sender, e);
+                }
+            }
+        }
+
+        private void LoadKnownDevices()
+        {
+            var knownDevices = AppSettingsManager.GetSettings<List<KnownDevice>>("knownDevices.json");
+
+            if(knownDevices != null)
+                this.knownDevices = knownDevices;
         }
 
         private async void LblBootloader_PointerPressed(object? sender, PointerPressedEventArgs e)
@@ -1012,27 +1046,34 @@ namespace LogicAnalyzer
 
                 try
                 {
-                    if (ddPorts.SelectedItem?.ToString() == "Multidevice")
+                    var port = ddPorts.SelectedItem as PortItem;
+
+                    if (port == null)
+                        return;
+
+                    switch(port.Port)
                     {
-                        MultiConnectDialog dlg = new MultiConnectDialog();
+                        case "Autodetect":
+                            driver = await BeginAutodetect();
+                            break;
+                        case "Network":
+                            driver = await BeginNetwork();
+                            break;
+                        case "Multidevice":
+                            driver = await BeginMultidevice();
+                            break;
+                        default:
+                            driver = await BeginSerial(port.Port);
+                            break;
 
-                        if (!await dlg.ShowDialog<bool>(this) || dlg.ConnectionStrings == null)
-                            return;
-
-                        driver = new MultiAnalyzerDriver(dlg.ConnectionStrings);
                     }
-                    else if (ddPorts.SelectedItem?.ToString() == "Network")
+
+                    if (driver != null)
                     {
-                        NetworkDialog dlg = new NetworkDialog();
-                        if (!await dlg.ShowDialog<bool>(this))
-                            return;
-
-                        driver = new LogicAnalyzerDriver(dlg.Address + ":" + dlg.Port);
+                        driver.CaptureCompleted += Driver_CaptureCompleted;
+                        lblBootloader.IsVisible = true;
+                        lblInfo.IsVisible = true;
                     }
-                    else
-                        driver = new LogicAnalyzerDriver(ddPorts.SelectedItem?.ToString() ?? "");
-
-                    driver.CaptureCompleted += Driver_CaptureCompleted;
                 }
                 catch(Exception ex)
                 {
@@ -1040,14 +1081,20 @@ namespace LogicAnalyzer
                     return;
                 }
 
-                lblConnectedDevice.Text = driver.DeviceVersion;
-                ddPorts.IsEnabled = false;
-                btnRefresh.IsEnabled = false;
-                btnOpenClose.Content = "Close device";
-                btnCapture.IsEnabled = true;
-                btnRepeat.IsEnabled = true;
-                mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
-                tmrPower.Change(30000, Timeout.Infinite);
+                if (driver != null)
+                {
+                    lblConnectedDevice.Text = driver.DeviceVersion;
+                    ddPorts.IsEnabled = false;
+                    btnRefresh.IsEnabled = false;
+                    btnOpenClose.Content = "Close device";
+                    btnCapture.IsEnabled = true;
+                    btnRepeat.IsEnabled = true;
+                    mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+                    tmrPower.Change(30000, Timeout.Infinite);
+                    driver.CaptureCompleted += Driver_CaptureCompleted;
+                }
+
+                
             }
             else
             {
@@ -1062,9 +1109,140 @@ namespace LogicAnalyzer
                 btnRepeat.IsEnabled = false;
                 mnuSettings.IsEnabled = false;
                 tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
+                lblBootloader.IsVisible = true;
+                lblInfo.IsVisible = true;
+                currentKnownDevice = null;
             }
 
             GetPowerStatus();
+        }
+
+        private async Task<AnalyzerDriverBase?> BeginSerial(string port)
+        {
+            try
+            {
+                return new LogicAnalyzerDriver(port);
+            }
+            catch (Exception ex)
+            {
+                await this.ShowError("Error", $"Cannot connect to device: ({ex.Message}).");
+                return null;
+            }
+        }
+
+        private async Task<AnalyzerDriverBase?> BeginMultidevice()
+        {
+            try
+            {
+                MultiConnectDialog dlg = new MultiConnectDialog();
+
+                if (!await dlg.ShowDialog<bool>(this) || dlg.ConnectionStrings == null)
+                    return null;
+
+                return new MultiAnalyzerDriver(dlg.ConnectionStrings);
+            }
+            catch (Exception ex)
+            {
+                await this.ShowError("Error", $"Cannot connect to device: ({ex.Message}).");
+                return null;
+            }
+        }
+
+        private async Task<AnalyzerDriverBase?> BeginNetwork()
+        {
+            try
+            {
+                NetworkDialog dlg = new NetworkDialog();
+                if (!await dlg.ShowDialog<bool>(this))
+                    return null;
+
+                return new LogicAnalyzerDriver(dlg.Address + ":" + dlg.Port);
+            }
+            catch (Exception ex)
+            {
+                await this.ShowError("Error", $"Cannot connect to device: ({ex.Message}).");
+                return null;
+            }
+        }
+
+        private async Task<AnalyzerDriverBase?> BeginAutodetect()
+        {
+            var detected = DeviceDetector.Detect();
+
+            if (detected.Length == 0)
+            {
+                await this.ShowError("Error", "No devices detected.");
+                return null;
+            }
+
+            if (detected.Length > 0)
+            {
+                if (detected.Length == 1)
+                {
+                    return new LogicAnalyzerDriver(detected[0].PortName);
+                }
+                else
+                {
+                    KnownDevice? knownDevice = GetKnownDevice(detected);
+
+                    if (knownDevice != null)
+                    {
+                        currentKnownDevice = knownDevice;
+                        lblForget.IsVisible = true;
+                        return new MultiAnalyzerDriver(detected
+                            .OrderBy(d => knownDevice.Entries.First(e => e.SerialNumber == d.SerialNumber).Order)
+                            .Select(d => d.PortName)
+                            .ToArray());
+                    }
+                    else
+                    {
+
+                        if (await this.ShowConfirm("Multiple devices", "A new set of analyzers has been detected, do you want to register them as a multianalizer?"))
+                        {
+                            var dlg = new MultiComposeDialog();
+                            dlg.Devices = detected;
+                            var result = await dlg.ShowDialog<bool?>(this);
+
+                            if (result == true && dlg.ComposedDevice != null)
+                            {
+                                var cdev = dlg.ComposedDevice;
+                                StoreKnownDevice(cdev);
+                                currentKnownDevice = cdev;
+                                lblForget.IsVisible = true;
+                                return new MultiAnalyzerDriver(detected
+                                    .OrderBy(d => dlg.ComposedDevice.Entries.First(e => e.SerialNumber == d.SerialNumber).Order)
+                                    .Select(d => d.PortName)
+                                    .ToArray());
+
+                            }
+                            else
+                                return null;
+                        }
+                        else
+                            return null;
+                    }
+                }
+            }
+            else
+            {
+                await this.ShowInfo("No device", "No devices detected, try to select the device manually.");
+                return null;
+            }
+        }
+
+        private void StoreKnownDevice(KnownDevice cdev)
+        {
+            knownDevices.Add(cdev);
+            AppSettingsManager.PersistSettings("knownDevices.json", knownDevices);
+        }
+
+        private KnownDevice? GetKnownDevice(DetectedDevice[] detected)
+        {
+            var device = knownDevices.FirstOrDefault(d => d.Entries.Length == detected.Length && 
+            d.Entries.All(e => 
+            detected.Any(dd => dd.SerialNumber == e.SerialNumber)));
+
+            return device;
         }
 
         void GetPowerStatus()
@@ -1115,6 +1293,9 @@ namespace LogicAnalyzer
             var ports = SerialPort.GetPortNames().ToList();
 
             List<PortItem> portItems = new List<PortItem>();
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                portItems.Add(new PortItem { Port = "Autodetect", Icon = "" });
 
             foreach (var port in ports)
             {

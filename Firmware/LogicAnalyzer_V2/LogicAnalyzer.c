@@ -88,6 +88,9 @@ uint8_t bufferPos = 0;
 //Capture status
 bool capturing = false;
 
+bool blink = false;
+uint32_t blinkCount = 0;
+
 //Capture request pointer
 CAPTURE_REQUEST* req;
 
@@ -366,6 +369,21 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         sendResponse("RESTARTING_BOOTLOADER\n", fromWiFi);
                         sleep_ms(1000);
                         reset_usb_boot(0, 0);
+                        break;
+
+                    case 5:
+
+                        blink = true;
+                        blinkCount = 0;
+                        sendResponse("BLINKON\n", fromWiFi);
+                        break;
+
+                    case 6:
+
+                        blink = false;
+                        blinkCount = 0;
+                        sendResponse("BLINKOFF\n", fromWiFi);
+                        LED_ON();
                         break;
 
                     default:
@@ -734,7 +752,20 @@ int main()
             }
         }
         else
+        {
+            if(blink)
+            {
+                if(blinkCount++ == 200000)
+                    LED_OFF();
+                else if(blinkCount == 400000)
+                {
+                    LED_ON();
+                    blinkCount = 0;
+                }
+            }
+
             processInput(); //Read incomming data
+        }
     }
 
     return 0;

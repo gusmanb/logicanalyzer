@@ -743,6 +743,40 @@ namespace SharedDriver
         }
         #endregion
 
+        public bool Blink()
+        {
+            if (isNetwork)
+                return false;
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(5);
+
+            baseStream.Write(pack.Serialize());
+            baseStream.Flush();
+
+            baseStream.ReadTimeout = 10000;
+            var result = readResponse.ReadLine();
+
+            return result == "BLINKON";
+        }
+
+        public bool StopBlink()
+        {
+            if (isNetwork)
+                return false;
+
+            OutputPacket pack = new OutputPacket();
+            pack.AddByte(6);
+
+            baseStream.Write(pack.Serialize());
+            baseStream.Flush();
+
+            baseStream.ReadTimeout = 10000;
+            var result = readResponse.ReadLine();
+
+            return result == "BLINKOFF";
+        }
+
         #region IDisposable implementation
         public override void Dispose()
         {
