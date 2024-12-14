@@ -22,7 +22,7 @@ Sorry! :)
 **Please, do not try to build V6_0 by yourself**
 
 The V6_0 branch is the branch where I'm working on and I found many users that are downloading it and trying to compile it, **don't do it**.
-This branch may be completelly broken while I'm doing changes and is not meant to be used by users, the only officially supported branch is the master one, any request regarding other branches will be closed immediatelly.
+This branch may be completely broken while I'm doing changes and is not meant to be used by users, the only officially supported branch is the master one, any request regarding other branches will be closed immediatelly.
 
 If you want to test the version 6.0 you can try the latest available [test build](https://github.com/gusmanb/logicanalyzer/discussions?discussions_q=is%3Aopen+test+build).
 
@@ -232,7 +232,7 @@ Hi! This update comes loaded of news.
 
 ### First of all, bug corrections. 
 
-The biggest bug that has been corrected is the fast trigger in the Pico-W. When I implemented the Pico-W I tried it extensively, but I used only the simple trigger to do the tests. What was my surprise when I tried to use the Pico-W with a fast trigger and I found that it got completelly hung!
+The biggest bug that has been corrected is the fast trigger in the Pico-W. When I implemented the Pico-W I tried it extensively, but I used only the simple trigger to do the tests. What was my surprise when I tried to use the Pico-W with a fast trigger and I found that it got completely hung!
 
 The thing is that the Pico-W hides a little secret that I haven't found documented anywhere, this little secret is that the driver uses a PIO program to do the transfers! The fast trigger uses a full PIO unit, all its 32 instructions to create a jump table, and the CYW driver uses a SM in the PIO1 to do the SPI transfers. So I tried to swap the PIO units and it at least started to capture, but the capture was never finished, I have revised up-to-down the driver and still haven't found why the PIO1 interrupts don't work at all after the CYW driver has been enabled, so I have done a work-around that does not need the IRQ to trigger a handler. So, if you are using a Pico-W update the firmware asap.
 
@@ -523,7 +523,7 @@ Enjoy it!
 
 Good news! The multiplatform application is ready!
 
-The application has been completelly rewritten using AvaloniaUI, it works in Windows, Linux, Linux-ARM (Raspberry) and MacOSX.
+The application has been completely rewritten using AvaloniaUI, it works in Windows, Linux, Linux-ARM (Raspberry) and MacOSX.
 It has been tested under Debian, Raspbian and Windows 10, MacOSX has not been tested as I don't have a working mac but it should work without problems.
 
 Also, the new app includes improvements over the original one, like the ability to export the captures to Sigrok and better performance in general.
@@ -593,7 +593,7 @@ Have fun!
 ----
 ## UPDATE 12/07/2022
 
-I have received the shifter PCB's and there is an error. The footprints of J1 and J2 are exchanged, so what should be inputs are outputs and vice-versa. Thankfully this is not a problem, as the PCB is completelly symmetric and it has components in both sides flipping the board fixes the problem.
+I have received the shifter PCB's and there is an error. The footprints of J1 and J2 are exchanged, so what should be inputs are outputs and vice-versa. Thankfully this is not a problem, as the PCB is completely symmetric and it has components in both sides flipping the board fixes the problem.
 
 Board before flip.
 ![IMG_1562_2](https://user-images.githubusercontent.com/4086913/178580443-b1ed4abf-1c8a-494a-9fba-48415d7801bb.jpg)
