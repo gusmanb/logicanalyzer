@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalDescriptionLanguage",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelProtocolAnalyzer", "ParallelProtocolAnalyzer\ParallelProtocolAnalyzer.csproj", "{952FD20C-7C12-407B-A264-BA5F429BDD3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USBProtocolAnalyzer", "USBProtocolAnalyzer\USBProtocolAnalyzer.csproj", "{4A21FEA4-4911-4EBA-8934-0D7EE186E15E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{952FD20C-7C12-407B-A264-BA5F429BDD3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A21FEA4-4911-4EBA-8934-0D7EE186E15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A21FEA4-4911-4EBA-8934-0D7EE186E15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A21FEA4-4911-4EBA-8934-0D7EE186E15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A21FEA4-4911-4EBA-8934-0D7EE186E15E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
