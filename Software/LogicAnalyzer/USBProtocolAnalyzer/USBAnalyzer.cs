@@ -205,7 +205,7 @@ namespace USBProtocolAnalyzer
                 {
                     FirstSample = SymbolizedData[CRC_START].FirstSample,
                     LastSample = SymbolizedData[CRC_END].LastSample,
-                    Value = "CRC - " + Convert.ToString(CRC_DATA, 2)
+                    Value = "CRC - 0x" + CRC_DATA.ToString("X")
                 });
             }
 
@@ -218,7 +218,7 @@ namespace USBProtocolAnalyzer
                 {
                     FirstSample = SymbolizedData[PID_END + 1].FirstSample,
                     LastSample = SymbolizedData[CRC_START - 1].LastSample,
-                    Value = "DATA - " + Convert.ToString(Data, 2)
+                    Value = "DATA - 0x" + Data.ToString("X")
                 });
             }
 
@@ -234,7 +234,7 @@ namespace USBProtocolAnalyzer
                 {
                     FirstSample = SymbolizedData[FRAME_NO_START].FirstSample,
                     LastSample = SymbolizedData[FRAME_NO_END].LastSample,
-                    Value = "FRAME NO - " + Convert.ToString(FRAME_NO_DATA, 2)
+                    Value = "FRAME NO - 0x" + FRAME_NO_DATA.ToString("X")
                 });
             }
 
@@ -250,7 +250,7 @@ namespace USBProtocolAnalyzer
                 {
                     FirstSample = SymbolizedData[ADDR_START].FirstSample,
                     LastSample = SymbolizedData[ADDR_END].LastSample,
-                    Value = "ADDR - " + Convert.ToString(ADDR_DATA, 2)
+                    Value = "ADDR - 0x" + ADDR_DATA.ToString("X")
                 });
 
                 int ENDP_START = ADDR_END + 1;
@@ -261,7 +261,7 @@ namespace USBProtocolAnalyzer
                 {
                     FirstSample = SymbolizedData[ENDP_START].FirstSample,
                     LastSample = SymbolizedData[ENDP_END].LastSample,
-                    Value = "ENDP - " + Convert.ToString(ENDP_DATA, 2)
+                    Value = "ENDP - 0x" + ENDP_DATA.ToString("X")
                 });
             }
 
