@@ -5,6 +5,21 @@ You can find all the compiled projects in the [Releases section](https://github.
 
 Latest version: Release 5.1.0.0, 05/05/2024
 
+## Orders
+
+If you are interested in buying a premade board now you can request to be added to the list in https://logicanalyzer.rf.gd/
+
+## Orders and sponsor, what is this about?
+
+Ok, now, the explanation. It is getting to the point of being unmanageable the amount of requests, so I have created a website to make it easier to track these, I don't want to forget anyone and doing the management manually I'm sure that in one moment or other I would forget someone...
+Feel free to contact me if ytou find any problem or open a message in the discussion section.
+
+And the sponsoring thing... I never requested anything for these projects, but lately many many people is asking about how to donate so finally I have opened a Ko-Fi account in order to accept them. Feel free to use it, anything is welcome and I will use it in improving the project whenever it is possible :)
+
+Thanks to everyone, the support that I'm receiving with the project is amazing and I never thought that this project would rise so much interest.
+
+### Thank you!
+
 ----
 
 # Back!
