@@ -40,6 +40,7 @@
         <TextBlock VerticalAlignment="Center" Name="lblConnectedDevice">&lt; None &gt;</TextBlock>
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0">
+        <CheckBox Name="hideGapsChk" IsChecked="True" Checked="HideGaps_Checked" Unchecked="HideGaps_Unchecked">Hide gaps</CheckBox>
         <Button Name="btnRepeat" IsEnabled="False" Margin="10,0,10,0">Repeat last capture</Button>
         <Button Name="btnCapture" IsEnabled="False">Capture</Button>
         <Button Name="btnAbort" IsEnabled="False" Margin="10,0,0,0">Abort</Button>

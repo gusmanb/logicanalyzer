@@ -3,9 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Avalonia.Shared.PlatformSupport;
 using Avalonia.Threading;
 using AvaloniaColorPicker;
 using AvaloniaEdit.Utils;
@@ -14,24 +14,18 @@ using LogicAnalyzer.Controls;
 using LogicAnalyzer.Dialogs;
 using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Protocols;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.Enums;
 using Newtonsoft.Json;
 using SharedDriver;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace LogicAnalyzer
 {
@@ -51,6 +45,10 @@ namespace LogicAnalyzer
 
         bool preserveSamples = false;
         Timer tmrPower;
+
+        private bool _hideGapsCheckState;
+        private bool _updatingHideGapsCheckState;
+
         public MainWindow()
         {
             Instance = this;
@@ -87,6 +85,8 @@ namespace LogicAnalyzer
             mnuDocs.Click += MnuDocs_Click;
             mnuAbout.Click += MnuAbout_Click;
             AddHandler(InputElement.KeyDownEvent, MainWindow_KeyDown, handledEventsToo: true);
+
+            _hideGapsCheckState = hideGapsChk.IsChecked ?? false;
 
             LoadAnalyzers();
             RefreshPorts();
@@ -743,68 +743,174 @@ namespace LogicAnalyzer
             Close();
         }
 
+        UInt128[] _samplesFromScan;
+        private int _preSamplesFromScan;
+        private uint[] _burstTimestampsFromScan;
+
         private void Driver_CaptureCompleted(object? sender, CaptureEventArgs e)
         {
             if (e.Samples == null)
                 return;
 
-            Dispatcher.UIThread.InvokeAsync(() =>
+            _samplesFromScan = e.Samples;
+            _preSamplesFromScan = e.PreSamples;
+            _burstTimestampsFromScan = e.BurstTimestamps;
+
+            Dispatcher.UIThread.InvokeAsync(LoadScanResults);
+        }
+
+        private void LoadScanResults()
+        {
+            if (_samplesFromScan == null)
+                return;
+
+            var newSamples = new List<UInt128>();
+
+            var regions = new List<SampleRegion>();
+
+            sampleViewer.BeginUpdate();
+
+            sampleViewer.Samples = _samplesFromScan.ToArray();
+            sampleViewer.PreSamples = _preSamplesFromScan;
+            sampleViewer.Channels = settings.CaptureChannels;
+
+            if (!preserveSamples)
+                sampleViewer.SamplesInScreen = Math.Min(100, _samplesFromScan.Length / 10);
+
+            sampleViewer.FirstSample = Math.Max(_preSamplesFromScan - 10, 0);
+
+            if (settings.LoopCount > 0)
             {
-                sampleViewer.BeginUpdate();
-                sampleViewer.Samples = e.Samples;
-                sampleViewer.PreSamples = e.PreSamples;
-                sampleViewer.Channels = settings.CaptureChannels;
+                int pos = _preSamplesFromScan;
+                List<int> bursts = new List<int>();
 
-                if(!preserveSamples)
-                    sampleViewer.SamplesInScreen = Math.Min(100, e.Samples.Length / 10);
-
-                sampleViewer.FirstSample = Math.Max(e.PreSamples - 10, 0);
-
-                if (settings.LoopCount > 0)
+                for (int buc = 0; buc < settings.LoopCount; buc++)
                 {
-                    int pos = e.PreSamples;
-                    List<int> bursts = new List<int>();
+                    pos = pos + settings.PostTriggerSamples;
+                    bursts.Add(pos);
+                }
 
-                    for (int buc = 0; buc < settings.LoopCount; buc++)
+                sampleViewer.Bursts = bursts.ToArray();
+                uint[] burstTimestamps = _burstTimestampsFromScan;
+                if (((burstTimestamps != null) ? burstTimestamps.Length : 0) == bursts.Count)
+                {
+                    List<BurstInfo> burstsInfo = new List<BurstInfo>();
+                    for (int buc2 = 0; buc2 < burstTimestamps.Length; buc2++)
                     {
-                        pos = pos + settings.PostTriggerSamples;
-                        bursts.Add(pos);
+                        burstsInfo.Add(new BurstInfo
+                        {
+                            SampleNumber = bursts[buc2],
+                            Nanoseconds = _burstTimestampsFromScan[buc2]
+                        });
                     }
 
-                    sampleViewer.Bursts = bursts.ToArray();
+                    {
+                        uint timeStepNs = 1000000000U / (uint)settings.Frequency;
+                        sampleViewer.TimeStepNs = (int)timeStepNs;
+
+                        var samples = _samplesFromScan;
+                        var burstsOffset = 0;
+
+                        UInt128 prevSample = 0;
+                        for (uint sampleIdx = 0; sampleIdx < samples.Length; sampleIdx++)
+                        {
+                            if (sampleIdx >= settings.PreTriggerSamples)
+                            {
+                                var burstStartIdx = (sampleIdx - settings.PreTriggerSamples);
+
+                                if (burstStartIdx > 0 && burstStartIdx % settings.PostTriggerSamples == 0) // first burst does not have an offset, all consequent - does
+                                {
+                                    var burstIdx = burstStartIdx / settings.PostTriggerSamples - 1;
+                                    var pointsToInsert = (int)(_burstTimestampsFromScan[burstIdx] / timeStepNs);
+
+                                    // expand small gaps silently
+                                    if (pointsToInsert <= 4)
+                                    {
+                                        burstsOffset += pointsToInsert;
+
+                                        for (var j = 0; j < pointsToInsert; ++j)
+                                            newSamples.Add(prevSample);
+                                    }
+                                    else
+                                    {
+                                        if (_hideGapsCheckState)
+                                            pointsToInsert = Math.Min(settings.PostTriggerSamples / 4, pointsToInsert);
+
+                                        burstsOffset += pointsToInsert;
+
+                                        for (var j = 0; j < pointsToInsert; ++j)
+                                            newSamples.Add(prevSample);
+
+                                        if (_hideGapsCheckState)
+                                        {
+                                            regions.Add(new BurstGapRegion()
+                                            {
+                                                FirstSample = (int)(sampleIdx + burstsOffset - pointsToInsert - 5),
+                                                LastSample = (int)(sampleIdx + burstsOffset - 5),
+                                                RegionColor = Color.FromArgb(40, 120, 120, 120),
+                                                RegionName = $"Burst distance: {(burstsInfo[(int)burstIdx].Nanoseconds / 1000000000d).ToSmallTime()}",
+                                                GapSamples = pointsToInsert,
+                                                BurstDelaySamples = (int)(burstsInfo[(int)burstIdx].Nanoseconds / timeStepNs),
+                                            });
+                                        }
+                                    }
+
+                                    burstsInfo[(int)burstIdx].SampleNumber = (int)(sampleIdx + burstsOffset);
+                                    sampleViewer.Bursts[(int)burstIdx] = (int)(sampleIdx + burstsOffset);
+                                }
+                            }
+
+
+                            prevSample = samples[sampleIdx];
+                            newSamples.Add(prevSample);
+                        }
+
+                        sampleViewer.Samples = newSamples.ToArray();
+                    }
+
+                    sampleMarker.Bursts = burstsInfo.ToArray();
                 }
                 else
-                    sampleViewer.Bursts = null;
+                {
+                    sampleMarker.Bursts = null;
+                }
+            }
+            else
+                sampleViewer.Bursts = null;
 
-                sampleViewer.ClearRegions();
-                sampleViewer.ClearAnalyzedChannels();
-                sampleViewer.EndUpdate();
+            if (!preserveSamples)
+                sampleViewer.SamplesInScreen = Math.Min(100, newSamples.Count / 10);
 
-                channelViewer.Channels = settings.CaptureChannels;
+            sampleViewer.ClearRegions();
+            sampleViewer.AddRegions(regions);
 
-                samplePreviewer.UpdateSamples(channelViewer.Channels, e.Samples);
-                samplePreviewer.ViewPosition = sampleViewer.FirstSample;
+            sampleViewer.ClearAnalyzedChannels();
+            sampleViewer.EndUpdate();
 
-                scrSamplePos.Maximum = e.Samples.Length - 1;
-                scrSamplePos.Value = sampleViewer.FirstSample;
-                tkInScreen.Value = sampleViewer.SamplesInScreen;
+            channelViewer.Channels = settings.CaptureChannels;
 
-                sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
-                sampleMarker.FirstSample = sampleViewer.FirstSample;
-                sampleMarker.ClearRegions();
-                sampleMarker.ClearAnalyzedChannels();
+            samplePreviewer.UpdateSamples(channelViewer.Channels, newSamples.ToArray());
+            samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
-                btnCapture.IsEnabled = true;
-                btnRepeat.IsEnabled = true;
-                btnOpenClose.IsEnabled = true;
-                btnAbort.IsEnabled = false;
-                mnuProtocols.IsEnabled = true;
-                mnuSave.IsEnabled = true;
-                mnuExport.IsEnabled = true;
-                mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
-                LoadInfo();
-                GetPowerStatus();
-            });
+            scrSamplePos.Maximum = newSamples.Count - 1;
+            scrSamplePos.Value = sampleViewer.FirstSample;
+            tkInScreen.Value = sampleViewer.SamplesInScreen;
+
+            sampleMarker.VisibleSamples = sampleViewer.SamplesInScreen;
+            sampleMarker.FirstSample = sampleViewer.FirstSample;
+            sampleMarker.ClearRegions();
+            sampleMarker.ClearAnalyzedChannels();
+
+            btnCapture.IsEnabled = true;
+            btnRepeat.IsEnabled = true;
+            btnOpenClose.IsEnabled = true;
+            btnAbort.IsEnabled = false;
+            mnuProtocols.IsEnabled = true;
+            mnuSave.IsEnabled = true;
+            mnuExport.IsEnabled = true;
+            mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+            LoadInfo();
+            GetPowerStatus();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1146,7 +1252,7 @@ namespace LogicAnalyzer
             }
             else
             {
-                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.LoopCount, settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray(), settings.TriggerChannel, settings.TriggerInverted);
+                var error = driver.StartCapture(settings.Frequency, settings.PreTriggerSamples, settings.PostTriggerSamples, settings.LoopCount, settings.MeasureBursts, settings.CaptureChannels.Select(c => c.ChannelNumber).ToArray(), settings.TriggerChannel, settings.TriggerInverted);
 
                 if (error != CaptureError.None)
                 {
@@ -1399,6 +1505,37 @@ namespace LogicAnalyzer
             sampleViewer.BeginUpdate();
             sampleViewer.RemoveRegion(e.Region);
             sampleViewer.EndUpdate();
+        }
+
+        private async void HideGaps_Checked(object? sender, Avalonia.Interactivity.RoutedEventArgs e) => await HideGaps_CheckChanged();
+
+        private async void HideGaps_Unchecked(object? sender, Avalonia.Interactivity.RoutedEventArgs e) => await HideGaps_CheckChanged();
+
+        private async Task HideGaps_CheckChanged()
+        {
+            if (_updatingHideGapsCheckState)
+                return;
+
+            if (hideGapsChk.IsChecked == false && _hideGapsCheckState)
+            {
+                var res = await this.ShowConfirm("Confirm", "Expanding gaps may generate a large amount of the samples if bursts delay are large. Continue?");
+                if (!res)
+                {
+                    _updatingHideGapsCheckState = true;
+                    try
+                    {
+                        hideGapsChk.IsChecked = true;
+                        return;
+                    }
+                    finally
+        {
+                        _updatingHideGapsCheckState = false;
+                    }
+                }
+        }
+
+            _hideGapsCheckState = hideGapsChk.IsChecked ?? false;
+            LoadScanResults();
         }
     }
 }

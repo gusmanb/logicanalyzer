@@ -69,4 +69,11 @@ namespace LogicAnalyzer.Classes
             }
         }
     }
+
+    public class BurstGapRegion : SampleRegion
+    {
+        public int GapSamples { get; init; }
+
+        public int BurstDelaySamples { get; init; }
+    }
 }
