@@ -38,6 +38,17 @@ namespace SharedDriver
             }
             return newInst;
         }
+
+        public CaptureSession CloneSettings()
+        {
+            var newInst = (CaptureSession)MemberwiseClone();
+            for (int i = 0; i < CaptureChannels.Length; i++)
+            {
+                newInst.CaptureChannels[i] = CaptureChannels[i].Clone();
+                newInst.CaptureChannels[i].Samples = null;
+            }
+            return newInst;
+        }
     }
 
     public enum TriggerType

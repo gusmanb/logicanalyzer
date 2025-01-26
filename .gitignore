@@ -370,3 +370,9 @@ Releases/
 #Firmware build files
 Firmware/LogicAnalyzer/build/
 Firmware/LogicAnalyzer_V2/build/
+
+#Local stuff
+HTML AI/
+OrderSite/
+Terminal.Gui/
+PythonInitLog.txt

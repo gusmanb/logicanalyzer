@@ -65,22 +65,26 @@ namespace SharedDriver
                 if (!regDev.IsMatch(Path.GetFileName(devName)))
                     continue;
 
-                var idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
-                var idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
-                string serial = File.ReadAllText(Path.Combine(dir, "serial")).Trim();
-
-                if (idVendor != vid || idProduct != pid)
-                    continue;
-
-                var ttyDir = dir + ":1.0/tty";
-
-                if (!Directory.Exists(ttyDir))
-                    continue;
-
-                foreach (var tty in Directory.GetDirectories(ttyDir))
+                try
                 {
-                    devices.Add(new DetectedDevice { PortName = "/dev/" + Path.GetFileName(tty), DevicePath = $"/sys/bus/usb/devices/{devName}:1.0", VID = vid, PID = pid, SerialNumber = serial, ParentId = devName });
+                    var idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
+                    var idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
+                    string serial = File.ReadAllText(Path.Combine(dir, "serial")).Trim();
+
+                    if (idVendor != vid || idProduct != pid)
+                        continue;
+
+                    var ttyDir = dir + ":1.0/tty";
+
+                    if (!Directory.Exists(ttyDir))
+                        continue;
+
+                    foreach (var tty in Directory.GetDirectories(ttyDir))
+                    {
+                        devices.Add(new DetectedDevice { PortName = "/dev/" + Path.GetFileName(tty), DevicePath = $"/sys/bus/usb/devices/{devName}:1.0", VID = vid, PID = pid, SerialNumber = serial, ParentId = devName });
+                    }
                 }
+                catch { continue; }
             }
 
             return devices.ToArray();
