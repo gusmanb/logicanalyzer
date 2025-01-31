@@ -756,7 +756,9 @@ int main()
             if(blink)
             {
                 if(blinkCount++ == 200000)
+                {
                     LED_OFF();
+                }
                 else if(blinkCount == 400000)
                 {
                     LED_ON();
