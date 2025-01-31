@@ -371,8 +371,12 @@ Releases/
 Firmware/LogicAnalyzer/build/
 Firmware/LogicAnalyzer_V2/build/
 
+#Python log
+PythonInitLog.txt
+
 #Local stuff
 HTML AI/
 OrderSite/
 Terminal.Gui/
 PythonInitLog.txt
+/Software/LogicAnalyzer/PythonInitLog.txt
