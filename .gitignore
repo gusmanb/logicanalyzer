@@ -379,4 +379,8 @@ HTML AI/
 OrderSite/
 Terminal.Gui/
 PythonInitLog.txt
-/Software/LogicAnalyzer/PythonInitLog.txt
+Software/LogicAnalyzer/PythonInitLog.txt
+Packages/
+Software/Packages/
+Software/Merged/
+

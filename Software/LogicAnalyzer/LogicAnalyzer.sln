@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedDriver", "SharedDriver\SharedDriver.csproj", "{544DB7FA-C828-48A1-922D-F63E2BD479F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CLCapture", "CLCapture\CLCapture.csproj", "{AA68B9F9-ABFC-443C-9304-E06F264840F6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicAnalyzer", "LogicAnalyzer\LogicAnalyzer.csproj", "{EA087A8F-181D-4600-ACC3-A48270D018EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalDescriptionLanguage", "SignalDescriptionLanguage\SignalDescriptionLanguage.csproj", "{BD4731B1-B7CE-49C9-9982-77FA9B95C19F}"
@@ -16,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución",
 		publish.ps1 = publish.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalCapture", "TerminalCapture\TerminalCapture.csproj", "{2E6FE057-2895-40B9-8921-334433F74A51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerminalCapture", "TerminalCapture\TerminalCapture.csproj", "{2E6FE057-2895-40B9-8921-334433F74A51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +26,6 @@ Global
 		{544DB7FA-C828-48A1-922D-F63E2BD479F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{544DB7FA-C828-48A1-922D-F63E2BD479F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{544DB7FA-C828-48A1-922D-F63E2BD479F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA68B9F9-ABFC-443C-9304-E06F264840F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA68B9F9-ABFC-443C-9304-E06F264840F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA68B9F9-ABFC-443C-9304-E06F264840F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA68B9F9-ABFC-443C-9304-E06F264840F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA087A8F-181D-4600-ACC3-A48270D018EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA087A8F-181D-4600-ACC3-A48270D018EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA087A8F-181D-4600-ACC3-A48270D018EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
