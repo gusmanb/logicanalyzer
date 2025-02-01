@@ -26,7 +26,7 @@ That's regarding logistics, now, a brief resume of the changes:
 - New All-in-one package, both apps in a single zip if you want to use both!
 - And many, maaaaany more changes.
 
-Next weeks I will update the wiki with updated usage and functionalities, for now ifg you have doubts read the Discussion section related threads and of course if you need help feel free to open a new thread.
+Next weeks I will update the wiki with updated usage and functionalities, for now if you have doubts read the Discussion section related threads and of course if you need help feel free to open a new thread.
 
 Have fun!
 
