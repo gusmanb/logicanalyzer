@@ -4,6 +4,105 @@
 You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 
 Latest version: Release 5.1.0.0, 05/05/2024
+
+## Orders
+
+If you are interested in buying a premade board now you can request to be added to the list in https://logicanalyzer.rf.gd/
+
+## Orders and sponsor, what is this about?
+
+Ok, now, the explanation. It is getting to the point of being unmanageable the amount of requests, so I have created a website to make it easier to track these, I don't want to forget anyone and doing the management manually I'm sure that in one moment or other I would forget someone...
+Feel free to contact me if ytou find any problem or open a message in the discussion section.
+
+And the sponsoring thing... I never requested anything for these projects, but lately many many people is asking about how to donate so finally I have opened a Ko-Fi account in order to accept them. Feel free to use it, anything is welcome and I will use it in improving the project whenever it is possible :)
+
+Thanks to everyone, the support that I'm receiving with the project is amazing and I never thought that this project would rise so much interest.
+
+### Thank you!
+
+----
+
+## Building V6.0
+
+### PLEASE DO NOT BUILD MANUALLY V6.0
+
+It is not in the master as it is a work in progress, is not intended to be used as I upload any change that I do and usually contain known problems. If you want to try the V6.0 beta releases download them form this Mega folder, I update it each time I have significant changes.
+
+https://mega.nz/folder/SGxDHAZL#afLGgQbJAaqOYXjhJBwokQ
+
+----
+
+# Back!
+
+Hi. I was in a business trip past weeks and got back today, so I have a ton of emails and messages regarding the project unanswered.
+
+I will answer all the emails and requests this weekend/next Monday.
+
+Sorry! :)
+
+----
+
+# Branches
+
+**Please, do not try to build V6_0 by yourself**
+
+The V6_0 branch is the branch where I'm working on and I found many users that are downloading it and trying to compile it, **don't do it**.
+This branch may be completely broken while I'm doing changes and is not meant to be used by users, the only officially supported branch is the master one, any request regarding other branches will be closed immediatelly.
+
+If you want to test the version 6.0 you can try the latest available [test build](https://github.com/gusmanb/logicanalyzer/discussions?discussions_q=is%3Aopen+test+build).
+
+# Good news
+
+![pcb2](https://github.com/user-attachments/assets/91730e9f-7fae-47fc-8f6a-6f84f22fba8e)
+
+One of the goals of the new design was to overcome the problems that the Pico 2 have. And at least, the most harmful one seems to be solved.
+With the regular design the fast/complex trigger sometimes got stuck and the chaining didn't worked, with the new one the triggers seem work properly.
+
+I need to conduct more tests as I have seen some response variations at high frequencies but I'm not sure if its caused by the pico2 itself or the transceivers as the analyzer is pushing them to its maximum limits.
+
+I'm testing the devices with signals at 200Mhz, with the base pico all seems to work properly but with the pico2 I have seen changes on the signals, but, the TXU are rated up to 200Mhz and I'm sampling at 400Ms/s (yes, that's right, the new firmware can sample up to 400Ms/s in blast mode, I will add more info very soon as R6.0 is very close to its release 😄) so what I'm seeing is captures that have skewed samples. 
+The signals that I use are basically square clocks, so I inject a 100Mhz clock what becomes two phases at 200Mhz, and with the pico2 at 400Ms/s I see that sometimes there are three samples of one phase and one sample of the other, and as far as I have seen is always the high phase the one that contains the three samples. This could be caused by the transceivers, they are at its maximum limits, but it can be also caused by the pico2, I suspect that even with the drainig of the GPIOs the signal remains high for some nanoseconds, enough to create these erroneous readings.
+
+In any case, at least this only happens at extreme speeds and for regular use cases it should not affect the readings, and having three times more samples really expands the possibilities.
+
+I will add more info next week after performing more extensive tests.
+
+Stay tuned!
+
+----
+
+# New PCB design
+
+![pcb](https://github.com/user-attachments/assets/cbf87396-40b4-49de-9542-2da3587a47cd)
+
+I have created a new dessign for version 6.0 and is under testing right now.
+It replaces the headers that were difficult to find, uses 0402 type components so is not intended for manual assembly and also include a VREF switch that allows to change between 3.3v/5v/ext vref.
+
+Once testing is completed I will publish the dessign, I might have some spare  boards with all the components already assembled except for the pico, so if you are interested in one of these leave a message un the discussion sections (if I see that there is enough demand I might even think on making a batch of these).
+
+
+----
+
+# Pico 2: born dead.
+
+Ok, this are bad news. The Pico 2 has been released in a basically useless status. It has been detected a bug in the GPIO hardware that locks the pins whenever you input a high level, what is known as "Errata E9".
+According to the official errata the lock only happens when the pull downs are enabled, you input a high level value and then the GPIO starts outputing 2.1v. That doesn't sounds too bad but the reality is very different. I've been testing it and even forcing the pulldowns to be disabled, the PIO triggers the lock.
+In this state, the RP2350 is useless if you need to use the GPIO's to input any data. The only workaround provided is to disable the pins and enable them when you are going to read and disable them after it to reset the pin status, but as you can imagine with the PIO this is impossible, and even if it was possible the capture speed would be reduced so much that the analyzer would be totally useless.
+
+Unfortunatelly I must stop the port to the Pico 2 until this situation is solved.
+
+# Pico 2: a game changer?
+
+I've started checking the Pico 2 and porting the code to it. I must say that it has been one of the easiest transitions that I ever did, just reconfigure the cmake scripts, change a couple of lines, and voi-la! the project runs in the pico 2.
+
+This is the base code, no changes at all, but from here I have multiple improvements to do, starting with the DMA (no mode ping-pong DMAs for the Pico 2, a single DMA can do all the work simplifying the code A LOT) and then upgrading the buffers to three times what are now, I expect to have up to 380k samples :)
+
+Said that, I started checking the limits of the pico 2 and... well, I'm really surprised, with the original pico I only got stable up to 200Mhz, beyond that I had problems with the flash and it got hung, but, oh my gosh, this thing (the pico 2) right now is running at 400Mhz without a single hicup!!
+
+Of course I had to raise the voltage to 1.4v for the core and it gets warmer, but I added a little heatsink to it and it's perfectly fine. Soooo.... I need to test this in deep but this may be a very, very big change, not only three times the samples than the pico, but also twice the speed!
+
+Stay tuned for more news!
+
 ----
 
 # Help wanted!
@@ -158,7 +257,7 @@ Hi! This update comes loaded of news.
 
 ### First of all, bug corrections. 
 
-The biggest bug that has been corrected is the fast trigger in the Pico-W. When I implemented the Pico-W I tried it extensively, but I used only the simple trigger to do the tests. What was my surprise when I tried to use the Pico-W with a fast trigger and I found that it got completelly hung!
+The biggest bug that has been corrected is the fast trigger in the Pico-W. When I implemented the Pico-W I tried it extensively, but I used only the simple trigger to do the tests. What was my surprise when I tried to use the Pico-W with a fast trigger and I found that it got completely hung!
 
 The thing is that the Pico-W hides a little secret that I haven't found documented anywhere, this little secret is that the driver uses a PIO program to do the transfers! The fast trigger uses a full PIO unit, all its 32 instructions to create a jump table, and the CYW driver uses a SM in the PIO1 to do the SPI transfers. So I tried to swap the PIO units and it at least started to capture, but the capture was never finished, I have revised up-to-down the driver and still haven't found why the PIO1 interrupts don't work at all after the CYW driver has been enabled, so I have done a work-around that does not need the IRQ to trigger a handler. So, if you are using a Pico-W update the firmware asap.
 
@@ -449,7 +548,7 @@ Enjoy it!
 
 Good news! The multiplatform application is ready!
 
-The application has been completelly rewritten using AvaloniaUI, it works in Windows, Linux, Linux-ARM (Raspberry) and MacOSX.
+The application has been completely rewritten using AvaloniaUI, it works in Windows, Linux, Linux-ARM (Raspberry) and MacOSX.
 It has been tested under Debian, Raspbian and Windows 10, MacOSX has not been tested as I don't have a working mac but it should work without problems.
 
 Also, the new app includes improvements over the original one, like the ability to export the captures to Sigrok and better performance in general.
@@ -519,7 +618,7 @@ Have fun!
 ----
 ## UPDATE 12/07/2022
 
-I have received the shifter PCB's and there is an error. The footprints of J1 and J2 are exchanged, so what should be inputs are outputs and vice-versa. Thankfully this is not a problem, as the PCB is completelly symmetric and it has components in both sides flipping the board fixes the problem.
+I have received the shifter PCB's and there is an error. The footprints of J1 and J2 are exchanged, so what should be inputs are outputs and vice-versa. Thankfully this is not a problem, as the PCB is completely symmetric and it has components in both sides flipping the board fixes the problem.
 
 Board before flip.
 ![IMG_1562_2](https://user-images.githubusercontent.com/4086913/178580443-b1ed4abf-1c8a-494a-9fba-48415d7801bb.jpg)
