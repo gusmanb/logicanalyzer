@@ -1,9 +1,34 @@
 # LogicAnalyzer
 
-## Downloads
-You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
+## Orders
+- Direct order (based on availability): https://logicanalyzer.rf.gd
+- PCBWay order: https://www.pcbway.com/project/shareproject/LogicAnalyzer_V6_0_cc383781.html
 
-Latest version: Release 5.1.0.0, 05/05/2024
+## Downloads
+- You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
+- Latest version: Release 6.0.0.0, 01/02/2024
+
+# Release 6.0 is out!
+
+Finally Release 6.0 is completed and comes with many, many changes!
+
+First, I have uploaded the project to PCBWay, I will still serve orders but as there is too much demand to keep up with it I also have uploaded it as a shared project, so you don't need to wait for me having stock.
+The project is found here: https://www.pcbway.com/project/shareproject/LogicAnalyzer_V6_0_cc383781.html
+It is right now under review so I expect it to be available in a couple of days.
+
+Next, now the gerber files, BOMs and centroid are included in the release packages so you don't need to search inside the projects in case you want to order it from another manufacturer.
+
+That's regarding logistics, now, a brief resume of the changes:
+
+- Pico2 is supported, the new design solves the problems with the IO glitches.
+- Total revamp of the analysis software, including speed up of the rendering, autodetection of the analyzers, and the biggest change, all the Sigrok protocol decoders are supported!
+- New terminal capture application, no more long inhuman command lines, configure the capture using the terminal application and trigger the capture specifying the capture settings file! (use TerminalCapture --help for more info)
+- New All-in-one package, both apps in a single zip if you want to use both!
+- And many, maaaaany more changes.
+
+Next weeks I will update the wiki with updated usage and functionalities, for now ifg you have doubts read the Discussion section related threads and of course if you need help feel free to open a new thread.
+
+Have fun!
 
 ## Orders
 
