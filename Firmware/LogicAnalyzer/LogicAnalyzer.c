@@ -81,6 +81,7 @@ uint8_t messageBuffer[128];
 uint8_t bufferPos = 0;
 //Capture status
 bool capturing = false;
+
 //Capture request pointer
 CAPTURE_REQUEST* req;
 
@@ -254,7 +255,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                             else if(req->triggerType == 2) //start fast trigger capture
                                 started = startCaptureFast(req->frequency, req->preSamples, req->postSamples, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->count, req->triggerValue, req->captureMode);
                             else //Start simple trigger capture
-                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, req->measure, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         #else
 
@@ -264,7 +265,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                                 break;
                             }
                             else
-                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
+                                started = startCaptureSimple(req->frequency, req->preSamples, req->postSamples, req->loopCount, req->measure, (uint8_t*)&req->channels, req->channelCount, req->trigger, req->inverted, req->captureMode);
                         
                         #endif
 
@@ -503,6 +504,8 @@ int main()
     //Overclock Powerrrr!
     set_sys_clock_khz(200000, true);
 
+    systick_hw->csr = 0x05;
+
     //Initialize USB stdio
     stdio_init_all();
 
@@ -537,6 +540,9 @@ int main()
                 uint32_t length, first;
                 CHANNEL_MODE mode;
                 uint8_t* buffer = GetBuffer(&length, &first, &mode);
+
+                uint8_t stampsLength;
+                uint32_t* timestamps = GetTimestamps(&stampsLength);
 
                 //Send the data to the host
                 uint8_t* lengthPointer = (uint8_t*)&length;
@@ -603,6 +609,17 @@ int main()
                             evt.dataLength = filledData;
                             event_push(&frontendToWifi, &evt);
                         }
+
+                        evt.data[0] = stampsLength;
+                        evt.dataLength = 1;
+                        event_push(&frontendToWifi, &evt);
+
+                        for(int buc = 0; buc < stampsLength; buc++)
+                        {
+                            *((uint32_t*)evt.data) = timestamps[buc];
+                            evt.dataLength = 4;
+                            event_push(&frontendToWifi, &evt);
+                        }
                     }
                     else
                     {
@@ -613,6 +630,11 @@ int main()
                         }
                         else
                             cdc_transfer(buffer + first, length);
+
+                        cdc_transfer(&stampsLength, 1);
+
+                        if(stampsLength > 1)
+                            cdc_transfer((unsigned char*)timestamps, stampsLength * 4);
                     }
                 #else
 
@@ -623,6 +645,11 @@ int main()
                     }
                     else
                         cdc_transfer(buffer + first, length);
+
+                    cdc_transfer(&stampsLength, 1);
+                        
+                    if(stampsLength > 1)
+                        cdc_transfer((unsigned char*)timestamps, stampsLength * 4);
 
                 #endif
                 //Done!

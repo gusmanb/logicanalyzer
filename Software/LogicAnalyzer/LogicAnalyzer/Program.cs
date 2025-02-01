@@ -5,6 +5,14 @@ using System;
 
 namespace LogicAnalyzer
 {
+
+
+    //TODO DOC:
+    //1-Limitaciones multicapture (tipo de trigger, tamaño trigger, preview captura, etc)
+    //2-Nuevo sistema de buses para analizadores
+    //3-Nuevo analizador paralelo
+
+
     internal class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any

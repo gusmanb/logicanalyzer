@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="LogicAnalyzer.Dialogs.MultiComposeDialog"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
+        MaxWidth="450" MinWidth="450" Width="450"
+        MinHeight="450" MaxHeight="450" Height="450"
+        Title="Multidevice setup" Icon="/Assets/Ico40.ico"
+        Background="#383838" CanResize="False" WindowStartupLocation="CenterOwner">
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" RowDefinitions="Auto,4*,*">
+    <TextBlock Margin="10" VerticalAlignment="Top" HorizontalAlignment="Stretch" TextWrapping="Wrap">This assistant will help you identify each device in a multidevice setup.<LineBreak /><LineBreak />
+    When you select a device from the list it will start blinking to help you identify it, then you must select its role in the multidevice.<LineBreak /><LineBreak />
+    Once all devices have been identified save it, from now on the system will recognize all these devices automatically.</TextBlock>
+    <ListBox Grid.Row="1" ItemsSource="{Binding Devices}" Margin="10" Name="lstDevices" x:Name="lstDevices">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="3*,*">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Width="24" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Text="" />
+              <TextBlock VerticalAlignment="Center" Text="{Binding SerialNumber}" />
+              <TextBlock VerticalAlignment="Center" Text="{Binding PortName}" Padding="5,0,5,0" />
+            </StackPanel>
+            <ComboBox HorizontalAlignment="Stretch" Grid.Column="1" ItemsSource="{Binding $parent[Window].Roles}" SelectedIndex="{Binding Mode=OneWayToSource, Path=AssignedIndex}"></ComboBox>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    
+      <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+        <Button Margin="5,0,5,0" x:Name="btnSave">Save</Button>
+        <Button Margin="5,0,0,0" x:Name="btnCancel">Cancel</Button>
+      </StackPanel>
+  </Grid>
+</Window>

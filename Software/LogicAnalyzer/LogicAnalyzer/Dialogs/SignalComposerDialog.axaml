@@ -1,5 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+        xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,7 +16,8 @@
       </MenuItem>
       <MenuItem Header="_Validate" Name="mnuValidate" />
     </Menu>
-  <AvalonEdit:TextEditor Name="editSignal"
+    <AvaloniaEdit:TextEditor Name="editSignal"
+    
                          IsVisible="True"
                          FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
                          Foreground="#D4D4D4"

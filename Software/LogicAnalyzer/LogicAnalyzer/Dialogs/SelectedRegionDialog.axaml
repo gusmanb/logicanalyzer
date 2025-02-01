@@ -15,7 +15,7 @@
       <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0">Region name:</TextBlock>
       <TextBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="txtName"></TextBox>
       <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5,0,0,0">Region color:</TextBlock>
-      <colorpicker:ColorButton Name="clrRegion" Color="#2010ff10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"></colorpicker:ColorButton >
+      <ColorPicker Name="clrRegion" Color="#2010ff10" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"></ColorPicker >
       <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right">
         <Button Name="btnAccept" Margin="0,0,10,0">Accept</Button>
         <Button Name="btnCancel">Cancel</Button>

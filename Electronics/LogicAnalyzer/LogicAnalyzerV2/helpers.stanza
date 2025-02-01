@@ -1,0 +1,66 @@
+; ====================
+; A number of helpful functions to check your designs, export to CAD,
+; update your design in CAD, etc.
+; ====================
+#use-added-syntax(jitx)
+defpackage helpers :
+  import core
+  import jitx
+  import jitx/commands
+  import ocdb/utils/checks
+  import ocdb/utils/generic-components
+
+; ============
+; setup-design
+; ============
+public defn setup-design (name:String, board:Board
+                          --
+                          rules:Rules = ocdb/utils/defaults/default-rules
+                          vendors:Tuple<String|AuthorizedVendor> = ocdb/utils/design-vars/APPROVED-DISTRIBUTOR-LIST
+                          quantity:Int = ocdb/utils/design-vars/DESIGN-QUANTITY
+                          bom-columns:Tuple<BOMColumn> = ocdb/utils/design-vars/BOM-COLUMNS) :
+  set-current-design(name)
+  set-board(board)
+  set-rules(rules)
+  set-bom-vendors(vendors)
+  set-bom-design-quantity(quantity)
+  set-bom-columns(bom-columns)
+  set-paper(ISO-A4)
+  set-use-layout-groups()
+  set-export-backend(`altium) ; set the CAD software for export to be altium (also supported: `kicad)
+
+; =====================
+; Run the design checks
+; =====================
+public defn run-check-on-design (circuit:Instantiable) :
+  val main-module = ocdb/utils/generator-utils/run-final-passes(circuit) ; Analyze design with a pass
+  set-main-module(main-module) ; Treat the provided module as a design, and compile it.
+  run-checks("checks.txt")
+
+; ====================
+; Actual Export design
+; ====================
+public defn export-to-cad () :
+  export-cad([
+    "vendor_part_numbers.lcsc" => "LCSC"
+  ])
+
+; ====================
+; Export design to CAD
+; ====================
+public defn export-design () :
+  set-export-board?(true)
+  export-to-cad()
+
+; ===================================
+; Update CAD, keeping layout progress
+; ===================================
+public defn update-design () :
+  set-export-board?(false)
+  export-to-cad()
+
+; =================
+; Export BOM to tsv
+; =================
+public defn export-bill-of-materials () :
+  export-bom()

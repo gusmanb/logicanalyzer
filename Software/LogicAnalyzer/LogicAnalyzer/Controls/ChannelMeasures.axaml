@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="375" d:DesignHeight="260" Width="375" Height="260"
+             mc:Ignorable="d" d:DesignWidth="375" d:DesignHeight="280" Width="375" Height="280"
              x:Class="LogicAnalyzer.Controls.ChannelMeasures" BorderBrush="LightGray" BorderThickness="1">
   <Grid ColumnDefinitions="3.2*,*" RowDefinitions="20,*">
     <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10,5,10,10" Name="lblName">Channel 0</TextBlock>

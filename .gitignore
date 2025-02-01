@@ -32,6 +32,7 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+[Pp]ublish/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -367,3 +368,18 @@ Releases/
 
 #Firmware build files
 Firmware/LogicAnalyzer/build/
+Firmware/LogicAnalyzer_V2/build/
+
+#Python log
+PythonInitLog.txt
+
+#Local stuff
+HTML AI/
+OrderSite/
+Terminal.Gui/
+PythonInitLog.txt
+Software/LogicAnalyzer/PythonInitLog.txt
+Packages/
+Software/Packages/
+Software/Merged/
+

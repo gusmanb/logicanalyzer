@@ -1,0 +1,4 @@
+name = "f:\\LogicAnalyzerRepo\\Electronics\\LogicAnalyzer\\LogicAnalyzerV2"
+version = "0.1.0"
+[dependencies]
+JITX3 = { path = "{SLM_ROOT}/JITX3" }

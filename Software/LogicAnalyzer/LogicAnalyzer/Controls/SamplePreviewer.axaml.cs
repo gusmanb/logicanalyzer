@@ -1,14 +1,16 @@
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LogicAnalyzer.Classes;
-using MessageBox.Avalonia.DTO;
+using LogicAnalyzer.Interfaces;
+using SharedDriver;
 using SkiaSharp;
 using System;
 
 namespace LogicAnalyzer.Controls
 {
-    public partial class SamplePreviewer : UserControl
+    public partial class SamplePreviewer : UserControl, ISampleDisplay
     {
         Bitmap? bmp;
         int sampleCount = 0;
@@ -16,22 +18,31 @@ namespace LogicAnalyzer.Controls
         int viewPosition;
         public int ViewPosition { get { return viewPosition; } set { viewPosition = value; InvalidateVisual(); } }
 
+        public int FirstSample { get; private set; }
+
+        public int VisibleSamples { get; private set; }
+
+        public event EventHandler<PinnedEventArgs>? PinnedChanged;
+
+        bool pinned = false;
+        public bool Pinned { get { return pinned; } }
+
         public SamplePreviewer()
         {
             InitializeComponent();
         }
 
-        public void UpdateSamples(CaptureChannel[] Channels, UInt128[] Samples)
+        public void UpdateSamples(AnalyzerChannel[] Channels, int SampleCount)
         {
             int channelCount = Channels.Length;
 
             if (channelCount > 24)
                 channelCount = 24;
 
-            int width = Math.Max(Math.Min(Samples.Length, 4096), 1024);
+            int width = Math.Max(Math.Min(SampleCount, 4096), 1024);
 
             float cHeight = 144 / (float)channelCount;
-            float sWidth = (float)width / (float)Samples.Length;
+            float sWidth = (float)width / (float)SampleCount;
             float high = cHeight / 6;
             float low = cHeight - high;
 
@@ -41,7 +52,7 @@ namespace LogicAnalyzer.Controls
 
             for (int buc = 0; buc < channelCount; buc++)
             {
-                var avColor = Channels[buc].ChannelColor ?? AnalyzerColors.FgChannelColors[buc];
+                var avColor = AnalyzerColors.GetChannelColor(Channels[buc]);
 
                 colors[buc] = new SKPaint
                 {
@@ -53,15 +64,15 @@ namespace LogicAnalyzer.Controls
 
             using (var canvas = new SKCanvas(skb))
             {
-                for (int x = 0; x < Samples.Length; x++)
+                for (int x = 0; x < SampleCount; x++)
                 {
-                    UInt128 sample = Samples[x];
-                    UInt128 prevSample = Samples[x == 0 ? x : x - 1];
+                    int sample = x;
+                    int prevSample = x == 0 ? x : x - 1;
 
                     for (int chan = 0; chan < channelCount; chan++)
                     {
-                        UInt128 curVal = sample & ((UInt128)1 << chan);
-                        UInt128 prevVal = prevSample & ((UInt128)1 << chan);
+                        byte curVal = Channels[chan].Samples[sample];
+                        byte prevVal = Channels[chan].Samples[prevSample];
 
                         float y = chan * cHeight + (curVal != 0 ? high : low);
 
@@ -80,7 +91,7 @@ namespace LogicAnalyzer.Controls
                 bmp.Dispose();
 
             bmp = new Bitmap(stream);
-            sampleCount = Samples.Length;
+            sampleCount = SampleCount;
         }
 
         public override void Render(DrawingContext context)
@@ -93,12 +104,38 @@ namespace LogicAnalyzer.Controls
             if (sampleCount == 0 || bmp == null)
                 return;
 
-            (bmp as IImage).Draw(context, new Avalonia.Rect(bmp.Size), bounds, Avalonia.Visuals.Media.Imaging.BitmapInterpolationMode.HighQuality);
+            //Test quality!!!
+            (bmp as IImage).Draw(context, new Avalonia.Rect(bmp.Size), bounds);
 
             float ratio = (float)bounds.Size.Width / (float)sampleCount;
             float pos = viewPosition * ratio;
 
+            Rect rcVisible = new Rect(FirstSample * ratio, 0, VisibleSamples * ratio, bounds.Height);
+            context.FillRectangle(GraphicObjectsCache.GetBrush(Color.FromArgb(32, 255, 255, 255)), rcVisible);
+
+            /*
             context.DrawLine(GraphicObjectsCache.GetPen(Colors.White, 1, DashStyle.Dash), new Avalonia.Point(pos, 0), new Avalonia.Point(pos, 143));
+            */
+        }
+
+        public void UpdateVisibleSamples(int FirstSample, int VisibleSamples)
+        {
+            this.FirstSample = FirstSample;
+            this.VisibleSamples = VisibleSamples;
+            InvalidateVisual();
+        }
+
+        private void TextBlock_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            pinned = !pinned;
+            lblPin.Text = pinned ? "" : "";
+
+            PinnedChanged?.Invoke(this, new PinnedEventArgs { Pinned = pinned });
+        }
+
+        public class PinnedEventArgs : EventArgs
+        {
+            public bool Pinned { get; set; }
         }
     }
 }

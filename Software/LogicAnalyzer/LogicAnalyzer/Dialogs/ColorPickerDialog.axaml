@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="440" d:DesignHeight="400"
+        MinHeight="450" MinWidth="400"
+        MaxHeight="450" MaxWidth="400"
+        CanResize="False" WindowStartupLocation="CenterOwner"
+        x:Class="LogicAnalyzer.ColorPickerDialog"
+        Title="Color picker">
+  <Grid RowDefinitions="*,Auto">
+    <ColorView Name="clrView" IsColorModelVisible="False" ColorModel="Rgba"></ColorView>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="1" Margin="10">
+      <Button Name="btnAccept">Accept</Button>
+      <Button Name="btnCancel" Margin="10,0,0,0">Cancel</Button>
+     </StackPanel>
+  </Grid>
+</Window>

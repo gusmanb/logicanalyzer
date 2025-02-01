@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:LogicAnalyzer.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="LogicAnalyzer.MainWindow"
-        Title="LogicAnalyzer - Multiplatform version"
+        Title="LogicAnalyzer 6.0"
         Icon="/Assets/Ico40.ico"
         Background="#383838" MinWidth="800" MinHeight="600" Width="800" Height="600" WindowStartupLocation="CenterScreen">
   <DockPanel VerticalAlignment="Stretch">
@@ -17,9 +17,6 @@
           <MenuItem Header="E_xport..." Name="mnuExport" IsEnabled="False"/>
           <Separator/>
           <MenuItem Header="_Exit" Name="mnuExit"/>
-        </MenuItem>
-        <MenuItem Header="_Protocol analyzers" Name="mnuProtocols" IsEnabled="False">
-          <MenuItem Header="None"/>
         </MenuItem>
       <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
         <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
@@ -34,10 +31,22 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Column="0" Margin="10,0,0,0">
         <Button Name="btnRefresh">Refresh</Button>
         <ComboBox VerticalAlignment="Center" Margin="10,0,10,0" Name="ddPorts">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Width="24" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Text="{Binding Icon}" />
+                <TextBlock Text="{Binding Port}" Margin="5,0,5,0" />
+                <TextBlock Text="{Binding SerialNumber}" />
+              </StackPanel>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
         </ComboBox>
         <Button Name="btnOpenClose">Open device</Button>
         <TextBlock VerticalAlignment="Center" Margin="10,0,10,0">Current device:</TextBlock>
         <TextBlock VerticalAlignment="Center" Name="lblConnectedDevice">&lt; None &gt;</TextBlock>
+        <TextBlock Name="lblInfo" IsVisible="false" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Margin="10,0,0,0"></TextBlock>
+        <TextBlock Name="lblBootloader" IsVisible="false" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Margin="10,0,0,0"></TextBlock>
+        <TextBlock Name="lblForget" IsVisible="false" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free" Margin="10,0,0,0"></TextBlock>
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0">
         <Button Name="btnRepeat" IsEnabled="False" Margin="10,0,10,0">Repeat last capture</Button>
@@ -45,103 +54,103 @@
         <Button Name="btnAbort" IsEnabled="False" Margin="10,0,0,0">Abort</Button>
       </StackPanel>
     </Grid>
-    <Grid DockPanel.Dock="Top" Height="32" ColumnDefinitions="140,10*,240" Background="#50808080">
-      <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Foreground="LightGray">
-        Channels
-      </TextBlock>
+    <Grid DockPanel.Dock="Top" Height="32" ColumnDefinitions="150,10*,340" Background="#50808080">
+      <Grid ColumnDefinitions="32,*">
+        <TextBlock PointerPressed="Visibility_PointerPressed" Margin="5,0,0,0" VerticalAlignment="Center" FontFamily="avares://LogicAnalyzer/Assets/Fonts#Font Awesome 6 Free"></TextBlock>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Center" Foreground="LightGray">
+          Channels
+        </TextBlock>
+      </Grid>
       <controls:SampleMarker Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" Background="Transparent" Name="sampleMarker"></controls:SampleMarker>
     </Grid>
 
     
     <ScrollBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Orientation="Horizontal" DockPanel.Dock="Bottom" Name="scrSamplePos" AllowAutoHide="False"></ScrollBar>
     <controls:SamplePreviewer IsVisible="False" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="144" ZIndex="1000" Name="samplePreviewer" DockPanel.Dock="Bottom" Margin="0,-144,0,0"></controls:SamplePreviewer>
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ColumnDefinitions="*,240" DockPanel.Dock="Bottom">
-      <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <Grid ColumnDefinitions="140,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowDefinitions="Auto,*" ColumnDefinitions="*,340" DockPanel.Dock="Bottom" Name="grdContent">
+      <controls:AnnotationViewer Name="annotationsViewer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"></controls:AnnotationViewer>
+      <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
+        <Grid ColumnDefinitions="150,*" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <controls:ChannelViewer Name="channelViewer" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
           <controls:SampleViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="sampleViewer" Grid.Column="1"></controls:SampleViewer>
         </Grid>
       </ScrollViewer>
-      <Panel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#ff202020">
-        <Grid DockPanel.Dock="Top" RowDefinitions="*,*,2*,*,2*,*" ColumnDefinitions="*,4*,*" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5" Background="#80383838">
-          <TextBlock Grid.ColumnSpan="2" Margin="10">
-            Adjustments
-          </TextBlock>
-          <TextBlock Grid.Row="1" Margin="10" Name="lblMinSamples">
-            10
-          </TextBlock>
-          <TextBlock Grid.Row="1" Grid.Column="1" Margin="10" HorizontalAlignment="Center">
-            Samples in screen
-          </TextBlock>
-          <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,10,10,0" Name="lblMaxSamples">
-            2000
-          </TextBlock>
-          <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Vertical">
-          <Slider Margin="10,0,10,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="2000" Value="100" Name="tkInScreen"></Slider>
-            <StackPanel Orientation="Horizontal">
-              <TextBlock Margin="10">Current value:</TextBlock>
-              <TextBlock Margin="0,10,0,10" Name="tbSamples">100 samples</TextBlock>
-            </StackPanel>
+      <Grid Grid.Column="1" RowDefinitions="*,258" Background="#ff202020" Grid.RowSpan="2">
+        <controls:SigrokDecoderManager Name="sgManager" Background="#80383838" Margin="5"></controls:SigrokDecoderManager>
+        <StackPanel Margin="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#ff202020">
+          <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,4*,*" HorizontalAlignment="Stretch" Margin="5,5,5,0" Background="#80383838">
+            <TextBlock Grid.Row="1" Margin="10,5,0,0" Name="lblMinSamples">
+              10
+            </TextBlock>
+            <TextBlock Grid.Row="1" Margin="0,5,0,0" Grid.Column="1" HorizontalAlignment="Center">
+              Samples in screen
+            </TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,5,10,0" Name="lblMaxSamples" HorizontalAlignment="Right">
+              10000
+            </TextBlock>
+            <Border Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,0" >
+              <Slider Margin="0,-10,0,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="10000" Value="200" Name="tkInScreen"></Slider>
+            </Border>
+          </Grid>
+          <StackPanel Margin="5,5,5,0" Background="#80383838">
+            <TextBlock Margin="5,2,5,2">
+              Information
+            </TextBlock>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Frequency:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblFreq"></TextBlock>
+            </Panel>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Total samples:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblSamples"></TextBlock>
+            </Panel>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Pre samples:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblPreSamples"></TextBlock>
+            </Panel>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Post samples:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblPostSamples"></TextBlock>
+            </Panel>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Channels:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblChannels"></TextBlock>
+            </Panel>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Trigger:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblTrigger"></TextBlock>
+            </Panel>
+            <Panel>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Value:
+              </TextBlock>
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblValue"></TextBlock>
+            </Panel>
+            <Panel Name="pnlPower" IsVisible="False">
+              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
+                - Power status:
+              </TextBlock>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Image Margin="5,2,5,2" Name="imgPowerSource" Width="16" Height="16" HorizontalAlignment="Right" Source="/Assets/plug.png"></Image>
+                <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblVoltage">3.38v</TextBlock>
+              </StackPanel>
+            </Panel>
           </StackPanel>
-        </Grid>
-        <Image Source="/Assets/Logo.png" VerticalAlignment="Center"></Image>
-        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5" Background="#80383838">
-          <TextBlock Margin="5,2,5,2">
-            Information
-          </TextBlock>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Frequency:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblFreq"></TextBlock>
-          </Panel>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Total samples:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblSamples"></TextBlock>
-          </Panel>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Pre samples:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblPreSamples"></TextBlock>
-          </Panel>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Post samples:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblPostSamples"></TextBlock>
-          </Panel>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Channels:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblChannels"></TextBlock>
-          </Panel>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Trigger:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblTrigger"></TextBlock>
-          </Panel>
-          <Panel>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Value:
-            </TextBlock>
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblValue"></TextBlock>
-          </Panel>
-          <Panel Name="pnlPower" IsVisible="False">
-            <TextBlock Margin="5,2,5,2" HorizontalAlignment="Left">
-              - Power status:
-            </TextBlock>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-              <Image Margin="5,2,5,2" Name="imgPowerSource" Width="16" Height="16" HorizontalAlignment="Right" Source="/Assets/plug.png"></Image>
-              <TextBlock Margin="5,2,5,2" HorizontalAlignment="Right" Name="lblVoltage">3.38v</TextBlock>
-            </StackPanel>
-          </Panel>
         </StackPanel>
-      </Panel>
+      </Grid>
     </Grid>
   </DockPanel>
 </Window>

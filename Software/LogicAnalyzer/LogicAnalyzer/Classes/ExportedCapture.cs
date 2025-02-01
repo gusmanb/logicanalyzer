@@ -10,15 +10,9 @@ namespace LogicAnalyzer.Classes
 {
     public class ExportedCapture
     {
-        public CaptureSettings Settings { get; set; }
-        public UInt128[] Samples { get; set; }
-        public SampleRegion[]? SelectedRegions { get; set; }
-    }
-
-    public class OldExportedCapture
-    {
-        public OldCaptureSettings Settings { get; set; }
-        public UInt128[] Samples { get; set; }
+        public required CaptureSession Settings { get; set; }
+        //Preserved to mantain compatibility with older versions
+        public UInt128[]? Samples { get; set; }
         public SampleRegion[]? SelectedRegions { get; set; }
     }
 }

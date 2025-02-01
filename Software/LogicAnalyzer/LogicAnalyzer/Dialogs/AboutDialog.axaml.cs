@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using LogicAnalyzer.Extensions;
-using Microsoft.Extensions.PlatformAbstractions;
 using System.Diagnostics;
 using System.IO.Packaging;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace LogicAnalyzer.Dialogs
@@ -14,8 +14,19 @@ namespace LogicAnalyzer.Dialogs
             InitializeComponent();
             txtVersion.Text = $"Version {GetAppVersion()}";
             btnLicense.Click += BtnLicense_Click;
+            lnkWebSite.Click += LnkWebSite_Click;
         }
-
+        private async void LnkWebSite_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            try
+            {
+                OpenUrl("https://github.com/gusmanb/logicanalyzer");
+            }
+            catch
+            {
+                await this.ShowError("Cannot open page.", "Cannot start the default browser. You can access the online documentation in https://github.com/gusmanb/logicanalyzer");
+            }
+        }
         private async void BtnLicense_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             try
@@ -44,7 +55,8 @@ namespace LogicAnalyzer.Dialogs
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    Process.Start("xdg-open", url);
+                    //Process.Start("xdg-open", url);
+                    Process.Start("x-www-browser", url);
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
@@ -59,8 +71,7 @@ namespace LogicAnalyzer.Dialogs
 
         static string GetAppVersion()
         {
-            ApplicationEnvironment app = PlatformServices.Default.Application;
-            return app.ApplicationVersion;
+            return Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         }
     }
 }

@@ -1,0 +1,241 @@
+;--------------------------------------------------------------------------------------------
+.program BLAST_CAPTURE
+
+LOOP:
+
+    jmp pin LOOP                ;wait for trigger
+
+.wrap_target
+
+    in pins 32                  ;capture
+
+.wrap
+
+;--------------------------------------------------------------------------------------------
+.program POSITIVE_CAPTURE
+
+    pull
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
+
+.wrap_target
+
+    in pins 32			        ;read sample
+    jmp pin POST_CAPTURE		;exit wrap if pin is set
+
+.wrap
+
+POST_CAPTURE:
+
+    in pins 32			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
+
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+LOOP:
+
+    mov x, osr                  ;read loop count
+
+INNER_LOOP:
+
+    jmp pin POST_CAPTURE        ;wait for trigger
+    jmp INNER_LOOP
+
+;--------------------------------------------------------------------------------------------
+.program NEGATIVE_CAPTURE
+
+    pull
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
+
+PRE_CAPTURE:
+
+    in pins 32			        ;read sample
+    jmp pin PRE_CAPTURE		    ;loop if pin is set
+
+POST_CAPTURE:
+
+.wrap_target
+
+    in pins 32			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
+
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+LOOP:
+
+    mov x, osr                  ;read loop count
+
+INNER_LOOP:
+    jmp pin INNER_LOOP          ;wait for trigger
+
+.wrap
+
+;--------------------------------------------------------------------------------------------
+.program POSITIVE_CAPTURE_MEASUREBURSTS
+
+    pull
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
+    irq wait 1                       ;trigger NMI to sync first timestamp
+
+.wrap_target
+
+    in pins 32			        ;read sample
+    jmp pin POST_CAPTURE		;exit wrap if pin is set
+
+.wrap
+
+POST_CAPTURE:
+
+    in pins 32			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
+
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+LOOP:
+    
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    mov x, osr                  ;read loop count
+
+INNER_LOOP:
+
+    jmp pin POST_CAPTURE        ;wait for trigger
+    jmp INNER_LOOP
+
+;--------------------------------------------------------------------------------------------
+.program NEGATIVE_CAPTURE_MEASUREBURSTS
+
+    pull
+    out y 32    		        ;read loop count
+    pull
+    mov x, osr                  ;read capture length (use MOV instead of PULL so we can MOV it again on each loop)
+    irq wait 1                  ;trigger NMI to sync first timestamp
+
+PRE_CAPTURE:
+
+    in pins 32			        ;read sample
+    jmp pin PRE_CAPTURE		    ;loop if pin is set
+
+POST_CAPTURE:
+
+.wrap_target
+
+    in pins 32			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    jmp y-- LOOP                ;jump to loop control
+
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+LOOP:
+
+    irq 1                       ;trigger NMI on the CPU to capture burst timestamp
+    mov x, osr                  ;read loop count
+
+INNER_LOOP:
+    jmp pin INNER_LOOP          ;wait for trigger
+
+.wrap
+
+;--------------------------------------------------------------------------------------------
+.program COMPLEX_CAPTURE
+
+    pull
+    out x 32    		        ;read capture length
+
+    wait irq 7                  ;wait for trigger program to be ready
+
+.wrap_target
+
+    in pins 29			        ;read sample
+    jmp pin POST_CAPTURE		;exit wrap if pin is set
+
+.wrap
+
+POST_CAPTURE:
+
+    in pins 29			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+;--------------------------------------------------------------------------------------------
+.program FAST_CAPTURE
+
+    pull
+    out x 32    		        ;read capture length
+
+.wrap_target
+
+    in pins 29			        ;read sample
+    jmp pin POST_CAPTURE		;exit wrap if pin is set
+
+.wrap
+
+POST_CAPTURE:
+
+    in pins 29			        ;read sample
+    jmp x-- POST_CAPTURE		;loop if more samples needed
+
+    irq 0                       ;notify to the main program that we have finished capturing
+
+LOCK:
+
+    jmp LOCK                    ;block the program
+
+;--------------------------------------------------------------------------------------------
+;--------Kept only for reference, the program is stored in volatile memory as it must--------
+;---------be modified for concrete trigger parameters.---------------------------------------
+;--------------------------------------------------------------------------------------------
+;.program COMPLEX_TRIGGER
+
+;    pull
+;    out x 32                    ;read trigger value
+
+;    set pins 0		            ;set trigger pin to low
+
+;    irq 7                       ;Release capture program
+
+;TRIGGER_LOOP:
+
+;    mov osr, pins               ;read pin status to output shift register
+;    out y, 4                    ;output 4 bits to Y (writes 32 bits)
+;    jmp x!=y TRIGGER_LOOP       ;loop if trigger not met
+
+;    set pins 1                  ;set trigger pin to high (trigger met)
+
+;LOCK:
+
+;    jmp LOCK                    ;block program

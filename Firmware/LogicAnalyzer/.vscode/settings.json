@@ -1,17 +1,27 @@
 {
-  "cmake.configureOnOpen": false,
-  "cmake.statusbar.advanced": {
-    "debug" : {
-      "visibility": "hidden"
-              },    "launch" : {
-      "visibility": "hidden"
-               },
-    "build" : {
-      "visibility": "default"
-               },
-    "buildTarget" : {
-      "visibility": "hidden"
-               },
+  "cmake.options.statusBarVisibility": "hidden",
+    "cmake.options.advanced": {
+        "folder": {
+            "statusBarVisibility": "hidden"
+        },
+        "build": {
+            "statusBarVisibility": "visible"
+        },
+        "debug": {
+            "statusBarVisibility": "visible"
+        },
+        "launch": {
+            "statusBarVisibility": "visible"
+        },
+        "variant": {
+            "statusBarVisibility": "visible"
+        },
+        "ctest": {
+            "statusBarVisibility": "hidden"
+        },
+        "kit": {
+            "statusBarVisibility": "hidden"
+        }
     },
     "files.associations": {
       "pio.h": "c",
@@ -61,6 +71,9 @@
       "cyw43_arch.h": "c",
       "logicanalyzer_build_settings.h": "c",
       "sync.h": "c",
-      "flash.h": "c"
+      "flash.h": "c",
+      "exception.h": "c",
+      "event_machine.h": "c",
+      "usb.h": "c"
     },
 }

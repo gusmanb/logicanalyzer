@@ -3,26 +3,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:LogicAnalyzer.Controls;assembly=LogicAnalyzer"
-        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="710"
-        MaxWidth="900" MinWidth="900" Width="900" MaxHeight="710" MinHeight="710" Height="710"
+        mc:Ignorable="d" d:DesignWidth="930" d:DesignHeight="680"
+        MaxWidth="930" MinWidth="930" Width="930" MaxHeight="680" MinHeight="680" Height="680"
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
         Title="Capture settings"
         Background="#383838" Icon="/Assets/Ico40.ico">
   <Panel>
     <Grid RowDefinitions="1*,14*,0.7*" Margin="8,15,8,15" Name="grdBase">
-      <Grid Grid.Row="0" ColumnDefinitions="*,*,*" Margin="15,0,15,0">
+      <Grid Grid.Row="0" ColumnDefinitions="1.4*,*,*" Margin="15,0,15,0">
         <StackPanel Grid.Column="0" Orientation="Horizontal">
           <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Frequency:</TextBlock>
-          <NumericUpDown Width="165" Height="35" Minimum="3100" Maximum="100000000" Value="100000000" Name="nudFrequency"></NumericUpDown>
+          <NumericUpDown Width="165" Height="35" Minimum="3100" Maximum="100000000" Value="100000000" Name="nudFrequency" FormatString="#,##0"></NumericUpDown>
+          <Border BorderBrush="#303030" Background="#1B8005" Height="28" Margin="5" Padding="5,0,5,0" BorderThickness="1" CornerRadius="10" Width="100" Name="brdJitter">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" Name="lblJitter">Jitter: 0.000%</TextBlock>
+          </Border>
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
           <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Presamples:</TextBlock>
-          <NumericUpDown Width="135" Height="35" Value="512" Minimum="2" Maximum="98303" Name="nudPreSamples"></NumericUpDown>
+          <NumericUpDown Width="135" Height="35" Value="512" Minimum="2" Maximum="98303" Name="nudPreSamples" FormatString="#,##0"></NumericUpDown>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
           <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Postsamples:</TextBlock>
-          <NumericUpDown Width="135" Height="35" Value="1024" Minimum="512" Maximum="131069" Name="nudPostSamples"></NumericUpDown>
+          <NumericUpDown Width="135" Height="35" Value="1024" Minimum="512" Maximum="131069" Name="nudPostSamples" FormatString="#,##0"></NumericUpDown>
         </StackPanel>
       </Grid>
       <Grid Grid.Row="1" RowDefinitions="15*,14*" Name="grdMainContainer">
@@ -34,105 +37,33 @@
         <StackPanel Name="pnlAllTriggers" IsVisible="True" Grid.Row="1" Margin="10,10,10,10" Background="#80505050">
           <RadioButton Margin="15,5,0,0" IsChecked="true" Name="rbTriggerTypeEdge">Edge trigger</RadioButton>
           <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030" Name="pnlEdge">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="12,15,0,0">
-              <TextBlock Width="28">
-                0
-1
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-2
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-3
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-4
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-5
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-6
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-7
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-8
-              </TextBlock>
-              <TextBlock Width="28">
-                0
-9
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-0
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-1
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-2
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-3
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-4
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-5
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-6
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-7
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-8
-              </TextBlock>
-              <TextBlock Width="28">
-                1
-9
-              </TextBlock>
-              <TextBlock Width="28">
-                2
-0
-              </TextBlock>
-              <TextBlock Width="28">
-                2
-1
-              </TextBlock>
-              <TextBlock Width="28">
-                2
-2
-              </TextBlock>
-              <TextBlock Width="28">
-                2
-3
-              </TextBlock>
-              <TextBlock Width="28">
-                2
-4
-              </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="672" Margin="0,5,0,0" >
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20">01</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">02</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">03</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">04</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">05</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">06</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">07</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">08</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">09</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">10</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">11</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">12</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">13</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">14</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">15</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">16</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">17</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">18</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">19</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">20</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">21</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">22</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">23</TextBlock>
+              <TextBlock FontSize="12" xml:space="preserve" TextAlignment="Center" VerticalAlignment="Center" Width="20" Margin="8,0,0,0">24</TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
               <RadioButton Name="rbTrigger1" IsChecked="True"></RadioButton>
               <RadioButton Name="rbTrigger2"></RadioButton>
               <RadioButton Name="rbTrigger3"></RadioButton>
@@ -159,30 +90,36 @@
               <RadioButton Name="rbTrigger24"></RadioButton>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-              <CheckBox Name="ckNegativeTrigger" Margin="10,0,0,10">Negative edge</CheckBox>
-              <CheckBox Name="ckBurst" Margin="20,0,0,10">Burst mode</CheckBox>
-              <TextBlock Margin="20,10,0,10">Burst count:</TextBlock>
-              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="10000" Value="2" Name="nudBurstCount"></NumericUpDown>
+              <CheckBox Name="ckNegativeTrigger" Margin="10,0,0,10" VerticalAlignment="Center">Negative edge</CheckBox>
+              <CheckBox Name="ckBlast" Margin="20,0,0,10"  VerticalAlignment="Center">Blast mode</CheckBox>
+              <CheckBox Name="ckBurst" Margin="20,0,0,10"  VerticalAlignment="Center">Burst mode</CheckBox>
+              <TextBlock Margin="20,0,0,10" VerticalAlignment="Center">Burst count:</TextBlock>
+              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="254" Value="2" Name="nudBurstCount" FormatString="#"></NumericUpDown>
+              <CheckBox IsEnabled="{Binding #ckBurst.IsChecked}" Name="ckMeasure" Margin="20,0,0,10">Measure delays</CheckBox>
             </StackPanel>
           </StackPanel>
           <RadioButton Margin="15,0,0,0" Name="rbTriggerTypePattern">Pattern trigger</RadioButton>
-          <StackPanel Name="pnlPatternTrigger" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030">
+          <StackPanel Name="pnlPatternTrigger" IsEnabled="False" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0,10,10" Background="#80303030">
             <TextBlock VerticalAlignment="Center" Margin="10,0,0,0">First channel:</TextBlock>
-            <NumericUpDown Margin="5,15,0,15" Value="1" Minimum="1" Maximum="16" Width="110" Name="nudTriggerBase"></NumericUpDown>
+            <NumericUpDown Margin="5,15,0,15" Value="1" Minimum="1" Maximum="16" Width="110" Name="nudTriggerBase" FormatString="#"></NumericUpDown>
             <TextBlock Margin="15,0,10,0" VerticalAlignment="Center">Pattern:</TextBlock>
             <TextBox VerticalAlignment="Center" Width="160" Name="txtPattern"></TextBox>
             <CheckBox Margin="15,0,10,0" Name="ckFastTrigger">Fast pattern matching (max. 5 bits)</CheckBox>
           </StackPanel>
         </StackPanel>
+        <!--
         <StackPanel Grid.Row="1" Margin="10,10,10,10" Background="#80505050" Name="pnlSingleTrigger" IsVisible="False">
           <Separator Height="20"></Separator>
 
+        </StackPanel>-->
+      </Grid>
+      <Grid ColumnDefinitions="*,*" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="2">
+        <Button Name="btnReset" HorizontalAlignment="Left" Margin="10,0,0,0">Reset</Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+          <Button Name="btnAccept">Accept</Button>
+          <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
         </StackPanel>
       </Grid>
-      <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="2">
-        <Button Name="btnAccept">Accept</Button>
-        <Button Name="btnCancel" Margin="10,0,10,0">Cancel</Button>
-      </StackPanel>
     </Grid>
   </Panel>
 </Window>

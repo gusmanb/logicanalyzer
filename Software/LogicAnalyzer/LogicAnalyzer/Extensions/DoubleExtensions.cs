@@ -11,13 +11,13 @@ namespace LogicAnalyzer.Extensions
         public static string ToSmallTime(this double Time)
         {
             if (Time < 0.000001)
-                return $"{Math.Round(Time * 1000000000, 2)}ns";
+                return $"{Math.Round(Time * 1000000000, 3)}ns";
             else if (Time < 0.001)
-                return $"{Math.Round(Time * 1000000, 2)}us";
+                return $"{Math.Round(Time * 1000000, 3)}us";
             else if (Time < 1)
-                return $"{Math.Round(Time * 1000, 2)}ms";
+                return $"{Math.Round(Time * 1000, 3)}ms";
             else
-                return $"{Math.Round(Time, 2)}s";
+                return $"{Math.Round(Time, 3)}s";
         }
 
         public static string ToLargeFrequency(this double Frequency)

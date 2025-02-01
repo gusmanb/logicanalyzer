@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using CommandLine;
+using SharedDriver;
 
 namespace CLCapture
 {
@@ -27,13 +28,14 @@ namespace CLCapture
         [Value(4, Required = true, HelpText = "Number of samples to capture after the trigger.")]
         public int PostSamples { get; set; }
 
-        [Value(5, Required = true, HelpText = "Number of bursts to capture (0 or 1 to disable burst mode).")]
-        public int LoopCount { get; set; }
-
         [Value(6, Required = true, HelpText = "Trigger definition in the form of \"TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string containing 1's and 0's indicating each trigger chanel state)\".")]
         public CLTrigger? Trigger { get; set; }
         [Value(7, Required = true, HelpText = "Name of the output file.")]
         public string? OutputFile { get; set; }
+        [Option('b', "Bursts", Default = 0, HelpText = "Number of bursts to capture (0 or 1 to disable burst mode).")]
+        public int BurstCount { get; set; }
+        [Option('m', "Measure", Default = false, HelpText = "Measure burst data.")]
+        public bool MeasureBurst { get; set; }
     }
 
     public class CLTrigger
@@ -56,8 +58,8 @@ namespace CLCapture
                 {
                     case "triggertype":
 
-                        CLTriggerType type;
-                        var typeParsed = Enum.TryParse<CLTriggerType>(components[1], true, out type);
+                        TriggerType type;
+                        var typeParsed = Enum.TryParse<TriggerType>(components[1], true, out type);
 
                         if (!typeParsed)
                             throw new ArgumentException($"Unknown trigger type: {type}.");
@@ -89,15 +91,8 @@ namespace CLCapture
                 }
             }
         }
-        public CLTriggerType TriggerType { get; set; }
+        public TriggerType TriggerType { get; set; }
         public int Channel { get; set; }
-        public string Value { get; set; }
-    }
-
-    public enum CLTriggerType
-    {
-        Edge,
-        Fast,
-        Complex
+        public string? Value { get; set; }
     }
 }

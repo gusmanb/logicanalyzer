@@ -6,7 +6,8 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using LogicAnalyzer.Classes;
 using LogicAnalyzer.Dialogs;
-using LogicAnalyzer.Protocols;
+using LogicAnalyzer.Interfaces;
+using SharedDriver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,28 +15,17 @@ using System.Linq;
 
 namespace LogicAnalyzer.Controls
 {
-    public partial class SampleMarker : UserControl
+    public partial class SampleMarker : UserControl, ISampleDisplay, IRegionDisplay
     {
-
-        public static readonly StyledProperty<int> FirstSampleProperty = AvaloniaProperty.Register<SampleMarker, int>(nameof(FirstSample));
-
-        public static readonly StyledProperty<int> VisibleSamplesProperty = AvaloniaProperty.Register<SampleMarker, int>(nameof(VisibleSamples));
+        Color burstPenColor = Color.FromRgb(224, 175, 29);
+        Color burstFillColor = Color.FromArgb(128, 224, 175, 29);
 
         public static readonly StyledProperty<IBrush> ForegroundProperty = AvaloniaProperty.Register<SampleMarker, IBrush>(nameof(Foreground));
 
         public static readonly StyledProperty<IBrush> BackgroundProperty = AvaloniaProperty.Register<SampleMarker, IBrush>(nameof(Background));
 
-        public int FirstSample 
-        { 
-            get { return GetValue(FirstSampleProperty); } 
-            set { SetValue(FirstSampleProperty, value); UpdateValues(); InvalidateVisual(); } 
-        }
-
-        public int VisibleSamples 
-        { 
-            get { return GetValue(VisibleSamplesProperty); } 
-            set { SetValue(VisibleSamplesProperty, value); UpdateValues(); InvalidateVisual(); } 
-        }
+        public int FirstSample { get; private set; }
+        public int VisibleSamples { get; private set; }
 
         public new IBrush Foreground
         {
@@ -47,6 +37,13 @@ namespace LogicAnalyzer.Controls
         {
             get { return GetValue<IBrush>(BackgroundProperty); }
             set { SetValue<IBrush>(BackgroundProperty, value); InvalidateVisual(); }
+        }
+
+        BurstInfo[]? bursts = null;
+        public BurstInfo[]? Bursts
+        {
+            get { return bursts; }
+            set { bursts = value; InvalidateVisual(); }
         }
 
         public event EventHandler<RegionEventArgs> RegionCreated;
@@ -63,7 +60,8 @@ namespace LogicAnalyzer.Controls
 
 
         List<SampleRegion> regions = new List<SampleRegion>();
-        List<ProtocolAnalyzedChannel> analysisData = new List<ProtocolAnalyzedChannel>();
+
+        public SampleRegion[] Regions { get { return regions.ToArray(); } }
 
         SelectedSamples? selectedSamples = null;
         SampleRegion? selectedRegion = null;
@@ -89,7 +87,7 @@ namespace LogicAnalyzer.Controls
 
         private void MnuShift_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            if(ShiftSamples != null) 
+            if (ShiftSamples != null)
                 ShiftSamples(sender, EventArgs.Empty);
         }
 
@@ -98,7 +96,6 @@ namespace LogicAnalyzer.Controls
             if (selectedRegion != null && RegionDeleted != null)
             {
                 RegionDeleted(this, new RegionEventArgs { Region = selectedRegion });
-                RemoveRegion(selectedRegion);
             }
         }
 
@@ -150,7 +147,7 @@ namespace LogicAnalyzer.Controls
             {
                 SamplesCopied(this, new SamplesEventArgs { FirstSample = selectedSamples.Start, SampleCount = selectedSamples.SampleCount });
                 samplesCopied = true;
-                selectedSamples= null;
+                selectedSamples = null;
                 this.InvalidateVisual();
             }
         }
@@ -176,27 +173,7 @@ namespace LogicAnalyzer.Controls
             updating = false;
             InvalidateVisual();
         }
-        public void AddAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        {
-            analysisData.Add(Data);
-        }
-        public void AddAnalyzedChannels(IEnumerable<ProtocolAnalyzedChannel> Data)
-        {
-            analysisData.AddRange(Data);
-        }
-        public bool RemoveAnalyzedChannel(ProtocolAnalyzedChannel Data)
-        {
-            return analysisData.Remove(Data);
-        }
-
-        public void ClearAnalyzedChannels()
-        {
-            foreach (var data in analysisData)
-                data.Dispose();
-
-            analysisData.Clear();
-        }
-
+        
         public void AddRegion(SampleRegion Region)
         {
             regions.Add(Region);
@@ -205,6 +182,7 @@ namespace LogicAnalyzer.Controls
         public void AddRegions(IEnumerable<SampleRegion> Regions)
         {
             regions.AddRange(Regions);
+            this.InvalidateVisual();
         }
         public bool RemoveRegion(SampleRegion Region)
         {
@@ -213,7 +191,6 @@ namespace LogicAnalyzer.Controls
                 this.InvalidateVisual();
             return res;
         }
-
         public void ClearRegions()
         {
             regions.Clear();
@@ -242,7 +219,7 @@ namespace LogicAnalyzer.Controls
             using (context.PushClip(bounds))
             {
 
-                if(updating) 
+                if (updating)
                     return;
 
                 context.FillRectangle(Background, bounds);
@@ -272,8 +249,12 @@ namespace LogicAnalyzer.Controls
                         double start = (first - FirstSample) * sampleWidth;
                         double end = sampleWidth * region.SampleCount;
                         context.FillRectangle(GraphicObjectsCache.GetBrush(region.RegionColor), new Rect(start, 0, end, this.Bounds.Height));
-                        FormattedText text = new FormattedText(region.RegionName, Typeface.Default, 12, TextAlignment.Left, TextWrapping.NoWrap, Size.Infinity);
-                        context.DrawText(GraphicObjectsCache.GetBrush(Colors.White), new Point(start + (end / 2) - (text.Bounds.Width / 2), 5), text);
+
+                        if (!string.IsNullOrWhiteSpace(region.RegionName))
+                        {
+                            FormattedText text = new FormattedText(region.RegionName, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface.Default, 12, GraphicObjectsCache.GetBrush(Colors.White));
+                            context.DrawText(text, new Point(start + (end / 2) - (text.Width / 2), 5));
+                        }
                     }
                 }
 
@@ -308,20 +289,41 @@ namespace LogicAnalyzer.Controls
 
                 }
 
-                if (analysisData.Count > 0)
+                if (bursts != null)
                 {
-                    foreach (var chan in analysisData)
+                    double burstWidth = 16;
+                    foreach (var burst in bursts)
                     {
-                        foreach (var evt in chan.Segments)
-                        {
-                            double x1 = (evt.FirstSample - FirstSample) * sampleWidth;
-                            double x2 = (evt.LastSample + 1 - FirstSample) * sampleWidth;
-                            double y1 = 0;
-                            double y2 = this.Bounds.Height;
+                        double x1 = (burst.BurstSampleStart - FirstSample) * sampleWidth - burstWidth / 2.0;
+                        double x2 = (burst.BurstSampleStart - FirstSample) * sampleWidth + burstWidth / 2.0;
+                        double y1 = 0;
+                        double y2 = this.Bounds.Height;
 
-                            Rect r = new Rect(new Point(x1, y1), new Point(x2, y2));
-                            context.FillRectangle(GraphicObjectsCache.GetBrush(chan.BackColor), r);
-                        }
+                        PathFigure container = new PathFigure();
+                        container.StartPoint = new Point(x1, y1);
+                        container.Segments.Add(new LineSegment { Point = new Point(x2, y1) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x2, y2 / 2) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x1 + ((x2 - x1) / 2), y2) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x1, y2 / 2) });
+                        container.Segments.Add(new LineSegment { Point = new Point(x1, y1 / 2) });
+                        container.IsClosed = true;
+
+                        PathGeometry gContainer = new PathGeometry();
+                        gContainer.Figures.Add(container);
+
+                        context.DrawGeometry(GraphicObjectsCache.GetBrush(burstFillColor), GraphicObjectsCache.GetPen(burstPenColor, 1), gContainer);
+
+
+
+
+
+
+
+
+
+
+                        //Rect r = new Rect(new Point(x1, y1), new Point(x2, y2));
+                        //context.FillRectangle(GraphicObjectsCache.GetBrush(Color.FromRgb(128,255,128)), r);
                     }
                 }
 
@@ -338,7 +340,7 @@ namespace LogicAnalyzer.Controls
             {
                 double sampleWidth = this.Bounds.Width / (float)VisibleSamples;
                 var pos = e.GetCurrentPoint(this);
-                
+
                 int ovrSample = (int)(pos.Position.X / sampleWidth) + FirstSample;
 
                 if (pos.Properties.IsLeftButtonPressed && selectedSamples != null)
@@ -348,6 +350,34 @@ namespace LogicAnalyzer.Controls
                 }
                 else
                 {
+                    if (bursts != null)
+                    {
+                        var burst = bursts.FirstOrDefault(b =>
+                        {
+                            double center = (b.BurstSampleStart - FirstSample) * sampleWidth;
+                            double minX = center - 8;
+                            double maxX = center + 8;
+
+                            return pos.Position.X >= minX && pos.Position.X <= maxX;
+                        }
+                        );
+                        if (burst != null)
+                        {
+                            string burstText = burst.ToString();
+
+                            if (ToolTip.GetTip(this)?.ToString() != burstText)
+                            {
+                                ToolTip.SetTip(this, burstText);
+                                ToolTip.SetIsOpen(this, false);
+                                ToolTip.SetShowDelay(this, 0);
+                                ToolTip.SetIsOpen(this, true);
+                            }
+
+                            return;
+                        }
+
+                    }
+
                     if (ToolTip.GetTip(this)?.ToString() != ovrSample.ToString())
                     {
                         ToolTip.SetTip(this, ovrSample.ToString());
@@ -376,7 +406,7 @@ namespace LogicAnalyzer.Controls
 
                     int ovrSample = (int)(pos.Position.X / sampleWidth) + FirstSample;
 
-                    if(selectedSamples != null && e.KeyModifiers.HasFlag(KeyModifiers.Shift))
+                    if (selectedSamples != null && e.KeyModifiers.HasFlag(KeyModifiers.Shift))
                         selectedSamples.LastSample = ovrSample;
                     else
                         selectedSamples = new SelectedSamples { FirstSample = ovrSample, LastSample = ovrSample };
@@ -448,7 +478,7 @@ namespace LogicAnalyzer.Controls
                         }
                     }
                 }
-                else if(e.InitialPressMouseButton == MouseButton.Right) 
+                else if (e.InitialPressMouseButton == MouseButton.Right)
                 {
                     selectedRegion = regions.FirstOrDefault(r => r.FirstSample <= ovrSample && r.LastSample >= ovrSample);
                     mnuSample = ovrSample;
@@ -481,13 +511,22 @@ namespace LogicAnalyzer.Controls
                 mnuCreateRegion.IsEnabled = true;
             }
 
-            if(samplesCopied)
+            if (samplesCopied)
                 mnuPaste.IsEnabled = true;
             else
                 mnuPaste.IsEnabled = false;
 
             smplMenu.PlacementRect = new Rect(pos.Position.X, pos.Position.Y, 1, 1);
             smplMenu.Open();
+        }
+
+        public void UpdateVisibleSamples(int FirstSample, int VisibleSamples)
+        {
+            this.FirstSample = FirstSample;
+            this.VisibleSamples = VisibleSamples;
+
+            if (!updating)
+                this.InvalidateVisual();
         }
 
         async void CreateRegion()
@@ -504,8 +543,6 @@ namespace LogicAnalyzer.Controls
             {
                 if (RegionCreated != null)
                     RegionCreated(this, new RegionEventArgs { Region = dlg.NewRegion });
-
-                AddRegion(dlg.NewRegion);
             }
 
             selectedSamples = null;

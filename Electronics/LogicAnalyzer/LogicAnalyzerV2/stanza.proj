@@ -1,0 +1,4 @@
+include? ".slm/stanza.proj"
+pkg-cache: ".slm/pkg-cache"
+package main defined-in "main.stanza"
+package helpers defined-in "helpers.stanza"

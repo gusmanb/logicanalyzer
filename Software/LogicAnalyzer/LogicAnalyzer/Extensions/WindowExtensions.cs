@@ -1,7 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using MessageBox.Avalonia.Enums;
-using MessageBox.Avalonia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +11,8 @@ using Newtonsoft.Json;
 using System.Text.Json;
 using static System.Environment;
 using LogicAnalyzer.Classes;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace LogicAnalyzer.Extensions
 {
@@ -26,6 +26,7 @@ namespace LogicAnalyzer.Extensions
         }
         public static void FixStartupPosition(this Window windowToFix)
         {
+            /*
             if (OperatingSystem.IsWindows())
             {
                 // Not needed for Windows
@@ -59,36 +60,25 @@ namespace LogicAnalyzer.Extensions
                 windowToFix.Position = new PixelRect(pOwner.Position,
                     PixelSize.FromSize(pOwner.ClientSize, scale)).CenterRect(rect).Position;
             }
+            */
         }
         public static async Task ShowError(this Window Window, string Title, string Text)
         {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Error);
+            var box = MessageBoxManager.GetMessageBoxStandard(Title, Text, icon: MsBox.Avalonia.Enums.Icon.Error);
 
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = Window.Icon;
-            await box.ShowDialog(Window);
+            await box.ShowAsync();
         }
         public static async Task ShowInfo(this Window Window, string Title, string Text)
         {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, icon: MessageBox.Avalonia.Enums.Icon.Info);
+            var box = MessageBoxManager.GetMessageBoxStandard(Title, Text, icon: MsBox.Avalonia.Enums.Icon.Info);
 
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = Window.Icon;
-            await box.ShowDialog(Window);
+            await box.ShowAsync();
         }
         public static async Task<bool> ShowConfirm(this Window Window, string Title, string Text)
         {
-            var box = MessageBoxManager.GetMessageBoxStandardWindow(Title, Text, @enum: MessageBox.Avalonia.Enums.ButtonEnum.YesNo, icon: MessageBox.Avalonia.Enums.Icon.Warning);
+            var box = MessageBoxManager.GetMessageBoxStandard(Title, Text, @enum: MsBox.Avalonia.Enums.ButtonEnum.YesNo, icon: MsBox.Avalonia.Enums.Icon.Warning);
 
-            var prop = box.GetType().GetField("_window", BindingFlags.Instance | BindingFlags.NonPublic);
-            var win = prop.GetValue(box) as Window;
-
-            win.Icon = Window.Icon;
-            var result = await box.ShowDialog(Window);
+            var result = await box.ShowAsync();
 
             if (result == ButtonResult.No)
                 return false;
