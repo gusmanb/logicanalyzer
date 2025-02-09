@@ -10,6 +10,8 @@ namespace TerminalCapture.Classes
     [Verb("gui", true, HelpText = "Generate a capture settings file.")]
     public class TerminalOptions
     {
+        [Option('d', "driver", HelpText = "Driver to use for the logic analyzer. Accepted values: NetDriver, CursesDriver, WindowsDriver")]
+        public string Driver { get; set; } = "NetDriver";
     }
 
     [Verb("capture", HelpText = "Capture data from a logic analyzer.")]
