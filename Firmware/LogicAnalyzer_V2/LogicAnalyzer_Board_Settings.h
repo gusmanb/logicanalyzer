@@ -27,7 +27,18 @@
     //#define LED_IO 25
     //If defined enables the Pico W WiFi module
     //#define USE_CYGW_WIFI
-
+    //Defines the maximum capture buffer size
+    //#define CAPTURE_BUFFER_SIZE (128 * 1024)
+    //Defines the maximum number of channels
+    //#define MAX_CHANNELS 24
+    //Defines the maximum frequency for the capture in normal mode
+    //#define MAX_FREQ 200000000
+    //Defines the maximum frequency for the capture in blast mode
+    //#define MAX_BLAST_FREQ 400000000
+    //
+    //If the board supports TURBO mode (400Mhz overclock) then you can define two sets of frequencies using
+    //#ifdef TURBO_MODE / #else / #endif
+    
     #if defined (BUILD_PICO)
 
         #define BOARD_NAME "PICO"
