@@ -23,6 +23,8 @@
     //#define CYGW_LED
     //If defined, the onboard led is a RGB led connected to a GPIO
     //#define WS2812_LED
+    //If defined, the board has no LED
+    //#define NO_LED
     //Defines the used GPIO used for the GPIO and WS2812 led types
     //#define LED_IO 25
     //If defined enables the Pico W WiFi module

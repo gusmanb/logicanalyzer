@@ -28,13 +28,13 @@ static uint32_t dmaPingPong1;
 static uint32_t transferCount;
 
 //Static information of the last capture
-static uint8_t lastCapturePins[24];         //List of captured pins
-static uint8_t lastCapturePinCount;         //Count of captured pins
-static uint32_t lastTriggerCapture;         //Moment where the trigger happened inside the circular pre buffer
-static uint32_t lastPreSize;                //Pre-trigger buffer size
-static uint32_t lastPostSize;               //Post-trigger buffer size
-static uint32_t lastLoopCount;              //Number of loops
-static bool lastTriggerInverted;            //Inverted?
+static uint8_t lastCapturePins[MAX_CHANNELS];       //List of captured pins
+static uint8_t lastCapturePinCount;                 //Count of captured pins
+static uint32_t lastTriggerCapture;                 //Moment where the trigger happened inside the circular pre buffer
+static uint32_t lastPreSize;                        //Pre-trigger buffer size
+static uint32_t lastPostSize;                       //Post-trigger buffer size
+static uint32_t lastLoopCount;                      //Number of loops
+static bool lastTriggerInverted;                    //Inverted?
 static uint8_t lastTriggerPin;
 static uint32_t lastStartPosition;
 static bool lastCaptureComplexFast;
@@ -57,6 +57,7 @@ static exception_handler_t oldSysTickHandler;
 
 //Pin mapping, used to map the channels to the PIO program
 //COMPLEX_TRIGGER_IN_PIN is added at the end of the array to support the chained mode
+//Add it at the end even if not used, you can repeat a pin in the array if needed
 #if defined (BUILD_PICO)
     const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
 #elif defined (BUILD_PICO_2)
@@ -606,7 +607,7 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > MAX_CHANNELS)
+    if(capturePinCount < 1 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Bad trigger?
@@ -775,7 +776,7 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > MAX_CHANNELS)
+    if(capturePinCount < 1 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Bad trigger?
@@ -942,6 +943,8 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
         return false;
 
     //Incorrect trigger pin?
+    //WARNING: comparison of triggerPin and MAX_CHANNELS is correct, we exceed the maximum number of channels by 1 
+    //as the complex trigger channel is added at the end of the pinMap array
     if(triggerPin < 0 || triggerPin > MAX_CHANNELS)
         return false;
 

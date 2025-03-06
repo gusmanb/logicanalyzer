@@ -79,6 +79,10 @@
     #define INIT_LED() init_rgb()
     #define LED_ON() send_rgb(0,32,0)
     #define LED_OFF() send_rgb(0,0,32)
+#elif defined (NO_LED)
+    #define INIT_LED() { }
+    #define LED_ON() { }
+    #define LED_OFF() { }
 #endif
 
 //Buffer used to store received data
