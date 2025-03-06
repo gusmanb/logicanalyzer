@@ -111,6 +111,10 @@ namespace SigrokDecoderBridge
                 catch(Exception ex) 
                 {
                     Log($"Error initializing python engine: {ex.Message} - {ex.StackTrace}");
+
+                    if (ex.InnerException != null)
+                        Log($"Inner exception: {ex.InnerException.Message} - {ex.InnerException.StackTrace}");
+
                     return false;
                 }
             }

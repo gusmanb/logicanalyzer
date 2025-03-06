@@ -7,15 +7,14 @@ using TerminalCapture.Classes;
 
 if(args.Length == 0)
 {
-    Application.Run<MainWindow>().Dispose();
-    Application.Shutdown();
+    await RunTerminalCapture(new TerminalOptions());
     return 0;
 }
 
 return await Parser.Default.ParseArguments<CaptureOptions, TerminalOptions>(args)
         .MapResult(
             (CaptureOptions opts) => Capture(opts),
-            (TerminalOptions opts) => RunTerminalCapture(),
+            (TerminalOptions opts) => RunTerminalCapture(opts),
             errs => Task.FromResult<int>(-1)
             );
 
@@ -81,9 +80,18 @@ static async Task<int> Capture(CaptureOptions opts)
     return 0;
 }
 
-static async Task<int> RunTerminalCapture()
+static async Task<int> RunTerminalCapture(TerminalOptions options)
 {
-    Application.Run<MainWindow>().Dispose();
-    Application.Shutdown();
-    return 0;
+    try
+    {
+        Terminal.Gui.Application.ForceDriver = options.Driver;
+        Application.Run<MainWindow>().Dispose();
+        Application.Shutdown();
+        return 0;
+    }
+    catch(Exception ex) 
+    {
+        Console.WriteLine($"Error running terminal capture: {ex.Message}");
+        return -1;
+    }
 }
