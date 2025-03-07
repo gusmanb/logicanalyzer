@@ -642,11 +642,11 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     pio_clear_instruction_memory(triggerPIO);
 
-    //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
+    //Configure MAX_CHANNELS + 2 IO's to be used by the PIO (MAX_CHANNELS channels + 2 trigger pins)
     pio_gpio_init(triggerPIO, COMPLEX_TRIGGER_OUT_PIN);
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure capture SM
@@ -656,7 +656,7 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     captureOffset = pio_add_program(capturePIO, &FAST_CAPTURE_program);
 
     //Modified for the W
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     //Configure state machines
@@ -668,8 +668,8 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Set clock to 2x required frequency
     sm_config_set_clkdiv(&smConfig, clockDiv);
 
-    //Autopush per 29 bits
-    sm_config_set_in_shift(&smConfig, false, true, 29);
+    //Autopush per dword
+    sm_config_set_in_shift(&smConfig, false, true, 0);
 
     //Configure fast trigger pin (COMPLEX_TRIGGER_IN_PIN) as JMP pin.
     sm_config_set_jmp_pin(&smConfig, COMPLEX_TRIGGER_IN_PIN);
@@ -809,11 +809,11 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     capturePIO = pio0;
     pio_clear_instruction_memory(capturePIO);
 
-    //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
+    //Configure MAX_CHANNELS + 2 IO's to be used by the PIO (MAX_CHANNELS channels + 2 trigger pins)
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_OUT_PIN);
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure capture SM
@@ -822,7 +822,7 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     pio_sm_restart(capturePIO, sm_Capture);
     captureOffset = pio_add_program(capturePIO, &COMPLEX_CAPTURE_program);
 
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     //Configure state machines
@@ -834,8 +834,8 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Set clock to 2x required frequency
     sm_config_set_clkdiv(&smConfig, clockDiv);
 
-    //Autopush per 29 bits
-    sm_config_set_in_shift(&smConfig, false, true, 29);
+    //Autopush per dword
+    sm_config_set_in_shift(&smConfig, false, true, 0);
 
     //Configure complex trigger pin (pin COMPLEX_TRIGGER_IN_PIN) as JMP pin.
     sm_config_set_jmp_pin(&smConfig, COMPLEX_TRIGGER_IN_PIN);
@@ -984,10 +984,10 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     captureOffset = pio_add_program(capturePIO, &BLAST_CAPTURE_program);
 
     //Configure capture pins
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
     
     //Configure trigger pin
@@ -1117,10 +1117,10 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     }
 
     //Configure capture pins
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure trigger pin
