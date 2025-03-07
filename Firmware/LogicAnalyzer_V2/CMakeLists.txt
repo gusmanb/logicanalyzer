@@ -112,8 +112,12 @@ if(BOARD_TYPE STREQUAL "BOARD_ZERO")
     message(STATUS "Configuring for Zero")
     add_compile_definitions(BUILD_ZERO)
 endif()
+if(BOARD_TYPE STREQUAL "BOARD_INTERCEPTOR")
+    message(STATUS "Configuring for Interceptor")
+    add_compile_definitions(BUILD_INTERCEPTOR)
+endif()
 
-# Add any user requested libraries
+# Add any user requested librariesUna pregu
 target_link_libraries(LogicAnalyzer
         pico_stdlib
         hardware_dma

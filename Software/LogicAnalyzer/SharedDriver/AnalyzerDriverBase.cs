@@ -162,7 +162,7 @@ namespace SharedDriver
             public byte trigger;
             public byte invertedOrCount;
             public UInt16 triggerValue;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 24)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
             public byte[] channels;
             public byte channelCount;
             public UInt32 frequency;

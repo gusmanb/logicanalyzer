@@ -58,6 +58,7 @@ static exception_handler_t oldSysTickHandler;
 //Pin mapping, used to map the channels to the PIO program
 //COMPLEX_TRIGGER_IN_PIN is added at the end of the array to support the chained mode
 //Add it at the end even if not used, you can repeat a pin in the array if needed
+/*
 #if defined (BUILD_PICO)
     const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
 #elif defined (BUILD_PICO_2)
@@ -68,7 +69,12 @@ static exception_handler_t oldSysTickHandler;
     const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};
 #elif defined (BUILD_ZERO)
     const uint8_t pinMap[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,26,27,28,29,22,23,24,25,COMPLEX_TRIGGER_IN_PIN};
+#elif defined (BUILD_INTERCEPTOR)
+    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,COMPLEX_TRIGGER_IN_PIN};
 #endif
+*/
+
+const uint8_t pinMap[] = PIN_MAP;
 
 //Main capture buffer, aligned at a dword boundary.
 static uint8_t captureBuffer[CAPTURE_BUFFER_SIZE] __attribute__((aligned(4)));

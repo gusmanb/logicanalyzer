@@ -4,7 +4,7 @@ param (
 )
 
 # Define board types and turbo mode options
-$boardTypes = @("BOARD_PICO", "BOARD_PICO_W", "BOARD_PICO_W_WIFI", "BOARD_ZERO", "BOARD_PICO_2")
+$boardTypes = @("BOARD_PICO", "BOARD_PICO_W", "BOARD_PICO_W_WIFI", "BOARD_ZERO", "BOARD_PICO_2", "BOARD_INTERCEPTOR")
 $turboModes = @("0", "1")
 
 # Path to the build settings file
@@ -12,9 +12,12 @@ $buildSettingsFile = "LogicAnalyzer_Build_Settings.cmake"
 
 # Paths from settings.json
 $cmakePath = "${env:USERPROFILE}/.pico-sdk/cmake/v3.28.6/bin/cmake"
-$ninjaPath = "${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1/ninja"
+$cmakeBinPath = "${env:USERPROFILE}/.pico-sdk/cmake/v3.28.6/bin/cmake"
+$ninjaPath = "${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1"
 $picoSdkPath = "${env:USERPROFILE}/.pico-sdk/sdk/2.0.0"
 $picoToolchainPath = "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1"
+$picoToolchainBinPath = "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1/bin"
+$picoToolPath = "${env:USERPROFILE}/.pico-sdk/picotool/2.0.0/picotool"
 
 # Function to update the build settings file
 function Update-BuildSettings {
@@ -40,6 +43,18 @@ if (-Not (Test-Path -Path $publishDir)) {
     Remove-Item -Recurse -Force "$publishDir\*"
 }
 
+# Set environment variables
+$env:PICO_SDK_PATH = $picoSdkPath
+$env:PICO_TOOLCHAIN_PATH = $picoToolchainPath
+
+# Add paths to $env:Path only if they are not already set
+$pathsToAdd = @($picoToolchainBinPath, $picoToolPath, $cmakeBinPath, $ninjaPath)
+foreach ($path in $pathsToAdd) {
+    if (-not ($path -in ($env:Path -split ";" | ForEach-Object { $_.Trim() }))) {
+        $env:Path = "$path;$env:Path"
+    }
+}
+
 # Loop through each board type and turbo mode combination
 foreach ($boardType in $boardTypes) {
     foreach ($turboMode in $turboModes) {
@@ -55,11 +70,6 @@ foreach ($boardType in $boardTypes) {
         Remove-Item -Recurse -Force "build"
         New-Item -ItemType Directory -Path "build"
         Set-Location -Path "build"
-
-        # Set environment variables
-        $env:PICO_SDK_PATH = $picoSdkPath
-        $env:PICO_TOOLCHAIN_PATH = $picoToolchainPath
-        $env:Path = "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.0.0/picotool;${env:USERPROFILE}/.pico-sdk/cmake/v3.28.6/bin;${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1;${env:Path}"
 
         # Run the CMake configuration command
         & $cmakePath -G "Ninja" ..

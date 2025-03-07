@@ -23,7 +23,7 @@
         //Trigger value of the pattern trigger
         uint16_t triggerValue;
         //Channels to capture
-        uint8_t channels[24];
+        uint8_t channels[32];
         //Channel count
         uint8_t channelCount;
         //Sampling frequency
