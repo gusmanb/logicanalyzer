@@ -168,7 +168,7 @@ namespace SharedDriver
             public UInt32 frequency;
             public UInt32 preSamples;
             public UInt32 postSamples;
-            public byte loopCount;
+            public ushort loopCount;
             public byte measure;
             public byte captureMode;
         }

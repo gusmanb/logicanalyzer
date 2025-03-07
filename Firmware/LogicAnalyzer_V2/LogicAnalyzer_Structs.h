@@ -33,7 +33,7 @@
         //Number of samples stored after the trigger
         uint32_t postSamples;
         //Number of capture loops
-        uint8_t loopCount;
+        uint16_t loopCount;
         //Measure burst times
         uint8_t measure;
         //Capture mode (0 = 8 channel, 1 = 16 channel, 2 = 24 channel)

@@ -458,6 +458,18 @@ namespace LogicAnalyzer.Dialogs
             int loops = (int)(((ckBurst.IsChecked ?? false) && (rbTriggerTypeEdge.IsChecked ?? false)) ? (nudBurstCount.Value ?? 1) - 1 : 0);
             bool measure = (ckBurst.IsChecked ?? false) && (ckMeasure.IsChecked ?? false);
 
+            if(measure && loops > 253)
+            {
+                await this.ShowError("Error", "Too many burst to measure, reduce the burst count to 254 or disable burst measurement.");
+                return;
+            }
+
+            if (measure && (int)(nudPostSamples.Value ?? 0) < 100)
+            {
+                await this.ShowError("Error", "Postsamples too low, disable burst measurement or increase it to 100");
+                return;
+            }
+
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
             {
                 await this.ShowError("Error", $"Total samples cannot exceed {max}.");

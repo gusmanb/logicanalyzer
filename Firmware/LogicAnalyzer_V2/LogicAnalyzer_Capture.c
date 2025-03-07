@@ -56,23 +56,6 @@ static exception_handler_t oldNMIHandler;
 static exception_handler_t oldSysTickHandler;
 
 //Pin mapping, used to map the channels to the PIO program
-//COMPLEX_TRIGGER_IN_PIN is added at the end of the array to support the chained mode
-//Add it at the end even if not used, you can repeat a pin in the array if needed
-/*
-#if defined (BUILD_PICO)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
-#elif defined (BUILD_PICO_2)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
-#elif defined (BUILD_PICO_W)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};
-#elif defined (BUILD_PICO_W_WIFI)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};
-#elif defined (BUILD_ZERO)
-    const uint8_t pinMap[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,26,27,28,29,22,23,24,25,COMPLEX_TRIGGER_IN_PIN};
-#elif defined (BUILD_INTERCEPTOR)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,COMPLEX_TRIGGER_IN_PIN};
-#endif
-*/
 
 const uint8_t pinMap[] = PIN_MAP;
 
@@ -1040,7 +1023,7 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     return true;
 }
 
-bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
+bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint16_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
 {
     int maxSamples;
 
@@ -1063,6 +1046,10 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
     //Frequency too high?
     if(freq > MAX_FREQ)
+        return false;
+
+    //Too many loops to be measured?
+    if(measureBursts && loopCount > 253)
         return false;
 
     //Incorrect pin count?

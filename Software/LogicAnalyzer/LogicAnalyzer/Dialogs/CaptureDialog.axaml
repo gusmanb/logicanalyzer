@@ -94,7 +94,7 @@
               <CheckBox Name="ckBlast" Margin="20,0,0,10"  VerticalAlignment="Center">Blast mode</CheckBox>
               <CheckBox Name="ckBurst" Margin="20,0,0,10"  VerticalAlignment="Center">Burst mode</CheckBox>
               <TextBlock Margin="20,0,0,10" VerticalAlignment="Center">Burst count:</TextBlock>
-              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="254" Value="2" Name="nudBurstCount" FormatString="#"></NumericUpDown>
+              <NumericUpDown IsEnabled="{Binding #ckBurst.IsChecked}" Width="135" Margin="10,0,0,10" Height="35" Minimum="2" Maximum="65534" Value="2" Name="nudBurstCount" FormatString="#"></NumericUpDown>
               <CheckBox IsEnabled="{Binding #ckBurst.IsChecked}" Name="ckMeasure" Margin="20,0,0,10">Measure delays</CheckBox>
             </StackPanel>
           </StackPanel>

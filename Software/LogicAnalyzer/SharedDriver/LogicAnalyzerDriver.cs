@@ -280,7 +280,7 @@ namespace SharedDriver
                 if (Session.CaptureChannels == null || Session.CaptureChannels.Length < 0)
                     return CaptureError.BadParams;
 
-                int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((byte)Session.LoopCount + 1));
+                int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((ushort)Session.LoopCount + 1));
 
                 if (!ValidateSettings(Session, requestedSamples))
                     return CaptureError.BadParams;
@@ -379,6 +379,9 @@ namespace SharedDriver
                 //by the device, so we need to adjust the timestamps to be more accurate
                 if (timestamps.Length > 0)
                 {
+
+                    double tickLength = 1000000000.0 / blastFrequency;
+
                     //First we invert the lower part of the timestamps as systick counts in decreasing order
                     for (int buc = 0; buc < timestamps.Length; buc++)
                     {
@@ -390,12 +393,12 @@ namespace SharedDriver
 
                     //Next we calculate the ns per sample and the ns per burst
                     double nsPerSample = 1000000000.0 / Session.Frequency;
-                    double ticksPerSample = nsPerSample / 5;
+                    double ticksPerSample = nsPerSample / tickLength;
                     double nsPerBurst = nsPerSample * Session.PostTriggerSamples;
 
                     //We calculate the ticks per burst, as we know the device's CPU runs at 200Mhz we know that each
                     //tick is 5ns, so we can determine how many ticks happen per burst
-                    double ticksPerBurst = nsPerBurst / 5;
+                    double ticksPerBurst = nsPerBurst / tickLength;
 
                     for (int buc = 1; buc < timestamps.Length; buc++)
                     {
@@ -423,7 +426,7 @@ namespace SharedDriver
                     {
                         //In case of rollback, we need to adjust the timestamps
                         ulong top = timestamps[buc] < timestamps[buc - 1] ? timestamps[buc] + 0xFFFFFFFF : timestamps[buc];
-                        delays[buc - 2] = (UInt64)((top - timestamps[buc - 1]) - ticksPerBurst) * 5;
+                        delays[buc - 2] = (UInt64)(((top - timestamps[buc - 1]) - ticksPerBurst) * tickLength);
                         Debug.WriteLine(delays[buc - 2]);
                     }
 
@@ -522,7 +525,7 @@ namespace SharedDriver
                     frequency = (uint)session.Frequency,
                     preSamples = (uint)session.PreTriggerSamples,
                     postSamples = (uint)session.PostTriggerSamples,
-                    loopCount = (byte)session.LoopCount,
+                    loopCount = (ushort)session.LoopCount,
                     measure = session.MeasureBursts ? (byte)1 : (byte)0,
                     captureMode = (byte)mode
                 };
@@ -579,7 +582,9 @@ namespace SharedDriver
                     requestedSamples > captureLimits.MaxTotalSamples ||
                     session.Frequency < MinFrequency ||
                     session.Frequency > MaxFrequency ||
-                        session.LoopCount > 254
+                    (session.MeasureBursts && session.LoopCount > 254) ||
+                    (session.MeasureBursts && session.PostTriggerSamples < 100) ||
+                    session.LoopCount > 65534
                     )
                     return false;
             }
