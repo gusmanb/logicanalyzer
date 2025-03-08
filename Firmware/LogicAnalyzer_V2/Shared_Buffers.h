@@ -6,7 +6,12 @@
         #include "Event_Machine.h"
         #include "hardware/flash.h"
 
-        #define FLASH_SETTINGS_OFFSET ((2048 * 1024) - FLASH_SECTOR_SIZE)
+        #if defined (CORE_TYPE_2)
+            #define FLASH_SETTINGS_OFFSET ((4096 * 1024) - FLASH_SECTOR_SIZE)
+        #else
+            #define FLASH_SETTINGS_OFFSET ((2048 * 1024) - FLASH_SECTOR_SIZE)
+        #endif
+
         #define FLASH_SETTINGS_ADDRESS (XIP_BASE + FLASH_SETTINGS_OFFSET)
 
         volatile extern WIFI_SETTINGS wifiSettings;

@@ -4,20 +4,20 @@ param (
 )
 
 # Define board types and turbo mode options
-$boardTypes = @("BOARD_PICO", "BOARD_PICO_W", "BOARD_PICO_W_WIFI", "BOARD_ZERO", "BOARD_PICO_2", "BOARD_INTERCEPTOR")
+$boardTypes = @("BOARD_PICO", "BOARD_PICO_W", "BOARD_PICO_W_WIFI", "BOARD_ZERO", "BOARD_PICO_2", "BOARD_PICO_2_W", "BOARD_PICO_2_W_WIFI", "BOARD_INTERCEPTOR")
 $turboModes = @("0", "1")
 
 # Path to the build settings file
 $buildSettingsFile = "LogicAnalyzer_Build_Settings.cmake"
 
 # Paths from settings.json
-$cmakePath = "${env:USERPROFILE}/.pico-sdk/cmake/v3.28.6/bin/cmake"
-$cmakeBinPath = "${env:USERPROFILE}/.pico-sdk/cmake/v3.28.6/bin/cmake"
+$cmakePath = "${env:USERPROFILE}/.pico-sdk/cmake/v3.31.5/bin/cmake"
+$cmakeBinPath = "${env:USERPROFILE}/.pico-sdk/cmake/v3.31.5/bin/cmake"
 $ninjaPath = "${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1"
-$picoSdkPath = "${env:USERPROFILE}/.pico-sdk/sdk/2.0.0"
-$picoToolchainPath = "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1"
-$picoToolchainBinPath = "${env:USERPROFILE}/.pico-sdk/toolchain/13_2_Rel1/bin"
-$picoToolPath = "${env:USERPROFILE}/.pico-sdk/picotool/2.0.0/picotool"
+$picoSdkPath = "${env:USERPROFILE}/.pico-sdk/sdk/2.1.1"
+$picoToolchainPath = "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1"
+$picoToolchainBinPath = "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1/bin"
+$picoToolPath = "${env:USERPROFILE}/.pico-sdk/picotool/2.1.1/picotool"
 
 # Function to update the build settings file
 function Update-BuildSettings {

@@ -460,7 +460,6 @@ namespace SharedDriver
                     //timestamps = delays;
                 }
 
-
                 Session.Bursts = bursts.ToArray();
 
                 for (int buc = 0; buc < Session.CaptureChannels.Length; buc++)
@@ -700,33 +699,38 @@ namespace SharedDriver
         #region Network-related functions
         public override unsafe bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port)
         {
-            if (isNetwork || baseStream == null || readResponse == null)
+            try
+            {
+                if (isNetwork || baseStream == null || readResponse == null)
+                    return false;
+
+                NetConfig request = new NetConfig { Port = Port };
+                byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
+                byte[] pass = Encoding.ASCII.GetBytes(Password);
+                byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
+
+                Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
+                Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
+                Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
+
+                OutputPacket pack = new OutputPacket();
+                pack.AddByte(2);
+                pack.AddStruct(request);
+
+                baseStream.Write(pack.Serialize());
+                baseStream.Flush();
+
+                baseStream.ReadTimeout = 5000;
+                var result = readResponse.ReadLine();
+                baseStream.ReadTimeout = Timeout.Infinite;
+
+                if (result == "SETTINGS_SAVED")
+                    return true;
+
                 return false;
-
-            NetConfig request = new NetConfig { Port = Port };
-            byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
-            byte[] pass = Encoding.ASCII.GetBytes(Password);
-            byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
-
-            Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
-            Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
-            Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
-
-            OutputPacket pack = new OutputPacket();
-            pack.AddByte(2);
-            pack.AddStruct(request);
-
-            baseStream.Write(pack.Serialize());
-            baseStream.Flush();
-
-            baseStream.ReadTimeout = 5000;
-            var result = readResponse.ReadLine();
-            baseStream.ReadTimeout = Timeout.Infinite;
-
-            if (result == "SETTINGS_SAVED")
-                return true;
-
-            return false;
+            }
+            catch
+            { return false; }
         }
         public override string? GetVoltageStatus()
         {

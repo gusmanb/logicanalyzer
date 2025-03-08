@@ -12,6 +12,10 @@
 #include "hardware/structs/bus_ctrl.h"
 #include "LogicAnalyzer.pio.h"
 
+#if defined(CORE_TYPE_2)
+#include <RP2350.h>
+#endif
+
 //Static variables for the PIO programs
 static PIO capturePIO;
 static PIO triggerPIO;
@@ -391,7 +395,7 @@ void simple_capture_completed()
 
     if(timestampIndex)
     {
-#if defined(BUILD_PICO_2)
+#if defined(CORE_TYPE_2)
         EPPB->NMI_MASK0 = 0;
 #else
         syscfg_hw->proc0_nmi_mask = 0;
@@ -1159,7 +1163,7 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
         //syscfg_hw->proc0_nmi_mask = 1 << PIO0_IRQ_1;
         
-#if defined(BUILD_PICO_2)
+#if defined(CORE_TYPE_2)
         EPPB->NMI_MASK0 = 1 << PIO0_IRQ_1;
 #else
         syscfg_hw->proc0_nmi_mask = 1 << PIO0_IRQ_1;

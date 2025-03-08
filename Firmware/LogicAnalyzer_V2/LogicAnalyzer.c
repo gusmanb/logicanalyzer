@@ -315,6 +315,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
 
                         wReq = (WIFI_SETTINGS_REQUEST*)&messageBuffer[3];
                         WIFI_SETTINGS settings;
+                        settings.checksum = 0;
                         memcpy(settings.apName, wReq->apName, 33);
                         memcpy(settings.passwd, wReq->passwd, 64);
                         memcpy(settings.ipAddress, wReq->ipAddress, 16);
@@ -586,9 +587,9 @@ int main()
     //Initialize USB stdio
     stdio_init_all();
 
-    #if defined (BUILD_PICO_W)
+    #if defined (BUILD_PICO_W) || defined (BUILD_PICO_2_W)
         cyw43_arch_init();
-    #elif defined (BUILD_PICO_W_WIFI)
+    #elif defined (BUILD_PICO_W_WIFI) || defined (BUILD_PICO_2_W_WIFI)
         event_machine_init(&wifiToFrontend, wifiEvent, sizeof(EVENT_FROM_WIFI), 8);
             multicore_launch_core1(runWiFiCore);
             while(!cywReady)
@@ -625,12 +626,13 @@ int main()
                 uint8_t* lengthPointer = (uint8_t*)&length;
 
                 //Send capture length
-                sleep_ms(100);
+                
 
                 #ifdef USE_CYGW_WIFI
 
                     if(usbDisabled)
                     {
+                        sleep_ms(2000);
                         EVENT_FROM_FRONTEND evt;
                         evt.event = SEND_DATA;
                         evt.dataLength = 4;
@@ -638,9 +640,13 @@ int main()
                         event_push(&frontendToWifi, &evt);
                     }
                     else
+                    {
+                        sleep_ms(100);
                         cdc_transfer(lengthPointer, 4);
+                    }
 
                 #else
+                    sleep_ms(100);
                     cdc_transfer(lengthPointer, 4);
                 #endif
 
