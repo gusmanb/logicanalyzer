@@ -14,7 +14,7 @@
     <Image Source="/Assets/Logo.png" Margin="20" Height="420" Width="420"></Image>
     <StackPanel Spacing="10" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10,20,20,30">
       <TextBlock TextWrapping="Wrap">©2024 Agustín Giménez Bernad</TextBlock>
-      <TextBlock TextWrapping="Wrap" Name="txtVersion">Version 6.0preview</TextBlock>
+      <TextBlock TextWrapping="Wrap" Name="txtVersion">Version 6.5</TextBlock>
       <HyperlinkButton Margin="0" HorizontalAlignment="Left" Name="lnkWebSite">Visit project website</HyperlinkButton>
       <Button Name="btnLicense" Margin="0,0,10,0">License</Button>
     </StackPanel>
