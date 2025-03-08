@@ -12,6 +12,8 @@ using LogicAnalyzer.Controls;
 using LogicAnalyzer.Dialogs;
 using LogicAnalyzer.Extensions;
 using LogicAnalyzer.Interfaces;
+using LogicAnalyzer.SigrokDecoderBridge;
+using MsBox.Avalonia;
 using Newtonsoft.Json;
 using SharedDriver;
 using SigrokDecoderBridge;
@@ -57,6 +59,8 @@ namespace LogicAnalyzer
 
         List<KnownDevice> knownDevices = new List<KnownDevice>();
         KnownDevice? currentKnownDevice = null;
+
+        ProfilesSet? profiles;
 
         public MainWindow()
         {
@@ -151,6 +155,8 @@ namespace LogicAnalyzer
              Task.Run(() => LoadKnownDevices());
 
             RefreshPorts();
+            LoadProfiles();
+
             try
             {
                 decoderProvider = new SigrokProvider();
@@ -160,6 +166,147 @@ namespace LogicAnalyzer
             catch
             {
                 _ = this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
+            }
+        }
+
+        private void LoadProfiles()
+        {
+            mnuProfiles.Items.Clear();
+
+            var addProfile = new MenuItem { Header = "Add profile" };
+            addProfile.Click += AddProfile_Click;
+            mnuProfiles.Items.Add(addProfile);
+            mnuProfiles.Items.Add(new Separator());
+
+            profiles = AppSettingsManager.GetSettings<ProfilesSet>("profiles.json");
+
+            if (profiles != null)
+            {
+                foreach(var profile in profiles.Profiles)
+                {
+                    var mnuProfile = new MenuItem { Header = profile.Name };
+                    mnuProfiles.Items.Add(mnuProfile);
+
+                    var mnuLoad = new MenuItem { Header = "Load profile" };
+                    mnuLoad.Tag = profile;
+                    mnuLoad.Click += MnuLoad_Click;
+                    mnuProfile.Items.Add(mnuLoad);
+
+                    var mnuDelete = new MenuItem { Header = "Delete profile" };
+                    mnuDelete.Tag = profile;
+                    mnuDelete.Click += MnuDelete_Click;
+                    mnuProfile.Items.Add(mnuDelete);
+                }
+
+            }
+        }
+
+        private void SaveProfiles()
+        {
+            AppSettingsManager.PersistSettings("profiles.json", profiles ?? new ProfilesSet());
+        }
+
+        private async void MnuDelete_Click(object? sender, RoutedEventArgs e)
+        {
+
+            var profile = (sender as MenuItem)?.Tag as Profile;
+
+            if (profile == null)
+                return;
+
+            if (await this.ShowConfirm("Delete profile", $"Are you sure you want to delete the profile \"{profile.Name}\"?"))
+            {
+                profiles?.Profiles.Remove(profile);
+                SaveProfiles();
+                LoadProfiles();
+            }
+        }
+
+        private async void MnuLoad_Click(object? sender, RoutedEventArgs e)
+        {
+            var mnu = sender as MenuItem;
+
+            if (mnu == null)
+                return;
+
+            var profile = mnu.Tag as Profile;
+
+            if (profile == null)
+                return;
+
+            if (driver != null && driver.IsCapturing)
+            {
+                if (! await this.ShowConfirm("Load profile", "There is a capture in progress. Do you want to stop it and load the profile?"))
+                    return;
+
+                driver.StopCapture();
+            }
+
+            session = profile.CaptureSettings ?? new CaptureSession();
+            updateChannels(true);
+            mnuSave.IsEnabled = false;
+            mnuExport.IsEnabled = false;
+            clearRegions();
+            updateSamplesInDisplay(Math.Max(session.PreTriggerSamples - 10, 0), (int)tkInScreen.Value);
+            LoadInfo();
+
+            if (driver != null)
+            {
+                var settingsFile = $"cpSettings{driver.DriverType}.json";
+                var settings = session.Clone();
+
+                foreach (var channel in settings.CaptureChannels)
+                    channel.Samples = null;
+
+                AppSettingsManager.PersistSettings(settingsFile, settings);
+            }
+
+            sgManager.DecodingTree = profile.DecoderConfiguration ?? new SerializableDecodingTree();
+        }
+
+        private async void AddProfile_Click(object? sender, RoutedEventArgs e)
+        {
+            var dlg = MessageBoxManager.GetMessageBoxCustom(new MsBox.Avalonia.Dto.MessageBoxCustomParams 
+            {
+                ButtonDefinitions = new List<MsBox.Avalonia.Models.ButtonDefinition>
+                {
+                    new MsBox.Avalonia.Models.ButtonDefinition { Name = "Cancel", IsCancel = true, IsDefault = false },
+                    new MsBox.Avalonia.Models.ButtonDefinition { Name = "Save", IsCancel = false, IsDefault = true }
+                },
+                InputParams = new MsBox.Avalonia.Dto.InputParams 
+                { 
+                    Label = "New profile name:", Multiline = false 
+                },
+                Icon = MsBox.Avalonia.Enums.Icon.Setting,
+                ContentTitle = "Add profile",
+                ContentMessage = "Enter the name for the new profile.",
+                Width = 400,
+                ShowInCenter = true,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            });
+
+            var result = await dlg.ShowWindowDialogAsync(this);
+
+            if(result == "Save")
+            {
+                var profileName = dlg.InputValue;
+
+                if (string.IsNullOrWhiteSpace(profileName))
+                    return;
+
+                if (profiles == null)
+                    profiles = new ProfilesSet();
+
+                var profile = new Profile
+                {
+                    Name = profileName,
+                    CaptureSettings = session?.CloneSettings(),
+                    DecoderConfiguration = sgManager.DecodingTree
+                };
+
+                profiles.Profiles.Add(profile);
+                SaveProfiles();
+                LoadProfiles();
             }
         }
 
@@ -1024,7 +1171,7 @@ namespace LogicAnalyzer
                 mnuSettings.IsEnabled = driver?.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
 
                 scrSamplePos.Maximum = session.TotalSamples - 1;
-                updateSamplesInDisplay(session.PreTriggerSamples - 2, Math.Max(session.PreTriggerSamples - 10, 0));
+                updateSamplesInDisplay(session.PreTriggerSamples - 2, (int)tkInScreen.Value);
 
                 LoadInfo();
                 GetPowerStatus();
@@ -1434,12 +1581,6 @@ namespace LogicAnalyzer
 
         }
 
-        private void btnJmpTrigger_Click(object? sender, RoutedEventArgs e)
-        {
-            if (session?.CaptureChannels != null && session != null)
-                updateSamplesInDisplay((int)Math.Max(session.PreTriggerSamples - (tkInScreen.Value / 10), 0), (int)tkInScreen.Value);
-        }
-
         private async void mnuSave_Click(object? sender, RoutedEventArgs e)
         {
             try
@@ -1512,7 +1653,7 @@ namespace LogicAnalyzer
 
                     scrSamplePos.Maximum = session.TotalSamples - 1;
 
-                    updateSamplesInDisplay(Math.Max(session.PreTriggerSamples - 10, 0), Math.Min(100, session.TotalSamples / 10));
+                    updateSamplesInDisplay(Math.Max(session.PreTriggerSamples - 10, 0), (int)tkInScreen.Value);
 
                     LoadInfo();
                 }
@@ -1603,14 +1744,14 @@ namespace LogicAnalyzer
                 display.UpdateVisibleSamples((int)scrSamplePos.Value, (int)tkInScreen.Value);
         }
 
-        private void updateChannels()
+        private void updateChannels(bool ignoreSamples = false)
         {
             sampleViewer.BeginUpdate();
             sampleViewer.PreSamples = session.PreTriggerSamples;
             sampleViewer.SetChannels(session.CaptureChannels, session.Frequency);
             sampleViewer.EndUpdate();
 
-            samplePreviewer.UpdateSamples(session.CaptureChannels, session.TotalSamples);
+            samplePreviewer.UpdateSamples(session.CaptureChannels, ignoreSamples ? 0 : session.TotalSamples);
             samplePreviewer.ViewPosition = sampleViewer.FirstSample;
 
             channelViewer.Channels = session.CaptureChannels;

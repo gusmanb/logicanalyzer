@@ -10,7 +10,7 @@
         Background="#383838" MinWidth="800" MinHeight="600" Width="800" Height="600" WindowStartupLocation="CenterScreen">
   <DockPanel VerticalAlignment="Stretch">
     <Menu DockPanel.Dock="Top" Background="#f0202020">
-        <MenuItem Header="_File">
+      <MenuItem Header="_File">
           <MenuItem Header="_New..." Name="mnuNew"/>
           <MenuItem Header="_Open..." Name="mnuOpen"/>
           <MenuItem Header="_Save..." Name="mnuSave" IsEnabled="False"/>
@@ -20,6 +20,8 @@
         </MenuItem>
       <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
         <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
+      </MenuItem>
+      <MenuItem Header="Profiles" Name="mnuProfiles">
       </MenuItem>
       <MenuItem Header="Help">
         <MenuItem Header="Online documentation" Name="mnuDocs" />
@@ -76,8 +78,8 @@
           <controls:SampleViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="sampleViewer" Grid.Column="1"></controls:SampleViewer>
         </Grid>
       </ScrollViewer>
-      <Grid Grid.Column="1" RowDefinitions="*,258" Background="#ff202020" Grid.RowSpan="2">
-        <controls:SigrokDecoderManager Name="sgManager" Background="#80383838" Margin="5"></controls:SigrokDecoderManager>
+      <Grid Grid.Column="1" RowDefinitions="*,Auto" Background="#ff202020" Grid.RowSpan="2">
+        <controls:SigrokDecoderManager Name="sgManager" Background="#80383838" Margin="5,5,5,0"></controls:SigrokDecoderManager>
         <StackPanel Margin="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#ff202020">
           <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,4*,*" HorizontalAlignment="Stretch" Margin="5,5,5,0" Background="#80383838">
             <TextBlock Grid.Row="1" Margin="10,5,0,0" Name="lblMinSamples">
@@ -90,7 +92,7 @@
               10000
             </TextBlock>
             <Border Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,0" >
-              <Slider Margin="0,-10,0,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="10000" Value="200" Name="tkInScreen"></Slider>
+              <Slider Margin="0,-10,0,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="10000" Value="1024" Name="tkInScreen"></Slider>
             </Border>
           </Grid>
           <StackPanel Margin="5,5,5,0" Background="#80383838">

@@ -130,7 +130,7 @@ namespace LogicAnalyzer.Dialogs
             driver = Driver;
             InitializeControlArrays(driver.ChannelCount);
             InitializeParameters();
-            LoadSettings(driver.DriverType);
+            LoadSettings(driver);
             CheckMode();
             SetDriverMode(driver.DriverType);
             InitializeTooltips();
@@ -343,16 +343,18 @@ namespace LogicAnalyzer.Dialogs
             
         }
 
-        private void LoadSettings(AnalyzerDriverType DriverType)
+        private void LoadSettings(AnalyzerDriverBase Driver)
         {
-            settingsFile = $"cpSettings{DriverType}.json";
+            var driverType = Driver.DriverType;
+
+            settingsFile = $"cpSettings{driverType}.json";
             CaptureSession? settings = AppSettingsManager.GetSettings<CaptureSession>(settingsFile);
 
             if (settings != null)
             {
                 foreach (var channel in settings.CaptureChannels)
                 {
-                    if (channel.ChannelNumber >= captureChannels.Length)
+                    if (channel.ChannelNumber >= captureChannels.Length || channel.ChannelNumber > Driver.ChannelCount)
                         continue;
 
                     captureChannels[channel.ChannelNumber].Enabled = true;
@@ -373,7 +375,7 @@ namespace LogicAnalyzer.Dialogs
                     ckBlast.IsChecked = false;
                 }
 
-                if (DriverType != AnalyzerDriverType.Emulated)
+                if (driverType != AnalyzerDriverType.Emulated)
                 {
                     switch (settings.TriggerType)
                     {
