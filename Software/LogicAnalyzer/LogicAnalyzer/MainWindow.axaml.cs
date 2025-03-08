@@ -126,6 +126,12 @@ namespace LogicAnalyzer
 
             this.Closed += (o, e) => 
             {
+                if (driver != null && driver.IsCapturing)
+                {
+                    driver.StopCapture();
+                    driver.Dispose();
+                }
+
                 if(decoderProvider != null)
                     decoderProvider.Dispose();
             };
@@ -1067,13 +1073,6 @@ namespace LogicAnalyzer
                             break;
 
                     }
-
-                    if (driver != null)
-                    {
-                        driver.CaptureCompleted += Driver_CaptureCompleted;
-                        lblBootloader.IsVisible = true;
-                        lblInfo.IsVisible = true;
-                    }
                 }
                 catch(Exception ex)
                 {
@@ -1089,6 +1088,8 @@ namespace LogicAnalyzer
                     btnOpenClose.Content = "Close device";
                     btnCapture.IsEnabled = true;
                     btnRepeat.IsEnabled = true;
+                    lblBootloader.IsVisible = true;
+                    lblInfo.IsVisible = true;
                     mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
                     tmrPower.Change(30000, Timeout.Infinite);
                     driver.CaptureCompleted += Driver_CaptureCompleted;
@@ -1312,7 +1313,7 @@ namespace LogicAnalyzer
 
             ddPorts.ItemsSource = null;
             ddPorts.ItemsSource = portItems.ToArray();
-
+            ddPorts.SelectedIndex = 0;
             
         }
 

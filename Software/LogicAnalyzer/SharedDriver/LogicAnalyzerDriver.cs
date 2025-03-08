@@ -494,6 +494,8 @@ namespace SharedDriver
                 if (!capturing)
                     return;
 
+                capturing = false;
+
                 if (CaptureCompletedHandler != null)
                     CaptureCompletedHandler(new CaptureEventArgs { Success = false, Session = Session });
                 else if (CaptureCompleted != null)
@@ -785,6 +787,10 @@ namespace SharedDriver
         #region IDisposable implementation
         public override void Dispose()
         {
+
+            if (IsCapturing)
+                StopCapture();
+
             try
             {
                 sp.Close();
