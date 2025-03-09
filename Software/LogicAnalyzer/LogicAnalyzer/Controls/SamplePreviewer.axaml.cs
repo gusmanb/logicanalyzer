@@ -25,7 +25,7 @@ namespace LogicAnalyzer.Controls
         public event EventHandler<PinnedEventArgs>? PinnedChanged;
 
         bool pinned = false;
-        public bool Pinned { get { return pinned; } }
+        public bool Pinned { get { return pinned; } set { pinned = value; if (PinnedChanged != null) PinnedChanged(this, new PinnedEventArgs { Pinned = pinned }); } }
 
         public SamplePreviewer()
         {

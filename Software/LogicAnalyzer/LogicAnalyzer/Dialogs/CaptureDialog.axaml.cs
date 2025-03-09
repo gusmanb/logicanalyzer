@@ -220,7 +220,7 @@ namespace LogicAnalyzer.Dialogs
 
             Button btnSelAll = new Button { FontFamily = font, Content = "", FontSize = 16 };
             btnSelAll.SetValue(Grid.RowProperty, 0);
-            btnSelAll.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = true; };
+            btnSelAll.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8 && c.IsEnabled)) ch.Enabled = true; };
             btnSelAll.Margin = new Thickness(0, 0, 0, 0);
             btnSelAll.Padding = new Thickness(0, 0, 0, 0);
             btnSelAll.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
@@ -230,7 +230,7 @@ namespace LogicAnalyzer.Dialogs
 
             Button btnSelNone = new Button { FontFamily = font, Content = "", FontSize = 16 };
             btnSelNone.SetValue(Grid.RowProperty, 1);
-            btnSelNone.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = false; };
+            btnSelNone.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8 && c.IsEnabled)) ch.Enabled = false; };
             btnSelNone.Margin = new Thickness(0, 0, 0, 0);
             btnSelNone.Padding = new Thickness(5, 0, 5, 0);
             btnSelNone.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
@@ -240,7 +240,7 @@ namespace LogicAnalyzer.Dialogs
 
             Button btnSelInv = new Button { FontFamily = font, Content = "", FontSize = 16 };
             btnSelInv.SetValue(Grid.RowProperty, 2);
-            btnSelInv.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = !ch.Enabled; };
+            btnSelInv.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8 && c.IsEnabled)) ch.Enabled = !ch.Enabled; };
             btnSelInv.Margin = new Thickness(0, 0, 0, 0);
             btnSelInv.Padding = new Thickness(0, 0, 0, 0);
             btnSelInv.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;

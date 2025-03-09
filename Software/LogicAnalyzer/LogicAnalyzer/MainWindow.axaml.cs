@@ -62,6 +62,16 @@ namespace LogicAnalyzer
 
         ProfilesSet? profiles;
 
+        public bool PreviewPinned { get { return samplePreviewer.Pinned; } set { samplePreviewer.Pinned = value; } }
+
+        protected override string[]? PersistProperties
+        {
+            get
+            {
+                return ["PreviewPinned"];
+            }
+        }
+
         public MainWindow()
         {
             Instance = this;
@@ -473,6 +483,12 @@ namespace LogicAnalyzer
                 tmrHideSamples.Change(Timeout.Infinite, Timeout.Infinite);
                 samplePreviewer.IsVisible = true;
                 grdContent.Margin = new Thickness(0, 0, 0, samplePreviewer.Bounds.Height);
+
+                if (samplePreviewer.Bounds.Height == 0)
+                {
+                    grdContent.Margin = new Thickness(0, 0, 0, samplePreviewer.Height);
+                }
+
             }
             else
             {
