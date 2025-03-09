@@ -224,6 +224,13 @@ namespace LogicAnalyzer
 
         private async void MnuLoad_Click(object? sender, RoutedEventArgs e)
         {
+
+            if (driver == null)
+            {
+                await this.ShowError("Load profile", "No device connected, cannot load profile.");
+                return; 
+            }
+
             var mnu = sender as MenuItem;
 
             if (mnu == null)
@@ -234,7 +241,7 @@ namespace LogicAnalyzer
             if (profile == null)
                 return;
 
-            if (driver != null && driver.IsCapturing)
+            if (driver.IsCapturing)
             {
                 if (! await this.ShowConfirm("Load profile", "There is a capture in progress. Do you want to stop it and load the profile?"))
                     return;
@@ -250,16 +257,13 @@ namespace LogicAnalyzer
             updateSamplesInDisplay(Math.Max(session.PreTriggerSamples - 10, 0), (int)tkInScreen.Value);
             LoadInfo();
 
-            if (driver != null)
-            {
-                var settingsFile = $"cpSettings{driver.DriverType}.json";
-                var settings = session.Clone();
+            var settingsFile = $"cpSettings{driver.DriverType}.json";
+            var settings = session.Clone();
 
-                foreach (var channel in settings.CaptureChannels)
-                    channel.Samples = null;
+            foreach (var channel in settings.CaptureChannels)
+                channel.Samples = null;
 
-                AppSettingsManager.PersistSettings(settingsFile, settings);
-            }
+            AppSettingsManager.PersistSettings(settingsFile, settings);
 
             sgManager.DecodingTree = profile.DecoderConfiguration ?? new SerializableDecodingTree();
         }

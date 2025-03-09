@@ -56,7 +56,21 @@ namespace LogicAnalyzer.Dialogs
             rbTriggerTypeEdge.IsCheckedChanged += rbTriggerTypeEdge_CheckedChanged;
             nudFrequency.ValueChanged += NudFrequency_ValueChanged;
             ckBlast.IsCheckedChanged += ckBlast_CheckedChanged;
-            
+            nudBurstCount.ValueChanged += NudBurstCount_ValueChanged;
+        }
+
+        private void NudBurstCount_ValueChanged(object? sender, NumericUpDownValueChangedEventArgs e)
+        {
+            if (nudBurstCount.Value > 254)
+            {
+                ckMeasure.IsChecked = false;
+                ckMeasure.IsEnabled = false;
+            }
+            else
+            {
+                if(rbTriggerTypeEdge.IsChecked == true)
+                    ckMeasure.IsEnabled = true;
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -172,10 +186,6 @@ namespace LogicAnalyzer.Dialogs
         {
             if (DriverType == AnalyzerDriverType.Multi)
             {
-                //pnlAllTriggers.Children.Remove(pnlPatternTrigger);
-                //pnlSingleTrigger.Children.Add(pnlPatternTrigger);
-                //pnlAllTriggers.IsVisible = false;
-                //pnlSingleTrigger.IsVisible = true;
                 grdMainContainer.RowDefinitions = new RowDefinitions("3.7*,*");
                 rbTriggerTypeEdge.IsVisible = false;
                 pnlEdge.IsVisible = false;
@@ -197,7 +207,7 @@ namespace LogicAnalyzer.Dialogs
             this.FixStartupPosition();
         }
 
-        private StackPanel CreateChannelRow(int FirstChannel, List<ChannelSelector> Selectors)
+        private StackPanel CreateChannelRow(int FirstChannel, List<ChannelSelector> Selectors, int TotalChannels)
         {
             StackPanel panel = new StackPanel();
             panel.Orientation = Avalonia.Layout.Orientation.Horizontal;
@@ -263,6 +273,9 @@ namespace LogicAnalyzer.Dialogs
                 channel.Deselected += Channel_Deselected;
                 channel.ChangeColor += Channel_ChangeColor;
                 Selectors.Add(channel);
+
+                if(FirstChannel + buc >= TotalChannels)
+                    channel.IsEnabled = false;
             }
 
             return panel;
@@ -273,7 +286,7 @@ namespace LogicAnalyzer.Dialogs
             List<ChannelSelector> channels = new List<ChannelSelector>();
 
             for (int firstChan = 0; firstChan < ChannelCount; firstChan += 8)
-                pnlChannels.Children.Add(CreateChannelRow(firstChan, channels));
+                pnlChannels.Children.Add(CreateChannelRow(firstChan, channels, ChannelCount));
 
             int maxTrigger = Math.Min(24, ChannelCount);
 
