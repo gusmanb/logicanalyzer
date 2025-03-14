@@ -12,27 +12,27 @@
   <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
       <TextBlock VerticalAlignment="Center" Margin="0,0,37,0">Master:</TextBlock>
-      <ComboBox Width="100" Name="ddMaster"></ComboBox>
+      <ComboBox Width="269" Name="ddMaster"></ComboBox>
       <TextBlock Name="tbMaster" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
     </StackPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
       <CheckBox Name="ckSlave1" Margin="0,0,10,0">Slave 1:</CheckBox>
-      <ComboBox Width="100" Name="ddSlave1" IsEnabled="False"></ComboBox>
+      <ComboBox Width="269" Name="ddSlave1" IsEnabled="False"></ComboBox>
       <TextBlock Name="tbSlave1" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
     </StackPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
       <CheckBox Name="ckSlave2" Margin="0,0,10,0">Slave 2:</CheckBox>
-      <ComboBox Width="100" Name="ddSlave2" IsEnabled="False"></ComboBox>
+      <ComboBox Width="269" Name="ddSlave2" IsEnabled="False"></ComboBox>
       <TextBlock Name="tbSlave2" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
     </StackPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
       <CheckBox Name="ckSlave3" Margin="0,0,10,0">Slave 3:</CheckBox>
-      <ComboBox Width="100" Name="ddSlave3" IsEnabled="False"></ComboBox>
+      <ComboBox Width="269" Name="ddSlave3" IsEnabled="False"></ComboBox>
       <TextBlock Name="tbSlave3" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
     </StackPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10">
       <CheckBox Name="ckSlave4" Margin="0,0,10,0">Slave 4:</CheckBox>
-      <ComboBox Width="100" Name="ddSlave4" IsEnabled="False"></ComboBox>
+      <ComboBox Width="269" Name="ddSlave4" IsEnabled="False"></ComboBox>
       <TextBlock Name="tbSlave4" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
     </StackPanel>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
