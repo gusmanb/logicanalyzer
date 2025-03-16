@@ -74,8 +74,6 @@ Sorry! :)
 The V6_0 branch is the branch where I'm working on and I found many users that are downloading it and trying to compile it, **don't do it**.
 This branch may be completely broken while I'm doing changes and is not meant to be used by users, the only officially supported branch is the master one, any request regarding other branches will be closed immediatelly.
 
-If you want to test the version 6.0 you can try the latest available [test build](https://github.com/gusmanb/logicanalyzer/discussions?discussions_q=is%3Aopen+test+build).
-
 # Good news
 
 ![pcb2](https://github.com/user-attachments/assets/91730e9f-7fae-47fc-8f6a-6f84f22fba8e)
