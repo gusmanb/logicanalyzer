@@ -47,16 +47,6 @@ Thanks to everyone, the support that I'm receiving with the project is amazing a
 
 ----
 
-## Building V6.0
-
-### PLEASE DO NOT BUILD MANUALLY V6.0
-
-It is not in the master as it is a work in progress, is not intended to be used as I upload any change that I do and usually contain known problems. If you want to try the V6.0 beta releases download them form this Mega folder, I update it each time I have significant changes.
-
-https://mega.nz/folder/SGxDHAZL#afLGgQbJAaqOYXjhJBwokQ
-
-----
-
 # Back!
 
 Hi. I was in a business trip past weeks and got back today, so I have a ton of emails and messages regarding the project unanswered.
