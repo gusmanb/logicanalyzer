@@ -213,7 +213,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "cd15ef93-7b31-4955-8e6f-ac13cffcb42c")
@@ -225,7 +225,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "771132ab-aad5-4330-9def-81c5ed3598f4")
@@ -237,7 +237,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "fd3e8cc3-f3e1-467d-9067-186b59be0cac")
@@ -1941,7 +1941,7 @@
 		)
 		(model "${KIPRJMOD}/3d-models/jitx-64d1fa94b789d8dc4b8f5892.stp"
 			(offset
-				(xyz 0 0 0)
+				(xyz 0 0.5 0)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -3837,7 +3837,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4d68fe9a-b8b2-45c5-8c28-b8a2e5170c62")
@@ -3849,7 +3849,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "76991f55-b6f8-47d7-99fd-ad8e4dbc4bd7")
@@ -3861,7 +3861,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "50df99c9-cc83-4250-befb-3ba59a27dcc4")
@@ -5072,6 +5072,17 @@
 			(solder_mask_margin 0.051)
 			(solder_paste_margin 0.051)
 			(uuid "ecc4d3f8-538c-4b70-1a77-8f7931ebe484")
+		)
+		(model "${KIPRJMOD}/3d-models/Raspberry Pi Pico-R3.STEP"
+			(offset
+				(xyz 0.5 0 0.5)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -90 0 -90)
+			)
 		)
 	)
 	(footprint "jitx-design:Pkg0402"
@@ -6951,13 +6962,13 @@
 		)
 		(model "${KIPRJMOD}/3d-models/jitx-64d18ba2b789d8dc4b830bf3.stp"
 			(offset
-				(xyz 0 0 0)
+				(xyz 0 -1.85 0)
 			)
 			(scale
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 0)
+				(xyz 0 0 -180)
 			)
 		)
 	)
@@ -7725,7 +7736,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "6e3ff898-7366-4227-a797-ebda56ee8667")
@@ -7737,7 +7748,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ad0cb106-9e46-4e3b-a763-620a2f6d4a25")
@@ -7749,7 +7760,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 0 0 -90)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8dc0552a-b70b-4c0c-9b58-fa7394156a04")
@@ -7973,7 +7984,7 @@
 		)
 		(model "${KIPRJMOD}/3d-models/jitx-64d17702b789d8dc4b808140.stp"
 			(offset
-				(xyz 0 0 0)
+				(xyz 0 1.5 0)
 			)
 			(scale
 				(xyz 1 1 1)
