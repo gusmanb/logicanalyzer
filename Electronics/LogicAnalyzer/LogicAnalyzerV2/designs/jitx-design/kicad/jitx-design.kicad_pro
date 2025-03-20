@@ -713,7 +713,7 @@
       "plot": "output/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "custom/jitx-design.step",
+      "step": "../../../../../../Enclosure/LogicAnalyzer_6.0/jitx-design.step",
       "svg": "",
       "vrml": ""
     },
