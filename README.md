@@ -8,6 +8,15 @@
 - You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 - Latest version: Release 6.0.0.0, 01/02/2024
 
+# ZX Spectrum analyzer by Happy Little Diodes!
+
+If you are into retro computing and more specifically the ZX Spectrum, you should check this video by Happy Little Diodes.
+He has developed an interface to connect LogicAnalyzer in a very cool way to the ZX Spectrum.
+
+Don't miss it!
+
+https://www.youtube.com/watch?v=IHbIW8pi4Vo
+
 # Release 6.0 is out!
 
 Finally Release 6.0 is completed and comes with many, many changes!
