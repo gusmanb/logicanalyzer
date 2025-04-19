@@ -50,7 +50,6 @@ namespace LogicAnalyzer
         AnalysisSettings? analysisSettings;
 
         //bool preserveSamples = false;
-        Timer tmrPower;
         Timer tmrHideSamples;
 
         List<ISampleDisplay> sampleDisplays = new List<ISampleDisplay>();
@@ -121,13 +120,7 @@ namespace LogicAnalyzer
             mnuAbout.Click += MnuAbout_Click;
             AddHandler(InputElement.KeyDownEvent, MainWindow_KeyDown, handledEventsToo: true);
 
-            tmrPower = new Timer((o) =>
-            {
-                Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    GetPowerStatus();
-                });
-            });
+            pnlPower.PointerPressed += (o, e) => GetPowerStatus();
 
             tmrHideSamples = new Timer((o) =>
             {
@@ -361,17 +354,20 @@ namespace LogicAnalyzer
 
                     if (driver.EnterBootloader())
                     {
+                        //GOT
                         driver.Dispose();
                         driver = null;
-                        lblConnectedDevice.Text = "< None >";
-                        ddPorts.IsEnabled = true;
-                        btnRefresh.IsEnabled = true;
-                        btnOpenClose.Content = "Open device";
-                        RefreshPorts();
-                        btnCapture.IsEnabled = false;
-                        btnRepeat.IsEnabled = false;
-                        mnuSettings.IsEnabled = false;
-                        tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
+                        syncUI();
+                        //lblConnectedDevice.Text = "< None >";
+                        //ddPorts.IsEnabled = true;
+                        //btnRefresh.IsEnabled = true;
+                        //btnOpenClose.Content = "Open device";
+                        //RefreshPorts();
+                        //btnCapture.IsEnabled = false;
+                        //mnuProfiles.IsEnabled = false;
+                        //btnRepeat.IsEnabled = false;
+                        //mnuSettings.IsEnabled = false;
+                        //tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
                         await this.ShowInfo("Bootloader", "Device entered bootloader mode.");
                     }
                     else
@@ -1181,14 +1177,17 @@ namespace LogicAnalyzer
                 sampleViewer.Bursts = session.Bursts?.Select(b => b.BurstSampleStart).ToArray();
                 sampleMarker.Bursts = session.Bursts;
 
-                btnCapture.IsEnabled = true;
-                btnRepeat.IsEnabled = true;
-                btnOpenClose.IsEnabled = true;
-                btnAbort.IsEnabled = false;
-                mnuSave.IsEnabled = true;
-                mnuExport.IsEnabled = true;
+                //GOT
+                //btnCapture.IsEnabled = true;
+                //mnuProfiles.IsEnabled = true;
+                //btnRepeat.IsEnabled = true;
+                //btnOpenClose.IsEnabled = true;
+                //btnAbort.IsEnabled = false;
+                //mnuSave.IsEnabled = true;
+                //mnuExport.IsEnabled = true;
 
-                mnuSettings.IsEnabled = driver?.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+                //mnuSettings.IsEnabled = driver?.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+                syncUI();
 
                 scrSamplePos.Maximum = session.TotalSamples - 1;
                 updateSamplesInDisplay(session.PreTriggerSamples - 2, (int)tkInScreen.Value);
@@ -1209,7 +1208,7 @@ namespace LogicAnalyzer
 
         private async void btnOpenClose_Click(object? sender, EventArgs e)
         {
-            if (driver == null)
+            if (driver == null || driver is EmulatedAnalyzerDriver)
             {
                 if (ddPorts.SelectedIndex == -1)
                 {
@@ -1249,37 +1248,43 @@ namespace LogicAnalyzer
 
                 if (driver != null)
                 {
-                    lblConnectedDevice.Text = driver.DeviceVersion;
-                    ddPorts.IsEnabled = false;
-                    btnRefresh.IsEnabled = false;
-                    btnOpenClose.Content = "Close device";
-                    btnCapture.IsEnabled = true;
-                    btnRepeat.IsEnabled = true;
-                    lblBootloader.IsVisible = true;
-                    lblInfo.IsVisible = true;
-                    mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
-                    tmrPower.Change(30000, Timeout.Infinite);
+                    //GOT
+                    //lblConnectedDevice.Text = driver.DeviceVersion;
+                    //ddPorts.IsEnabled = false;
+                    //btnRefresh.IsEnabled = false;
+                    //btnOpenClose.Content = "Close device";
+                    //btnCapture.IsEnabled = true;
+                    //mnuProfiles.IsEnabled = true;
+                    //btnRepeat.IsEnabled = true;
+                    //lblBootloader.IsVisible = true;
+                    //lblInfo.IsVisible = true;
+                    //mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+                    //tmrPower.Change(30000, Timeout.Infinite);
                     driver.CaptureCompleted += Driver_CaptureCompleted;
+                    syncUI();
                 }
 
                 
             }
             else
             {
+                //GOT
                 driver.Dispose();
                 driver = null;
-                lblConnectedDevice.Text = "< None >";
-                ddPorts.IsEnabled = true;
-                btnRefresh.IsEnabled = true;
-                btnOpenClose.Content = "Open device";
-                RefreshPorts();
-                btnCapture.IsEnabled = false;
-                btnRepeat.IsEnabled = false;
-                mnuSettings.IsEnabled = false;
-                tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
-                lblBootloader.IsVisible = true;
-                lblInfo.IsVisible = true;
+                //lblConnectedDevice.Text = "< None >";
+                //ddPorts.IsEnabled = true;
+                //btnRefresh.IsEnabled = true;
+                //btnOpenClose.Content = "Open device";
+                //RefreshPorts();
+                //btnCapture.IsEnabled = false;
+                //mnuProfiles.IsEnabled = false;
+                //btnRepeat.IsEnabled = false;
+                //mnuSettings.IsEnabled = false;
+                //tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
+                //lblBootloader.IsVisible = true;
+                //lblInfo.IsVisible = true;
                 currentKnownDevice = null;
+                syncUI();
             }
 
             GetPowerStatus();
@@ -1510,10 +1515,10 @@ namespace LogicAnalyzer
             session = dialog.SelectedSettings;
             //preserveSamples = false;
             
-            tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
+            //tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
 
-            try
-            {
+            //try
+            //{
                 if(!await BeginCapture())
                     return;
 
@@ -1525,21 +1530,26 @@ namespace LogicAnalyzer
 
                 AppSettingsManager.PersistSettings(settingsFile, settings);
 
-            }
-            finally 
-            { 
-                tmrPower.Change(30000, Timeout.Infinite); 
-            }
+            syncUI();
+
+            //}
+            //finally 
+            //{ 
+            //    tmrPower.Change(30000, Timeout.Infinite); 
+           // }
 
         }
 
         private void btnAbort_Click(object? sender, RoutedEventArgs e)
         {
             driver?.StopCapture();
-            btnCapture.IsEnabled = true;
-            btnRepeat.IsEnabled = true;
-            btnOpenClose.IsEnabled = true;
-            btnAbort.IsEnabled = false;
+            //GOT
+            //btnCapture.IsEnabled = true;
+            //btnRepeat.IsEnabled = true;
+            //mnuProfiles.IsEnabled = true;
+            //btnOpenClose.IsEnabled = true;
+            //btnAbort.IsEnabled = false;
+            syncUI();
         }
 
         private async Task<bool> BeginCapture()
@@ -1555,11 +1565,13 @@ namespace LogicAnalyzer
                 return false;
             }
 
-            btnCapture.IsEnabled = false;
-            btnRepeat.IsEnabled = false;
-            btnOpenClose.IsEnabled = false;
-            btnAbort.IsEnabled = true;
-            mnuSettings.IsEnabled = false;
+            //GOT
+            //btnCapture.IsEnabled = false;
+            //btnRepeat.IsEnabled = false;
+            //mnuProfiles.IsEnabled = false;
+            //btnOpenClose.IsEnabled = false;
+            //btnAbort.IsEnabled = true;
+            //mnuSettings.IsEnabled = false;
             return true;
         }
 
@@ -1614,8 +1626,8 @@ namespace LogicAnalyzer
                         return;
 
                     var sets = session.Clone();
-                    sets.PreTriggerSamples = sampleViewer.PreSamples;
-                    sets.LoopCount = sampleViewer.Bursts?.Length ?? 0;
+                    //sets.PreTriggerSamples = sampleViewer.PreSamples;
+                    //sets.LoopCount = sampleViewer.Bursts?.Length ?? 0;
 
                     ExportedCapture ex = new ExportedCapture { Settings = sets, SelectedRegions = sampleViewer.Regions };
 
@@ -1663,6 +1675,11 @@ namespace LogicAnalyzer
 
                     mnuSave.IsEnabled = true;
                     mnuExport.IsEnabled = true;
+
+                    if (driver != null)
+                    {
+                        btnOpenClose_Click(this, EventArgs.Empty);
+                    }
 
                     driver = new EmulatedAnalyzerDriver(5);
 
@@ -1777,6 +1794,40 @@ namespace LogicAnalyzer
             channelViewer.Channels = session.CaptureChannels;
 
             sgManager.SetChannels(session.Frequency, session.CaptureChannels);
+        }
+
+        private void syncUI()
+        {
+            bool hasDriver = driver != null && driver is not EmulatedAnalyzerDriver;
+            bool isCapturing = hasDriver && driver!.IsCapturing;
+            bool canCapture = hasDriver && !isCapturing;
+            bool canConfigureWiFi = hasDriver && driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
+            bool hasCapture = session != null && session.CaptureChannels?.FirstOrDefault()?.Samples?.Length == session.TotalSamples;
+
+            btnOpenClose.IsEnabled = !isCapturing;
+            btnRefresh.IsEnabled = !hasDriver;
+            btnCapture.IsEnabled = canCapture;
+            btnRepeat.IsEnabled = canCapture;
+            btnAbort.IsEnabled = isCapturing;
+
+
+            mnuProfiles.IsEnabled = hasDriver && !isCapturing;
+            mnuSettings.IsEnabled = canConfigureWiFi;
+            mnuSave.IsEnabled = hasCapture;
+            mnuExport.IsEnabled = hasCapture;
+
+            lblBootloader.IsVisible = hasDriver && !isCapturing;
+            lblInfo.IsVisible = hasDriver;
+            ddPorts.IsEnabled = !hasDriver;
+
+
+            lblConnectedDevice.Text = driver?.DeviceVersion ?? "< None >";
+            btnOpenClose.Content = hasDriver ? "Close device" : "Open device";
+
+            if (!hasDriver)
+                RefreshPorts();
+
+            GetPowerStatus();
         }
 
         class PortItem

@@ -21,7 +21,7 @@
       <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
         <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
       </MenuItem>
-      <MenuItem Header="Profiles" Name="mnuProfiles">
+      <MenuItem Header="Profiles" Name="mnuProfiles" IsEnabled="False">
       </MenuItem>
       <MenuItem Header="Help">
         <MenuItem Header="Online documentation" Name="mnuDocs" />

@@ -1,0 +1,518 @@
+#use-added-syntax(jitx)
+defpackage LogicAnalyzerPro/components/UNKNOWN/RP2350B-QFN80 :
+  import core
+  import jitx
+  import jitx/commands
+  import jitx/parts
+  import jsl/symbols/SymbolDefn with: (only => (create-symbol))
+  import jsl/symbols/box-symbol with: (only => (assign-symbols, assign-symbol, BoxSymbol))
+
+
+public pcb-symbol RP2350B-QFN80 :
+  pin GPIO4 at Point(31.750, 40.640) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin DVDD[2] at Point(-21.590, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO12 at Point(31.750, 20.320) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO13 at Point(31.750, 17.780) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO14 at Point(31.750, 15.240) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO15 at Point(31.750, 12.700) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[5] at Point(6.350, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO16 at Point(31.750, 10.160) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO17 at Point(31.750, 7.620) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO18 at Point(31.750, 5.080) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO19 at Point(31.750, 2.540) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO5 at Point(31.750, 38.100) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO20 at Point(31.750, 0.0) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO21 at Point(31.750, -2.540) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO22 at Point(31.750, -5.080) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO23 at Point(31.750, -7.620) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[4] at Point(3.810, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO24 at Point(31.750, -10.160) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO25 at Point(31.750, -12.700) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO26 at Point(31.750, -15.240) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO27 at Point(31.750, -17.780) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[6] at Point(8.890, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO6 at Point(31.750, 35.560) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin XIN at Point(-33.020, 15.240) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin XOUT at Point(-33.020, 10.160) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin DVDD[1] at Point(-24.130, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin SWCLK at Point(-33.020, -12.700) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin SWDIO at Point(-33.020, -15.240) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin RUN at Point(-33.020, -2.540) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO28 at Point(31.750, -20.320) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO29 at Point(31.750, -22.860) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO30 at Point(31.750, -25.400) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO31 at Point(31.750, -27.940) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO7 at Point(31.750, 33.020) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO32 at Point(31.750, -30.480) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[3] at Point(1.270, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO33 at Point(31.750, -33.020) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO34 at Point(31.750, -35.560) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO35 at Point(31.750, -38.100) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO36 at Point(31.750, -40.640) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO37 at Point(31.750, -43.180) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO38 at Point(31.750, -45.720) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO39 at Point(31.750, -48.260) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO40_ADC0 at Point(31.750, -53.340) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[7] at Point(11.430, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[2] at Point(-1.270, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin DVDD[0] at Point(-26.670, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO41_ADC1 at Point(31.750, -55.880) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO42_ADC2 at Point(31.750, -58.420) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO43_ADC3 at Point(31.750, -60.960) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO44_ADC4 at Point(31.750, -63.500) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO45_ADC5 at Point(31.750, -66.040) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO46_ADC6 at Point(31.750, -68.580) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO47_ADC7 at Point(31.750, -71.120) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin ADC_AVDD at Point(19.050, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO8 at Point(31.750, 30.480) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[1] at Point(-3.810, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin VREG_AVDD at Point(-33.020, 57.150) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin VREG_PGND at Point(-33.020, 46.990) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin VREG_LX at Point(-33.020, 49.530) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin VREG_VIN at Point(-33.020, 54.610) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin VREG_FB at Point(-33.020, 52.070) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin USB_DM at Point(31.750, 58.420) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin USB_DP at Point(31.750, 60.960) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin USB_OTP_VDD at Point(15.240, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_IOVDD at Point(-13.970, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO9 at Point(31.750, 27.940) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_SD3 at Point(-33.020, 29.210) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_SCLK at Point(-33.020, 25.400) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_SD0 at Point(-33.020, 36.830) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_SD2 at Point(-33.020, 31.750) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_SD1 at Point(-33.020, 34.290) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin QSPI_SS at Point(-33.020, 40.640) with :
+    direction = Left
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin IOVDD[0] at Point(-6.350, 66.040) with :
+    direction = Up
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO0 at Point(31.750, 50.800) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO1 at Point(31.750, 48.260) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO2 at Point(31.750, 45.720) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO10 at Point(31.750, 25.400) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO3 at Point(31.750, 43.180) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GPIO11 at Point(31.750, 22.860) with :
+    direction = Right
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+  pin GND at Point(0.0, -74.930) with :
+    direction = Down
+    length = 2.540
+    number-size = 1.270
+    name-size = 1.270
+
+  draw("foreground") = Text(">REF", 1.27, W, loc(2.194, -77.470))
+  draw("foreground") = Text(">VALUE", 1.27, W, loc(2.194, -80.010))
+  draw("foreground") = Text("Footprint: RP2350_KiCad:RP2350B_QFN-80_EP_10.573x10.573_Pitch0.4mm", 1.27, C, loc(-6.350, 45.720), "", TrueTypeFont, true, false)
+  draw("foreground") = Text("Datasheet: ", 1.27, C, loc(-6.350, 45.720), "", TrueTypeFont, true, false)
+  draw("foreground") = Text("Description: ", 1.27, C, loc(-1.270, 41.910), "", TrueTypeFont, true, false)
+  draw("none") = Rectangle(64.770, 140.970, loc(-0.635, -4.445))
+
+public pcb-component component :
+  description = ""
+  mpn = "RP2350B-QFN80"
+  datasheet = ""
+  reference-prefix = "U1"
+  pin-properties :
+    [pin:Ref | pads:Ref ... | side:Dir | electrical-type:String]
+    [GPIO4 | p[1] | Right | "Bidirectional"]
+    [DVDD[2] | p[10] | Up | "PowerIn"]
+    [GPIO12 | p[11] | Right | "Bidirectional"]
+    [GPIO13 | p[12] | Right | "Bidirectional"]
+    [GPIO14 | p[13] | Right | "Bidirectional"]
+    [GPIO15 | p[14] | Right | "Bidirectional"]
+    [IOVDD[5] | p[15] | Up | "PowerIn"]
+    [GPIO16 | p[16] | Right | "Bidirectional"]
+    [GPIO17 | p[17] | Right | "Bidirectional"]
+    [GPIO18 | p[18] | Right | "Bidirectional"]
+    [GPIO19 | p[19] | Right | "Bidirectional"]
+    [GPIO5 | p[2] | Right | "Bidirectional"]
+    [GPIO20 | p[20] | Right | "Bidirectional"]
+    [GPIO21 | p[21] | Right | "Bidirectional"]
+    [GPIO22 | p[22] | Right | "Bidirectional"]
+    [GPIO23 | p[23] | Right | "Bidirectional"]
+    [IOVDD[4] | p[24] | Up | "PowerIn"]
+    [GPIO24 | p[25] | Right | "Bidirectional"]
+    [GPIO25 | p[26] | Right | "Bidirectional"]
+    [GPIO26 | p[27] | Right | "Bidirectional"]
+    [GPIO27 | p[28] | Right | "Bidirectional"]
+    [IOVDD[6] | p[29] | Up | "PowerIn"]
+    [GPIO6 | p[3] | Right | "Bidirectional"]
+    [XIN | p[30] | Left | "Input"]
+    [XOUT | p[31] | Left | "Output"]
+    [DVDD[1] | p[32] | Up | "PowerIn"]
+    [SWCLK | p[33] | Left | "Bidirectional"]
+    [SWDIO | p[34] | Left | "Bidirectional"]
+    [RUN | p[35] | Left | "Input"]
+    [GPIO28 | p[36] | Right | "Bidirectional"]
+    [GPIO29 | p[37] | Right | "Bidirectional"]
+    [GPIO30 | p[38] | Right | "Bidirectional"]
+    [GPIO31 | p[39] | Right | "Bidirectional"]
+    [GPIO7 | p[4] | Right | "Bidirectional"]
+    [GPIO32 | p[40] | Right | "Bidirectional"]
+    [IOVDD[3] | p[41] | Up | "PowerIn"]
+    [GPIO33 | p[42] | Right | "Bidirectional"]
+    [GPIO34 | p[43] | Right | "Bidirectional"]
+    [GPIO35 | p[44] | Right | "Bidirectional"]
+    [GPIO36 | p[45] | Right | "Bidirectional"]
+    [GPIO37 | p[46] | Right | "Bidirectional"]
+    [GPIO38 | p[47] | Right | "Bidirectional"]
+    [GPIO39 | p[48] | Right | "Bidirectional"]
+    [GPIO40_ADC0 | p[49] | Right | "Bidirectional"]
+    [IOVDD[7] | p[5] | Up | "PowerIn"]
+    [IOVDD[2] | p[50] | Up | "PowerIn"]
+    [DVDD[0] | p[51] | Up | "PowerIn"]
+    [GPIO41_ADC1 | p[52] | Right | "Bidirectional"]
+    [GPIO42_ADC2 | p[53] | Right | "Bidirectional"]
+    [GPIO43_ADC3 | p[54] | Right | "Bidirectional"]
+    [GPIO44_ADC4 | p[55] | Right | "Bidirectional"]
+    [GPIO45_ADC5 | p[56] | Right | "Bidirectional"]
+    [GPIO46_ADC6 | p[57] | Right | "Bidirectional"]
+    [GPIO47_ADC7 | p[58] | Right | "Bidirectional"]
+    [ADC_AVDD | p[59] | Up | "PowerIn"]
+    [GPIO8 | p[6] | Right | "Bidirectional"]
+    [IOVDD[1] | p[60] | Up | "PowerIn"]
+    [VREG_AVDD | p[61] | Left | "PowerIn"]
+    [VREG_PGND | p[62] | Left | "Passive"]
+    [VREG_LX | p[63] | Left | "PowerOut"]
+    [VREG_VIN | p[64] | Left | "PowerIn"]
+    [VREG_FB | p[65] | Left | "PowerIn"]
+    [USB_DM | p[66] | Right | "Bidirectional"]
+    [USB_DP | p[67] | Right | "Bidirectional"]
+    [USB_OTP_VDD | p[68] | Up | "PowerIn"]
+    [QSPI_IOVDD | p[69] | Up | "Bidirectional"]
+    [GPIO9 | p[7] | Right | "Bidirectional"]
+    [QSPI_SD3 | p[70] | Left | "Bidirectional"]
+    [QSPI_SCLK | p[71] | Left | "Bidirectional"]
+    [QSPI_SD0 | p[72] | Left | "Bidirectional"]
+    [QSPI_SD2 | p[73] | Left | "Bidirectional"]
+    [QSPI_SD1 | p[74] | Left | "Bidirectional"]
+    [QSPI_SS | p[75] | Left | "Bidirectional"]
+    [IOVDD[0] | p[76] | Up | "PowerIn"]
+    [GPIO0 | p[77] | Right | "Bidirectional"]
+    [GPIO1 | p[78] | Right | "Bidirectional"]
+    [GPIO2 | p[79] | Right | "Bidirectional"]
+    [GPIO10 | p[8] | Right | "Bidirectional"]
+    [GPIO3 | p[80] | Right | "Bidirectional"]
+    [GPIO11 | p[9] | Right | "Bidirectional"]
+    [GND | p[89] p[88] p[87] p[86] p[85] p[84] p[83] p[82] p[81] p[0] | Down | "Passive"]
+
+  assign-landpattern(RP2350B/RP2350B_QFN-80_EP_10_573x10_573_Pitch0_4mm)
+  assign-symbol(RP2350B/RP2350B-QFN80)
+
+  property(self.Value) = "RP2350B-QFN80"
+
