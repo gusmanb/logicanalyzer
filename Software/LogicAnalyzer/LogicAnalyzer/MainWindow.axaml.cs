@@ -166,7 +166,7 @@ namespace LogicAnalyzer
                 sgManager.Initialize(decoderProvider);
                 sgManager.DecodingComplete += SgManager_DecodingComplete;
             }
-            catch
+            catch (Exception ex)
             {
                 _ = this.ShowError("Error loading decoders.", "Cannot load Sigrok decoders. Make sure Python is installed on your computer. If, despite being installed, you still have problems, you can specify the path to the Python library in \"python.cfg\".");
             }
@@ -1039,9 +1039,11 @@ namespace LogicAnalyzer
         {
             session.PreTriggerSamples = finalPreSamples;
             session.PostTriggerSamples = totalSamples - finalPreSamples;
+            session.Bursts = null;
+            session.MeasureBursts = false;
 
             sampleViewer.BeginUpdate();
-            sampleViewer.PreSamples = 0;
+            //sampleViewer.PreSamples = 0;
             sampleViewer.Bursts = null;
             sampleViewer.EndUpdate();
 
