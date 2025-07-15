@@ -1470,6 +1470,8 @@ namespace LogicAnalyzer
             if (!await BeginCapture())
                 return;
 
+            this.Title = Version;
+
             syncUI();
         }
 
@@ -1489,6 +1491,8 @@ namespace LogicAnalyzer
 
             if(!await BeginCapture())
                 return;
+
+            this.Title = Version;
 
             var settingsFile = $"cpSettings{driver.DriverType}.json";
             var settings = session.Clone();

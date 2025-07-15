@@ -16,8 +16,8 @@ namespace SigrokDecoderBridge
 {
     public class SigrokProvider : IDisposable
     {
-        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentInputs; //= new Dictionary<string, IEnumerable<SigrokOutputValue>>();
-        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentOutputs; //= new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentInputs;
+        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentOutputs;
 
         private SigrokDecoderBase[]? decoders;
 
