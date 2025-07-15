@@ -113,9 +113,9 @@ class Decoder(srd.Decoder):
 
         disasm = disasm.decode('utf-8', 'replace')
 
-        instpat = re.compile('\s*([0-9a-fA-F]+):\t+([0-9a-fA-F ]+)\t+([a-zA-Z][^;]+)\s*;?.*')
-        filepat = re.compile('[^\s]+[/\\\\]([a-zA-Z0-9._-]+:[0-9]+)(?:\s.*)?')
-        funcpat = re.compile('[0-9a-fA-F]+\s*<([^>]+)>:.*')
+        instpat = re.compile(r'\s*([0-9a-fA-F]+):\t+([0-9a-fA-F ]+)\t+([a-zA-Z][^;]+)\s*;?.*')
+        filepat = re.compile(r'[^\s]+[/\\\\]([a-zA-Z0-9._-]+:[0-9]+)(?:\s.*)?')
+        funcpat = re.compile(r'[0-9a-fA-F]+\s*<([^>]+)>:.*')
 
         prev_file = ''
         prev_func = ''

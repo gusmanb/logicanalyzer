@@ -1,7 +1,9 @@
 param (
     [Parameter(Mandatory=$true)]
-    [string]$packageName = "LogicAnalyzer"
+    [string]$packageVersion
 )
+
+$packageName = "logicanalyzer_" + $packageVersion
 
 # Define board types and turbo mode options
 $boardTypes = @("BOARD_PICO", "BOARD_PICO_W", "BOARD_PICO_W_WIFI", "BOARD_ZERO", "BOARD_PICO_2", "BOARD_PICO_2_W", "BOARD_PICO_2_W_WIFI", "BOARD_INTERCEPTOR")

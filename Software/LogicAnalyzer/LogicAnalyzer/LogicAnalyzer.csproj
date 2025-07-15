@@ -9,6 +9,9 @@
     <ApplicationIcon>Assets\Ico40.ico</ApplicationIcon>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Version>6.5.0.0</Version>
+    <Copyright>(C) 2025 El Dr. Gusman</Copyright>
+    <PackageProjectUrl>https://github.com/gusmanb/logicanalyzer</PackageProjectUrl>
+    <Title>LogicAnalyzer</Title>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
