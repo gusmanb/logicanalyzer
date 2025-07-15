@@ -558,7 +558,7 @@ int main()
 
         vreg_disable_voltage_limit();
         vreg_set_voltage(VREG_VOLTAGE_1_30);
-        sleep_ms(1);
+        sleep_ms(100);
         
         //Overclock Powerrrr!
         set_sys_clock_khz(400000, true);

@@ -3,7 +3,7 @@
 #ifdef WS2812_LED
 
     #include "pico/stdlib.h"
-    #include "LogicAnalyzer_w2812.h"
+    #include "LogicAnalyzer_W2812.h"
 
     #define LONG_START 52.0 * (MAX_FREQ / 100000000.0)
     #define SHORT_START 26.0 * (MAX_FREQ / 100000000.0)

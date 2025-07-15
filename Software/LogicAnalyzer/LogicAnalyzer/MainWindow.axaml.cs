@@ -37,6 +37,13 @@ namespace LogicAnalyzer
 {
     public partial class MainWindow : PersistableWindowBase
     {
+
+
+        const string Version = "LogicAnalyzer 6.5";
+
+
+
+
         AnalyzerDriverBase? driver;
         CaptureSession session;
 
@@ -75,6 +82,7 @@ namespace LogicAnalyzer
         {
             Instance = this;
             InitializeComponent();
+            this.Title = Version;
             btnRefresh.Click += btnRefresh_Click;
             btnOpenClose.Click += btnOpenClose_Click;
             btnRepeat.Click += btnRepeat_Click;
@@ -354,20 +362,9 @@ namespace LogicAnalyzer
 
                     if (driver.EnterBootloader())
                     {
-                        //GOT
                         driver.Dispose();
                         driver = null;
                         syncUI();
-                        //lblConnectedDevice.Text = "< None >";
-                        //ddPorts.IsEnabled = true;
-                        //btnRefresh.IsEnabled = true;
-                        //btnOpenClose.Content = "Open device";
-                        //RefreshPorts();
-                        //btnCapture.IsEnabled = false;
-                        //mnuProfiles.IsEnabled = false;
-                        //btnRepeat.IsEnabled = false;
-                        //mnuSettings.IsEnabled = false;
-                        //tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
                         await this.ShowInfo("Bootloader", "Device entered bootloader mode.");
                     }
                     else
@@ -1048,7 +1045,8 @@ namespace LogicAnalyzer
             sampleViewer.EndUpdate();
 
             samplePreviewer.UpdateSamples(channelViewer.Channels, session.TotalSamples);
-            samplePreviewer.ViewPosition = sampleViewer.FirstSample;
+            sampleViewer.SetChannels(channelViewer.Channels, session.Frequency);
+            //samplePreviewer.ViewPosition = firstSample;
 
             clearRegions();
 
@@ -1100,7 +1098,12 @@ namespace LogicAnalyzer
 
             if (await dlg.ShowDialog<bool>(this))
             {
-                bool res = driver.SendNetworkConfig(dlg.AccessPoint, dlg.Password, dlg.Address, dlg.Port);
+                bool res = false;
+                try
+                {
+                    res = driver.SendNetworkConfig(dlg.AccessPoint, dlg.Password, dlg.Address, dlg.Port);
+                }
+                catch { }
 
                 if (!res)
                     await this.ShowError("Error", "Error updating network settings, restart the device and try again.");
@@ -1179,16 +1182,6 @@ namespace LogicAnalyzer
                 sampleViewer.Bursts = session.Bursts?.Select(b => b.BurstSampleStart).ToArray();
                 sampleMarker.Bursts = session.Bursts;
 
-                //GOT
-                //btnCapture.IsEnabled = true;
-                //mnuProfiles.IsEnabled = true;
-                //btnRepeat.IsEnabled = true;
-                //btnOpenClose.IsEnabled = true;
-                //btnAbort.IsEnabled = false;
-                //mnuSave.IsEnabled = true;
-                //mnuExport.IsEnabled = true;
-
-                //mnuSettings.IsEnabled = driver?.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
                 syncUI();
 
                 scrSamplePos.Maximum = session.TotalSamples - 1;
@@ -1250,18 +1243,6 @@ namespace LogicAnalyzer
 
                 if (driver != null)
                 {
-                    //GOT
-                    //lblConnectedDevice.Text = driver.DeviceVersion;
-                    //ddPorts.IsEnabled = false;
-                    //btnRefresh.IsEnabled = false;
-                    //btnOpenClose.Content = "Close device";
-                    //btnCapture.IsEnabled = true;
-                    //mnuProfiles.IsEnabled = true;
-                    //btnRepeat.IsEnabled = true;
-                    //lblBootloader.IsVisible = true;
-                    //lblInfo.IsVisible = true;
-                    //mnuSettings.IsEnabled = driver.DriverType == AnalyzerDriverType.Serial && (driver.DeviceVersion?.Contains("WIFI") ?? false);
-                    //tmrPower.Change(30000, Timeout.Infinite);
                     driver.CaptureCompleted += Driver_CaptureCompleted;
                     syncUI();
                 }
@@ -1270,21 +1251,8 @@ namespace LogicAnalyzer
             }
             else
             {
-                //GOT
                 driver.Dispose();
                 driver = null;
-                //lblConnectedDevice.Text = "< None >";
-                //ddPorts.IsEnabled = true;
-                //btnRefresh.IsEnabled = true;
-                //btnOpenClose.Content = "Open device";
-                //RefreshPorts();
-                //btnCapture.IsEnabled = false;
-                //mnuProfiles.IsEnabled = false;
-                //btnRepeat.IsEnabled = false;
-                //mnuSettings.IsEnabled = false;
-                //tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
-                //lblBootloader.IsVisible = true;
-                //lblInfo.IsVisible = true;
                 currentKnownDevice = null;
                 syncUI();
             }
@@ -1498,8 +1466,11 @@ namespace LogicAnalyzer
                 await this.ShowError("Error", "No capture to repeat");
                 return;
             }
-            //preserveSamples = true;
-            await BeginCapture();
+
+            if (!await BeginCapture())
+                return;
+
+            syncUI();
         }
 
         private async void btnCapture_Click(object? sender, RoutedEventArgs e)
@@ -1515,42 +1486,27 @@ namespace LogicAnalyzer
                 return;
 
             session = dialog.SelectedSettings;
-            //preserveSamples = false;
-            
-            //tmrPower.Change(Timeout.Infinite, Timeout.Infinite);
 
-            //try
-            //{
-                if(!await BeginCapture())
-                    return;
+            if(!await BeginCapture())
+                return;
 
-                var settingsFile = $"cpSettings{driver.DriverType}.json";
-                var settings = session.Clone();
+            var settingsFile = $"cpSettings{driver.DriverType}.json";
+            var settings = session.Clone();
                 
-                foreach(var channel in settings.CaptureChannels)
-                    channel.Samples = null;
+            foreach(var channel in settings.CaptureChannels)
+                channel.Samples = null;
 
-                AppSettingsManager.PersistSettings(settingsFile, settings);
+            AppSettingsManager.PersistSettings(settingsFile, settings);
 
             syncUI();
 
-            //}
-            //finally 
-            //{ 
-            //    tmrPower.Change(30000, Timeout.Infinite); 
-           // }
 
         }
 
         private void btnAbort_Click(object? sender, RoutedEventArgs e)
         {
             driver?.StopCapture();
-            //GOT
-            //btnCapture.IsEnabled = true;
-            //btnRepeat.IsEnabled = true;
-            //mnuProfiles.IsEnabled = true;
-            //btnOpenClose.IsEnabled = true;
-            //btnAbort.IsEnabled = false;
+
             syncUI();
         }
 
@@ -1567,13 +1523,6 @@ namespace LogicAnalyzer
                 return false;
             }
 
-            //GOT
-            //btnCapture.IsEnabled = false;
-            //btnRepeat.IsEnabled = false;
-            //mnuProfiles.IsEnabled = false;
-            //btnOpenClose.IsEnabled = false;
-            //btnAbort.IsEnabled = true;
-            //mnuSettings.IsEnabled = false;
             return true;
         }
 
@@ -1664,6 +1613,9 @@ namespace LogicAnalyzer
 
                     if (ex == null)
                         return;
+
+                    string fileName = Path.GetFileName(file);
+                    this.Title = Version + " - " + fileName;
 
                     session = ex.Settings;
 
