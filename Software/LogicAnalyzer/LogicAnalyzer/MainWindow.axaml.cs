@@ -37,12 +37,7 @@ namespace LogicAnalyzer
 {
     public partial class MainWindow : PersistableWindowBase
     {
-
-
         const string Version = "LogicAnalyzer 6.5";
-
-
-
 
         AnalyzerDriverBase? driver;
         CaptureSession session;
