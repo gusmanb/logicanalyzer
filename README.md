@@ -1,12 +1,24 @@
 # LogicAnalyzer
 
+## About the project
+
+This README is organized as a log of the evolution of the project and for now it will stay like this.
+If you are new to the project and want to know what is this about you can start [here](https://github.com/gusmanb/logicanalyzer?tab=readme-ov-file#description)
+or reading [the wiki](https://github.com/gusmanb/logicanalyzer/wiki).
+
+Beware, the documentation is a bit outdated, I will try this summer to upgrade everything.
+
 ## Orders
-- Direct order (based on availability): https://logicanalyzer.rf.gd
+- Direct order (based on availability): https://logicanalyzer.rf.gd (right now orders are not accepted)
 - PCBWay order: https://www.pcbway.com/project/shareproject/LogicAnalyzer_V6_0_cc383781.html
 
 ## Downloads
 - You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
-- Latest version: Release 6.0.0.0, 01/02/2024
+- Latest version: Release 6.0.0.1, 09/02/2025
+
+# Beta 6.5 available
+
+Wanna try the next version? Check [this discussion](https://github.com/gusmanb/logicanalyzer/discussions/277) :)
 
 # ZX Spectrum analyzer by Happy Little Diodes!
 
