@@ -52,6 +52,9 @@
     <Compile Update="Dialogs\SelectedRegionDialog.axaml.cs">
       <DependentUpon>SelectedRegionDialog.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\GeneralSettingsDialog.axaml.cs">
+      <DependentUpon>GeneralSettingsDialog.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />

@@ -17,7 +17,8 @@
           <Separator/>
           <MenuItem Header="_Exit" Name="mnuExit"/>
         </MenuItem>
-      <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
+      <MenuItem Header="_Settings" Name="mnuSettings">
+        <MenuItem Header="General..." Name="mnuGeneralSettings"></MenuItem>
         <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
       </MenuItem>
       <MenuItem Header="Profiles" Name="mnuProfiles" IsEnabled="False">

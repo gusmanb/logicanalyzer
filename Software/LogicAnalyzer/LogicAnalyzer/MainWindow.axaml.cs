@@ -62,6 +62,7 @@ namespace LogicAnalyzer
         KnownDevice? currentKnownDevice = null;
 
         ProfilesSet? profiles;
+        GeneralSettings generalSettings;
 
         public bool PreviewPinned { get { return samplePreviewer.Pinned; } set { samplePreviewer.Pinned = value; } }
 
@@ -119,6 +120,7 @@ namespace LogicAnalyzer
             mnuExit.Click += MnuExit_Click;
             mnuExport.Click += MnuExport_Click;
             mnuNetSettings.Click += MnuNetSettings_Click;
+            mnuGeneralSettings.Click += MnuGeneralSettings_Click;
             mnuDocs.Click += MnuDocs_Click;
             mnuAbout.Click += MnuAbout_Click;
             AddHandler(InputElement.KeyDownEvent, MainWindow_KeyDown, handledEventsToo: true);
@@ -162,6 +164,16 @@ namespace LogicAnalyzer
 
             RefreshPorts();
             LoadProfiles();
+
+            generalSettings = AppSettingsManager.GetSettings<GeneralSettings>("GeneralSettings.json") ?? new GeneralSettings();
+            tkInScreen.Minimum = generalSettings.MinSamples;
+            tkInScreen.Maximum = generalSettings.MaxSamples;
+            lblMinSamples.Text = generalSettings.MinSamples.ToString();
+            lblMaxSamples.Text = generalSettings.MaxSamples.ToString();
+            if (tkInScreen.Value < tkInScreen.Minimum)
+                tkInScreen.Value = tkInScreen.Minimum;
+            if (tkInScreen.Value > tkInScreen.Maximum)
+                tkInScreen.Value = tkInScreen.Maximum;
 
             try
             {
@@ -1107,6 +1119,30 @@ namespace LogicAnalyzer
             }
         }
 
+        private async void MnuGeneralSettings_Click(object? sender, RoutedEventArgs e)
+        {
+            var dlg = new GeneralSettingsDialog
+            {
+                MinSamples = generalSettings.MinSamples,
+                MaxSamples = generalSettings.MaxSamples
+            };
+
+            if (await dlg.ShowDialog<bool>(this))
+            {
+                generalSettings.MinSamples = dlg.MinSamples;
+                generalSettings.MaxSamples = dlg.MaxSamples;
+                AppSettingsManager.PersistSettings("GeneralSettings.json", generalSettings);
+                tkInScreen.Minimum = generalSettings.MinSamples;
+                tkInScreen.Maximum = generalSettings.MaxSamples;
+                lblMinSamples.Text = generalSettings.MinSamples.ToString();
+                lblMaxSamples.Text = generalSettings.MaxSamples.ToString();
+                if (tkInScreen.Value < tkInScreen.Minimum)
+                    tkInScreen.Value = tkInScreen.Minimum;
+                if (tkInScreen.Value > tkInScreen.Maximum)
+                    tkInScreen.Value = tkInScreen.Maximum;
+            }
+        }
+
         private async void MnuExport_Click(object? sender, RoutedEventArgs e)
         {
             try
@@ -1765,7 +1801,8 @@ namespace LogicAnalyzer
 
 
             mnuProfiles.IsEnabled = hasDriver && !isCapturing;
-            mnuSettings.IsEnabled = canConfigureWiFi;
+            mnuSettings.IsEnabled = true;
+            mnuNetSettings.IsEnabled = canConfigureWiFi;
             mnuSave.IsEnabled = hasCapture;
             mnuExport.IsEnabled = hasCapture;
 
