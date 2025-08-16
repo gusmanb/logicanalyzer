@@ -53,6 +53,7 @@ namespace LogicAnalyzer
 
         //bool preserveSamples = false;
         Timer tmrHideSamples;
+        DispatcherTimer tmrSliderToolTip;
 
         List<ISampleDisplay> sampleDisplays = new List<ISampleDisplay>();
         List<IRegionDisplay> regionDisplays = new List<IRegionDisplay>();
@@ -135,6 +136,13 @@ namespace LogicAnalyzer
                         samplePreviewer.IsVisible = false;
                 });
             });
+
+            tmrSliderToolTip = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            tmrSliderToolTip.Tick += (o, e) =>
+            {
+                ToolTip.SetIsOpen(tkInScreen, false);
+                tmrSliderToolTip.Stop();
+            };
 
             this.Closed += (o, e) => 
             {
@@ -1596,6 +1604,13 @@ namespace LogicAnalyzer
         private void tkInScreen_ValueChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)
         {
             updateSampleDisplays();
+
+            if (e.Property == RangeBase.ValueProperty)
+            {
+                ToolTip.SetIsOpen(tkInScreen, true);
+                tmrSliderToolTip.Stop();
+                tmrSliderToolTip.Start();
+            }
 
         }
 
