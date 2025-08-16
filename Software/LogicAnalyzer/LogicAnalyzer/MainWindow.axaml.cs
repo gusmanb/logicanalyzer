@@ -98,7 +98,8 @@ namespace LogicAnalyzer
             sampleMarker.SamplesInserted += SampleMarker_SamplesInserted;
             sampleMarker.SamplesDeleted += SampleMarker_SamplesDeleted;
 
-            samplePreviewer.PinnedChanged += SamplePreviewer_PinnedChanged;
+           samplePreviewer.PinnedChanged += SamplePreviewer_PinnedChanged;
+            samplePreviewer.ViewChanged += SamplePreviewer_ViewChanged;
 
             sampleViewer.PointerWheelChanged += SampleViewer_PointerWheelChanged;
             tkInScreen.PointerWheelChanged += TkInScreen_PointerWheelChanged;
@@ -144,7 +145,7 @@ namespace LogicAnalyzer
                 tmrSliderToolTip.Stop();
             };
 
-            this.Closed += (o, e) => 
+            this.Closed += (o, e) =>
             {
                 if (driver != null && driver.IsCapturing)
                 {
@@ -254,7 +255,7 @@ namespace LogicAnalyzer
             if (driver == null)
             {
                 await this.ShowError("Load profile", "No device connected, cannot load profile.");
-                return; 
+                return;
             }
 
             var mnu = sender as MenuItem;
@@ -296,16 +297,16 @@ namespace LogicAnalyzer
 
         private async void AddProfile_Click(object? sender, RoutedEventArgs e)
         {
-            var dlg = MessageBoxManager.GetMessageBoxCustom(new MsBox.Avalonia.Dto.MessageBoxCustomParams 
+            var dlg = MessageBoxManager.GetMessageBoxCustom(new MsBox.Avalonia.Dto.MessageBoxCustomParams
             {
                 ButtonDefinitions = new List<MsBox.Avalonia.Models.ButtonDefinition>
                 {
                     new MsBox.Avalonia.Models.ButtonDefinition { Name = "Cancel", IsCancel = true, IsDefault = false },
                     new MsBox.Avalonia.Models.ButtonDefinition { Name = "Save", IsCancel = false, IsDefault = true }
                 },
-                InputParams = new MsBox.Avalonia.Dto.InputParams 
-                { 
-                    Label = "New profile name:", Multiline = false 
+                InputParams = new MsBox.Avalonia.Dto.InputParams
+                {
+                    Label = "New profile name:", Multiline = false
                 },
                 Icon = MsBox.Avalonia.Enums.Icon.Setting,
                 ContentTitle = "Add profile",
@@ -506,6 +507,11 @@ namespace LogicAnalyzer
             }
         }
 
+        private void SamplePreviewer_ViewChanged(object? sender, SamplePreviewer.ViewChangedEventArgs e)
+        {
+            updateSamplesInDisplay(e.FirstSample, (int)tkInScreen.Value);
+        }
+
         private void ChannelViewer_ChannelVisibilityChanged(object? sender, EventArgs e)
         {
             UpdateVisibility();
@@ -548,14 +554,14 @@ namespace LogicAnalyzer
 
             if (e.Annotations != null && e.Annotations.Any())
             {
-                
+
 
                 foreach(var grp in e.Annotations)
                 {
                     annotationsViewer.AddAnnotationsGroup(grp);
                 }
 
-                
+
             }
 
             annotationsViewer.EndUpdate();
@@ -604,8 +610,8 @@ namespace LogicAnalyzer
             {
                 OpenUrl("https://github.com/gusmanb/logicanalyzer/wiki");
             }
-            catch 
-            { 
+            catch
+            {
                 await this.ShowError("Cannot open page.", "Cannot start the default browser. You can access the online documentation in https://github.com/gusmanb/logicanalyzer/wiki");
             }
         }
@@ -795,10 +801,10 @@ namespace LogicAnalyzer
                 dlgCreate.InsertMode = false;
                 dlgCreate.Initialize(
                     channels,
-                    names, 
+                    names,
                     stn.PreTriggerSamples + stn.PostTriggerSamples,
                     stn.PreTriggerSamples + stn.PostTriggerSamples);
-                
+
                 var samples = await dlgCreate.ShowDialog<byte[][]?>(this);
 
                 if (samples == null)
@@ -806,7 +812,7 @@ namespace LogicAnalyzer
 
                 session = stn;
                 driver = drv;
-                
+
                 for (int chan = 0; chan < stn.CaptureChannels.Length; chan++)
                     stn.CaptureChannels[chan].Samples = samples[chan];
 
@@ -867,7 +873,7 @@ namespace LogicAnalyzer
                 return;
 
             await InsertSamples(e.Sample, samples);
-            
+
         }
 
         private async Task InsertSamples(int sample, IEnumerable<byte[]> newSamples)
@@ -1068,7 +1074,7 @@ namespace LogicAnalyzer
             if (finalRegions.Count > 0)
                 addRegions(finalRegions);
 
-            
+
 
             scrSamplePos.Maximum = totalSamples - 1;
             updateSamplesInDisplay(firstSample - 1, (int)tkInScreen.Value);
@@ -1286,7 +1292,7 @@ namespace LogicAnalyzer
                     syncUI();
                 }
 
-                
+
             }
             else
             {
@@ -1420,8 +1426,8 @@ namespace LogicAnalyzer
 
         private KnownDevice? GetKnownDevice(DetectedDevice[] detected)
         {
-            var device = knownDevices.FirstOrDefault(d => d.Entries.Length == detected.Length && 
-            d.Entries.All(e => 
+            var device = knownDevices.FirstOrDefault(d => d.Entries.Length == detected.Length &&
+            d.Entries.All(e =>
             detected.Any(dd => dd.SerialNumber == e.SerialNumber)));
 
             return device;
@@ -1448,7 +1454,7 @@ namespace LogicAnalyzer
 
             string[] parts = powerStatus.Split("_");
 
-            if(parts.Length == 2 ) 
+            if(parts.Length == 2 )
             {
                 lblVoltage.Text = parts[0];
 
@@ -1460,9 +1466,9 @@ namespace LogicAnalyzer
                 if (oldSrc is IDisposable)
                     ((IDisposable)oldSrc).Dispose();
             }
-                    
+
         }
-        
+
         private void btnRefresh_Click(object? sender, RoutedEventArgs e)
         {
             RefreshPorts();
@@ -1495,7 +1501,7 @@ namespace LogicAnalyzer
             ddPorts.ItemsSource = null;
             ddPorts.ItemsSource = portItems.ToArray();
             ddPorts.SelectedIndex = 0;
-            
+
         }
 
         private async void btnRepeat_Click(object? sender, RoutedEventArgs e)
@@ -1520,7 +1526,7 @@ namespace LogicAnalyzer
                 return;
 
             var dialog = new CaptureDialog();
-            
+
             dialog.Initialize(driver);
 
             if (!await dialog.ShowDialog<bool>(this))
@@ -1535,7 +1541,7 @@ namespace LogicAnalyzer
 
             var settingsFile = $"cpSettings{driver.DriverType}.json";
             var settings = session.Clone();
-                
+
             foreach(var channel in settings.CaptureChannels)
                 channel.Samples = null;
 
@@ -1699,7 +1705,7 @@ namespace LogicAnalyzer
                     LoadInfo();
                 }
             }
-            catch(Exception ex) 
+            catch(Exception ex)
             {
                 await this.ShowError("Unhandled exception", $"{ex.Message} - {ex.StackTrace}");
             }
