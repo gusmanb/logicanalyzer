@@ -1,0 +1,108 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : {},
+				"path" : "C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/arm-none-eabi-gcc.exe",
+				"version" : ""
+			},
+			"language" : "ASM",
+			"sourceFileExtensions" : 
+			[
+				"s",
+				"S",
+				"asm"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1/include",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1/include-fixed",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/include"
+					],
+					"linkDirectories" : 
+					[
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/lib/thumb/v8-m.main+fp/softfp",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/arm-none-eabi-gcc.exe",
+				"version" : "14.2.1"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/include/c++/14.2.1",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/include/c++/14.2.1/arm-none-eabi/thumb/v8-m.main+fp/softfp",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/include/c++/14.2.1/backward",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1/include",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1/include-fixed",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/include"
+					],
+					"linkDirectories" : 
+					[
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/lib/thumb/v8-m.main+fp/softfp",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc/arm-none-eabi/14.2.1",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/lib/gcc",
+						"C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/arm-none-eabi/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/arm-none-eabi-g++.exe",
+				"version" : "14.2.1"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm",
+				"ccm",
+				"cxxm",
+				"c++m"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

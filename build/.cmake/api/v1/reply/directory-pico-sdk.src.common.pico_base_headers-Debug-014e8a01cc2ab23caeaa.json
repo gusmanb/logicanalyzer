@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "pico-sdk/src/common/pico_base_headers",
+		"source" : "C:/Users/backu/.pico-sdk/sdk/2.2.0/src/common/pico_base_headers"
+	}
+}

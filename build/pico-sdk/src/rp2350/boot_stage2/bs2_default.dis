@@ -1,0 +1,108 @@
+
+C:/Users/backu/Documents/GitHub/logicanalyzer/Firmware/LogicAnalyzer_V2/build/pico-sdk/src/rp2350/boot_stage2/bs2_default.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000a4  20081f00  20081f00  00000f00  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .ARM.attributes 00000028  00000000  00000000  00000fa4  2**0
+                  CONTENTS, READONLY
+  2 .debug_line   000000b4  00000000  00000000  00000fcc  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  3 .debug_line_str 00000120  00000000  00000000  00001080  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  4 .debug_info   00000025  00000000  00000000  000011a0  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  5 .debug_abbrev 00000014  00000000  00000000  000011c5  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  6 .debug_aranges 00000020  00000000  00000000  000011e0  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+  7 .debug_str    000000a6  00000000  00000000  00001200  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+C:/Users/backu/Documents/GitHub/logicanalyzer/Firmware/LogicAnalyzer_V2/build/pico-sdk/src/rp2350/boot_stage2/bs2_default.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20081f00 <_stage2_boot>:
+20081f00:	b500      	push	{lr}
+
+20081f02 <_pad_config>:
+20081f02:	4b24      	ldr	r3, [pc, #144]	@ (20081f94 <literals>)
+20081f04:	2021      	movs	r0, #33	@ 0x21
+20081f06:	6058      	str	r0, [r3, #4]
+20081f08:	f513 5340 	adds.w	r3, r3, #12288	@ 0x3000
+20081f0c:	2002      	movs	r0, #2
+20081f0e:	6098      	str	r0, [r3, #8]
+20081f10:	60d8      	str	r0, [r3, #12]
+20081f12:	6118      	str	r0, [r3, #16]
+20081f14:	6158      	str	r0, [r3, #20]
+20081f16:	f513 230d 	adds.w	r3, r3, #577536	@ 0x8d000
+
+20081f1a <program_sregs>:
+20081f1a:	491f      	ldr	r1, [pc, #124]	@ (20081f98 <literals+0x4>)
+20081f1c:	6019      	str	r1, [r3, #0]
+20081f1e:	6818      	ldr	r0, [r3, #0]
+20081f20:	f010 0f02 	tst.w	r0, #2
+20081f24:	d1fb      	bne.n	20081f1e <program_sregs+0x4>
+20081f26:	2035      	movs	r0, #53	@ 0x35
+20081f28:	f000 f82c 	bl	20081f84 <read_flash_sreg>
+20081f2c:	2802      	cmp	r0, #2
+20081f2e:	d014      	beq.n	20081f5a <_skip_sreg_programming>
+20081f30:	2006      	movs	r0, #6
+20081f32:	6058      	str	r0, [r3, #4]
+20081f34:	f000 f822 	bl	20081f7c <wait_qmi_ready>
+20081f38:	6898      	ldr	r0, [r3, #8]
+20081f3a:	2001      	movs	r0, #1
+20081f3c:	6058      	str	r0, [r3, #4]
+20081f3e:	2000      	movs	r0, #0
+20081f40:	6058      	str	r0, [r3, #4]
+20081f42:	2002      	movs	r0, #2
+20081f44:	6058      	str	r0, [r3, #4]
+20081f46:	f000 f819 	bl	20081f7c <wait_qmi_ready>
+20081f4a:	6898      	ldr	r0, [r3, #8]
+20081f4c:	6898      	ldr	r0, [r3, #8]
+20081f4e:	6898      	ldr	r0, [r3, #8]
+20081f50:	2005      	movs	r0, #5
+20081f52:	f000 f817 	bl	20081f84 <read_flash_sreg>
+20081f56:	0840      	lsrs	r0, r0, #1
+20081f58:	d2fa      	bcs.n	20081f50 <program_sregs+0x36>
+
+20081f5a <_skip_sreg_programming>:
+20081f5a:	f031 0101 	bics.w	r1, r1, #1
+20081f5e:	6019      	str	r1, [r3, #0]
+
+20081f60 <_qmi_config>:
+20081f60:	480e      	ldr	r0, [pc, #56]	@ (20081f9c <literals+0x8>)
+20081f62:	60d8      	str	r0, [r3, #12]
+20081f64:	f24a 00eb 	movw	r0, #41195	@ 0xa0eb
+20081f68:	6158      	str	r0, [r3, #20]
+20081f6a:	480d      	ldr	r0, [pc, #52]	@ (20081fa0 <literals+0xc>)
+20081f6c:	6118      	str	r0, [r3, #16]
+20081f6e:	f04f 51a0 	mov.w	r1, #335544320	@ 0x14000000
+20081f72:	7809      	ldrb	r1, [r1, #0]
+20081f74:	f420 5080 	bic.w	r0, r0, #4096	@ 0x1000
+20081f78:	6118      	str	r0, [r3, #16]
+20081f7a:	bd00      	pop	{pc}
+
+20081f7c <wait_qmi_ready>:
+20081f7c:	6818      	ldr	r0, [r3, #0]
+20081f7e:	0880      	lsrs	r0, r0, #2
+20081f80:	d2fc      	bcs.n	20081f7c <wait_qmi_ready>
+20081f82:	4770      	bx	lr
+
+20081f84 <read_flash_sreg>:
+20081f84:	b500      	push	{lr}
+20081f86:	6058      	str	r0, [r3, #4]
+20081f88:	6058      	str	r0, [r3, #4]
+20081f8a:	f7ff fff7 	bl	20081f7c <wait_qmi_ready>
+20081f8e:	6898      	ldr	r0, [r3, #8]
+20081f90:	6898      	ldr	r0, [r3, #8]
+20081f92:	bd00      	pop	{pc}
+
+20081f94 <literals>:
+20081f94:	40040000 	.word	0x40040000
+20081f98:	07800041 	.word	0x07800041
+20081f9c:	40000202 	.word	0x40000202
+20081fa0:	000492a8 	.word	0x000492a8

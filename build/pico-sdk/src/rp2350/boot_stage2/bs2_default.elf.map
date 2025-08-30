@@ -1,0 +1,87 @@
+
+There are no discarded input sections
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+SRAM             0x20081f00         0x000000fc         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x20081f00                        . = ORIGIN (SRAM)
+
+.text           0x20081f00       0xa4
+                0x20081f00                        _start = .
+ *(.entry)
+ *(.text)
+ .text          0x20081f00       0xa4 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+                0x20081f00                _stage2_boot
+                0x20081f84                read_flash_sreg
+                0x20081f94                literals
+LOAD pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+START GROUP
+LOAD C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp\libgcc.a
+LOAD C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp\libg.a
+LOAD C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp\libc.a
+END GROUP
+START GROUP
+LOAD C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp\libgcc.a
+LOAD C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp\libc.a
+LOAD C:/Users/backu/.pico-sdk/toolchain/14_2_Rel1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/softfp\libnosys.a
+END GROUP
+OUTPUT(pico-sdk\src\rp2350\boot_stage2\bs2_default.elf elf32-littlearm)
+LOAD linker stubs
+
+.data           0x20081fa4        0x0
+ .data          0x20081fa4        0x0 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.igot.plt       0x20081fa4        0x0
+ .igot.plt      0x20081fa4        0x0 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.glue_7         0x20081fa4        0x0
+ .glue_7        0x20081fa4        0x0 linker stubs
+
+.glue_7t        0x20081fa4        0x0
+ .glue_7t       0x20081fa4        0x0 linker stubs
+
+.vfp11_veneer   0x20081fa4        0x0
+ .vfp11_veneer  0x20081fa4        0x0 linker stubs
+
+.v4_bx          0x20081fa4        0x0
+ .v4_bx         0x20081fa4        0x0 linker stubs
+
+.iplt           0x20081fa4        0x0
+ .iplt          0x20081fa4        0x0 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.rel.dyn        0x20081fa4        0x0
+ .rel.iplt      0x20081fa4        0x0 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.bss            0x20081fa4        0x0
+ .bss           0x20081fa4        0x0 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.ARM.attributes
+                0x00000000       0x28
+ .ARM.attributes
+                0x00000000       0x28 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.debug_line     0x00000000       0xb4
+ .debug_line    0x00000000       0xb4 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.debug_line_str
+                0x00000000      0x120
+ .debug_line_str
+                0x00000000      0x120 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.debug_info     0x00000000       0x25
+ .debug_info    0x00000000       0x25 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.debug_abbrev   0x00000000       0x14
+ .debug_abbrev  0x00000000       0x14 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.debug_aranges  0x00000000       0x20
+ .debug_aranges
+                0x00000000       0x20 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
+
+.debug_str      0x00000000       0xa6
+ .debug_str     0x00000000       0xa6 pico-sdk/src/rp2350/boot_stage2/CMakeFiles/bs2_default.dir/compile_time_choice.S.obj

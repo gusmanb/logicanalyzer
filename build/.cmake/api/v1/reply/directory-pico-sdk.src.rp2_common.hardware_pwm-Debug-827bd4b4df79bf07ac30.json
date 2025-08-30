@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "pico-sdk/src/rp2_common/hardware_pwm",
+		"source" : "C:/Users/backu/.pico-sdk/sdk/2.2.0/src/rp2_common/hardware_pwm"
+	}
+}
