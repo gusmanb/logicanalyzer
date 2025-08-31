@@ -202,6 +202,10 @@ void cdc_transfer(unsigned char* data, int len)
     }
 }
 
+#ifdef USE_CYGW_WIFI
+/// @brief Transfer a buffer of data through WiFi
+/// @param data Buffer of data to transfer
+/// @param len Length of the buffer
 void wifi_transfer(unsigned char* data, int len)
 {
     EVENT_FROM_FRONTEND evt;
@@ -223,6 +227,7 @@ void wifi_transfer(unsigned char* data, int len)
         event_push(&frontendToWifi, &evt);
     }
 }
+#endif
 
 /// @brief Processes data received from the host application
 /// @param data The received data
