@@ -385,7 +385,7 @@ namespace LogicAnalyzer
 
         private void ScrSamplePos_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
-            if(e.Delta.Y > 0)
+            if(e.Delta.Y < 0)
             {
                 var currentVal = scrSamplePos.Value;
                 int newVal = (int)(currentVal - scrSamplePos.Maximum / 20);
@@ -395,7 +395,7 @@ namespace LogicAnalyzer
 
                 updateSamplesInDisplay(newVal, (int)tkInScreen.Value);
             }
-            else if (e.Delta.Y < 0)
+            else if (e.Delta.Y > 0)
             {
                 var currentVal = scrSamplePos.Value;
                 int newVal = (int)(currentVal + scrSamplePos.Maximum / 20);
@@ -409,11 +409,11 @@ namespace LogicAnalyzer
 
         private void SampleViewer_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
-            if (e.KeyModifiers == KeyModifiers.Shift)
+            if (e.KeyModifiers == KeyModifiers.Control)
             {
                 e.Handled = true;
 
-                if (e.Delta.Y > 0)
+                if (e.Delta.Y < 0)
                 {
                     var currentVal = tkInScreen.Value;
                     int newVal = (int)currentVal * 2;
@@ -424,7 +424,7 @@ namespace LogicAnalyzer
 
                     updateSamplesInDisplay((int)scrSamplePos.Value, newVal);
                 }
-                else if (e.Delta.Y < 0)
+                else if (e.Delta.Y > 0)
                 {
                     var currentVal = tkInScreen.Value;
                     int newVal = (int)currentVal / 2;
@@ -435,11 +435,11 @@ namespace LogicAnalyzer
                     updateSamplesInDisplay((int)scrSamplePos.Value, newVal);
                 }
             }
-            else if (e.KeyModifiers == KeyModifiers.Control)
+            else if (e.KeyModifiers == KeyModifiers.Shift)
             {
                 e.Handled = true;
 
-                if (e.Delta.Y > 0)
+                if (e.Delta.Y < 0)
                 {
                     var increment = tkInScreen.Value / 4.0;
                     var currentValue = scrSamplePos.Value;
@@ -450,7 +450,7 @@ namespace LogicAnalyzer
 
                     updateSamplesInDisplay((int)currentValue, (int)tkInScreen.Value);
                 }
-                else if (e.Delta.Y < 0)
+                else if (e.Delta.Y > 0)
                 {
                     var increment = tkInScreen.Value / 4.0;
                     var currentValue = scrSamplePos.Value;

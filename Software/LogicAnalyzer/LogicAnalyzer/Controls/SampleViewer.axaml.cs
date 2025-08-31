@@ -78,7 +78,7 @@ namespace LogicAnalyzer.Controls
 
             if (interval != null)
             {
-                var text = $"{chan.ToString()}\nState: {(interval.value ? "High" : "Low")}\nLength: {interval.duration.ToSmallTime()} ({interval.end - interval.start} samples)";
+                var text = $"{chan.ToString()}\nState: {(interval.value ? "High" : "Low")}\nLength: {interval.duration.ToSmallTime()} ({interval.end - interval.start} samples)\nInferred frequency: {interval.duration.ToInferredFrequency()}";
                 if (ToolTip.GetTip(this)?.ToString() != text || !ToolTip.GetIsOpen(this))
                 {
 

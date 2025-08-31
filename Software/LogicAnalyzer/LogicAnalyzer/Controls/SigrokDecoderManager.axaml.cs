@@ -129,6 +129,8 @@ public partial class SigrokDecoderManager : UserControl
     private void TxtFilter_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         txtFilter.Text = "";
+        txtFilter.IsEnabled = true;
+        txtFilter.Focus();
     }
 
     private void TxtFilter_TextChanged(object? sender, TextChangedEventArgs e)

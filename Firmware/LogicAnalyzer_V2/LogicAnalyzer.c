@@ -202,6 +202,28 @@ void cdc_transfer(unsigned char* data, int len)
     }
 }
 
+void wifi_transfer(unsigned char* data, int len)
+{
+    EVENT_FROM_FRONTEND evt;
+    evt.event = SEND_DATA;
+
+    int pos = 0;
+    int filledData;
+    while(pos < len)
+    {
+        filledData = 0;
+        while(pos < len && filledData < 32)
+        {
+            evt.data[filledData] = data[pos];
+            pos++;
+            filledData++;
+        }
+
+        evt.dataLength = filledData;
+        event_push(&frontendToWifi, &evt);
+    }
+}
+
 /// @brief Processes data received from the host application
 /// @param data The received data
 /// @param length Length of the data
@@ -633,11 +655,7 @@ int main()
                     if(usbDisabled)
                     {
                         sleep_ms(2000);
-                        EVENT_FROM_FRONTEND evt;
-                        evt.event = SEND_DATA;
-                        evt.dataLength = 4;
-                        memcpy(evt.data, lengthPointer, 4);
-                        event_push(&frontendToWifi, &evt);
+                        wifi_transfer(lengthPointer, 4);
                     }
                     else
                     {
@@ -670,39 +688,18 @@ int main()
                     //Send the samples
                     if(usbDisabled)
                     {
-                        EVENT_FROM_FRONTEND evt;
-                        evt.event = SEND_DATA;
-
-                        int pos = 0;
-                        int filledData;
-                        while(pos < length)
+                        if(first + length > CAPTURE_BUFFER_SIZE)
                         {
-                            filledData = 0;
-                            while(pos < length && filledData < 32)
-                            {
-                                evt.data[filledData] = buffer[first++];
-
-                                if(first >= 131072)
-                                    first = 0;
-
-                                pos++;
-                                filledData++;
-                            }
-
-                            evt.dataLength = filledData;
-                            event_push(&frontendToWifi, &evt);
+                            wifi_transfer(buffer + first, CAPTURE_BUFFER_SIZE - first);
+                            wifi_transfer(buffer, (first + length) - CAPTURE_BUFFER_SIZE);
                         }
+                        else
+                            wifi_transfer(buffer + first, length);
 
-                        evt.data[0] = stampsLength;
-                        evt.dataLength = 1;
-                        event_push(&frontendToWifi, &evt);
+                        wifi_transfer(&stampsLength, 1);
 
-                        for(int buc = 0; buc < stampsLength; buc++)
-                        {
-                            *((uint32_t*)evt.data) = timestamps[buc];
-                            evt.dataLength = 4;
-                            event_push(&frontendToWifi, &evt);
-                        }
+                        if(stampsLength > 1)
+                            wifi_transfer((unsigned char*)timestamps, stampsLength * 4);
                     }
                     else
                     {

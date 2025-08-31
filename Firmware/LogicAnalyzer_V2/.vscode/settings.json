@@ -46,6 +46,7 @@
         "stdio.h": "c",
         "dma.h": "c",
         "cstdlib": "c",
-        "cstdint": "c"
+        "cstdint": "c",
+        "string_view": "c"
     }
 }
