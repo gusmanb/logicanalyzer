@@ -12,6 +12,9 @@ Beware, the documentation is a bit outdated, I will try this summer to upgrade e
 - Direct order (based on availability): https://logicanalyzer.rf.gd (right now orders are not accepted)
 - PCBWay order: https://www.pcbway.com/project/shareproject/LogicAnalyzer_V6_0_cc383781.html
 
+## Enclosure
+- @Bravo13 has created a pretty cool enclosure for V6.0, you can order it [here](https://www.pcbway.com/project/shareproject/Enclosure_for_LogicAnalyzer_V6_0_b82ed490.html)
+
 ## Downloads
 - You can find all the compiled projects in the [Releases section](https://github.com/gusmanb/logicanalyzer/releases).
 - Latest version: Release 6.0.0.1, 09/02/2025
@@ -780,3 +783,4 @@ In any case, I will try to get it running in one of my development machines and 
 ---
 
 Have fun!
+
