@@ -1144,7 +1144,7 @@ namespace LogicAnalyzer
                 var channels = session?.CaptureChannels?.Select(c => (int)c.ChannelNumber).ToArray() ?? Enumerable.Range(0, driver.ChannelCount).ToArray();
                 var limits = driver.GetLimits(channels);
                 minSamples = limits.MinPreSamples + limits.MinPostSamples;
-                maxSamples = limits.MaxPreSamples + limits.MaxPostSamples;
+                maxSamples = limits.MaxTotalSamples;
             }
 
             var dlg = new GeneralSettingsDialog
