@@ -188,12 +188,9 @@ namespace LogicAnalyzer.Controls
 
             double ratio = Bounds.Width / sampleCount;
             double newStart = x - dragOffset;
-            int first = (int)(newStart / ratio);
 
-            if (first < 0)
-                first = 0;
-            if (first > sampleCount - VisibleSamples)
-                first = sampleCount - VisibleSamples;
+            int first = (int)(newStart / ratio);
+            first = Math.Clamp(first, 0, sampleCount - VisibleSamples);
 
             ViewChanged?.Invoke(this, new ViewChangedEventArgs { FirstSample = first });
         }
