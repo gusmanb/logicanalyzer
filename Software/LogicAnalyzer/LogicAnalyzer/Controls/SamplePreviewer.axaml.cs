@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using LogicAnalyzer.Classes;
@@ -23,9 +24,13 @@ namespace LogicAnalyzer.Controls
         public int VisibleSamples { get; private set; }
 
         public event EventHandler<PinnedEventArgs>? PinnedChanged;
+        public event EventHandler<ViewChangedEventArgs>? ViewChanged;
 
         bool pinned = false;
         public bool Pinned { get { return pinned; } set { pinned = value; if (PinnedChanged != null) PinnedChanged(this, new PinnedEventArgs { Pinned = pinned }); } }
+
+        bool dragging = false;
+        double dragOffset = 0;
 
         public SamplePreviewer()
         {
@@ -125,6 +130,71 @@ namespace LogicAnalyzer.Controls
             InvalidateVisual();
         }
 
+        protected override void OnPointerPressed(PointerPressedEventArgs e)
+        {
+            base.OnPointerPressed(e);
+
+            if (e.Source == lblPin)
+                return;
+
+            var point = e.GetPosition(this);
+            double ratio = Bounds.Width / sampleCount;
+            double visibleWidth = VisibleSamples * ratio;
+            double startX = FirstSample * ratio;
+
+            if (point.X >= startX && point.X <= startX + visibleWidth)
+            {
+                dragOffset = point.X - startX;
+            }
+            else
+            {
+                dragOffset = visibleWidth / 2.0;
+                updateView(point.X);
+            }
+
+            dragging = true;
+            e.Pointer.Capture(this);
+        }
+
+        protected override void OnPointerMoved(PointerEventArgs e)
+        {
+            base.OnPointerMoved(e);
+
+            if (!dragging)
+                return;
+
+            var point = e.GetPosition(this);
+            updateView(point.X);
+        }
+
+        protected override void OnPointerReleased(PointerReleasedEventArgs e)
+        {
+            base.OnPointerReleased(e);
+
+            if (!dragging)
+                return;
+
+            dragging = false;
+            e.Pointer.Capture(null);
+
+            var point = e.GetPosition(this);
+            updateView(point.X);
+        }
+
+        void updateView(double x)
+        {
+            if (sampleCount == 0)
+                return;
+
+            double ratio = Bounds.Width / sampleCount;
+            double newStart = x - dragOffset;
+
+            int first = (int)(newStart / ratio);
+            first = Math.Clamp(first, 0, sampleCount - VisibleSamples);
+
+            ViewChanged?.Invoke(this, new ViewChangedEventArgs { FirstSample = first });
+        }
+
         private void TextBlock_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
         {
             pinned = !pinned;
@@ -136,6 +206,11 @@ namespace LogicAnalyzer.Controls
         public class PinnedEventArgs : EventArgs
         {
             public bool Pinned { get; set; }
+        }
+
+        public class ViewChangedEventArgs : EventArgs
+        {
+            public int FirstSample { get; set; }
         }
     }
 }

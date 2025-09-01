@@ -17,7 +17,8 @@
           <Separator/>
           <MenuItem Header="_Exit" Name="mnuExit"/>
         </MenuItem>
-      <MenuItem Header="Network settings" IsEnabled="False" Name="mnuSettings">
+      <MenuItem Header="_Settings" Name="mnuSettings">
+        <MenuItem Header="General" Name="mnuGeneralSettings"></MenuItem>
         <MenuItem Header="Update network settings" Name="mnuNetSettings"></MenuItem>
       </MenuItem>
       <MenuItem Header="Profiles" Name="mnuProfiles" IsEnabled="False">
@@ -90,9 +91,19 @@
             <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,5,10,0" Name="lblMaxSamples" HorizontalAlignment="Right">
               10000
             </TextBlock>
-            <Border Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,0" >
-              <Slider Margin="0,-10,0,0" TickFrequency="50" TickPlacement="BottomRight" Minimum="10" Maximum="10000" Value="1024" Name="tkInScreen"></Slider>
-            </Border>
+              <Border Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,10,0" >
+                  <Slider Margin="0,-10,0,0"
+                          TickFrequency="50"
+                          TickPlacement="BottomRight"
+                          Minimum="10"
+                          Maximum="10000"
+                          Value="1024"
+                          Name="tkInScreen"
+                          ToolTip.ShowDelay="0"
+                          ToolTip.Placement="AnchorAndGravity"
+                          ToolTip.Tip="{Binding Value, RelativeSource={RelativeSource Self}, StringFormat='{}{0:F0}'}">
+                  </Slider>
+              </Border>
           </Grid>
           <StackPanel Margin="5,5,5,0" Background="#80383838">
             <TextBlock Margin="5,2,5,2">
