@@ -213,11 +213,23 @@ void disable_gpios()
     gpio_deinit(COMPLEX_TRIGGER_IN_PIN); 
     #endif
 
+    // Universal output protection: Only deinit pins that were configured as inputs
+    // This preserves output pins (like FPGA clocks, LEDs, etc.) in their output state
+    // Comment out the gpio_is_dir_out() check if you need to deinit all pins
     for(uint8_t i = 0; i < lastCapturePinCount; i++)
-        gpio_deinit(lastCapturePins[i]);
+    {
+        if (!gpio_is_dir_out(lastCapturePins[i]))
+        {
+            gpio_deinit(lastCapturePins[i]);
+        }
+    }
 
-
-    gpio_set_inover(lastTriggerPin, 0);
+    // Universal output protection: Only reset inover for input trigger pins
+    // This preserves output trigger pins in their output state
+    if (!gpio_is_dir_out(lastTriggerPin))
+    {
+        gpio_set_inover(lastTriggerPin, 0);
+    }
 }
 
 
