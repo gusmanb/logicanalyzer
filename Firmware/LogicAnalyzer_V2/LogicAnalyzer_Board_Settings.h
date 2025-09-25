@@ -203,6 +203,39 @@
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 28
 
+    #elif defined (BUILD_PICO_ICE)
+
+        #define BOARD_NAME "PICO_ICE"
+        #define SUPPORTS_COMPLEX_TRIGGER
+        #define INPUT_PIN_BASE 0
+        #define COMPLEX_TRIGGER_OUT_PIN 0
+        #define COMPLEX_TRIGGER_IN_PIN 1
+        #define GPIO_LED
+        #define LED_IO 12  // Use green LED to avoid conflict with capture pins
+        #define PIN_MAP {0,1,2,3,4,5,6,7,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,COMPLEX_TRIGGER_IN_PIN}
+
+        // FPGA control pins for pico-ice
+        #define PIN_FPGA_CRESETN 27  // CRESET_B (active-low)
+        #define PIN_FPGA_CDONE 26    // CDONE
+        #define PIN_CLOCK 24         // Clock to FPGA (10MHz)
+
+        // FPGA SPI configuration pins (set as high-Z during config)
+        #define PIN_ICE_SI 8         // SPI MOSI to FPGA flash
+        #define PIN_ICE_SO 11        // SPI MISO from FPGA flash
+        #define PIN_ICE_SCK 10       // SPI clock to FPGA flash
+        #define PIN_ICE_SSN 9        // SPI CS to FPGA flash (active-low)
+        #define PIN_RAM_SS 14        // PSRAM chip select
+
+        #ifdef TURBO_MODE
+            #define MAX_FREQ 200000000
+            #define MAX_BLAST_FREQ 400000000
+        #else
+            #define MAX_FREQ 100000000
+            #define MAX_BLAST_FREQ 200000000
+        #endif
+        #define CAPTURE_BUFFER_SIZE (128 * 1024)
+        #define MAX_CHANNELS 24
+
     #endif
 
 #endif

@@ -15,7 +15,7 @@ if(WIN32)
 else()
     set(USERHOME $ENV{HOME})
 endif()
-set(sdkVersion 2.1.1)
+set(sdkVersion 2.2.0)
 set(toolchainVersion 14_2_Rel1)
 set(picotoolVersion 2.1.1)
 set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
@@ -91,6 +91,7 @@ endif()
 # Create C header file with the name <pio program>.pio.h
 pico_generate_pio_header(${PROJECT_NAME}  
         ${CMAKE_CURRENT_LIST_DIR}/LogicAnalyzer.pio
+        ${CMAKE_CURRENT_LIST_DIR}/fpga_clock.pio
 )
 
 pico_set_program_name(LogicAnalyzer "LogicAnalyzer")
@@ -140,6 +141,10 @@ endif()
 if(BOARD_TYPE STREQUAL "BOARD_INTERCEPTOR")
     message(STATUS "Configuring for Interceptor")
     add_compile_definitions(BUILD_INTERCEPTOR)
+endif()
+if(BOARD_TYPE STREQUAL "BOARD_PICO_ICE")
+    message(STATUS "Configuring for Pico-ICE")
+    add_compile_definitions(BUILD_PICO_ICE)
 endif()
 
 # Add any user requested librariesUna pregu

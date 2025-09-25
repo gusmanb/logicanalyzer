@@ -213,11 +213,23 @@ void disable_gpios()
     gpio_deinit(COMPLEX_TRIGGER_IN_PIN); 
     #endif
 
+    // Universal pin state preservation: Don't change ANY pin states after capture
+    // This preserves all pin configurations (inputs, outputs, high-Z) for user applications
+    // Logic Analyzer only needs to READ pins during capture, not control them after
+    // Comment out this entire section if you need the old behavior that changed pins to high-Z
+    /*
     for(uint8_t i = 0; i < lastCapturePinCount; i++)
-        gpio_deinit(lastCapturePins[i]);
+    {
+        gpio_deinit(lastCapturePins[i]);  // Old behavior - disrupted user applications
+    }
+    */
 
-
-    gpio_set_inover(lastTriggerPin, 0);
+    // Universal trigger pin preservation: Only reset inover for input trigger pins
+    // This preserves output trigger pins in their output state for user applications
+    if (!gpio_is_dir_out(lastTriggerPin))
+    {
+        gpio_set_inover(lastTriggerPin, 0);
+    }
 }
 
 
@@ -640,7 +652,15 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
-        pio_gpio_init(capturePIO, pinMap[i]);
+    {
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
+    }
 
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true); 
@@ -650,7 +670,15 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     //Modified for the W
     for(int i = 0; i < MAX_CHANNELS; i++)
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    {
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
+    }
 
     //Configure state machines
     pio_sm_config smConfig = FAST_CAPTURE_program_get_default_config(captureOffset);
@@ -807,7 +835,15 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
-        pio_gpio_init(capturePIO, pinMap[i]);
+    {
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
+    }
 
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);
@@ -816,7 +852,15 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     captureOffset = pio_add_program(capturePIO, &COMPLEX_CAPTURE_program);
 
     for(int i = 0; i < MAX_CHANNELS; i++)
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    {
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
+    }
 
     //Configure state machines
     pio_sm_config smConfig = COMPLEX_CAPTURE_program_get_default_config(captureOffset);
@@ -978,14 +1022,39 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
 
     //Configure capture pins
     for(int i = 0; i < MAX_CHANNELS; i++)
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    {
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
+    }
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
-        pio_gpio_init(capturePIO, pinMap[i]);
+    {
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
+    }
     
     //Configure trigger pin
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
-    pio_gpio_init(capturePIO, triggerPin);
+    // Universal output protection: Only change pin direction for pins not already configured as outputs
+    if (!gpio_is_dir_out(triggerPin))
+    {
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    }
+    // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+    // This preserves output signals while still allowing them to be monitored for triggers
+    if (!gpio_is_dir_out(triggerPin))
+    {
+        pio_gpio_init(capturePIO, triggerPin);
+    }
 
     if(!invertTrigger)
         gpio_set_inover(triggerPin, 1);
@@ -1115,14 +1184,39 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
     //Configure capture pins
     for(int i = 0; i < MAX_CHANNELS; i++)
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    {
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
+    }
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
-        pio_gpio_init(capturePIO, pinMap[i]);
+    {
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
+    }
 
     //Configure trigger pin
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
-    pio_gpio_init(capturePIO, triggerPin);
+    // Universal output protection: Only change pin direction for pins not already configured as outputs
+    if (!gpio_is_dir_out(triggerPin))
+    {
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    }
+    // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+    // This preserves output signals while still allowing them to be monitored for triggers
+    if (!gpio_is_dir_out(triggerPin))
+    {
+        pio_gpio_init(capturePIO, triggerPin);
+    }
 
     //Configure state machines
     pio_sm_config smConfig = measureBursts?

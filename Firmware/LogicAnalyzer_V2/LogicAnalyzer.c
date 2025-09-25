@@ -1,5 +1,9 @@
 #include "LogicAnalyzer_Board_Settings.h"
 
+#ifdef BUILD_PICO_ICE
+    #include "LogicAnalyzer_FPGA.h"
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include "pico/stdlib.h"
@@ -613,6 +617,11 @@ int main()
 
     //Initialize USB stdio
     stdio_init_all();
+
+    #ifdef BUILD_PICO_ICE
+        // Initialize FPGA (release reset, wait for CDONE) and start 10 MHz clock on GPIO24
+        fpga_init();
+    #endif
 
     #if defined (BUILD_PICO_W) || defined (BUILD_PICO_2_W)
         cyw43_arch_init();
