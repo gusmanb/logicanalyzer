@@ -641,11 +641,13 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_gpio_init(capturePIO, pinMap[i]);
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
     }
 
     //Configure capture SM
@@ -657,11 +659,13 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Modified for the W
     for(int i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
     }
 
     //Configure state machines
@@ -820,11 +824,13 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_gpio_init(capturePIO, pinMap[i]);
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
     }
 
     //Configure capture SM
@@ -835,11 +841,13 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
 
     for(int i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
     }
 
     //Configure state machines
@@ -1003,31 +1011,38 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     //Configure capture pins
     for(int i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
     }
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_gpio_init(capturePIO, pinMap[i]);
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
     }
     
     //Configure trigger pin
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
-    #ifdef BUILD_PICO_ICE
-    // For pico-ice, avoid taking ownership for protected trigger pins
-    if (triggerPin != PIN_FPGA_CRESETN && triggerPin != PIN_CLOCK)
+    // Universal output protection: Only change pin direction for pins not already configured as outputs
+    if (!gpio_is_dir_out(triggerPin))
+    {
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    }
+    // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+    // This preserves output signals while still allowing them to be monitored for triggers
+    if (!gpio_is_dir_out(triggerPin))
+    {
         pio_gpio_init(capturePIO, triggerPin);
-    #else
-    pio_gpio_init(capturePIO, triggerPin);
-    #endif
+    }
 
     if(!invertTrigger)
         gpio_set_inover(triggerPin, 1);
@@ -1158,31 +1173,38 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     //Configure capture pins
     for(int i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        // Universal output protection: Only change pin direction for pins not already configured as outputs
+        // This preserves output pins (like FPGA clocks, LEDs, etc.) while still allowing monitoring
+        // Comment out this loop and use pio_sm_set_consecutive_pindirs() directly to revert
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+        }
     }
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
     {
-        #ifdef BUILD_PICO_ICE
-        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
-        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
-        #endif
-        pio_gpio_init(capturePIO, pinMap[i]);
+        // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+        // This allows monitoring of output signals while preserving their output state
+        // Comment out the gpio_is_dir_out() check if you need PIO to control output pins
+        if (!gpio_is_dir_out(pinMap[i]))
+        {
+            pio_gpio_init(capturePIO, pinMap[i]);
+        }
     }
 
     //Configure trigger pin
-    pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
-    #ifdef BUILD_PICO_ICE
-    // For pico-ice, avoid taking ownership for protected trigger pins
-    if (triggerPin != PIN_FPGA_CRESETN && triggerPin != PIN_CLOCK)
+    // Universal output protection: Only change pin direction for pins not already configured as outputs
+    if (!gpio_is_dir_out(triggerPin))
+    {
+        pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    }
+    // Universal output protection: Don't take PIO ownership of pins already configured as outputs
+    // This preserves output signals while still allowing them to be monitored for triggers
+    if (!gpio_is_dir_out(triggerPin))
+    {
         pio_gpio_init(capturePIO, triggerPin);
-    #else
-    pio_gpio_init(capturePIO, triggerPin);
-    #endif
+    }
 
     //Configure state machines
     pio_sm_config smConfig = measureBursts?
