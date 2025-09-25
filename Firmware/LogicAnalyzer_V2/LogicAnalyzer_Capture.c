@@ -656,7 +656,13 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     //Modified for the W
     for(int i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    }
 
     //Configure state machines
     pio_sm_config smConfig = FAST_CAPTURE_program_get_default_config(captureOffset);
@@ -1015,7 +1021,13 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     
     //Configure trigger pin
     pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    #ifdef BUILD_PICO_ICE
+    // For pico-ice, avoid taking ownership for protected trigger pins
+    if (triggerPin != PIN_FPGA_CRESETN && triggerPin != PIN_CLOCK)
+        pio_gpio_init(capturePIO, triggerPin);
+    #else
     pio_gpio_init(capturePIO, triggerPin);
+    #endif
 
     if(!invertTrigger)
         gpio_set_inover(triggerPin, 1);
@@ -1164,7 +1176,13 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
     //Configure trigger pin
     pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
+    #ifdef BUILD_PICO_ICE
+    // For pico-ice, avoid taking ownership for protected trigger pins
+    if (triggerPin != PIN_FPGA_CRESETN && triggerPin != PIN_CLOCK)
+        pio_gpio_init(capturePIO, triggerPin);
+    #else
     pio_gpio_init(capturePIO, triggerPin);
+    #endif
 
     //Configure state machines
     pio_sm_config smConfig = measureBursts?
