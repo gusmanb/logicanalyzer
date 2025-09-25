@@ -1,0 +1,16 @@
+# Fixing Our Mess 4:30 a.m. of 9/25/2025
+Okay, we are changing goals, because we are just fighting bugs we have created in this project, by letting the AI have way too much freedom.  We have strayed too far from the original code to get a pull request accepted, and introduced new bugs in the process.  We have code that works for the BOARD_PICO_2 which is a very close relative of the BOARD_PICO_2_ICE.  Likewise we have code for the BOARD_PICO which is very similar to the BOARD_PICO_ICE.  This code is at git commit 3fa3703c80d8499cbfeec0e33c5837cf09a08587 which is ahead of our work.  We just need to git diff between the Firmware/LogicAnalyzer_V2/ at 3fa3703c80d8499cbfeec0e33c5837cf09a08587 for the PICO_2, and what we have here to figure out the communication bugs.  We need to closely examine these diffs to determine what is going wrong with the communication between the GUI and the firmware. 
+
+# PRIME DIRECTIVE
+ I WANT MINIMAL CHANGES TO 3fa3703c80d8499cbfeec0e33c5837cf09a08587 TO ACHIEVE MY GOALS! This is imperitive to get my pull request accepted, and will introduce minimal bugs, so follow this as the prime directive!
+
+### Branches I Need
+You will need to create these branches.  Each branch is for a pull request to the original Dr Gusman repository.  The changes on 1 will only be needed if it does not already build on Linux.  Numbers 2 and 3 are each for a seperate board we wish to add to Dr. Gusman's LogicAnalyzer project.
+
+1. build_for_linux  This branch is to be like 3fa3703c80d8499cbfeec0e33c5837cf09a08587, with the only difference that it will build 3fa3703c80d8499cbfeec0e33c5837cf09a08587 for the BOARD_PICO and BOARD_PICO_2 here on Linux, which may not work now.  The only changes that should be made are in the cmake files for this branch and it is possible it builds for Linux already.  If it builds already, we do not need this branch. 
+2. new_pico_ice  This branch will add the pico-ice board to the firmware. We have working pico-ice firmware at 89fd601647d5f81dbd77dcb84df9eda8edc04c79.  The goal here is to make the changes minimal from 3fa3703c80d8499cbfeec0e33c5837cf09a08587, while still having it work for the BOARD_PICO_ICE.
+3. new-pico2-ice  This branch is to be like 3fa3703c80d8499cbfeec0e33c5837cf09a08587, with only minimal changes.  We have working FPGA clock and CRESETN firmware in the pico-ice-wip branch that has issues with the commmunication with the GUI, but the code in 3fa3703c80d8499cbfeec0e33c5837cf09a08587 built for the BOARD_PICO_2 has working communication code.
+
+## Other Notes
+
+The changes for the pico-ice and pico2-ice are described in the other prompt (firmwareonly_prommpt.md) and you are familiar with them as you have this pico2-ice-wip and for the pico-ice, this 89fd601647d5f81dbd77dcb84df9eda8edc04c79.  I wish to tackle these three repositories in the order they are listed, because I found the pico-ice easier to make work than the pico2-ice.  I really need the pico2-ice for my class, but doing it in small steps is the only way I can see this working.

@@ -91,6 +91,7 @@ endif()
 # Create C header file with the name <pio program>.pio.h
 pico_generate_pio_header(${PROJECT_NAME}  
         ${CMAKE_CURRENT_LIST_DIR}/LogicAnalyzer.pio
+        ${CMAKE_CURRENT_LIST_DIR}/fpga_clock.pio
 )
 
 pico_set_program_name(LogicAnalyzer "LogicAnalyzer")
