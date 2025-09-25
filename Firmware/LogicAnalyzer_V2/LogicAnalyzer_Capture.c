@@ -640,7 +640,13 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_gpio_init(capturePIO, pinMap[i]);
+    }
 
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true); 
@@ -807,7 +813,13 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_gpio_init(capturePIO, pinMap[i]);
+    }
 
     //Configure capture SM
     sm_Capture = pio_claim_unused_sm(capturePIO, true);
@@ -816,7 +828,13 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     captureOffset = pio_add_program(capturePIO, &COMPLEX_CAPTURE_program);
 
     for(int i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    }
 
     //Configure state machines
     pio_sm_config smConfig = COMPLEX_CAPTURE_program_get_default_config(captureOffset);
@@ -978,10 +996,22 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
 
     //Configure capture pins
     for(int i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    }
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_gpio_init(capturePIO, pinMap[i]);
+    }
     
     //Configure trigger pin
     pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
@@ -1115,10 +1145,22 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
     //Configure capture pins
     for(int i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
+    }
 
     for(uint8_t i = 0; i < MAX_CHANNELS; i++)
+    {
+        #ifdef BUILD_PICO_ICE
+        // Don't take ownership of FPGA clock/reset pins to avoid conflicts
+        if (pinMap[i] == PIN_FPGA_CRESETN || pinMap[i] == PIN_CLOCK) continue;
+        #endif
         pio_gpio_init(capturePIO, pinMap[i]);
+    }
 
     //Configure trigger pin
     pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, triggerPin, 1, false);
