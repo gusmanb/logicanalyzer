@@ -213,19 +213,19 @@ void disable_gpios()
     gpio_deinit(COMPLEX_TRIGGER_IN_PIN); 
     #endif
 
-    // Universal output protection: Only deinit pins that were configured as inputs
-    // This preserves output pins (like FPGA clocks, LEDs, etc.) in their output state
-    // Comment out the gpio_is_dir_out() check if you need to deinit all pins
+    // Universal pin state preservation: Don't change ANY pin states after capture
+    // This preserves all pin configurations (inputs, outputs, high-Z) for user applications
+    // Logic Analyzer only needs to READ pins during capture, not control them after
+    // Comment out this entire section if you need the old behavior that changed pins to high-Z
+    /*
     for(uint8_t i = 0; i < lastCapturePinCount; i++)
     {
-        if (!gpio_is_dir_out(lastCapturePins[i]))
-        {
-            gpio_deinit(lastCapturePins[i]);
-        }
+        gpio_deinit(lastCapturePins[i]);  // Old behavior - disrupted user applications
     }
+    */
 
-    // Universal output protection: Only reset inover for input trigger pins
-    // This preserves output trigger pins in their output state
+    // Universal trigger pin preservation: Only reset inover for input trigger pins
+    // This preserves output trigger pins in their output state for user applications
     if (!gpio_is_dir_out(lastTriggerPin))
     {
         gpio_set_inover(lastTriggerPin, 0);
