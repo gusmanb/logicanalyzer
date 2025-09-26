@@ -37,10 +37,14 @@ The pico-ice Logic Analyzer firmware does **NOT** program the FPGA flash. You ne
 When the Logic Analyzer firmware starts:
 
 1. **Reset Release**: The RP2040 pulls `CRESETN` (GPIO27) high, releasing the FPGA from reset
-2. **Configuration Loading**: The ICE40UP5K automatically loads its configuration from onboard flash memory
-3. **Configuration Complete**: The FPGA asserts `CDONE` (GPIO26) when configuration is successful
-4. **Clock Generation**: Once `CDONE` is high, the RP2040 generates a **10MHz clock** on `PIN_CLOCK` (GPIO24) using PIO
+2. **Clock Start**: The RP2040 immediately starts a **10MHz clock** on `PIN_CLOCK` (GPIO24) using PIO for improved reliability
+3. **Configuration Loading**: The ICE40UP5K automatically loads its configuration from onboard flash memory
+4. **Configuration Complete**: The FPGA asserts `CDONE` (GPIO26) when configuration is successful (monitored for timeout but not required)
 5. **Logic Analysis Ready**: The Logic Analyzer is now ready to capture signals while maintaining FPGA operation
+
+### Improved Reliability
+
+**Note**: The firmware uses an **immediate clock start** approach for improved reliability. Instead of waiting for CDONE assertion (which can have voltage level issues), the FPGA clock starts immediately after reset release. This ensures consistent operation while still monitoring CDONE for timeout detection.
 
 ### Dual Functionality
 

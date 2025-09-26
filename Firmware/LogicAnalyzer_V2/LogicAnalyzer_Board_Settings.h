@@ -236,6 +236,39 @@
         #define CAPTURE_BUFFER_SIZE (128 * 1024)
         #define MAX_CHANNELS 24
 
+    #elif defined (BUILD_PICO2_ICE)
+
+        #define BOARD_NAME "PICO2_ICE"
+        #define SUPPORTS_COMPLEX_TRIGGER
+        #define INPUT_PIN_BASE 20
+        #define COMPLEX_TRIGGER_OUT_PIN 0
+        #define COMPLEX_TRIGGER_IN_PIN 1
+        #define GPIO_LED
+        #define LED_IO 0  // Use green LED (RGB LED - green component)
+        #define PIN_MAP {20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,COMPLEX_TRIGGER_IN_PIN}
+
+        // FPGA control pins for pico2-ice
+        #define PIN_FPGA_CRESETN 31  // CRESET_B (active-low)
+        #define PIN_FPGA_CDONE 40    // CDONE
+        #define PIN_CLOCK 21         // Clock to FPGA
+        
+        // FPGA SPI configuration pins
+        #define PIN_ICE_SI 4         // SPI MOSI to FPGA flash
+        #define PIN_ICE_SO 7         // SPI MISO from FPGA flash  
+        #define PIN_ICE_SCK 6        // SPI clock to FPGA flash
+        #define PIN_ICE_SSN 5        // SPI CS to FPGA flash (active-low)
+        #define PIN_RAM_SS -1        // No external PSRAM
+
+        #ifdef TURBO_MODE
+            #define MAX_FREQ 200000000
+            #define MAX_BLAST_FREQ 400000000
+        #else
+            #define MAX_FREQ 100000000
+            #define MAX_BLAST_FREQ 200000000
+        #endif
+        #define CAPTURE_BUFFER_SIZE (128 * 3 * 1024)  // Use larger buffer like other RP2350 boards
+        #define MAX_CHANNELS 24
+
     #endif
 
 #endif

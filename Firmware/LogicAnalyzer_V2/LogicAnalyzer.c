@@ -1,6 +1,6 @@
 #include "LogicAnalyzer_Board_Settings.h"
 
-#ifdef BUILD_PICO_ICE
+#if defined(BUILD_PICO_ICE) || defined(BUILD_PICO2_ICE)
     #include "LogicAnalyzer_FPGA.h"
 #endif
 
@@ -618,7 +618,7 @@ int main()
     //Initialize USB stdio
     stdio_init_all();
 
-    #ifdef BUILD_PICO_ICE
+    #if defined(BUILD_PICO_ICE) || defined(BUILD_PICO2_ICE)
         // Initialize FPGA (release reset, wait for CDONE) and start 10 MHz clock on GPIO24
         fpga_init();
     #endif

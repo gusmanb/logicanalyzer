@@ -4,7 +4,7 @@
 #include "pico/stdlib.h"
 #include "LogicAnalyzer_Board_Settings.h"
 
-#ifdef BUILD_PICO_ICE
+#if defined(BUILD_PICO_ICE) || defined(BUILD_PICO2_ICE)
 
 /**
  * @brief Initialize the FPGA subsystem for pico-ice
@@ -51,6 +51,6 @@ bool fpga_is_configured(void);
  */
 void fpga_reset(void);
 
-#endif // BUILD_PICO_ICE
+#endif // defined(BUILD_PICO_ICE) || defined(BUILD_PICO2_ICE)
 
 #endif // __LOGICANALYZER_FPGA__
