@@ -75,22 +75,34 @@ The Logic Analyzer can monitor these GPIO pins:
 **Channel to GPIO Pin Mapping:**
 ```
 Logic Analyzer Channel → GPIO Pin
-Channel 0  → GPIO0    Channel 12 → GPIO20
-Channel 1  → GPIO1    Channel 13 → GPIO21  
-Channel 2  → GPIO2    Channel 14 → GPIO22
-Channel 3  → GPIO3    Channel 15 → GPIO23
-Channel 4  → GPIO4    Channel 16 → GPIO24 (FPGA Clock) 🕐
-Channel 5  → GPIO5    Channel 17 → GPIO25
-Channel 6  → GPIO6    Channel 18 → GPIO26 (CDONE) 📡
-Channel 7  → GPIO7    Channel 19 → GPIO27 (CRESETN) 🔄
-Channel 8  → GPIO12   
-Channel 9  → GPIO13   Note: 🕐 = 10MHz FPGA clock output
-Channel 10 → GPIO14   📡 = FPGA configuration done status  
-Channel 11 → GPIO15   🔄 = FPGA reset control (active-low)
+Channel 01 → GPIO0
+Channel 02 → GPIO1
+Channel 03 → GPIO2
+Channel 04 → GPIO3
+Channel 05 → GPIO4
+Channel 06 → GPIO5
+Channel 07 → GPIO6
+Channel 08 → GPIO7
+Channel 09 → GPIO12
+Channel 10 → GPIO13
+Channel 11 → GPIO14
+Channel 12 → GPIO15
+Channel 13 → GPIO20
+Channel 14 → GPIO21
+Channel 15 → GPIO22
+Channel 16 → GPIO23
+Channel 17 → GPIO24 (FPGA Clock) 🕐
+Channel 18 → GPIO25
+Channel 19 → GPIO26 (CDONE) 📡
+Channel 20 → GPIO27 (CRESETN) 🔄
+
+Note: 🕐 = 10MHz FPGA clock output
+📡 = FPGA configuration done status  
+🔄 = FPGA reset control (active-low)
 ```
 
 **Important Notes:**
-- **Channels 16, 18, 19** (GPIO24, 26, 27) have special FPGA functions but can still be monitored
+- **Channels 17, 19, 20** (GPIO24, 26, 27) have special FPGA functions but can still be monitored
 - **GPIO24** shows the 10MHz FPGA clock - useful for timing reference
 - **GPIO26** shows FPGA configuration status (high when FPGA is configured)
 - **GPIO27** shows FPGA reset control (should stay high during normal operation)

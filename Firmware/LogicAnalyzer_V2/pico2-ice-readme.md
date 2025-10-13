@@ -76,18 +76,30 @@ The Logic Analyzer can monitor these GPIO pins:
 **Channel to GPIO Pin Mapping:**
 ```
 Logic Analyzer Channel → GPIO Pin
-Channel 0  → GPIO20   Channel 12 → GPIO32
-Channel 1  → GPIO21 (FPGA Clock) 🕐   Channel 13 → GPIO33
-Channel 2  → GPIO22   Channel 14 → GPIO34
-Channel 3  → GPIO23   Channel 15 → GPIO35
-Channel 4  → GPIO24   Channel 16 → GPIO36
-Channel 5  → GPIO25   Channel 17 → GPIO37
-Channel 6  → GPIO26   Channel 18 → GPIO38
-Channel 7  → GPIO27   Channel 19 → GPIO39
-Channel 8  → GPIO28   Channel 20 → GPIO40 (CDONE) 📡
-Channel 9  → GPIO29   Channel 21 → GPIO41
-Channel 10 → GPIO30   Channel 22 → GPIO42
-Channel 11 → GPIO31 (CRESETN) 🔄   Channel 23 → GPIO43
+Channel 01 → GPIO20
+Channel 02 → GPIO21 (FPGA Clock) 🕐
+Channel 03 → GPIO22
+Channel 04 → GPIO23
+Channel 05 → GPIO24
+Channel 06 → GPIO25
+Channel 07 → GPIO26
+Channel 08 → GPIO27
+Channel 09 → GPIO28
+Channel 10 → GPIO29
+Channel 11 → GPIO30
+Channel 12 → GPIO31 (CRESETN) 🔄
+Channel 13 → GPIO32
+Channel 14 → GPIO33
+Channel 15 → GPIO34
+Channel 16 → GPIO35
+Channel 17 → GPIO36
+Channel 18 → GPIO37
+Channel 19 → GPIO38
+Channel 20 → GPIO39
+Channel 21 → GPIO40 (CDONE) 📡
+Channel 22 → GPIO41
+Channel 23 → GPIO42
+Channel 24 → GPIO43
 
 Note: 🕐 = 10MHz FPGA clock output
 📡 = FPGA configuration done status (unreliable voltage)
@@ -95,9 +107,9 @@ Note: 🕐 = 10MHz FPGA clock output
 ```
 
 **Important Notes:**
-- **Channel 1** (GPIO21) shows the 10MHz FPGA clock - useful for timing reference
-- **Channel 11** (GPIO31) shows FPGA reset control (should stay high during normal operation)  
-- **Channel 20** (GPIO40) shows FPGA configuration status (voltage may be unreliable)
+- **Channel 02** (GPIO21) shows the 10MHz FPGA clock - useful for timing reference
+- **Channel 12** (GPIO31) shows FPGA reset control (should stay high during normal operation)  
+- **Channel 21** (GPIO40) shows FPGA configuration status (voltage may be unreliable)
 
 **Note**: GPIO21 and GPIO31 are **output pins** but can still be **monitored** by the Logic Analyzer. The firmware uses universal pin state preservation to maintain their output state while allowing signal capture. **All pin configurations remain unchanged** after capture operations.
 
@@ -152,8 +164,8 @@ make -j8
 
 Before capturing signals:
 1. Check that your FPGA configuration loaded successfully (by observing FPGA I/O behavior)
-2. Verify the 10MHz clock is present on GPIO21 (Channel 1)
-3. Confirm CRESETN (GPIO31) is at 3.3V (Channel 11)
+2. Verify the 10MHz clock is present on GPIO21 (Channel 02)
+3. Confirm CRESETN (GPIO31) is at 3.3V (Channel 12)
 4. Note that CDONE (GPIO40) voltage may not be reliably readable due to hardware bug
 
 ### 4. Capture Logic Signals
