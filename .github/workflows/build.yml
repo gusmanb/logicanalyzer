@@ -1,0 +1,48 @@
+name: Build UF2
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Pico SDK
+        id: cache-pico-sdk
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/work/pico-sdk
+          key: ${{ runner.os }}-pico-sdk-${{ hashFiles('**/pico_sdk_import.cmake') }}
+
+      - name: Set up Pico SDK
+        if: steps.cache-pico-sdk.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/raspberrypi/pico-sdk.git /home/runner/work/pico-sdk
+
+      - name: Set PICO_SDK_PATH
+        run: echo "PICO_SDK_PATH=/home/runner/work/pico-sdk" >> $GITHUB_ENV
+
+      - name: Install ARM GCC Compiler and CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi cmake
+
+      - name: Build
+        run: |
+          cd Firmware/LogicAnalyzer_V2
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Upload UF2
+        uses: actions/upload-artifact@v3
+        with:
+          name: logic-analyzer-firmware
+          path: Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2
