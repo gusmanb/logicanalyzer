@@ -81,12 +81,7 @@ foreach($projectName in $projectNames)
 
         # Excluir los paquetes de Windows
         if ($architecture -notmatch "win") {
-            # Convertir las rutas a formato WSL
-            $wslPath = wsl -e bash -c "wslpath -a '$($subDir.FullName)'"
-            $wslZipPath = wsl -e bash -c "wslpath -a '$zipPath'"
-
-            # Usar WSL para empaquetar y establecer el atributo de ejecutable
-            wsl -e bash -c "cd $wslPath && chmod +x $projectName && zip -r $wslZipPath ."
+            bash -c "cd '$($subDir.FullName)' && chmod +x $projectName && zip -r '$zipPath' ."
         } else {
             Compress-Archive -Path "$($subDir.FullName)\*" -DestinationPath $zipPath
         }
@@ -109,13 +104,8 @@ foreach ($subDir in $mergedSubDirs) {
 
     # Excluir los paquetes de Windows
     if ($architecture -notmatch "win") {
-        # Convertir las rutas a formato WSL
-        $wslPath = wsl -e bash -c "wslpath -a '$($subDir.FullName)'"
-        $wslZipPath = wsl -e bash -c "wslpath -a '$zipPath'"
+        bash -c "cd '$($subDir.FullName)' && chmod +x LogicAnalyzer TerminalCapture && zip -r '$zipPath' ."
 
-        # Usar WSL para empaquetar y establecer el atributo de ejecutable de todos los archivos que coincidan con el nombre del proyecto
-        wsl -e bash -c "cd $wslPath && chmod +x $projectNames && zip -r $wslZipPath ."
-        
     } else {
         Compress-Archive -Path "$($subDir.FullName)\*" -DestinationPath $zipPath
     }
