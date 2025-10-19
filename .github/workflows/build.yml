@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
       - name: Cache Pico SDK
         id: cache-pico-sdk
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /home/runner/work/pico-sdk
           key: ${{ runner.os }}-pico-sdk-${{ hashFiles('**/pico_sdk_import.cmake') }}
@@ -45,7 +45,7 @@ jobs:
           make
 
       - name: Upload UF2
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: logic-analyzer-firmware
           path: Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2
