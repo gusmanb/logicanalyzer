@@ -67,12 +67,13 @@ jobs:
           sudo apt-get install -y powershell
 
       - name: Build Software
+        working-directory: Software/LogicAnalyzer
         run: |
           VERSION="6.0.0.0"
           if [ "${{ github.event_name }}" = "release" ]; then
             VERSION="${{ github.ref_name }}"
           fi
-          pwsh -Command "& { . ./Software/LogicAnalyzer/publish.ps1 -packageVersion $VERSION }"
+          pwsh -Command "& { . ./publish.ps1 -packageVersion $VERSION }"
 
       - name: Upload Software
         uses: actions/upload-artifact@v4
