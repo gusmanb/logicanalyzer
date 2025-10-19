@@ -19,7 +19,9 @@ set(sdkVersion 2.0.0)
 set(toolchainVersion 13_2_Rel1)
 set(picotoolVersion 2.0.0)
 include(LogicAnalyzer_Build_Settings.cmake)
-include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+if(EXISTS "${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake")
+    include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+endif()
 
 
 # ====================================================================================

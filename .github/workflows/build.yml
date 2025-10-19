@@ -27,6 +27,8 @@ jobs:
         if: steps.cache-pico-sdk.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/raspberrypi/pico-sdk.git /home/runner/work/pico-sdk
+          cd /home/runner/work/pico-sdk
+          git submodule update --init
 
       - name: Set PICO_SDK_PATH
         run: echo "PICO_SDK_PATH=/home/runner/work/pico-sdk" >> $GITHUB_ENV
