@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -64,10 +66,26 @@ jobs:
 
       - name: Build Software
         run: |
-          pwsh -Command "& { . ./Software/LogicAnalyzer/publish.ps1 -packageVersion 6.0.0.0 }"
+          VERSION="6.0.0.0"
+          if [ "${{ github.event_name }}" = "release" ]; then
+            VERSION="${{ github.ref_name }}"
+          fi
+          pwsh -Command "& { . ./Software/LogicAnalyzer/publish.ps1 -packageVersion $VERSION }"
 
       - name: Upload Software
         uses: actions/upload-artifact@v4
         with:
           name: logic-analyzer-software
           path: Software/Packages/*
+
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: |
+            Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2
+            Software/Packages/*.zip
+          tag: ${{ github.ref_name }}
+          overwrite: true
+          file_glob: true
