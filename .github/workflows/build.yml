@@ -80,6 +80,9 @@ jobs:
           name: logic-analyzer-software
           path: Software/Packages/*
 
+      - name: Package Hardware Files
+        run: ./.github/workflows/package_hardware.sh
+
       - name: Upload to Release
         if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
@@ -88,6 +91,10 @@ jobs:
           file: |
             Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2
             Software/Packages/*.zip
+            hardware_packages/BOM_JLCPCB.zip
+            hardware_packages/BOM_PCBWay.zip
+            hardware_packages/CPL.zip
+            hardware_packages/Gerber_Files.zip
           tag: ${{ github.ref_name }}
           overwrite: true
           file_glob: true
