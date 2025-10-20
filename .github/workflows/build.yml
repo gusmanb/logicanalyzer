@@ -43,19 +43,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-arm-none-eabi cmake
 
-      - name: Build Firmware
+      - name: Build Firmware and stage for release
         run: |
           cd Firmware/LogicAnalyzer_V2
           mkdir build
           cd build
           cmake ..
           make
-
-      - name: Upload Firmware
-        uses: actions/upload-artifact@v4
-        with:
-          name: logic-analyzer-firmware
-          path: Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2
+          mkdir -p ../../../release_assets
+          cp LogicAnalyzer.uf2 ../../../release_assets/
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
@@ -67,7 +63,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y powershell
 
-      - name: Build Software
+      - name: Build and Package Software
         working-directory: Software/LogicAnalyzer
         run: |
           VERSION="6.0.0.0"
@@ -75,22 +71,25 @@ jobs:
             VERSION="${{ github.ref_name }}"
           fi
           pwsh -Command "& { . ./publish.ps1 -packageVersion $VERSION }"
-
-      - name: Upload Software
-        uses: actions/upload-artifact@v4
-        with:
-          name: logic-analyzer-software
-          path: Software/Packages/*
+          mv ../Packages/* ../../release_assets/
 
       - name: Package Hardware Files
-        run: ./.github/workflows/package_hardware.sh
+        run: |
+          ./.github/workflows/package_hardware.sh
+          mv hardware_packages/*.zip release_assets/
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: release_assets/*
 
       - name: Upload to Release
         if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2 Software/Packages/*.zip hardware_packages/*.zip
+          file: release_assets/*
           tag: ${{ github.ref_name }}
           overwrite: true
           file_glob: true
