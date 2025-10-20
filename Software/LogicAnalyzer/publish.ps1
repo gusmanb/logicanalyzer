@@ -8,7 +8,7 @@ $projectNames = @("LogicAnalyzer", "TerminalCapture")
 $mergedName = "all-in-one_$packageVersion"
 
 # Crear la carpeta de paquetes si no existe
-$packagesDir = "..\Packages"
+$packagesDir = Join-Path $PSScriptRoot "..\Packages"
 if (-not (Test-Path $packagesDir)) {
     New-Item -ItemType Directory -Path $packagesDir
 }
@@ -17,7 +17,7 @@ if (-not (Test-Path $packagesDir)) {
 Get-ChildItem -Path $packagesDir -Directory | Remove-Item -Recurse -Force
 
 # Crea la carpeta de mezcla si no existe
-$mergedDir = "..\Merged"
+$mergedDir = Join-Path $PSScriptRoot "..\Merged"
 if (-not (Test-Path $mergedDir)) {
     New-Item -ItemType Directory -Path $mergedDir
 }
@@ -34,14 +34,14 @@ foreach($projectName in $projectNames)
     $packageName = $projectName.ToLower() + "_" + $packageVersion
 
     # Ruta al archivo .csproj del proyecto que deseas publicar
-    $projectPath = ".\$projectName\$projectName.csproj"
+    $projectPath = Join-Path $PSScriptRoot "$projectName\$projectName.csproj"
 
     # Leer la versión del framework desde el archivo .csproj
     [xml]$csproj = Get-Content $projectPath
     $targetFramework = $csproj.Project.PropertyGroup.TargetFramework
 
     # Ruta a la carpeta de publicación
-    $publishDir = ".\$projectName\bin\Release\$targetFramework\publish"
+    $publishDir = Join-Path $PSScriptRoot "$projectName\bin\Release\$targetFramework\publish"
 
     # Limpiar la carpeta de publicación
     if (Test-Path $publishDir) {
@@ -52,7 +52,7 @@ foreach($projectName in $projectNames)
     dotnet build $projectPath -c Release
 
     # Obtener todos los perfiles de publicación
-    $profiles = Get-ChildItem -Path ".\$projectName\" -Recurse -Filter "*.pubxml" | Select-Object -ExpandProperty FullName
+    $profiles = Get-ChildItem -Path (Join-Path $PSScriptRoot "$projectName") -Recurse -Filter "*.pubxml" | Select-Object -ExpandProperty FullName
 
     # Publicar usando cada perfil
     foreach ($profile in $profiles) {

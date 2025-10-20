@@ -2,12 +2,12 @@ name: Build UF2
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
   workflow_dispatch:
   release:
-    types: [created]
+    types: [created, published]
 
 jobs:
   build:
