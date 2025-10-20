@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
+          submodules: 'recursive'
 
       - name: Cache Pico SDK
         id: cache-pico-sdk
@@ -89,13 +90,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: |
-            Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2
-            Software/Packages/*.zip
-            hardware_packages/BOM_JLCPCB.zip
-            hardware_packages/BOM_PCBWay.zip
-            hardware_packages/CPL.zip
-            hardware_packages/Gerber_Files.zip
+          file: Firmware/LogicAnalyzer_V2/build/LogicAnalyzer.uf2 Software/Packages/*.zip hardware_packages/*.zip
           tag: ${{ github.ref_name }}
           overwrite: true
           file_glob: true
