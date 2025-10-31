@@ -101,13 +101,13 @@ Channel 22 → GPIO41
 Channel 23 → GPIO42
 Channel 24 → GPIO43
 
-Note:  GPIO2 and GPIO3 must be jumpered if you want to use COMPLEX triggering (triggering on a pattern).  You can change these LogicAnalyzer_Board_Settings.h if you want other pins on the RP2350B.
 Note: 🕐 = 10MHz FPGA clock output
 📡 = FPGA configuration done status (unreliable voltage)  
 🔄 = FPGA reset control (active-low)
 <!-- Test update to verify GitHub sync -->
 ```
-
+**Complex Triggering**
+Note:  GPIO2 and GPIO3 must be jumpered if you want to use Complex Triggering (triggering on a pattern).  You can change these LogicAnalyzer_Board_Settings.h if you want other pins on the RP2350B.`
 **Important Notes:**
 - **Channel 02** (GPIO21) shows the 10MHz FPGA clock - useful for timing reference
 - **Channel 12** (GPIO31) shows FPGA reset control (should stay high during normal operation)  

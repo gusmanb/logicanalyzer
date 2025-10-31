@@ -242,7 +242,7 @@
         #define SUPPORTS_COMPLEX_TRIGGER
         #define INPUT_PIN_BASE 20
         #define COMPLEX_TRIGGER_OUT_PIN 2 // GPIO0 and GPIO1 are not connected to headers.
-        #define COMPLEX_TRIGGER_IN_PIN 3
+        #define COMPLEX_TRIGGER_IN_PIN 3  // so we are trying GPIO2 and GPIO3 here.
         #define GPIO_LED
         #define LED_IO 0  // Use green LED (RGB LED - green component)
         #define PIN_MAP {20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,COMPLEX_TRIGGER_IN_PIN}

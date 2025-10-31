@@ -42,7 +42,7 @@ When the Logic Analyzer firmware starts:
 4. **Configuration Complete**: The FPGA asserts `CDONE` (GPIO26) when configuration is successful (monitored for timeout but not required)
 5. **Logic Analysis Ready**: The Logic Analyzer is now ready to capture signals while maintaining FPGA operation
 
-### Improved Reliability
+### Improved ReliabilitCompley
 
 **Note**: The firmware uses an **immediate clock start** approach for improved reliability. Instead of waiting for CDONE assertion (which can have voltage level issues), the FPGA clock starts immediately after reset release. This ensures consistent operation while still monitoring CDONE for timeout detection.
 
@@ -100,6 +100,8 @@ Note: 🕐 = 10MHz FPGA clock output
 📡 = FPGA configuration done status  
 🔄 = FPGA reset control (active-low)
 ```
+**Complex Triggering**
+For complex trigger (pattern trigger) to work you need to short GPIO0 to GPIO1.  You can change which GPIO to short in LogicAnalyzer_Board_Settings.h in the BUILD_PICO_ICE section.
 
 **Important Notes:**
 - **Channels 17, 19, 20** (GPIO24, 26, 27) have special FPGA functions but can still be monitored
