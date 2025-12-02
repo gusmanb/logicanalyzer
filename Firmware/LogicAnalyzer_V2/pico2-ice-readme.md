@@ -76,19 +76,19 @@ The Logic Analyzer can monitor these GPIO pins:
 **Channel to GPIO Pin Mapping:**
 ```
 Logic Analyzer Channel → GPIO Pin
-Channel 01 → GPIO20
+Channel 01 → GPIO20  ICE_27
 Channel 02 → GPIO21 (FPGA Clock) 🕐
-Channel 03 → GPIO22
-Channel 04 → GPIO23
-Channel 05 → GPIO24
-Channel 06 → GPIO25
-Channel 07 → GPIO26
-Channel 08 → GPIO27
-Channel 09 → GPIO28
-Channel 10 → GPIO29
-Channel 11 → GPIO30
+Channel 03 → GPIO22  ICE_20_G3
+Channel 04 → GPIO23  ICE_19
+Channel 05 → GPIO24  ICE_26
+Channel 06 → GPIO25  ICE_23
+Channel 07 → GPIO26  ICE_21
+Channel 08 → GPIO27  ICE_18
+Channel 09 → GPIO28  ICE_9
+Channel 10 → GPIO29  ICE_11
+Channel 11 → GPIO30  ICE_25
 Channel 12 → GPIO31 (CRESETN) 🔄
-Channel 13 → GPIO32
+Channel 13 → GPIO32  
 Channel 14 → GPIO33
 Channel 15 → GPIO34
 Channel 16 → GPIO35
