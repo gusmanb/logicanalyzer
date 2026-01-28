@@ -47,8 +47,8 @@ namespace SigrokDecoderBridge
                     if (File.Exists(cfgFile))
                     {
                         Log("Reading python path from config file...");
-                        pythonPath = File.ReadAllText(cfgFile);
-                        Log($"Stablished path: {pythonPath}");
+                        pythonPath = File.ReadAllText(cfgFile).Trim();
+                        Log($"Established path: {pythonPath}");
                     }
                     else
                     {
@@ -65,7 +65,7 @@ namespace SigrokDecoderBridge
                             var selectedVersion = validInstallations.OrderByDescending(p => p.MinorVersion).First();
                             pythonPath = selectedVersion.Path;
                             Log($"Selected version: {selectedVersion.MajorVersion}.{selectedVersion.MinorVersion}");
-                            Log($"Stablished path: {selectedVersion.Path}");
+                            Log($"Established path: {selectedVersion.Path}");
                         }
                         else
                         {
