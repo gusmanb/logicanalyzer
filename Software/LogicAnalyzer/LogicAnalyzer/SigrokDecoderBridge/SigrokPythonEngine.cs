@@ -72,7 +72,6 @@ namespace SigrokDecoderBridge
                             Log("No valid python installation found, aborting startup.");
                             return false;
                         }
-
                     }
 
                     if (string.IsNullOrWhiteSpace(pythonPath))
@@ -80,6 +79,8 @@ namespace SigrokDecoderBridge
                         Log("Python library not found, aborting startup.");
                         return false;
                     }
+
+                    pythonPath = pythonPath.Trim();
 
                     Log($"Initializing decoders...");
                     //Ensure the decode script is in place
