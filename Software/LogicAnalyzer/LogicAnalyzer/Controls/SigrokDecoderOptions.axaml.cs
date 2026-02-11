@@ -39,6 +39,7 @@ public partial class SigrokDecoderOptions : UserControl
 
     public ObservableCollection<AnalyzerChannel> Channels { get; } = new ObservableCollection<AnalyzerChannel>();
     List<ComboBox> channelSelectors = new List<ComboBox>();
+    List<Control> optionControls = new List<Control>();
 
     Dictionary<int, SigrokSelectedChannel> selectedChannels = new Dictionary<int, SigrokSelectedChannel>();
     public IEnumerable<SigrokSelectedChannel> SelectedChannels { get { return selectedChannels.Values; } }
@@ -63,7 +64,7 @@ public partial class SigrokDecoderOptions : UserControl
     {
         channelSelectors.Clear();
         pnlOptions.Children.Clear();
-
+        optionControls.Clear();
         selectedChannels.Clear();
         values.Clear();
 
@@ -372,6 +373,7 @@ public partial class SigrokDecoderOptions : UserControl
                 Grid.SetRow(optControl, row++);
                 Grid.SetColumnSpan(optControl, 2);
 
+                optionControls.Add(optControl);
             }
 
             pnlOptions.Children.Add(gridOptions);
@@ -546,6 +548,91 @@ public partial class SigrokDecoderOptions : UserControl
         OptionsUpdated?.Invoke(this, EventArgs.Empty);
     }
 
+    public void SetValues(SigrokOptionValue[] Values)
+    {
+        foreach(var value in Values)
+        {
+            if (values.ContainsKey(value.OptionIndex))
+            {
+                values[value.OptionIndex].Value = value.Value;
+                var control = optionControls.FirstOrDefault(c => (c.Tag as SigrokOption).Index == value.OptionIndex);
+
+                if (control == null)
+                    continue;
+
+                switch (control)
+                {
+                    case CheckBox ck:
+                        ck.IsChecked = (bool)value.Value;
+                        break;
+
+                    case TextBox tb:
+                        tb.Text = value.Value?.ToString();
+                        break;
+
+                    case NumericUpDown nud:
+                        nud.Value = Convert.ToDecimal(value.Value);
+                        break;
+
+                    default:
+                        (control as ComboBox)?.SetValue(ComboBox.SelectedItemProperty, value.Value);
+                        break;
+
+
+                        //case Check b:
+                        //    (control as CheckBox)?.SetValue(CheckBox.IsCheckedProperty, b);
+                        //    break;
+
+                        //case string s:
+                        //    (control as TextBox)?.SetValue(TextBox.TextProperty, s);
+                        //    break;
+
+                        //case int i:
+                        //    (control as NumericUpDown)?.SetValue(NumericUpDown.ValueProperty, i);
+                        //    break;
+
+                        //case double d:
+                        //    (control as NumericUpDown)?.SetValue(NumericUpDown.ValueProperty, (decimal)d);
+                        //    break;
+
+                        //default:
+                        //    (control as ComboBox)?.SetValue(ComboBox.SelectedItemProperty, option.Value);
+                        //    break;
+                }
+            }
+        }
+    }
+
+    public void SetChannels(SigrokSelectedChannel[] Channels)
+    {
+        foreach (var channel in Channels)
+        {
+            var selector = channelSelectors.FirstOrDefault(c => (c.Tag as SigrokChannel)?.Index == channel.SigrokIndex);
+
+            if (selector == null)
+                continue;
+
+            int idx = channel.CaptureIndex + 1;
+
+            if (idx >= selector.Items.Count)
+                continue;
+
+            var aChannel = this.Channels[idx];
+
+            selector.SelectedItem = aChannel;
+        }
+    }
+
+    public void SetInput(SigrokDecoderOptions? Input)
+    {
+        if (cbInputs == null)
+            return;
+
+        var selected = sourceOptions?.FirstOrDefault(o => o.Options == Input);
+
+        if (selected != null)
+            cbInputs.SelectedItem = selected;
+    }
 
     class CBOption
     {

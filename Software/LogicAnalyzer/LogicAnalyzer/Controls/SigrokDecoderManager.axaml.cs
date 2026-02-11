@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
 using System.Threading;
 
 namespace LogicAnalyzer.Controls;
@@ -31,6 +33,72 @@ public partial class SigrokDecoderManager : UserControl
     int optCount = 0;
 
     Timer? decodeTimer;
+
+    public SerializableDecodingTree DecodingTree
+    {
+        get { return GenerateDecodingTree().ToSerializable(); }
+        set { ReconstructTree(value); }
+    }
+
+    private void ReconstructTree(SerializableDecodingTree value)
+    {
+
+        pnlControls.Children.Clear();
+        decoderOptions.Clear();
+
+        optCount = 0;
+
+        txtFilter.Text = "";
+        GenerateCategories();
+
+        foreach (var branch in value.Branches)
+        {
+            var dec = DecoderCategories.First(c => c.Name == "All").Decoders.FirstOrDefault(o => o.Id == branch.DecoderId);
+
+            if (dec == null)
+                continue;
+
+            SigrokDecoderOptions options = new SigrokDecoderOptions(this, AnalyzerColors.GetColor(optCount++));
+            options.OptionsUpdated += Options_OptionsUpdated;
+            options.RemoveDecoder += Options_RemoveDecoder;
+            options.Decoder = dec;
+            options.UpdateChannels(channels);
+
+            options.SetChannels(branch.Channels);
+            options.SetValues(branch.Options);
+
+            pnlControls.Children.Add(options);
+            decoderOptions.Add(options);
+
+            ReconstructBranch(branch, options);
+        }
+    }
+
+    private void ReconstructBranch(SerializableDecodingBranch branch, SigrokDecoderOptions options)
+    {
+        foreach(var child in branch.Children)
+        {
+            var dec = DecoderCategories.First(c => c.Name == "All").Decoders.FirstOrDefault(o => o.Id == child.DecoderId);
+
+            if (dec == null)
+                continue;
+
+            SigrokDecoderOptions childOptions = new SigrokDecoderOptions(this, AnalyzerColors.GetColor(optCount++));
+            childOptions.OptionsUpdated += Options_OptionsUpdated;
+            childOptions.RemoveDecoder += Options_RemoveDecoder;
+            childOptions.Decoder = dec;
+            childOptions.UpdateChannels(channels);
+
+            childOptions.SetChannels(child.Channels);
+            childOptions.SetValues(child.Options);
+            childOptions.SetInput(options);
+
+            pnlControls.Children.Add(childOptions);
+            decoderOptions.Add(childOptions);
+
+            ReconstructBranch(child, childOptions);
+        }
+    }
 
     public AnalyzerChannel[]? Channels
     {
@@ -61,6 +129,8 @@ public partial class SigrokDecoderManager : UserControl
     private void TxtFilter_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         txtFilter.Text = "";
+        txtFilter.IsEnabled = true;
+        txtFilter.Focus();
     }
 
     private void TxtFilter_TextChanged(object? sender, TextChangedEventArgs e)
@@ -184,7 +254,6 @@ public partial class SigrokDecoderManager : UserControl
     {
         EnqueueDecoding();
     }
-
 
     private void EnqueueDecoding()
     {

@@ -1,5 +1,9 @@
 #include "LogicAnalyzer_Board_Settings.h"
 
+#if defined(BUILD_PICO_ICE) || defined(BUILD_PICO2_ICE)
+    #include "LogicAnalyzer_FPGA.h"
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include "pico/stdlib.h"
@@ -79,6 +83,10 @@
     #define INIT_LED() init_rgb()
     #define LED_ON() send_rgb(0,32,0)
     #define LED_OFF() send_rgb(0,0,32)
+#elif defined (NO_LED)
+    #define INIT_LED() { }
+    #define LED_ON() { }
+    #define LED_OFF() { }
 #endif
 
 //Buffer used to store received data
@@ -198,6 +206,33 @@ void cdc_transfer(unsigned char* data, int len)
     }
 }
 
+#ifdef USE_CYGW_WIFI
+/// @brief Transfer a buffer of data through WiFi
+/// @param data Buffer of data to transfer
+/// @param len Length of the buffer
+void wifi_transfer(unsigned char* data, int len)
+{
+    EVENT_FROM_FRONTEND evt;
+    evt.event = SEND_DATA;
+
+    int pos = 0;
+    int filledData;
+    while(pos < len)
+    {
+        filledData = 0;
+        while(pos < len && filledData < 32)
+        {
+            evt.data[filledData] = data[pos];
+            pos++;
+            filledData++;
+        }
+
+        evt.dataLength = filledData;
+        event_push(&frontendToWifi, &evt);
+    }
+}
+#endif
+
 /// @brief Processes data received from the host application
 /// @param data The received data
 /// @param length Length of the data
@@ -311,6 +346,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
 
                         wReq = (WIFI_SETTINGS_REQUEST*)&messageBuffer[3];
                         WIFI_SETTINGS settings;
+                        settings.checksum = 0;
                         memcpy(settings.apName, wReq->apName, 33);
                         memcpy(settings.passwd, wReq->passwd, 64);
                         memcpy(settings.ipAddress, wReq->ipAddress, 16);
@@ -553,7 +589,7 @@ int main()
 
         vreg_disable_voltage_limit();
         vreg_set_voltage(VREG_VOLTAGE_1_30);
-        sleep_ms(1);
+        sleep_ms(100);
         
         //Overclock Powerrrr!
         set_sys_clock_khz(400000, true);
@@ -582,9 +618,14 @@ int main()
     //Initialize USB stdio
     stdio_init_all();
 
-    #if defined (BUILD_PICO_W)
+    #if defined(BUILD_PICO_ICE) || defined(BUILD_PICO2_ICE)
+        // Initialize FPGA (release reset, wait for CDONE) and start 10 MHz clock on GPIO24
+        fpga_init();
+    #endif
+
+    #if defined (BUILD_PICO_W) || defined (BUILD_PICO_2_W)
         cyw43_arch_init();
-    #elif defined (BUILD_PICO_W_WIFI)
+    #elif defined (BUILD_PICO_W_WIFI) || defined (BUILD_PICO_2_W_WIFI)
         event_machine_init(&wifiToFrontend, wifiEvent, sizeof(EVENT_FROM_WIFI), 8);
             multicore_launch_core1(runWiFiCore);
             while(!cywReady)
@@ -621,22 +662,23 @@ int main()
                 uint8_t* lengthPointer = (uint8_t*)&length;
 
                 //Send capture length
-                sleep_ms(100);
+                
 
                 #ifdef USE_CYGW_WIFI
 
                     if(usbDisabled)
                     {
-                        EVENT_FROM_FRONTEND evt;
-                        evt.event = SEND_DATA;
-                        evt.dataLength = 4;
-                        memcpy(evt.data, lengthPointer, 4);
-                        event_push(&frontendToWifi, &evt);
+                        sleep_ms(2000);
+                        wifi_transfer(lengthPointer, 4);
                     }
                     else
+                    {
+                        sleep_ms(100);
                         cdc_transfer(lengthPointer, 4);
+                    }
 
                 #else
+                    sleep_ms(100);
                     cdc_transfer(lengthPointer, 4);
                 #endif
 
@@ -660,39 +702,18 @@ int main()
                     //Send the samples
                     if(usbDisabled)
                     {
-                        EVENT_FROM_FRONTEND evt;
-                        evt.event = SEND_DATA;
-
-                        int pos = 0;
-                        int filledData;
-                        while(pos < length)
+                        if(first + length > CAPTURE_BUFFER_SIZE)
                         {
-                            filledData = 0;
-                            while(pos < length && filledData < 32)
-                            {
-                                evt.data[filledData] = buffer[first++];
-
-                                if(first >= 131072)
-                                    first = 0;
-
-                                pos++;
-                                filledData++;
-                            }
-
-                            evt.dataLength = filledData;
-                            event_push(&frontendToWifi, &evt);
+                            wifi_transfer(buffer + first, CAPTURE_BUFFER_SIZE - first);
+                            wifi_transfer(buffer, (first + length) - CAPTURE_BUFFER_SIZE);
                         }
+                        else
+                            wifi_transfer(buffer + first, length);
 
-                        evt.data[0] = stampsLength;
-                        evt.dataLength = 1;
-                        event_push(&frontendToWifi, &evt);
+                        wifi_transfer(&stampsLength, 1);
 
-                        for(int buc = 0; buc < stampsLength; buc++)
-                        {
-                            *((uint32_t*)evt.data) = timestamps[buc];
-                            evt.dataLength = 4;
-                            event_push(&frontendToWifi, &evt);
-                        }
+                        if(stampsLength > 1)
+                            wifi_transfer((unsigned char*)timestamps, stampsLength * 4);
                     }
                     else
                     {

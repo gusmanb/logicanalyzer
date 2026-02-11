@@ -1,5 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using LogicAnalyzer.Extensions;
+using System;
 using System.Diagnostics;
 using System.IO.Packaging;
 using System.Reflection;
@@ -15,7 +17,21 @@ namespace LogicAnalyzer.Dialogs
             txtVersion.Text = $"Version {GetAppVersion()}";
             btnLicense.Click += BtnLicense_Click;
             lnkWebSite.Click += LnkWebSite_Click;
+            lnkSigrok.Click += LnkSigrok_Click;
         }
+
+        private async void LnkSigrok_Click(object? sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenUrl("https://github.com/sigrokproject/libsigrokdecode");
+            }
+            catch
+            {
+                await this.ShowError("Cannot open page.", "Cannot start the default browser. You can access the site at https://github.com/sigrokproject/libsigrokdecode");
+            }
+        }
+
         private async void LnkWebSite_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             try

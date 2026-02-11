@@ -175,14 +175,14 @@ INNER_LOOP:
 
 .wrap_target
 
-    in pins 29			        ;read sample
+    in pins 32			        ;read sample
     jmp pin POST_CAPTURE		;exit wrap if pin is set
 
 .wrap
 
 POST_CAPTURE:
 
-    in pins 29			        ;read sample
+    in pins 32			        ;read sample
     jmp x-- POST_CAPTURE		;loop if more samples needed
 
     irq 0                       ;notify to the main program that we have finished capturing
@@ -199,14 +199,14 @@ LOCK:
 
 .wrap_target
 
-    in pins 29			        ;read sample
+    in pins 32			        ;read sample
     jmp pin POST_CAPTURE		;exit wrap if pin is set
 
 .wrap
 
 POST_CAPTURE:
 
-    in pins 29			        ;read sample
+    in pins 32			        ;read sample
     jmp x-- POST_CAPTURE		;loop if more samples needed
 
     irq 0                       ;notify to the main program that we have finished capturing

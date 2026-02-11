@@ -18,7 +18,7 @@ namespace SharedDriver
 
         public override string ToString()
         {
-            return ChannelName ?? TextualChannelNumber;
+            return string.IsNullOrWhiteSpace(ChannelName) ? TextualChannelNumber : ChannelName;
         }
 
         public AnalyzerChannel Clone()

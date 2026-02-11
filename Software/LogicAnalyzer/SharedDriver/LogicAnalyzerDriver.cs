@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿#region Debug output control
+//#define DEBUG_MODE
+#endregion
+
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Http;
@@ -82,14 +86,29 @@ namespace SharedDriver
 
         private void InitSerialPort(string SerialPort, int Bauds)
         {
-            sp = new SerialPort(SerialPort, Bauds);
-            sp.RtsEnable = true;
-            sp.DtrEnable = true;
-            sp.NewLine = "\n";
-            sp.ReadBufferSize = 1024 * 1024;
-            sp.WriteBufferSize = 1024 * 1024;
+#if DEBUG_MODE
 
-            sp.Open();
+            StoreDebugLog($"Initializing device in serial mode.");
+#endif
+            try
+            {
+                sp = new SerialPort(SerialPort, Bauds);
+                sp.RtsEnable = true;
+                sp.DtrEnable = true;
+                sp.NewLine = "\n";
+                sp.ReadBufferSize = 1024 * 1024;
+                sp.WriteBufferSize = 1024 * 1024;
+
+                sp.Open();
+            }
+            catch (Exception ex) 
+            {
+#if DEBUG_MODE
+
+                StoreDebugLog($"Error initializing serial port: {ex.Message} - {ex.StackTrace}.");
+#endif
+                throw;
+            }
             baseStream = sp.BaseStream;
 
             readResponse = new StreamReader(baseStream);
@@ -103,10 +122,18 @@ namespace SharedDriver
             baseStream.ReadTimeout = 10000;
             version = readResponse.ReadLine();
 
+#if DEBUG_MODE
+
+            StoreDebugLog($"Device version: {version}");
+#endif
+
             var devVersion = VersionValidator.GetVersion(version);
 
             if (!devVersion.IsValid)
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device version {version}, minimum supported version: V{VersionValidator.MAJOR_VERSION}_{VersionValidator.MINOR_VERSION}");
+#endif
                 Dispose();
                 throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{VersionValidator.MAJOR_VERSION}_{VersionValidator.MINOR_VERSION}");
             }
@@ -114,6 +141,9 @@ namespace SharedDriver
             var freq = readResponse.ReadLine();
             if (!GetFrequency(freq))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device frequency response, received value: {freq}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid device frequency response.");
             }
@@ -121,6 +151,9 @@ namespace SharedDriver
             var blast = readResponse.ReadLine();
             if(!GetBlastFrequency(blast))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid blast frequency response, received value: {blast}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid blast frequency response.");
             }
@@ -128,6 +161,9 @@ namespace SharedDriver
             var bufString = readResponse.ReadLine();
             if (!GetBufferSize(bufString))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device buffer size response, received value: {bufString}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid device buffer size response.");
             }
@@ -135,25 +171,49 @@ namespace SharedDriver
             var chanString = readResponse.ReadLine();
             if (!GetChannelCount(chanString))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device channel count response, received value: {chanString}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid device channel count response.");
             }
 
             baseStream.ReadTimeout = Timeout.Infinite;
+
+#if DEBUG_MODE
+            StoreDebugLog($"Device initialized successfully. Received parameters: {freq}, {blast}, {bufString}, {chanString}");
+#endif
         }
 
         private void InitNetwork(string AddressPort)
         {
+#if DEBUG_MODE
+
+            StoreDebugLog($"Initializing device in wifi mode.");
+#endif
+
             var match = regAddressPort.Match(AddressPort);
 
             if (match == null || !match.Success)
+            {
+#if DEBUG_MODE
+
+                StoreDebugLog($"Specified address/port is invalid.");
+#endif
                 throw new ArgumentException("Specified address/port is invalid");
+            }
 
             devAddr = match.Groups[1].Value;
             string port = match.Groups[2].Value;
 
             if (!ushort.TryParse(port, out devPort))
+            {
+#if DEBUG_MODE
+
+                StoreDebugLog($"Specified address/port is invalid.");
+#endif
                 throw new ArgumentException("Specified address/port is invalid");
+            }
 
             tcpClient = new TcpClient();
 
@@ -171,10 +231,18 @@ namespace SharedDriver
             baseStream.ReadTimeout = 10000;
             version = readResponse.ReadLine();
 
+#if DEBUG_MODE
+
+            StoreDebugLog($"Device version: {version}");
+#endif
+
             var devVersion = VersionValidator.GetVersion(version);
 
             if (!devVersion.IsValid)
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device version {version}, minimum supported version: V{VersionValidator.MAJOR_VERSION}_{VersionValidator.MINOR_VERSION}");
+#endif
                 Dispose();
                 throw new DeviceConnectionException($"Invalid device version {DeviceVersion}, minimum supported version: V{VersionValidator.MAJOR_VERSION}_{VersionValidator.MINOR_VERSION}");
             }
@@ -182,6 +250,9 @@ namespace SharedDriver
             var freq = readResponse.ReadLine();
             if (!GetFrequency(freq))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device frequency response, received value: {freq}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid device frequency response.");
             }
@@ -189,6 +260,9 @@ namespace SharedDriver
             var blast = readResponse.ReadLine();
             if (!GetBlastFrequency(blast))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid blast frequency response, received value: {blast}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid blast frequency response.");
             }
@@ -196,6 +270,9 @@ namespace SharedDriver
             var bufString = readResponse.ReadLine();
             if (!GetBufferSize(bufString))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device buffer size response, received value: {bufString}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid device buffer size response.");
             }
@@ -203,6 +280,9 @@ namespace SharedDriver
             var chanString = readResponse.ReadLine();
             if (!GetChannelCount(chanString))
             {
+#if DEBUG_MODE
+                StoreDebugLog($"Invalid device channel count response, received value: {chanString}.");
+#endif
                 Dispose();
                 throw new DeviceConnectionException("Invalid device channel count response.");
             }
@@ -210,6 +290,9 @@ namespace SharedDriver
             baseStream.ReadTimeout = Timeout.Infinite;
 
             isNetwork = true;
+#if DEBUG_MODE
+            StoreDebugLog($"Device initialized successfully. Received parameters: {freq}, {blast}, {bufString}, {chanString}");
+#endif
         }
         private bool GetChannelCount(string? chanString)
         {
@@ -272,18 +355,36 @@ namespace SharedDriver
 
         public override CaptureError StartCapture(CaptureSession Session, Action<CaptureEventArgs>? CaptureCompletedHandler = null)
         {
+#if DEBUG_MODE
+            StoreDebugLog($"Starting capture.");
+#endif
+
             try
             {
                 if (capturing || baseStream == null || readResponse == null)
+                {
+#if DEBUG_MODE
+                    StoreDebugLog($"Error starting capture (busy)");
+#endif
                     return CaptureError.Busy;
+                }
 
                 if (Session.CaptureChannels == null || Session.CaptureChannels.Length < 0)
+                {
+#if DEBUG_MODE
+                    StoreDebugLog($"Error starting capture (bad params)");
+#endif
                     return CaptureError.BadParams;
-
-                int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((byte)Session.LoopCount + 1));
+                }
+                int requestedSamples = Session.PreTriggerSamples + (Session.PostTriggerSamples * ((ushort)Session.LoopCount + 1));
 
                 if (!ValidateSettings(Session, requestedSamples))
+                {
+#if DEBUG_MODE
+                    StoreDebugLog($"Error starting capture (invalid settings)");
+#endif
                     return CaptureError.BadParams;
+                }
 
                 var mode = GetCaptureMode(Session.CaptureChannels.Select(c => c.ChannelNumber).ToArray());
 
@@ -304,11 +405,25 @@ namespace SharedDriver
                 {
                     capturing = true;
                     Task.Run(() => ReadCapture(Session, requestedSamples, mode, CaptureCompletedHandler));
+#if DEBUG_MODE
+                    StoreDebugLog($"Capture started successfully.");
+#endif
                     return CaptureError.None;
                 }
+
+#if DEBUG_MODE
+                StoreDebugLog($"Error starting capture (bad device response, received response: {result})");
+#endif
+
                 return CaptureError.HardwareError;
             }
-            catch { return CaptureError.HardwareError; }
+            catch (Exception ex)
+            {
+#if DEBUG_MODE
+                StoreDebugLog($"Unhandled exception starting capture: {ex.Message} - {ex.StackTrace}");
+#endif
+                return CaptureError.HardwareError; 
+            }
         }
 
         private void ReadCapture(CaptureSession Session, int Samples, CaptureMode Mode, Action<CaptureEventArgs>? CaptureCompletedHandler)
@@ -316,7 +431,12 @@ namespace SharedDriver
             try
             {
                 if (readData == null)
+                {
+#if DEBUG_MODE
+                    StoreDebugLog($"Error reading capture, no data reader available.");
+#endif
                     throw new Exception("No data reader available");
+                }
 
                 uint length = readData.ReadUInt32();
                 UInt32[] samples = new UInt32[length];
@@ -325,9 +445,17 @@ namespace SharedDriver
                 BinaryReader rdData;
 
                 if (isNetwork)
+                {
+#if DEBUG_MODE
+                    StoreDebugLog($"Reading network data");
+#endif
                     rdData = readData;
+                }
                 else
                 {
+#if DEBUG_MODE
+                    StoreDebugLog($"Reading serial data");
+#endif
                     int bufLen = Samples * (Mode == CaptureMode.Channels_8 ? 1 : (Mode == CaptureMode.Channels_16 ? 2 : 4));
 
                     if (Session.LoopCount == 0 || !Session.MeasureBursts)
@@ -352,14 +480,23 @@ namespace SharedDriver
                 switch (Mode)
                 {
                     case CaptureMode.Channels_8:
+#if DEBUG_MODE
+                        StoreDebugLog($"Reading 8 bit data");
+#endif
                         for (int buc = 0; buc < length; buc++)
                             samples[buc] = rdData.ReadByte();
                         break;
                     case CaptureMode.Channels_16:
+#if DEBUG_MODE
+                        StoreDebugLog($"Reading 16 bit data");
+#endif
                         for (int buc = 0; buc < length; buc++)
                             samples[buc] = rdData.ReadUInt16();
                         break;
                     case CaptureMode.Channels_24:
+#if DEBUG_MODE
+                        StoreDebugLog($"Reading 24 bit data");
+#endif
                         for (int buc = 0; buc < length; buc++)
                             samples[buc] = rdData.ReadUInt32();
                         break;
@@ -369,6 +506,9 @@ namespace SharedDriver
 
                 if (stampLength > 0)
                 {
+#if DEBUG_MODE
+                    StoreDebugLog($"Timestamp data included in capture");
+#endif
                     for (int buc = 0; buc < Session.LoopCount + 2; buc++)
                         timestamps[buc] = rdData.ReadUInt32();
                 }
@@ -379,6 +519,12 @@ namespace SharedDriver
                 //by the device, so we need to adjust the timestamps to be more accurate
                 if (timestamps.Length > 0)
                 {
+#if DEBUG_MODE
+                    StoreDebugLog($"Reading timestamp data");
+#endif
+
+                    double tickLength = 1000000000.0 / blastFrequency;
+
                     //First we invert the lower part of the timestamps as systick counts in decreasing order
                     for (int buc = 0; buc < timestamps.Length; buc++)
                     {
@@ -390,12 +536,12 @@ namespace SharedDriver
 
                     //Next we calculate the ns per sample and the ns per burst
                     double nsPerSample = 1000000000.0 / Session.Frequency;
-                    double ticksPerSample = nsPerSample / 5;
+                    double ticksPerSample = nsPerSample / tickLength;
                     double nsPerBurst = nsPerSample * Session.PostTriggerSamples;
 
                     //We calculate the ticks per burst, as we know the device's CPU runs at 200Mhz we know that each
                     //tick is 5ns, so we can determine how many ticks happen per burst
-                    double ticksPerBurst = nsPerBurst / 5;
+                    double ticksPerBurst = nsPerBurst / tickLength;
 
                     for (int buc = 1; buc < timestamps.Length; buc++)
                     {
@@ -406,7 +552,6 @@ namespace SharedDriver
                         //If the difference between the timestamps is less than the ticks per burst, we adjust the timestamps
                         if (top - timestamps[buc - 1] <= ticksPerBurst)
                         {
-                            Debug.WriteLine($"Adjusting timestamp {buc}");
                             uint diff = (uint)(ticksPerBurst - (top - timestamps[buc - 1]) + (ticksPerSample * 2));
 
                             for (int buc2 = buc; buc2 < timestamps.Length; buc2++)
@@ -423,7 +568,7 @@ namespace SharedDriver
                     {
                         //In case of rollback, we need to adjust the timestamps
                         ulong top = timestamps[buc] < timestamps[buc - 1] ? timestamps[buc] + 0xFFFFFFFF : timestamps[buc];
-                        delays[buc - 2] = (UInt64)((top - timestamps[buc - 1]) - ticksPerBurst) * 5;
+                        delays[buc - 2] = (UInt64)(((top - timestamps[buc - 1]) - ticksPerBurst) * tickLength);
                         Debug.WriteLine(delays[buc - 2]);
                     }
 
@@ -457,11 +602,18 @@ namespace SharedDriver
                     //timestamps = delays;
                 }
 
-
                 Session.Bursts = bursts.ToArray();
+
+#if DEBUG_MODE
+                StoreDebugLog($"Extracting samples...");
+#endif
 
                 for (int buc = 0; buc < Session.CaptureChannels.Length; buc++)
                     ExtractSamples(Session.CaptureChannels[buc], buc, samples);
+
+#if DEBUG_MODE
+                StoreDebugLog($"Capture read complete");
+#endif
 
                 if (CaptureCompletedHandler != null)
                     CaptureCompletedHandler(new CaptureEventArgs { Success = true, Session = Session });
@@ -490,6 +642,12 @@ namespace SharedDriver
             {
                 if (!capturing)
                     return;
+
+#if DEBUG_MODE
+                StoreDebugLog($"Unhandled exception reading capture: {ex.Message} - {ex.StackTrace}");
+#endif
+
+                capturing = false;
 
                 if (CaptureCompletedHandler != null)
                     CaptureCompletedHandler(new CaptureEventArgs { Success = false, Session = Session });
@@ -522,7 +680,7 @@ namespace SharedDriver
                     frequency = (uint)session.Frequency,
                     preSamples = (uint)session.PreTriggerSamples,
                     postSamples = (uint)session.PostTriggerSamples,
-                    loopCount = (byte)session.LoopCount,
+                    loopCount = (ushort)session.LoopCount,
                     measure = session.MeasureBursts ? (byte)1 : (byte)0,
                     captureMode = (byte)mode
                 };
@@ -579,7 +737,9 @@ namespace SharedDriver
                     requestedSamples > captureLimits.MaxTotalSamples ||
                     session.Frequency < MinFrequency ||
                     session.Frequency > MaxFrequency ||
-                        session.LoopCount > 254
+                    (session.MeasureBursts && session.LoopCount > 254) ||
+                    (session.MeasureBursts && session.PostTriggerSamples < 100) ||
+                    session.LoopCount > 65534
                     )
                     return false;
             }
@@ -693,33 +853,38 @@ namespace SharedDriver
         #region Network-related functions
         public override unsafe bool SendNetworkConfig(string AccesPointName, string Password, string IPAddress, ushort Port)
         {
-            if (isNetwork || baseStream == null || readResponse == null)
+            try
+            {
+                if (isNetwork || baseStream == null || readResponse == null)
+                    return false;
+
+                NetConfig request = new NetConfig { Port = Port };
+                byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
+                byte[] pass = Encoding.ASCII.GetBytes(Password);
+                byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
+
+                Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
+                Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
+                Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
+
+                OutputPacket pack = new OutputPacket();
+                pack.AddByte(2);
+                pack.AddStruct(request);
+
+                baseStream.Write(pack.Serialize());
+                baseStream.Flush();
+
+                baseStream.ReadTimeout = 5000;
+                var result = readResponse.ReadLine();
+                baseStream.ReadTimeout = Timeout.Infinite;
+
+                if (result == "SETTINGS_SAVED")
+                    return true;
+
                 return false;
-
-            NetConfig request = new NetConfig { Port = Port };
-            byte[] name = Encoding.ASCII.GetBytes(AccesPointName);
-            byte[] pass = Encoding.ASCII.GetBytes(Password);
-            byte[] addr = Encoding.ASCII.GetBytes(IPAddress);
-
-            Marshal.Copy(name, 0, new IntPtr(request.AccessPointName), name.Length);
-            Marshal.Copy(pass, 0, new IntPtr(request.Password), pass.Length);
-            Marshal.Copy(addr, 0, new IntPtr(request.IPAddress), addr.Length);
-
-            OutputPacket pack = new OutputPacket();
-            pack.AddByte(2);
-            pack.AddStruct(request);
-
-            baseStream.Write(pack.Serialize());
-            baseStream.Flush();
-
-            baseStream.ReadTimeout = 5000;
-            var result = readResponse.ReadLine();
-            baseStream.ReadTimeout = Timeout.Infinite;
-
-            if (result == "SETTINGS_SAVED")
-                return true;
-
-            return false;
+            }
+            catch
+            { return false; }
         }
         public override string? GetVoltageStatus()
         {
@@ -780,6 +945,10 @@ namespace SharedDriver
         #region IDisposable implementation
         public override void Dispose()
         {
+
+            if (IsCapturing)
+                StopCapture();
+
             try
             {
                 sp.Close();
@@ -823,6 +992,19 @@ namespace SharedDriver
 
             CaptureCompleted = null;
         }
+        #endregion
+
+        #region Debug functions
+#if DEBUG_MODE
+        private void StoreDebugLog(string Message, [CallerMemberName] string Caller = "")
+        {
+            try
+            {
+                File.AppendAllLines("driver_debug.log", new string[] { $"[{Caller}] {Message}" });
+            }
+            catch { }
+        }
+#endif
         #endregion
     }
 }

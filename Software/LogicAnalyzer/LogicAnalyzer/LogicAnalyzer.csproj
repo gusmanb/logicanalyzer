@@ -8,7 +8,10 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationIcon>Assets\Ico40.ico</ApplicationIcon>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <Version>6.0.0.0</Version>
+    <Version>6.5.0.0</Version>
+    <Copyright>(C) 2025 El Dr. Gusman</Copyright>
+    <PackageProjectUrl>https://github.com/gusmanb/logicanalyzer</PackageProjectUrl>
+    <Title>LogicAnalyzer</Title>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
@@ -37,7 +40,7 @@
     <PackageReference Include="MessageBox.Avalonia" Version="3.1.6" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="pythonnet" Version="3.0.5" />
+    <PackageReference Include="pythonnet" Version="3.1.0-preview2024-09-06" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>

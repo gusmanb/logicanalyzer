@@ -1,0 +1,8 @@
+.program fpga_clock
+.side_set 1           ; use 1 sideset bit to drive the clock pin
+
+; Simple 50% duty cycle clock: toggle the pin every instruction
+.wrap_target
+    nop       side 1  ; pin high
+    nop       side 0  ; pin low
+.wrap
