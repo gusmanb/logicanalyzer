@@ -13,7 +13,7 @@ namespace SharedDriver
     public static class DeviceDetector
     {
         /*
-         
+
         VID/PID: 1902/3020
         Windows: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\usbser\Enum
                  HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_1209&PID_3020&MI_00
@@ -21,16 +21,16 @@ namespace SharedDriver
         Linux:   /sys/bus/usb/devices/x-y
                                             idProduct
                                             idVendor
-        
+
                  /sys/bus/usb/devices/x-y:1-0/tty
-                                                    
+
          */
 
         const string vid = "1209";
         const string pid = "3020";
 
         public static DetectedDevice[] Detect()
-        { 
+        {
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return DetectWindows();
@@ -52,11 +52,11 @@ namespace SharedDriver
         private static DetectedDevice[] DetectLinux()
         {
             if(!Directory.Exists("/sys/bus/usb/devices"))
-                return new DetectedDevice[0];
+                return [];
 
-            List<DetectedDevice> devices = new List<DetectedDevice>();
+            List<DetectedDevice> devices = [];
 
-            var regDev = new Regex(@"^[0-9]+-[0-9]+$");
+            var regDev = new Regex(@"^[0-9]+-[0-9]+(\.[0-9]+)*$");
 
             foreach (var dir in Directory.GetDirectories("/sys/bus/usb/devices"))
             {
