@@ -3,15 +3,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:LogicAnalyzer.Controls;assembly=LogicAnalyzer"
-        mc:Ignorable="d" d:DesignWidth="930" d:DesignHeight="680"
-        MaxWidth="930" MinWidth="930" Width="930" MaxHeight="680" MinHeight="680" Height="680"
+        mc:Ignorable="d" d:DesignWidth="1030" d:DesignHeight="680"
+        MaxWidth="1030" MinWidth="1030" Width="1030" MaxHeight="680" MinHeight="680" Height="680"
         CanResize="False" WindowStartupLocation="CenterOwner"
         x:Class="LogicAnalyzer.Dialogs.CaptureDialog"
         Title="Capture settings"
         Background="#383838" Icon="/Assets/Ico40.ico">
   <Panel>
     <Grid RowDefinitions="1*,14*,0.7*" Margin="8,15,8,15" Name="grdBase">
-      <Grid Grid.Row="0" ColumnDefinitions="1.4*,*,*" Margin="15,0,15,0">
+      <Grid Grid.Row="0" ColumnDefinitions="1.4*,*,*,150" Margin="15,0,15,0">
         <StackPanel Grid.Column="0" Orientation="Horizontal">
           <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Frequency:</TextBlock>
           <NumericUpDown Width="165" Height="35" Minimum="3100" Maximum="100000000" Value="100000000" Name="nudFrequency" FormatString="#,##0"></NumericUpDown>
@@ -23,9 +23,13 @@
           <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Presamples:</TextBlock>
           <NumericUpDown Width="135" Height="35" Value="512" Minimum="2" Maximum="98303" Name="nudPreSamples" FormatString="#,##0"></NumericUpDown>
         </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
           <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Postsamples:</TextBlock>
           <NumericUpDown Width="135" Height="35" Value="1024" Minimum="512" Maximum="131069" Name="nudPostSamples" FormatString="#,##0"></NumericUpDown>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Sort:</TextBlock>
+          <CheckBox Name="chkSortByChannel" IsChecked="True" Margin="0,0,10,0" VerticalAlignment="Center">by channel</CheckBox>
         </StackPanel>
       </Grid>
       <Grid Grid.Row="1" RowDefinitions="15*,14*" Name="grdMainContainer">

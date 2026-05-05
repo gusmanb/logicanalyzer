@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
 using static System.Net.Mime.MediaTypeNames;
@@ -57,8 +59,26 @@ namespace LogicAnalyzer.Dialogs
             nudFrequency.ValueChanged += NudFrequency_ValueChanged;
             ckBlast.IsCheckedChanged += ckBlast_CheckedChanged;
             nudBurstCount.ValueChanged += NudBurstCount_ValueChanged;
+            chkSortByChannel.Click += chkSortByChannelClicked;
         }
 
+        private void chkSortByChannelClicked(object? sender, RoutedEventArgs e)
+        {
+            // sort capture channels by channel number
+            if (chkSortByChannel.IsChecked == true) 
+                captureChannels = captureChannels.OrderBy(c => c.ChannelNumber).ToArray();
+            // sort capture channels by channel name
+            else
+            {
+                captureChannels = captureChannels.OrderBy(c => c.ChannelName == null ? 1:0)
+                                                 .ThenBy(c => c.ChannelName != null && Regex.Match(c.ChannelName, @"\w").Success ? Regex.Match(c.ChannelName, @"\w").Value : "")
+                                                 .ThenBy(c => c.ChannelName != null && Regex.Match(c.ChannelName, @"\d+").Success ? Int16.Parse(Regex.Match(c.ChannelName, @"\d+").Value) : (short)99)
+                                                 .ToArray();
+            }
+
+            // reinitialize rows of channel selectors
+            ReInitializeControlArrays();
+        }
         private void NudBurstCount_ValueChanged(object? sender, NumericUpDownValueChangedEventArgs e)
         {
             if (nudBurstCount.Value > 254)
@@ -281,6 +301,25 @@ namespace LogicAnalyzer.Dialogs
             return panel;
         }
 
+        private void ReInitializeControlArrays()
+        {
+            pnlChannels.Children.Clear();
+            int ChannelCount = captureChannels.Length;
+            List<ChannelSelector> channels = new List<ChannelSelector>();
+            for (int firstChan = 0; firstChan < ChannelCount; firstChan += 8)
+                pnlChannels.Children.Add(CreateChannelRow(firstChan, channels, ChannelCount));
+            for (int chan = 0; chan < channels.Count; chan++)
+            {
+                channels[chan].ChannelNumber = captureChannels[chan].ChannelNumber;
+                channels[chan].ChannelName = captureChannels[chan].ChannelName;
+                channels[chan].ChannelColor = captureChannels[chan].ChannelColor;
+                channels[chan].Enabled = captureChannels[chan].Enabled;
+            }
+            int maxTrigger = Math.Min(24, ChannelCount);
+            captureChannels = channels.ToArray();
+            triggerChannels = Enumerable.Range(0, maxTrigger).Select(i => this.FindControl<RadioButton>($"rbTrigger{i + 1}")).ToArray()!;
+        }
+
         private void InitializeControlArrays(int ChannelCount)
         {
             List<ChannelSelector> channels = new List<ChannelSelector>();
@@ -375,6 +414,17 @@ namespace LogicAnalyzer.Dialogs
                     captureChannels[channel.ChannelNumber].ChannelColor = channel.ChannelColor;
                 }
 
+                if (settings.SortOnNumber==false)
+                {
+                    captureChannels = captureChannels
+                        .OrderBy(c => c.ChannelName == null ? 1:0)
+                        .ThenBy(c => c.ChannelName != null && Regex.Match(c.ChannelName, @"\w").Success ? Regex.Match(c.ChannelName, @"\w").Value : "")
+                        .ThenBy(c => c.ChannelName != null && Regex.Match(c.ChannelName, @"\d+").Success ? Int16.Parse(Regex.Match(c.ChannelName, @"\d+").Value) : (short)99)
+                        .ToArray();
+                    ReInitializeControlArrays();
+                    chkSortByChannel.IsChecked = false;
+                }
+
                 if (settings.TriggerType == TriggerType.Blast)
                 {
                     SetBlastMode(true);
@@ -459,7 +509,7 @@ namespace LogicAnalyzer.Dialogs
             for (int buc = 0; buc < captureChannels.Length; buc++)
             {
                 if (captureChannels[buc].Enabled == true)
-                    channelsToCapture.Add(new AnalyzerChannel { ChannelName = captureChannels[buc].ChannelName, ChannelNumber = buc, ChannelColor = captureChannels[buc].ChannelColor });
+                    channelsToCapture.Add(new AnalyzerChannel { ChannelName = captureChannels[buc].ChannelName, ChannelNumber = captureChannels[buc].ChannelNumber, ChannelColor = captureChannels[buc].ChannelColor });
             }
 
             if (channelsToCapture.Count == 0)
@@ -594,6 +644,7 @@ namespace LogicAnalyzer.Dialogs
             settings.MeasureBursts = measure;
             settings.TriggerInverted = ckNegativeTrigger.IsChecked == true;
             settings.CaptureChannels = channelsToCapture.ToArray();
+            settings.SortOnNumber = chkSortByChannel.IsChecked == true;
             
             File.WriteAllText(settingsFile, JsonConvert.SerializeObject(settings));
             SelectedSettings = settings;
