@@ -94,7 +94,6 @@ namespace SigrokDecoderBridge
 
 
                     Runtime.PythonDLL = pythonPath;
-                    
                     PythonEngine.Initialize();
 
                     dynamic os = Py.Import("os");
