@@ -47,7 +47,7 @@ namespace SigrokDecoderBridge
                     if (File.Exists(cfgFile))
                     {
                         Log("Reading python path from config file...");
-                        pythonPath = File.ReadAllText(cfgFile);
+                        pythonPath = File.ReadAllText(cfgFile).Trim();
                         Log($"Stablished path: {pythonPath}");
                     }
                     else
@@ -94,8 +94,7 @@ namespace SigrokDecoderBridge
 
 
                     Runtime.PythonDLL = pythonPath;
-
-
+                    
                     PythonEngine.Initialize();
 
                     dynamic os = Py.Import("os");
