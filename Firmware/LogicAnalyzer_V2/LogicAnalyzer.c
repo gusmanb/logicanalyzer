@@ -85,8 +85,9 @@
     #define LED_OFF() { }
 #endif
 
+#define MESSAGE_BUFFER_SIZE	128
 //Buffer used to store received data
-uint8_t messageBuffer[128];
+uint8_t messageBuffer[MESSAGE_BUFFER_SIZE];
 //Position in the buffer
 uint8_t bufferPos = 0;
 //Capture status
@@ -147,6 +148,46 @@ void storeSettings(WIFI_SETTINGS* settings)
 
 #endif
 
+/// @brief Transfer a buffer of data through USB using the TinyUSB CDC functions
+/// @param data Buffer of data to transfer
+/// @param len Length of the buffer
+void cdc_transfer(unsigned char* data, int len)
+{
+
+    int left = len;
+    int pos = 0;
+
+    while(left > 0)
+    {
+        int avail = (int) tud_cdc_write_available();
+#if 0
+		if(avail > 16)
+			avail = 16;
+#endif
+        if(avail > left)
+            avail = left;
+
+        if(avail)
+        {
+            int transferred = (int) tud_cdc_write(data + pos, avail);
+            tud_task();
+            tud_cdc_write_flush();
+            tud_task();
+            
+            pos += transferred;
+            left -= transferred;
+        }
+        else
+        {
+            tud_task();
+            tud_cdc_write_flush();
+            tud_task();
+            if (!tud_cdc_connected())
+                break;
+        }
+    }
+}
+
 /// @brief Sends a response message to the host application in string mode
 /// @param response The message to be sent (null terminated)
 /// @param toWiFi If true the message is sent to a WiFi endpoint, else to the USB connection through STDIO
@@ -164,43 +205,15 @@ void sendResponse(const char* response, bool toWiFi)
     }
     else
     #endif
+	{
+#if 1
+		cdc_transfer( (unsigned char*)response, strlen(response) );
+#else
         printf(response);
+#endif
+	}
 }
 
-/// @brief Transfer a buffer of data through USB using the TinyUSB CDC functions
-/// @param data Buffer of data to transfer
-/// @param len Length of the buffer
-void cdc_transfer(unsigned char* data, int len)
-{
-
-    int left = len;
-    int pos = 0;
-
-    while(left > 0)
-    {
-        int avail = (int) tud_cdc_write_available();
-
-        if(avail > left)
-            avail = left;
-
-        if(avail)
-        {
-            int transferred = (int) tud_cdc_write(data + pos, avail);
-            tud_task();
-            tud_cdc_write_flush();
-            
-            pos += transferred;
-            left -= transferred;
-        }
-        else
-        {
-            tud_task();
-            tud_cdc_write_flush();
-            if (!tud_cdc_connected())
-                break;
-        }
-    }
-}
 
 #ifdef USE_CYGW_WIFI
 /// @brief Transfer a buffer of data through WiFi
@@ -239,13 +252,28 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
     {
         //Store char in buffer and increment position
         messageBuffer[bufferPos++] = data[pos];
+
+		// if we EVER see an 0x55, then we MUST be at the start or end of a message, else reset thy self
+		if(messageBuffer[bufferPos-1] == 0x55)
+		{
+			if (bufferPos == 1)
+			{ }									// normal start of message
+			else if (bufferPos > 3 && messageBuffer[bufferPos - 2] == 0xAA) 
+			{ }									// normal end of message
+			else 
+			{
+				// Received a false start or a truncated message, assume this is the start of a new message 
+				messageBuffer[0] = 0x55;
+				bufferPos = 1;
+			}
+		}
         
         //If we have stored the first byte and it is not 0x55 restart reception
         if(bufferPos == 1 && messageBuffer[0] != 0x55)
             bufferPos = 0;
         else if(bufferPos == 2 && messageBuffer[1] != 0xAA) //If we have stored the second byte and it is not 0xAA restart reception
             bufferPos = 0;
-        else if(bufferPos >= 256) //Have we overflowed the buffer? then inform to the host and restart reception
+        else if(bufferPos >= MESSAGE_BUFFER_SIZE) //Have we overflowed the buffer? then inform to the host and restart reception
         {
             sendResponse("ERR_MSG_OVERFLOW\n", fromWiFi);
             bufferPos = 0;
@@ -428,7 +456,6 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                 bufferPos = 0; //Reset buffer position
             }
         }
-
     }
 
     //PROTOCOL EXPLAINED:
@@ -458,8 +485,9 @@ bool processUSBInput(bool skipProcessing)
     uint data = getchar_timeout_us(0);
 
     //Timeout? Then leave
-    if(data == PICO_ERROR_TIMEOUT)
+    if(data == PICO_ERROR_TIMEOUT) {
         return false;
+	}
 
     uint8_t filteredData = (uint8_t)data;
 
@@ -467,7 +495,6 @@ bool processUSBInput(bool skipProcessing)
         processData(&filteredData, 1, false);
 
     return true;
-
 }
 
 #ifdef USE_CYGW_WIFI
@@ -627,7 +654,7 @@ int main()
     sleep_ms(1000);
 
     //Clear message buffer
-    memset(messageBuffer, 0, 128);
+    memset(messageBuffer, 0, MESSAGE_BUFFER_SIZE);
 
     //Configure led
     INIT_LED();
@@ -743,8 +770,12 @@ int main()
             else
             {
                 LED_OFF();
-                sleep_ms(1000);
+                sleep_ms(100);
 
+#if 0
+				LED_ON();
+				sleep_ms(100);
+#else
                 //Check for cancel request
                 if(processCancel())
                 {
@@ -759,11 +790,12 @@ int main()
                     #ifdef SUPPORTS_COMPLEX_TRIGGER
                     check_fast_interrupt();
                     #endif
-                    sleep_ms(1000);
+                    sleep_ms(100);
                 }
+#endif
             }
         }
-        else
+        else		// not capturing
         {
             if(blink)
             {
