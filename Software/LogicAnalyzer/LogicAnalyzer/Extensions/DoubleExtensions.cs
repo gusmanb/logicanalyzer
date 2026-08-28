@@ -8,6 +8,10 @@ namespace LogicAnalyzer.Extensions
 {
     public static class DoubleExtensions
     {
+        public static string ToInferredFrequency(this double Time)
+        {
+            return (1.0 / (Time * 2)).ToLargeFrequency();
+        }
         public static string ToSmallTime(this double Time)
         {
             if (Time < 0.000001)

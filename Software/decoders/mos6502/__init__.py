@@ -1,11 +1,11 @@
 ##
 ## This file is part of the libsigrokdecode project.
 ##
-## Copyright (C) 2015 Paul Evans <leonerd@leonerd.org.uk>
+## Copyright (C) 2017 David Banks <dave@hoglet.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 2 of the License, or
+## the Free Software Foundation; either version 3 of the License, or
 ## (at your option) any later version.
 ##
 ## This program is distributed in the hope that it will be useful,
@@ -18,8 +18,12 @@
 ##
 
 '''
-This decoder stacks on top of the 'spi' PD and decodes the Maxim MAX7219 and
-MAX7221 LED matrix driver protocol.
+The 6502 is an 8-bit microprocessor.
+
+In addition to the 8-bit data bus, this decoder requires the input signals
+SYNC (sync) and RnW (read / not write) to do its work. An explicit
+clock signal is not required. However, the 6502 CPU clock may be used as
+sampling clock, if applicable.
 '''
 
 from .pd import Decoder

@@ -24,7 +24,7 @@ from .lists import *
 
 L = len(cmds)
 
-a = [re.sub('\/', '_', c[0]).replace('2READ', 'READ2X') for c in cmds.values()] + ['BIT', 'FIELD', 'WARN']
+a = [re.sub(r'\/', '_', c[0]).replace('2READ', 'READ2X') for c in cmds.values()] + ['BIT', 'FIELD', 'WARN']
 Ann = SrdIntEnum.from_list('Ann', a)
 
 def cmd_annotation_classes():

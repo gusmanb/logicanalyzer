@@ -16,8 +16,8 @@ namespace SigrokDecoderBridge
 {
     public class SigrokProvider : IDisposable
     {
-        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentInputs; //= new Dictionary<string, IEnumerable<SigrokOutputValue>>();
-        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentOutputs; //= new Dictionary<string, IEnumerable<SigrokOutputValue>>();
+        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentInputs;
+        private Dictionary<string, IEnumerable<SigrokOutputValue>>? currentOutputs;
 
         private SigrokDecoderBase[]? decoders;
 
@@ -36,7 +36,7 @@ namespace SigrokDecoderBridge
         {
             List<string> classTemplates = new List<string>();
             
-            var dirs = Directory.GetDirectories(SigrokPythonEngine.DecoderPath);
+             var dirs = Directory.GetDirectories(SigrokPythonEngine.DecoderPath);
 
             foreach (var dir in dirs)
             {
@@ -55,7 +55,7 @@ namespace SigrokDecoderBridge
 
             var assemblyPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
-            var references = new MetadataReference[]
+             var references = new MetadataReference[]
             {
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(Object).Assembly.Location),

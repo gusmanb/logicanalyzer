@@ -56,7 +56,21 @@ namespace LogicAnalyzer.Dialogs
             rbTriggerTypeEdge.IsCheckedChanged += rbTriggerTypeEdge_CheckedChanged;
             nudFrequency.ValueChanged += NudFrequency_ValueChanged;
             ckBlast.IsCheckedChanged += ckBlast_CheckedChanged;
-            
+            nudBurstCount.ValueChanged += NudBurstCount_ValueChanged;
+        }
+
+        private void NudBurstCount_ValueChanged(object? sender, NumericUpDownValueChangedEventArgs e)
+        {
+            if (nudBurstCount.Value > 254)
+            {
+                ckMeasure.IsChecked = false;
+                ckMeasure.IsEnabled = false;
+            }
+            else
+            {
+                if(rbTriggerTypeEdge.IsChecked == true)
+                    ckMeasure.IsEnabled = true;
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -130,7 +144,7 @@ namespace LogicAnalyzer.Dialogs
             driver = Driver;
             InitializeControlArrays(driver.ChannelCount);
             InitializeParameters();
-            LoadSettings(driver.DriverType);
+            LoadSettings(driver);
             CheckMode();
             SetDriverMode(driver.DriverType);
             InitializeTooltips();
@@ -172,10 +186,6 @@ namespace LogicAnalyzer.Dialogs
         {
             if (DriverType == AnalyzerDriverType.Multi)
             {
-                //pnlAllTriggers.Children.Remove(pnlPatternTrigger);
-                //pnlSingleTrigger.Children.Add(pnlPatternTrigger);
-                //pnlAllTriggers.IsVisible = false;
-                //pnlSingleTrigger.IsVisible = true;
                 grdMainContainer.RowDefinitions = new RowDefinitions("3.7*,*");
                 rbTriggerTypeEdge.IsVisible = false;
                 pnlEdge.IsVisible = false;
@@ -197,7 +207,7 @@ namespace LogicAnalyzer.Dialogs
             this.FixStartupPosition();
         }
 
-        private StackPanel CreateChannelRow(int FirstChannel, List<ChannelSelector> Selectors)
+        private StackPanel CreateChannelRow(int FirstChannel, List<ChannelSelector> Selectors, int TotalChannels)
         {
             StackPanel panel = new StackPanel();
             panel.Orientation = Avalonia.Layout.Orientation.Horizontal;
@@ -210,7 +220,7 @@ namespace LogicAnalyzer.Dialogs
 
             Button btnSelAll = new Button { FontFamily = font, Content = "", FontSize = 16 };
             btnSelAll.SetValue(Grid.RowProperty, 0);
-            btnSelAll.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = true; };
+            btnSelAll.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8 && c.IsEnabled)) ch.Enabled = true; };
             btnSelAll.Margin = new Thickness(0, 0, 0, 0);
             btnSelAll.Padding = new Thickness(0, 0, 0, 0);
             btnSelAll.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
@@ -220,7 +230,7 @@ namespace LogicAnalyzer.Dialogs
 
             Button btnSelNone = new Button { FontFamily = font, Content = "", FontSize = 16 };
             btnSelNone.SetValue(Grid.RowProperty, 1);
-            btnSelNone.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = false; };
+            btnSelNone.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8 && c.IsEnabled)) ch.Enabled = false; };
             btnSelNone.Margin = new Thickness(0, 0, 0, 0);
             btnSelNone.Padding = new Thickness(5, 0, 5, 0);
             btnSelNone.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
@@ -230,7 +240,7 @@ namespace LogicAnalyzer.Dialogs
 
             Button btnSelInv = new Button { FontFamily = font, Content = "", FontSize = 16 };
             btnSelInv.SetValue(Grid.RowProperty, 2);
-            btnSelInv.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8)) ch.Enabled = !ch.Enabled; };
+            btnSelInv.Click += (s, e) => { foreach (var ch in captureChannels.Where(c => c.ChannelNumber >= FirstChannel && c.ChannelNumber < FirstChannel + 8 && c.IsEnabled)) ch.Enabled = !ch.Enabled; };
             btnSelInv.Margin = new Thickness(0, 0, 0, 0);
             btnSelInv.Padding = new Thickness(0, 0, 0, 0);
             btnSelInv.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch;
@@ -263,6 +273,9 @@ namespace LogicAnalyzer.Dialogs
                 channel.Deselected += Channel_Deselected;
                 channel.ChangeColor += Channel_ChangeColor;
                 Selectors.Add(channel);
+
+                if(FirstChannel + buc >= TotalChannels)
+                    channel.IsEnabled = false;
             }
 
             return panel;
@@ -273,7 +286,7 @@ namespace LogicAnalyzer.Dialogs
             List<ChannelSelector> channels = new List<ChannelSelector>();
 
             for (int firstChan = 0; firstChan < ChannelCount; firstChan += 8)
-                pnlChannels.Children.Add(CreateChannelRow(firstChan, channels));
+                pnlChannels.Children.Add(CreateChannelRow(firstChan, channels, ChannelCount));
 
             int maxTrigger = Math.Min(24, ChannelCount);
 
@@ -343,16 +356,18 @@ namespace LogicAnalyzer.Dialogs
             
         }
 
-        private void LoadSettings(AnalyzerDriverType DriverType)
+        private void LoadSettings(AnalyzerDriverBase Driver)
         {
-            settingsFile = $"cpSettings{DriverType}.json";
+            var driverType = Driver.DriverType;
+
+            settingsFile = $"cpSettings{driverType}.json";
             CaptureSession? settings = AppSettingsManager.GetSettings<CaptureSession>(settingsFile);
 
             if (settings != null)
             {
                 foreach (var channel in settings.CaptureChannels)
                 {
-                    if (channel.ChannelNumber >= captureChannels.Length)
+                    if (channel.ChannelNumber >= captureChannels.Length || channel.ChannelNumber > Driver.ChannelCount)
                         continue;
 
                     captureChannels[channel.ChannelNumber].Enabled = true;
@@ -373,7 +388,7 @@ namespace LogicAnalyzer.Dialogs
                     ckBlast.IsChecked = false;
                 }
 
-                if (DriverType != AnalyzerDriverType.Emulated)
+                if (driverType != AnalyzerDriverType.Emulated)
                 {
                     switch (settings.TriggerType)
                     {
@@ -457,6 +472,18 @@ namespace LogicAnalyzer.Dialogs
 
             int loops = (int)(((ckBurst.IsChecked ?? false) && (rbTriggerTypeEdge.IsChecked ?? false)) ? (nudBurstCount.Value ?? 1) - 1 : 0);
             bool measure = (ckBurst.IsChecked ?? false) && (ckMeasure.IsChecked ?? false);
+
+            if(measure && loops > 253)
+            {
+                await this.ShowError("Error", "Too many burst to measure, reduce the burst count to 254 or disable burst measurement.");
+                return;
+            }
+
+            if (measure && (int)(nudPostSamples.Value ?? 0) < 100)
+            {
+                await this.ShowError("Error", "Postsamples too low, disable burst measurement or increase it to 100");
+                return;
+            }
 
             if (nudPreSamples.Value + (nudPostSamples.Value * (loops + 1)) > max)
             {

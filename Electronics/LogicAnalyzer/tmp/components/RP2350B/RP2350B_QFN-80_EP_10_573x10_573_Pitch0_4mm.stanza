@@ -1,0 +1,153 @@
+#use-added-syntax(jitx)
+defpackage LogicAnalyzerPro/landpatterns/RP2350B_QFN-80_EP_10_573x10_573_Pitch0_4mm :
+  import core
+  import jitx
+  import jitx/commands
+  import jitx/parts
+
+
+pcb-pad circle-th-pad :
+  type = TH
+  shape = Circle(0.212)
+  layer(SolderMask(Top)) = Circle(0.212)
+  layer(SolderMask(Bottom)) = Circle(0.212)
+  layer(Cutout()) = Circle(0.106)
+
+pcb-pad rect-smd-pad-1 :
+  type = SMD
+  shape = Rectangle(0.220, 0.780)
+  layer(Paste(Top)) = Rectangle(0.220, 0.780)
+  layer(SolderMask(Top)) = Rectangle(0.220, 0.780)
+
+pcb-pad rect-smd-pad-2 :
+  type = SMD
+  shape = Rectangle(3.400, 3.400)
+  layer(SolderMask(Top)) = Rectangle(3.400, 3.400)
+
+public pcb-landpattern RP2350B_QFN-80_EP_10_573x10_573_Pitch0_4mm :
+  pad p[0] : circle-th-pad at loc(-0.850, 0.850) on Top
+  pad p[1] : rect-smd-pad-1 at loc(-4.896, 3.800, 90.000) on Top
+  pad p[2] : rect-smd-pad-1 at loc(-4.896, 3.400, 90.000) on Top
+  pad p[3] : rect-smd-pad-1 at loc(-4.896, 3.000, 90.000) on Top
+  pad p[4] : rect-smd-pad-1 at loc(-4.896, 2.600, 90.000) on Top
+  pad p[5] : rect-smd-pad-1 at loc(-4.896, 2.200, 90.000) on Top
+  pad p[6] : rect-smd-pad-1 at loc(-4.896, 1.800, 90.000) on Top
+  pad p[7] : rect-smd-pad-1 at loc(-4.896, 1.400, 90.000) on Top
+  pad p[8] : rect-smd-pad-1 at loc(-4.896, 1.000, 90.000) on Top
+  pad p[9] : rect-smd-pad-1 at loc(-4.896, 0.600, 90.000) on Top
+  pad p[10] : rect-smd-pad-1 at loc(-4.896, 0.200, 90.000) on Top
+  pad p[11] : rect-smd-pad-1 at loc(-4.896, -0.200, 90.000) on Top
+  pad p[12] : rect-smd-pad-1 at loc(-4.896, -0.600, 90.000) on Top
+  pad p[13] : rect-smd-pad-1 at loc(-4.896, -1.000, 90.000) on Top
+  pad p[14] : rect-smd-pad-1 at loc(-4.896, -1.400, 90.000) on Top
+  pad p[15] : rect-smd-pad-1 at loc(-4.896, -1.800, 90.000) on Top
+  pad p[16] : rect-smd-pad-1 at loc(-4.896, -2.200, 90.000) on Top
+  pad p[17] : rect-smd-pad-1 at loc(-4.896, -2.600, 90.000) on Top
+  pad p[18] : rect-smd-pad-1 at loc(-4.896, -3.000, 90.000) on Top
+  pad p[19] : rect-smd-pad-1 at loc(-4.896, -3.400, 90.000) on Top
+  pad p[20] : rect-smd-pad-1 at loc(-4.896, -3.800, 90.000) on Top
+  pad p[21] : rect-smd-pad-1 at loc(-3.800, -4.896) on Top
+  pad p[22] : rect-smd-pad-1 at loc(-3.400, -4.896) on Top
+  pad p[23] : rect-smd-pad-1 at loc(-3.000, -4.896) on Top
+  pad p[24] : rect-smd-pad-1 at loc(-2.600, -4.896) on Top
+  pad p[25] : rect-smd-pad-1 at loc(-2.200, -4.896) on Top
+  pad p[26] : rect-smd-pad-1 at loc(-1.800, -4.896) on Top
+  pad p[27] : rect-smd-pad-1 at loc(-1.400, -4.896) on Top
+  pad p[28] : rect-smd-pad-1 at loc(-1.000, -4.896) on Top
+  pad p[29] : rect-smd-pad-1 at loc(-0.600, -4.896) on Top
+  pad p[30] : rect-smd-pad-1 at loc(-0.200, -4.896) on Top
+  pad p[31] : rect-smd-pad-1 at loc(0.200, -4.896) on Top
+  pad p[32] : rect-smd-pad-1 at loc(0.600, -4.896) on Top
+  pad p[33] : rect-smd-pad-1 at loc(1.000, -4.896) on Top
+  pad p[34] : rect-smd-pad-1 at loc(1.400, -4.896) on Top
+  pad p[35] : rect-smd-pad-1 at loc(1.800, -4.896) on Top
+  pad p[36] : rect-smd-pad-1 at loc(2.200, -4.896) on Top
+  pad p[37] : rect-smd-pad-1 at loc(2.600, -4.896) on Top
+  pad p[38] : rect-smd-pad-1 at loc(3.000, -4.896) on Top
+  pad p[39] : rect-smd-pad-1 at loc(3.400, -4.896) on Top
+  pad p[40] : rect-smd-pad-1 at loc(3.800, -4.896) on Top
+  pad p[41] : rect-smd-pad-1 at loc(4.896, -3.800, 90.000) on Top
+  pad p[42] : rect-smd-pad-1 at loc(4.896, -3.400, 90.000) on Top
+  pad p[43] : rect-smd-pad-1 at loc(4.896, -3.000, 90.000) on Top
+  pad p[44] : rect-smd-pad-1 at loc(4.896, -2.600, 90.000) on Top
+  pad p[45] : rect-smd-pad-1 at loc(4.896, -2.200, 90.000) on Top
+  pad p[46] : rect-smd-pad-1 at loc(4.896, -1.800, 90.000) on Top
+  pad p[47] : rect-smd-pad-1 at loc(4.896, -1.400, 90.000) on Top
+  pad p[48] : rect-smd-pad-1 at loc(4.896, -1.000, 90.000) on Top
+  pad p[49] : rect-smd-pad-1 at loc(4.896, -0.600, 90.000) on Top
+  pad p[50] : rect-smd-pad-1 at loc(4.896, -0.200, 90.000) on Top
+  pad p[51] : rect-smd-pad-1 at loc(4.896, 0.200, 90.000) on Top
+  pad p[52] : rect-smd-pad-1 at loc(4.896, 0.600, 90.000) on Top
+  pad p[53] : rect-smd-pad-1 at loc(4.896, 1.000, 90.000) on Top
+  pad p[54] : rect-smd-pad-1 at loc(4.896, 1.400, 90.000) on Top
+  pad p[55] : rect-smd-pad-1 at loc(4.896, 1.800, 90.000) on Top
+  pad p[56] : rect-smd-pad-1 at loc(4.896, 2.200, 90.000) on Top
+  pad p[57] : rect-smd-pad-1 at loc(4.896, 2.600, 90.000) on Top
+  pad p[58] : rect-smd-pad-1 at loc(4.896, 3.000, 90.000) on Top
+  pad p[59] : rect-smd-pad-1 at loc(4.896, 3.400, 90.000) on Top
+  pad p[60] : rect-smd-pad-1 at loc(4.896, 3.800, 90.000) on Top
+  pad p[61] : rect-smd-pad-1 at loc(3.800, 4.896) on Top
+  pad p[62] : rect-smd-pad-1 at loc(3.400, 4.896) on Top
+  pad p[63] : rect-smd-pad-1 at loc(3.000, 4.896) on Top
+  pad p[64] : rect-smd-pad-1 at loc(2.600, 4.896) on Top
+  pad p[65] : rect-smd-pad-1 at loc(2.200, 4.896) on Top
+  pad p[66] : rect-smd-pad-1 at loc(1.800, 4.896) on Top
+  pad p[67] : rect-smd-pad-1 at loc(1.400, 4.896) on Top
+  pad p[68] : rect-smd-pad-1 at loc(1.000, 4.896) on Top
+  pad p[69] : rect-smd-pad-1 at loc(0.600, 4.896) on Top
+  pad p[70] : rect-smd-pad-1 at loc(0.200, 4.896) on Top
+  pad p[71] : rect-smd-pad-1 at loc(-0.200, 4.896) on Top
+  pad p[72] : rect-smd-pad-1 at loc(-0.600, 4.896) on Top
+  pad p[73] : rect-smd-pad-1 at loc(-1.000, 4.896) on Top
+  pad p[74] : rect-smd-pad-1 at loc(-1.400, 4.896) on Top
+  pad p[75] : rect-smd-pad-1 at loc(-1.800, 4.896) on Top
+  pad p[76] : rect-smd-pad-1 at loc(-2.200, 4.896) on Top
+  pad p[77] : rect-smd-pad-1 at loc(-2.600, 4.896) on Top
+  pad p[78] : rect-smd-pad-1 at loc(-3.000, 4.896) on Top
+  pad p[79] : rect-smd-pad-1 at loc(-3.400, 4.896) on Top
+  pad p[80] : rect-smd-pad-1 at loc(-3.800, 4.896) on Top
+  pad p[81] : circle-th-pad at loc(-0.850, 0.0) on Top
+  pad p[82] : circle-th-pad at loc(-0.850, -0.850) on Top
+  pad p[83] : circle-th-pad at loc(0.0, 0.850) on Top
+  pad p[84] : circle-th-pad at loc(0.0, 0.0) on Top
+  pad p[85] : rect-smd-pad-2 at loc(0.0, 0.0) on Top
+  pad p[86] : circle-th-pad at loc(0.0, -0.850) on Top
+  pad p[87] : circle-th-pad at loc(0.850, 0.850) on Top
+  pad p[88] : circle-th-pad at loc(0.850, 0.0) on Top
+  pad p[89] : circle-th-pad at loc(0.850, -0.850) on Top
+
+  layer(Courtyard(Top)) = Polygon([
+    Point(-5.950, 5.950)
+    Point(5.950, 5.950)
+    Point(5.950, -5.950)
+    Point(-5.950, -5.950)])
+  layer(Silkscreen("F-SilkS", Top)) = Line(0.120, [Point(-5.436, -5.436), Point(-5.436, -4.200)])
+  layer(Silkscreen("F-SilkS", Top)) = Line(0.120, [Point(-4.200, -5.436), Point(-5.436, -5.436)])
+  layer(Silkscreen("F-SilkS", Top)) = Line(0.120, [Point(4.200, 5.436), Point(5.436, 5.436)])
+  layer(Silkscreen("F-SilkS", Top)) = Line(0.120, [Point(4.200, -5.436), Point(5.436, -5.436)])
+  layer(Silkscreen("F-SilkS", Top)) = Line(0.120, [Point(5.436, 5.436), Point(5.436, 4.200)])
+  layer(Silkscreen("F-SilkS", Top)) = Line(0.120, [Point(5.436, -5.436), Point(5.436, -4.200)])
+  layer(Silkscreen("F-SilkS", Top)) = Circle(-5.356, 5.334, 0.479)
+  layer(CustomLayer("Fab", Top)) = Line(0.150, [Point(-5.286, 4.286), Point(-5.286, -5.286)])
+  layer(CustomLayer("Fab", Top)) = Line(0.150, [Point(-5.286, -5.286), Point(5.286, -5.286)])
+  layer(CustomLayer("Fab", Top)) = Line(0.150, [Point(-4.286, 5.286), Point(-5.286, 4.286)])
+  layer(CustomLayer("Fab", Top)) = Line(0.150, [Point(5.286, 5.286), Point(-4.286, 5.286)])
+  layer(CustomLayer("Fab", Top)) = Line(0.150, [Point(5.286, -5.286), Point(5.286, 5.286)])
+  layer(CustomLayer("Fab", Top)) = Text("${REFERENCE}", 1.0, C, loc(0.0, 0.0))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-1.275, 1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-1.275, 0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-1.275, -0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-1.275, -1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-0.425, 1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-0.425, 0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-0.425, -0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(-0.425, -1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(0.425, 1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(0.425, 0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(0.425, -0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(0.425, -1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(1.275, 1.275))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(1.275, 0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(1.275, -0.425))
+  layer(Paste(Top)) = Rectangle(0.100, 0.100, loc(1.275, -1.275))
+

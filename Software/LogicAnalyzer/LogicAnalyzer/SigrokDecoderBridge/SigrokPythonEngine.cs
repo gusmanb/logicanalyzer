@@ -47,8 +47,21 @@ namespace SigrokDecoderBridge
                     if (File.Exists(cfgFile))
                     {
                         Log("Reading python path from config file...");
-                        pythonPath = File.ReadAllText(cfgFile);
-                        Log($"Stablished path: {pythonPath}");
+
+                        string[] lines = File.ReadAllLines(cfgFile);
+
+                        if (lines.Length > 0)
+                        {
+                            pythonPath = lines[0].Trim().Replace("\n", "").Replace("\r", "");
+                            Log($"Stablished path: {pythonPath}");
+                        }
+                        else
+                        {
+                            Log("Config file is empty, aborting startup.");
+                            return false;
+                        }
+
+
                     }
                     else
                     {

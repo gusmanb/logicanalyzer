@@ -13,9 +13,12 @@
   <Grid ColumnDefinitions="Auto,190">
     <Image Source="/Assets/Logo.png" Margin="20" Height="420" Width="420"></Image>
     <StackPanel Spacing="10" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10,20,20,30">
-      <TextBlock TextWrapping="Wrap">©2024 Agustín Giménez Bernad</TextBlock>
-      <TextBlock TextWrapping="Wrap" Name="txtVersion">Version 6.0preview</TextBlock>
-      <HyperlinkButton Margin="0" HorizontalAlignment="Left" Name="lnkWebSite">Visit project website</HyperlinkButton>
+      <TextBlock TextWrapping="Wrap">©2025 Agustín Giménez Bernad</TextBlock>
+      <TextBlock TextWrapping="Wrap" Name="txtVersion">Version 6.5</TextBlock>
+      <TextBlock TextWrapping="Wrap" Name="txtLicense">Licensed under GPLv3+</TextBlock>
+      <HyperlinkButton Margin="0" Padding="0" HorizontalAlignment="Left" Name="lnkWebSite">Visit WebSite</HyperlinkButton>
+      <TextBlock TextWrapping="Wrap" Name="txtDecoders">Decoders from the LibSigrokDecode project. Licensed under GPLv3+</TextBlock>
+      <HyperlinkButton Margin="0" Padding="0" HorizontalAlignment="Left" Name="lnkSigrok">LibSigrokDecode Github</HyperlinkButton>
       <Button Name="btnLicense" Margin="0,0,10,0">License</Button>
     </StackPanel>
   </Grid>

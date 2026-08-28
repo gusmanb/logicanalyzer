@@ -12,6 +12,10 @@
 #include "hardware/structs/bus_ctrl.h"
 #include "LogicAnalyzer.pio.h"
 
+#if defined(CORE_TYPE_2)
+#include <RP2350.h>
+#endif
+
 //Static variables for the PIO programs
 static PIO capturePIO;
 static PIO triggerPIO;
@@ -28,13 +32,13 @@ static uint32_t dmaPingPong1;
 static uint32_t transferCount;
 
 //Static information of the last capture
-static uint8_t lastCapturePins[24];         //List of captured pins
-static uint8_t lastCapturePinCount;         //Count of captured pins
-static uint32_t lastTriggerCapture;         //Moment where the trigger happened inside the circular pre buffer
-static uint32_t lastPreSize;                //Pre-trigger buffer size
-static uint32_t lastPostSize;               //Post-trigger buffer size
-static uint32_t lastLoopCount;              //Number of loops
-static bool lastTriggerInverted;            //Inverted?
+static uint8_t lastCapturePins[MAX_CHANNELS];       //List of captured pins
+static uint8_t lastCapturePinCount;                 //Count of captured pins
+static uint32_t lastTriggerCapture;                 //Moment where the trigger happened inside the circular pre buffer
+static uint32_t lastPreSize;                        //Pre-trigger buffer size
+static uint32_t lastPostSize;                       //Post-trigger buffer size
+static uint32_t lastLoopCount;                      //Number of loops
+static bool lastTriggerInverted;                    //Inverted?
 static uint8_t lastTriggerPin;
 static uint32_t lastStartPosition;
 static bool lastCaptureComplexFast;
@@ -56,18 +60,8 @@ static exception_handler_t oldNMIHandler;
 static exception_handler_t oldSysTickHandler;
 
 //Pin mapping, used to map the channels to the PIO program
-//COMPLEX_TRIGGER_IN_PIN is added at the end of the array to support the chained mode
-#if defined (BUILD_PICO)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
-#elif defined (BUILD_PICO_2)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};  
-#elif defined (BUILD_PICO_W)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};
-#elif defined (BUILD_PICO_W_WIFI)
-    const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};
-#elif defined (BUILD_ZERO)
-    const uint8_t pinMap[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,26,27,28,29,22,23,24,25,COMPLEX_TRIGGER_IN_PIN};
-#endif
+
+const uint8_t pinMap[] = PIN_MAP;
 
 //Main capture buffer, aligned at a dword boundary.
 static uint8_t captureBuffer[CAPTURE_BUFFER_SIZE] __attribute__((aligned(4)));
@@ -401,7 +395,7 @@ void simple_capture_completed()
 
     if(timestampIndex)
     {
-#if defined(BUILD_PICO_2)
+#if defined(CORE_TYPE_2)
         EPPB->NMI_MASK0 = 0;
 #else
         syscfg_hw->proc0_nmi_mask = 0;
@@ -606,7 +600,7 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > MAX_CHANNELS)
+    if(capturePinCount < 1 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Bad trigger?
@@ -641,11 +635,11 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
 
     pio_clear_instruction_memory(triggerPIO);
 
-    //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
+    //Configure MAX_CHANNELS + 2 IO's to be used by the PIO (MAX_CHANNELS channels + 2 trigger pins)
     pio_gpio_init(triggerPIO, COMPLEX_TRIGGER_OUT_PIN);
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure capture SM
@@ -655,7 +649,7 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     captureOffset = pio_add_program(capturePIO, &FAST_CAPTURE_program);
 
     //Modified for the W
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     //Configure state machines
@@ -667,8 +661,8 @@ bool StartCaptureFast(uint32_t freq, uint32_t preLength, uint32_t postLength, co
     //Set clock to 2x required frequency
     sm_config_set_clkdiv(&smConfig, clockDiv);
 
-    //Autopush per 29 bits
-    sm_config_set_in_shift(&smConfig, false, true, 29);
+    //Autopush per dword
+    sm_config_set_in_shift(&smConfig, false, true, 0);
 
     //Configure fast trigger pin (COMPLEX_TRIGGER_IN_PIN) as JMP pin.
     sm_config_set_jmp_pin(&smConfig, COMPLEX_TRIGGER_IN_PIN);
@@ -775,7 +769,7 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
         return false;
 
     //Incorrect pin count?
-    if(capturePinCount < 0 || capturePinCount > MAX_CHANNELS)
+    if(capturePinCount < 1 || capturePinCount > MAX_CHANNELS)
         return false;
 
     //Bad trigger?
@@ -808,11 +802,11 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     capturePIO = pio0;
     pio_clear_instruction_memory(capturePIO);
 
-    //Configure 24 + 2 IO's to be used by the PIO (24 channels + 2 trigger pins)
+    //Configure MAX_CHANNELS + 2 IO's to be used by the PIO (MAX_CHANNELS channels + 2 trigger pins)
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_OUT_PIN);
     pio_gpio_init(capturePIO, COMPLEX_TRIGGER_IN_PIN);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure capture SM
@@ -821,7 +815,7 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     pio_sm_restart(capturePIO, sm_Capture);
     captureOffset = pio_add_program(capturePIO, &COMPLEX_CAPTURE_program);
 
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
     //Configure state machines
@@ -833,8 +827,8 @@ bool StartCaptureComplex(uint32_t freq, uint32_t preLength, uint32_t postLength,
     //Set clock to 2x required frequency
     sm_config_set_clkdiv(&smConfig, clockDiv);
 
-    //Autopush per 29 bits
-    sm_config_set_in_shift(&smConfig, false, true, 29);
+    //Autopush per dword
+    sm_config_set_in_shift(&smConfig, false, true, 0);
 
     //Configure complex trigger pin (pin COMPLEX_TRIGGER_IN_PIN) as JMP pin.
     sm_config_set_jmp_pin(&smConfig, COMPLEX_TRIGGER_IN_PIN);
@@ -942,6 +936,8 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
         return false;
 
     //Incorrect trigger pin?
+    //WARNING: comparison of triggerPin and MAX_CHANNELS is correct, we exceed the maximum number of channels by 1 
+    //as the complex trigger channel is added at the end of the pinMap array
     if(triggerPin < 0 || triggerPin > MAX_CHANNELS)
         return false;
 
@@ -981,10 +977,10 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     captureOffset = pio_add_program(capturePIO, &BLAST_CAPTURE_program);
 
     //Configure capture pins
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
     
     //Configure trigger pin
@@ -1031,7 +1027,7 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     return true;
 }
 
-bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
+bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint16_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
 {
     int maxSamples;
 
@@ -1054,6 +1050,10 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
     //Frequency too high?
     if(freq > MAX_FREQ)
+        return false;
+
+    //Too many loops to be measured?
+    if(measureBursts && loopCount > 253)
         return false;
 
     //Incorrect pin count?
@@ -1114,10 +1114,10 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
     }
 
     //Configure capture pins
-    for(int i = 0; i < 24; i++)
+    for(int i = 0; i < MAX_CHANNELS; i++)
         pio_sm_set_consecutive_pindirs(capturePIO, sm_Capture, pinMap[i], 1, false);
 
-    for(uint8_t i = 0; i < 24; i++)
+    for(uint8_t i = 0; i < MAX_CHANNELS; i++)
         pio_gpio_init(capturePIO, pinMap[i]);
 
     //Configure trigger pin
@@ -1163,7 +1163,7 @@ bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, 
 
         //syscfg_hw->proc0_nmi_mask = 1 << PIO0_IRQ_1;
         
-#if defined(BUILD_PICO_2)
+#if defined(CORE_TYPE_2)
         EPPB->NMI_MASK0 = 1 << PIO0_IRQ_1;
 #else
         syscfg_hw->proc0_nmi_mask = 1 << PIO0_IRQ_1;

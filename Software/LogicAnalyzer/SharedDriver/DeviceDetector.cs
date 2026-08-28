@@ -102,7 +102,7 @@ namespace SharedDriver
             try
             {
                 //Find serial devices
-                var rkUsbSer = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\usbser\Enum", false);
+                using var rkUsbSer = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\usbser\Enum", false);
 
                 if (rkUsbSer != null)
                 {
@@ -143,7 +143,7 @@ namespace SharedDriver
 
                 //Read parent info
 
-                var rkEnum = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\USB\VID_{vid}&PID_{pid}", false);
+                using var rkEnum = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\USB\VID_{vid}&PID_{pid}", false);
 
                 if (rkEnum != null)
                 {
@@ -151,7 +151,7 @@ namespace SharedDriver
                     {
                         string keyPath = $@"SYSTEM\CurrentControlSet\Enum\USB\VID_{vid}&PID_{pid}\{devSer}";
 
-                        var rkDevice = Registry.LocalMachine.OpenSubKey(keyPath, false);
+                        using var rkDevice = Registry.LocalMachine.OpenSubKey(keyPath, false);
 
                         if (rkDevice == null)
                             continue;
@@ -172,7 +172,7 @@ namespace SharedDriver
 
                 foreach (var device in devices)
                 {
-                    var rkSer = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\{device.DevicePath}\Device Parameters", false);
+                    using var rkSer = Registry.LocalMachine.OpenSubKey($@"SYSTEM\CurrentControlSet\Enum\{device.DevicePath}\Device Parameters", false);
 
                     if (rkSer != null)
                     {

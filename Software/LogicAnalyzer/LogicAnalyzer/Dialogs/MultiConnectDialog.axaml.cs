@@ -121,10 +121,13 @@ namespace LogicAnalyzer.Dialogs
             var value = dbs[index].SelectedItem?.ToString();
 
             if (value == null)
+            {
                 tbs[index].Text = "";
+                dbs[index].Width = 255;
+            }
             else
             {
-                if(value == "Network")
+                if (value == "Network")
                 {
                     var dlg = new NetworkDialog();
                     var success = await dlg.ShowDialog<bool>(this);
@@ -133,12 +136,19 @@ namespace LogicAnalyzer.Dialogs
                     {
                         dbs[index].SelectedItem = null;
                         tbs[index].Text = "";
+                        dbs[index].Width = 255;
                     }
                     else
+                    {
                         tbs[index].Text = $"{dlg.Address}:{dlg.Port}";
+                        dbs[index].Width = 110;
+                    }
                 }
                 else
+                {
                     tbs[index].Text = "";
+                    dbs[index].Width = 255;
+                }
             }
         }
 
