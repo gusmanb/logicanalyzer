@@ -418,7 +418,10 @@ class Decoder(srd.Decoder):
         return ((self.head >> 6) & 3) + 1
 
     def head_type(self):
-        return self.head & 0xF
+        if self.head_rev() == 3:
+            return self.head & 0x1F
+        else:
+            return self.head & 0xF
 
     def head_count(self):
         return (self.head >> 12) & 7

@@ -53,7 +53,7 @@ class Decoder(srd.Decoder):
             'values': ('any', 'rising', 'falling')},
         {'id': 'divider', 'desc': 'Count divider (word width)', 'default': 0},
         {'id': 'reset_edge', 'desc': 'Edge which clears counters (reset)',
-            'default': 'falling', 'values': ('rising', 'falling')},
+            'default': 'falling', 'values': ('any', 'rising', 'falling')},
         {'id': 'edge_off', 'desc': 'Edge counter value after start/reset', 'default': 0},
         {'id': 'word_off', 'desc': 'Word counter value after start/reset', 'default': 0},
         {'id': 'dead_cycles', 'desc': 'Ignore this many edges after reset', 'default': 0},

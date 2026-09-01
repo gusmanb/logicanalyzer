@@ -48,11 +48,11 @@ DS1307_I2C_ADDRESS = 0x68
 
 def regs_and_bits():
     l = [('reg_' + r.lower(), r + ' register') for r in regs]
-    l += [('bit_' + re.sub('\/| ', '_', b).lower(), b + ' bit') for b in bits]
+    l += [('bit_' + re.sub(r'\/| ', '_', b).lower(), b + ' bit') for b in bits]
     return tuple(l)
 
 a = ['REG_' + r.upper() for r in regs] + \
-    ['BIT_' + re.sub('\/| ', '_', b).upper() for b in bits] + \
+    ['BIT_' + re.sub(r'\/| ', '_', b).upper() for b in bits] + \
     ['READ_DATE_TIME', 'WRITE_DATE_TIME', 'READ_REG', 'WRITE_REG', 'WARNING']
 Ann = SrdIntEnum.from_list('Ann', a)
 

@@ -342,6 +342,10 @@ class Decoder(srd.Decoder):
                 self.packet_summary += ' %02X' % db
             self.packet_summary += ' ]'
 
+            if len(packet) < 32:
+                self.putp([28, ['Invalid packet (shorter than 32 bits)']])
+                return
+
             # Convenience Python output (no annotation) for all bytes together.
             self.ss, self.es = self.bits[16][1], self.bits[-16][2]
             self.putpb(['DATABYTES', databytes])

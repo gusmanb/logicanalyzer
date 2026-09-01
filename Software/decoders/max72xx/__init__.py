@@ -1,7 +1,7 @@
 ##
 ## This file is part of the libsigrokdecode project.
 ##
-## Copyright (C) 2012 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2015 Paul Evans <leonerd@leonerd.org.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 ##
 
 '''
-ISO7816 is a bidirectional, multi-master
-bus using two signals (CLK = serial clock line, DATA = IO data line).
+This decoder stacks on top of the 'spi' PD and decodes the Maxim MAX7219
+and MAX7221 LED matrix driver protocol.
 '''
 
 from .pd import Decoder

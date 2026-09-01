@@ -10,7 +10,7 @@ namespace SharedDriver
     internal static class VersionValidator
     {
         public const int MAJOR_VERSION = 6;
-        public const int MINOR_VERSION = 0;
+        public const int MINOR_VERSION = 5;
 
         static Regex regVersion = new Regex(".*?(V([0-9]+)_([0-9]+))$");
 

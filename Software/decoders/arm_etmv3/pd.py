@@ -212,10 +212,10 @@ class Decoder(srd.Decoder):
 
         disasm = disasm.decode('utf-8', 'replace')
 
-        instpat = re.compile('\s*([0-9a-fA-F]+):\t+([0-9a-fA-F ]+)\t+([a-zA-Z][^;]+)\s*;?.*')
-        branchpat = re.compile('(b|bl|b..|bl..|cbnz|cbz)(?:\.[wn])?\s+(?:r[0-9]+,\s*)?([0-9a-fA-F]+)')
-        filepat = re.compile('[^\s]+[/\\\\]([a-zA-Z0-9._-]+:[0-9]+)(?:\s.*)?')
-        funcpat = re.compile('[0-9a-fA-F]+\s*<([^>]+)>:.*')
+        instpat = re.compile(r'\s*([0-9a-fA-F]+):\t+([0-9a-fA-F ]+)\t+([a-zA-Z][^;]+)\s*;?.*')
+        branchpat = re.compile(r'(b|bl|b..|bl..|cbnz|cbz)(?:\.[wn])?\s+(?:r[0-9]+,\s*)?([0-9a-fA-F]+)')
+        filepat = re.compile(r'[^\s]+[/\\\\]([a-zA-Z0-9._-]+:[0-9]+)(?:\s.*)?')
+        funcpat = re.compile(r'[0-9a-fA-F]+\s*<([^>]+)>:.*')
 
         prev_src = ''
         prev_file = ''
