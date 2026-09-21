@@ -66,7 +66,7 @@ If you are interested in buying a premade board now you can request to be added 
 ## Orders and sponsor, what is this about?
 
 Ok, now, the explanation. It is getting to the point of being unmanageable the amount of requests, so I have created a website to make it easier to track these, I don't want to forget anyone and doing the management manually I'm sure that in one moment or other I would forget someone...
-Feel free to contact me if ytou find any problem or open a message in the discussion section.
+Feel free to contact me if you find any problem or open a message in the discussion section.
 
 And the sponsoring thing... I never requested anything for these projects, but lately many many people is asking about how to donate so finally I have opened a Ko-Fi account in order to accept them. Feel free to use it, anything is welcome and I will use it in improving the project whenever it is possible :)
 
@@ -110,10 +110,10 @@ Stay tuned!
 
 ![pcb](https://github.com/user-attachments/assets/cbf87396-40b4-49de-9542-2da3587a47cd)
 
-I have created a new dessign for version 6.0 and is under testing right now.
+I have created a new design for version 6.0 and is under testing right now.
 It replaces the headers that were difficult to find, uses 0402 type components so is not intended for manual assembly and also include a VREF switch that allows to change between 3.3v/5v/ext vref.
 
-Once testing is completed I will publish the dessign, I might have some spare  boards with all the components already assembled except for the pico, so if you are interested in one of these leave a message un the discussion sections (if I see that there is enough demand I might even think on making a batch of these).
+Once testing is completed I will publish the design, I might have some spare  boards with all the components already assembled except for the pico, so if you are interested in one of these leave a message un the discussion sections (if I see that there is enough demand I might even think on making a batch of these).
 
 
 ----
@@ -121,10 +121,10 @@ Once testing is completed I will publish the dessign, I might have some spare  b
 # Pico 2: born dead.
 
 Ok, this are bad news. The Pico 2 has been released in a basically useless status. It has been detected a bug in the GPIO hardware that locks the pins whenever you input a high level, what is known as "Errata E9".
-According to the official errata the lock only happens when the pull downs are enabled, you input a high level value and then the GPIO starts outputing 2.1v. That doesn't sounds too bad but the reality is very different. I've been testing it and even forcing the pulldowns to be disabled, the PIO triggers the lock.
+According to the official errata the lock only happens when the pull downs are enabled, you input a high level value and then the GPIO starts outputting 2.1v. That doesn't sounds too bad but the reality is very different. I've been testing it and even forcing the pulldowns to be disabled, the PIO triggers the lock.
 In this state, the RP2350 is useless if you need to use the GPIO's to input any data. The only workaround provided is to disable the pins and enable them when you are going to read and disable them after it to reset the pin status, but as you can imagine with the PIO this is impossible, and even if it was possible the capture speed would be reduced so much that the analyzer would be totally useless.
 
-Unfortunatelly I must stop the port to the Pico 2 until this situation is solved.
+Unfortunately I must stop the port to the Pico 2 until this situation is solved.
 
 # Pico 2: a game changer?
 
@@ -142,13 +142,13 @@ Stay tuned for more news!
 
 # Help wanted!
 
-I'm cooking something very special, if you whant to know what it is and help with it, [check this post](https://github.com/gusmanb/logicanalyzer/discussions/127).
+I'm cooking something very special, if you want to know what it is and help with it, [check this post](https://github.com/gusmanb/logicanalyzer/discussions/127).
 😉
 
 # More boards on the go!
 
 One of the new functionalities of the RP2350 is the capability of having two XIP devices and also has the full device implementation (RP2040 only had READ capabilities implemented). This means that is possible to have (for example) a flash device *and* a PSRAM connected to it.
-Unfortunatelly the Pico 2 does not expose the QSPI pins and they are tied directly to the flash... But there is hope! PiMoroni has developed the PiMoroni Pico Plus 2 which contains 16Mb of flash and 8Mb of PSRAM.
+Unfortunately the Pico 2 does not expose the QSPI pins and they are tied directly to the flash... But there is hope! PiMoroni has developed the PiMoroni Pico Plus 2 which contains 16Mb of flash and 8Mb of PSRAM.
 
 I already have ordered one of these new boards and have some ideas on what could be done with them :D
 Right now the most possible one is this: PSRAM is not fast enough for sampling at a decent speed with many channels, BUT, it is fast enough for something like storing ADC samples, so what I'm going to try is to allow the mix of analog and digital channels. The analog channels will be very slow compared to the digital ones (only 500Ks/s) but it still can be useful to monitor behaviors of things like motors, servos or whatever. As the PSRAM is 8Mb it will allow to store up to 8 seconds of analog data on single channel mode (2 bytes per sample at 500Ks/s is roughly 1Mb/s of data), this, combined with the upgraded onboard ram and the burst mode can be really useful in multiple projects.
@@ -161,7 +161,7 @@ Stay tuned for more news!
 
 As some of you may know the Pico 2 is being released this month. The new Pico 2 is a very exciting upgrade of the pico, more powerful cores, two alternative RiscV cores, three PIO units instead of two and 520Kb of RAM!
 
-This can be a game changer for LogicAnalyzer, only with the new ammount of RAM the quantity of samples is going to increase massively, we're talking about three times the current ammount of samples!
+This can be a game changer for LogicAnalyzer, only with the new amount of RAM the quantity of samples is going to increase massively, we're talking about three times the current amount of samples!
 
 Also, there are really exciting changes on the PIO side, the new IRQ system allows to intercomunicate the PIO units, this means that the trigger pins could be freed now, and this, as small change as it seems can be really amazing combined with the new third PIO unit... Think about this, a 64Mb dual SPI RAM running at 100Mhz connected to the two free pins and controlled at full speed by the third PIO unit... 
 
@@ -177,7 +177,7 @@ This release is a QoL release with some functional corrections. For more details
 
 New release with exciting feature!
 
-The biggest change on this release is the Burst mode. With burst mode you can capture blocks of data and the analyzer will rearm itself immediatelly and capture more data when the trigger condition is met again. This will improve the memory usage discarding unneeded samples! Right now only the simple trigger mode accepts burst mode but in a future I will try to implement it in all the other triggers.
+The biggest change on this release is the Burst mode. With burst mode you can capture blocks of data and the analyzer will rearm itself immediately and capture more data when the trigger condition is met again. This will improve the memory usage discarding unneeded samples! Right now only the simple trigger mode accepts burst mode but in a future I will try to implement it in all the other triggers.
 For more information check [the wiki.](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#triggers)
 
 Also new features to ease the navigation in the capture viewer have been added like shortcuts and a preview of the full capture. More info in [the wiki.](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#navigating-on-the-capture-viewer)
@@ -196,7 +196,7 @@ This release include some QOL updates to the applications.
 
 LogicAnalyzer app:
 
-* Ammount of on-screen samples will be preserved if you repeat the last capture.
+* Amount of on-screen samples will be preserved if you repeat the last capture.
 * Added a new menu entry called "Repeat las analysis" to the protocol analyzers, it will execute the last analysis performed to speed up things.
 * Changed where config files are stored, they will use the %appData% folder now ($home/.config in Linux).
 * Changed horizontal scrollbar visibility.
@@ -240,7 +240,7 @@ Ok, now the changes to the hardware. There is a new pcb for the analyzer that in
 
 <img src="https://user-images.githubusercontent.com/4086913/221230472-f05828de-72f3-4337-a71d-685bb989c1a1.png" height="60%" width="60%" />
 
-And the firmware has also been updated to support the daisy chaining. So, what is for the daisy chaining? Well, daisy chaining allows to chain up to five analyzers without wasting pins so you now will be able to capture a massive ammount of **120 CHANNELS!!!** Check the [Connection](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#connecting-to-devices) and [Capture](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#capture) sections of the Wiki to know all the possibilities and how to use them.
+And the firmware has also been updated to support the daisy chaining. So, what is for the daisy chaining? Well, daisy chaining allows to chain up to five analyzers without wasting pins so you now will be able to capture a massive amount of **120 CHANNELS!!!** Check the [Connection](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#connecting-to-devices) and [Capture](https://github.com/gusmanb/logicanalyzer/wiki/06---The-LogicAnalyzer-program#capture) sections of the Wiki to know all the possibilities and how to use them.
 
 Now, the software. It contains many changes, so I'm going to start with the improvements and then with the new functionalities.
 
@@ -296,7 +296,7 @@ The biggest bug that has been corrected is the fast trigger in the Pico-W. When 
 
 The thing is that the Pico-W hides a little secret that I haven't found documented anywhere, this little secret is that the driver uses a PIO program to do the transfers! The fast trigger uses a full PIO unit, all its 32 instructions to create a jump table, and the CYW driver uses a SM in the PIO1 to do the SPI transfers. So I tried to swap the PIO units and it at least started to capture, but the capture was never finished, I have revised up-to-down the driver and still haven't found why the PIO1 interrupts don't work at all after the CYW driver has been enabled, so I have done a work-around that does not need the IRQ to trigger a handler. So, if you are using a Pico-W update the firmware asap.
 
-The next bug is a small bug that caused that some samples weren't clear correctly when a trigger was rised immediately after starting capture (for example the trigger condition is already met when the first sample is done).
+The next bug is a small bug that caused that some samples weren't clear correctly when a trigger was raised immediately after starting capture (for example the trigger condition is already met when the first sample is done).
 
 ### And now, the really big news, MORE SAMPLES!
 
@@ -347,7 +347,7 @@ Have fun!
 
 This is a very handy update to the analyzer, you can measure a region and get information of each channel: total samples selected, period of the selection, number of positive pulses, number of negative pulses, average and predominant period for positive and negative pulses and average and predominant frequency.
 
-The predominant values are calculated applying a variant of the 95th percentile rule to discard aberrant/broken samples and I must say it works really well, it matched exactly all the frecuencies I have tested.
+The predominant values are calculated applying a variant of the 95th percentile rule to discard aberrant/broken samples and I must say it works really well, it matched exactly all the frequencies I have tested.
 
 ![imagen](https://user-images.githubusercontent.com/4086913/216588696-f654142b-0359-4737-b268-9a03e389aca1.png)
 
@@ -429,17 +429,17 @@ The CLCapture also supports the network connection and configuration, for that p
 
 Both interfaces (USB and WiFi) work at the same time, but when a client gets connected through WiFi the USB will be ignored until the client gets disconnected, keep it in mind.
 
-I have found some quirks on the Pico-W WiFi support, the first one is that it does not support at all to connect without a DHCP server, and it always gets the network information from there, fortunatelly I have found a way to change the IP address once it is connected to the AP. This also causes a problem (at least in my router), if you are already connected to the AP and you change the network settings the device disconnects from it and reconnects with the new info, if is the same AP (per example you have just changed the IP address) the static IP is ignored and it will retain the one assigned by the DHCP server, the solution is easy, restart the Pico-W and it will connect with the new IP address.
+I have found some quirks on the Pico-W WiFi support, the first one is that it does not support at all to connect without a DHCP server, and it always gets the network information from there, fortunately I have found a way to change the IP address once it is connected to the AP. This also causes a problem (at least in my router), if you are already connected to the AP and you change the network settings the device disconnects from it and reconnects with the new info, if is the same AP (per example you have just changed the IP address) the static IP is ignored and it will retain the one assigned by the DHCP server, the solution is easy, restart the Pico-W and it will connect with the new IP address.
 
 The firmware now has three "flavours" when compiled, this is controlled from the "LogicAnalyzer_Build_Settings.h" header and the "CMakeLists.txt" files, both contain instructions on how to change the settings based on your preferences.
 
-A user adviced me that the Pico-W may have problems if the USB is connected to a host and the WiFi is used. I haven't experienced none of these and I have tested it extensively, maybe as I have used a sepparated core for the WiFi it avoids this kind of trouble, but if you experience them then use a USB power supply (like a phone charger or similar) if you want to connect through WiFi.
+A user advised me that the Pico-W may have problems if the USB is connected to a host and the WiFi is used. I haven't experienced none of these and I have tested it extensively, maybe as I have used a sepparated core for the WiFi it avoids this kind of trouble, but if you experience them then use a USB power supply (like a phone charger or similar) if you want to connect through WiFi.
 
 ### The future
 
 I'm thinking about creating a new PCB board that contains a battery and an USB charging module, in this way the device will become totally free of wires (except for the ones for the signals, obviously). I think this could be extremely useful, you will be able to place the analyzer even inside a computer or any kind of device and connect to it remotely, I think this could be extremely useful for devices that are in fixed places or are big and difficult to move (like old mini computers or car ECU's).
 
-Stay tunned for more news, and be sure the project still is not completed!
+Stay tuned for more news, and be sure the project still is not completed!
 
 Have fun!
 
@@ -508,7 +508,7 @@ So, what does all this means for the analyzer? Well, it means that very little c
 
 As all the GPIO's that are used to capture are the same there is no need to change any code except for one very small part, the "end capture" mark. The PIO always capture pins in a sequential way, it means that you cannot have "holes" in the pin sequence, and to get the full 24 channels every single available GPIO must be used, up to GPIO28. This means that the GPIOs that controlled the LED's, VBUS and so on also are captured but ignored. Said that, to mark where the capture was finished in the buffer a special value that was impossible to happen was added after the last capture, it was based on that the device those GPIOs would never be 1's. In theory, as we are capturing 32 bit words there will always be some zeroes at the tail, but I'm paranoid and also it is not elegant, so I decided to modify the tail detection code.
 
-Instead of basing the tail detection in a mark in the buffer (which requires to iterate the buffer until it is found) now the tail detection is based in the DMA channels transfer state. This was my original idea, but unfortunatelly the Pico API does not expose a direct way of reading how many transfers have been done or how many are left, you can set them but cannot read them, so I abandoned that idea.
+Instead of basing the tail detection in a mark in the buffer (which requires to iterate the buffer until it is found) now the tail detection is based in the DMA channels transfer state. This was my original idea, but unfortunately the Pico API does not expose a direct way of reading how many transfers have been done or how many are left, you can set them but cannot read them, so I abandoned that idea.
 
 This time I have digged a bit more and went directly to the RP2040 datasheet and it states very clear that the TRANSFER register is R/W, so you can read how many transfers are left. I have no idea why the API does not expose it, but knowing that is very easy to access directly to the register using the dma hardware channel structure.
 
@@ -619,7 +619,7 @@ The app requires seven parameters to start a capture: serial port, sampling spee
 - The third parameter is a list of channels separated by coma, per example `1,2,3,4` or `1,16,24`.
 - The fourth parameter is the number of samples to capture before the trigger.
 - The fifth parameter is the number of samples to capture after the trigger.
-- The sixth parameter is the trigger definition expressed in the form of: "TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string - containing 1's and 0's indicating each trigger chanel state)". Per example, if we want an edge trigger on the positive edge using channel 4 the value would be `TriggerType:Edge,Channel:4,Value:1`. If we would want a fast trigger using channels 3,4,5 and a pattern of "101" the trigger definition would be `TriggerType:Fast,Channel:3,Value:101`. Note that there are no spaces, each parameter is separated by coma and no quote is used.
+- The sixth parameter is the trigger definition expressed in the form of: "TriggerType:(Edge, Fast or Complex),Channel:(base trigger channel),Value:(string - containing 1's and 0's indicating each trigger channel state)". Per example, if we want an edge trigger on the positive edge using channel 4 the value would be `TriggerType:Edge,Channel:4,Value:1`. If we would want a fast trigger using channels 3,4,5 and a pattern of "101" the trigger definition would be `TriggerType:Fast,Channel:3,Value:101`. Note that there are no spaces, each parameter is separated by coma and no quote is used.
 - Finally the seventh parameter is the output file name we want to generate.
 
 A complete example to capture channels 1, 2, 3 and 4 at 100Mhz using channel 5 as positive edge trigger and storing the results in a file called "output.csv" would be similar to this:
@@ -630,18 +630,18 @@ If everything goes Ok you will see something like this:
 
 ```
 Opening logic analyzer in port /dev/ttyACM0...
-Conneced to device LOGIC_ANALYZER_V1_0 in port /dev/ttyACM0
+Connected to device LOGIC_ANALYZER_V1_0 in port /dev/ttyACM0
 Starting edge triggered capture...
 Capture running...
 ```
 
 The analyzer will blink while the capture is running and once it has finished it will print the result:
 ```
-Capture complete, writting output file...
+Capture complete, writing output file...
 Done.
 ```
 
-This capture will contain the data in CSV and is compatible with PulseView. To import it in PulseView go to "Open->Import comma-separated values...". The file is generated in a way that you don't need to change any of the CSV paramters, you will need to specify only the number of channels and the capture speed.
+This capture will contain the data in CSV and is compatible with PulseView. To import it in PulseView go to "Open->Import comma-separated values...". The file is generated in a way that you don't need to change any of the CSV parameters, you will need to specify only the number of channels and the capture speed.
 
 Once imported you will see your data, something like this:
 ![imagen](https://user-images.githubusercontent.com/4086913/178774617-024c1aa4-852d-4d2d-8352-e973249b769c.png)
@@ -774,7 +774,7 @@ If you want to delete a region press on the numeric bar over a highlighted regio
 
 To add a new protocol analyzer you need to create a .net 6.0 assembly that references the LogicAnalyzer assembly and implements at least one class based in "ProtocolAnalyzerBase". Basically you will provide a list of settings to present to the user and then you will implement an analysis function that returns analyzed channels.
 
-Each analyzed channel will specify a list of segments where data is overlayed (to present data to the user) and also it may provide a custom renderer for the data segments. You can create your own custom renderers or just provide an instance of the already included "SimpleSegmentRenderer".
+Each analyzed channel will specify a list of segments where data is overlaid (to present data to the user) and also it may provide a custom renderer for the data segments. You can create your own custom renderers or just provide an instance of the already included "SimpleSegmentRenderer".
 
 ---
 
