@@ -1242,6 +1242,8 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
         else
             lastStartPosition = lastTail - totalSamples + 1;
 
+        // The external trigger is not one of the sampled channels.
+        bool invertBlastPin = lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted && lastTriggerPin != COMPLEX_TRIGGER_IN_PIN;
         uint32_t currentPos = lastStartPosition;
 
         switch(lastCaptureMode)
@@ -1255,8 +1257,8 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                     uint32_t blastMask = 0;
 
                     //If the capture was in blast mode and the trigger edge was positive, invert the value
-                    if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
-                        blastMask = 1 << (lastTriggerPin - INPUT_PIN_BASE);
+                    if(invertBlastPin)
+                        blastMask = 1u << (lastTriggerPin - INPUT_PIN_BASE);
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
@@ -1292,8 +1294,8 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                     uint16_t blastMask = 0;
 
                     //If the capture was in blast mode and the trigger edge was positive, invert the value
-                    if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
-                        blastMask = 1 << (lastTriggerPin - INPUT_PIN_BASE);
+                    if(invertBlastPin)
+                        blastMask = 1u << (lastTriggerPin - INPUT_PIN_BASE);
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
@@ -1329,8 +1331,8 @@ uint8_t* GetBuffer(uint32_t* bufferSize, uint32_t* firstSample, CHANNEL_MODE* ca
                     uint8_t blastMask = 0;
 
                     //If the capture was in blast mode and the trigger edge was positive, invert the value
-                    if(lastCaptureType == CAPTURE_TYPE_BLAST && !lastTriggerInverted)
-                        blastMask = 1 << (lastTriggerPin - INPUT_PIN_BASE);
+                    if(invertBlastPin)
+                        blastMask = 1u << (lastTriggerPin - INPUT_PIN_BASE);
 
                     //Sort channels
                     //(reorder captured bits based on the channels requested)
