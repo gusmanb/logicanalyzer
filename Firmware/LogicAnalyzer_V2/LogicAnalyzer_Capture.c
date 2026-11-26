@@ -366,7 +366,7 @@ void blast_capture_completed()
     //Restore DMA priority to normal
     bus_ctrl_hw->priority = 0;
 
-    lastTail = lastPostSize; //TODO: CHECK
+    lastTail = lastPostSize - 1;
 
     //Stop PIO program and clear
     pio_sm_set_enabled(capturePIO, sm_Capture, false);
