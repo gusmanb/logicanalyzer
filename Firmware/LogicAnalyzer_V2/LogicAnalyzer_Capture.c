@@ -533,7 +533,8 @@ void StopCapture()
     {
         //Ensure the DMA channels are stopped, else they will overrun the buffer when the interrupts are disabled
         hw_clear_bits(&dma_hw->ch[dmaPingPong0].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
-        hw_clear_bits(&dma_hw->ch[dmaPingPong1].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
+        if(lastCaptureType != CAPTURE_TYPE_BLAST)
+            hw_clear_bits(&dma_hw->ch[dmaPingPong1].al1_ctrl, DMA_CH0_CTRL_TRIG_EN_BITS);
 
         uint32_t int_status = save_and_disable_interrupts();
 
