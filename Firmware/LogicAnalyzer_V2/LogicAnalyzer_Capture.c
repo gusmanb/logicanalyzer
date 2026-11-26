@@ -1018,6 +1018,8 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
     //Configure DMA's
     configureBlastDMA(captureMode, length);
 
+    timestampIndex = 0;
+
     //Enable state machine
     pio_sm_set_enabled(capturePIO, sm_Capture, true);
     
@@ -1033,6 +1035,11 @@ bool StartCaptureBlast(uint32_t freq, uint32_t length, const uint8_t* capturePin
 
 bool StartCaptureSimple(uint32_t freq, uint32_t preLength, uint32_t postLength, uint8_t loopCount, uint8_t measureBursts, const uint8_t* capturePins, uint8_t capturePinCount, uint8_t triggerPin, bool invertTrigger, CHANNEL_MODE captureMode)
 {
+    // The packet carries one byte for the sync, initial burst and re-arm timestamps.
+    if(measureBursts && loopCount > UINT8_MAX - 2)
+        return false;
+    measureBursts = measureBursts && loopCount > 0;
+
     int maxSamples;
 
     switch(captureMode)
